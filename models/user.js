@@ -1,20 +1,12 @@
 class User {
-    constructor(
-        userName,
-        userID,
-        password,
-        address,
-        phoneNumber,
-        email,
-        loginStatus
-    ) {
+    constructor(userName, userID, password, address, phoneNumber, email) {
         this.userName = userName;
         this.userID = userID;
         this.password = password;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.loginStatus = loginStatus;
+        this.loginStatus = null;
     }
     static userConverter = {
         toFirestore: (user) => {
@@ -30,20 +22,9 @@ class User {
         },
         fromFirestore: (snapshot, options) => {
             const data = snapshot.data(options);
-            return new User(
-                data.userName,
-                data.userID,
-                data.password,
-                data.address,
-                data.phoneNumber,
-                data.email,
-                data.loginStatus
-            );
+            return new User(data.userName, data.userID, data.password, data.address, data.phoneNumber, data.email, data.loginStatus);
         },
     };
 }
-
-// Firestore data converter
-
 
 export default User;

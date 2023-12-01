@@ -1,6 +1,6 @@
-import customerRoutes from "./customer.js";
-import merchantRoutes from "./merchant.js";
-import adminRoutes from "./admin.js";
+import customerRoutes from "./customerRouter.js";
+import merchantRoutes from "./merchantRouter.js";
+import adminRoutes from "./adminRouter.js";
 
 function route(customerApp, merchantApp, adminApp) {
     customerApp.use('/', customerRoutes);

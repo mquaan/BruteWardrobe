@@ -2,29 +2,7 @@ import express from 'express';
 import ejsMate from 'ejs-mate';
 import path, { delimiter } from 'path';
 import { fileURLToPath } from 'url';
-import route from './routes/index.js';
-
-// <sample>
-// import read from './controllers/read.js';
-
-// const app = express();
-// app.get('/', (req, res) => res.status(200).send('Hey there!'));
-
-// app.get('/read', read);
-// app.listen(9000, () => {
-//     console.log('Serving on port 9000');
-// });
-
-import create from './controllers/create.js';
-
-const app = express();
-app.get('/', (req, res) => res.status(200).send('Hey there!'));
-
-app.get('/create', create);
-app.listen(9000, () => {
-    console.log('Serving on port 9000');
-});
-// </sample>
+import route from './routes/indexRouter.js';
 
 const customerApp = express();
 const merchantApp = express();
