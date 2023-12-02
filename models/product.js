@@ -6,7 +6,7 @@ class Product {
         this.rate = null;
         this.price = price;
         this.imgURL = imgURLs;
-        this.numSold = null;
+        this.numSold = 0;
     }
 }
 
