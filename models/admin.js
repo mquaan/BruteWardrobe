@@ -1,7 +1,7 @@
 class Admin {
-    constructor(userName, password) {
+    constructor(userName, password, adminID=null) {
         this.userName = userName;
-        this.adminID = null;
+        this.adminID = adminID;
         this.password = password;
     }
 }
@@ -16,7 +16,7 @@ const adminConverter = {
     },
     fromFirestore: (snapshot, options) => {
         const data = snapshot.data(options);
-        return new Admin(data.username, data.password);
+        return new Admin(data.username, data.password, data.adminID);
     },
 };
 
