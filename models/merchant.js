@@ -1,15 +1,15 @@
 import User from './user.js';
 
 class Merchant extends User {
-    constructor(userName, password, email, userID = null, address = null, phoneNumber = null, loginStatus = false) {
-        super(userName, password, email, userID, address, phoneNumber, loginStatus);
+    constructor(username, password, email, userID = null, address = null, phoneNumber = null, loginStatus = false) {
+        super(username, password, email, userID, address, phoneNumber, loginStatus);
     }
 }
 
 const merchantConverter = {
     toFirestore: (merchant) => {
         return {
-            userName: merchant.userName,
+            username: merchant.username,
             userID: merchant.userID,
             password: merchant.password,
             address: merchant.address,
@@ -20,7 +20,7 @@ const merchantConverter = {
     },
     fromFirestore: (snapshot, options) => {
         const data = snapshot.data(options);
-        return new Merchant(data.userName, data.password, data.email, data.userID, data.address, data.phoneNumber, data.loginStatus);
+        return new Merchant(data.username, data.password, data.email, data.userID, data.address, data.phoneNumber, data.loginStatus);
     },
 };
 

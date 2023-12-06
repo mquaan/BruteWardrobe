@@ -1,6 +1,6 @@
 class Admin {
-    constructor(userName, password, adminID=null) {
-        this.userName = userName;
+    constructor(username, password, adminID=null) {
+        this.username = username;
         this.adminID = adminID;
         this.password = password;
     }
@@ -9,7 +9,7 @@ class Admin {
 const adminConverter = {
     toFirestore: (admin) => {
         return {
-            username: admin.userName,
+            username: admin.username,
             adminID: admin.adminID,
             password: admin.password,
         };
