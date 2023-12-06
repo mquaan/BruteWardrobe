@@ -1,12 +1,12 @@
 class User {
-    constructor(userName, userID, password, address, phoneNumber, email) {
+    constructor(userName, userID, password, email) {
         this.userName = userName;
         this.userID = userID;
         this.password = password;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
+        this.address = null;
+        this.phoneNumber = null;
         this.email = email;
-        this.loginStatus = null;
+        this.loginStatus = false;
     }
     static userConverter = {
         toFirestore: (user) => {
