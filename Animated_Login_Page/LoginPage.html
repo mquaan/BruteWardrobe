@@ -25,15 +25,16 @@
                         <a href="https://vi-vn.facebook.com/" class="icon"><i id="facebook-icon" class="fa-brands fa-facebook"></i></a>
                     </div>
                     <span>or use your email for registeration</span>
-                    <input type="text" placeholder="Name">
-                    <input type="email" placeholder="Email">
-                    <input type="password" placeholder="Password">
+                    <input type="text" id="su_username" placeholder="Username" onchange="check_signUp_username()">
+                    <span id="errorSignUpUsername" class="signUp-error-message"></span>
+                    <input type="email" id="su_email" placeholder="Email">
+                    <input type="password" id="su_password" placeholder="Password">
                     <select name="Role" id="role">
                         <option value="none">Choose your role</option>
                         <option value="Customer">Customer</option>
                         <option value="Merchant">Merchant</option>
                     </select>
-                    <button>Sign Up</button>
+                    <button id="signUp_btn" disabled>Sign Up</button>
                 </form>
             </div>
             <div class="form-container sign-in">
@@ -44,10 +45,11 @@
                         <a href="https://vi-vn.facebook.com/" class="icon"><i class="fa-brands fa-facebook"></i></a>
                     </div>
                     <span>or use your email password</span>
-                    <input type="email" placeholder="Email">
-                    <input type="password" placeholder="Password">
+                    <input type="text" id="si_username" placeholder="Username or Email" onchange="check_signIn_username()">
+                    <span id="errorSignInUsername" class="signIn-error-message"></span>
+                    <input type="password" id="si_password" placeholder="Password">
                     <a href="#">Forget Your Password?</a>
-                    <button>Sign In</button>
+                    <button id="signIn_btn" disabled>Sign In</button>
                 </form>
             </div>
             <div class="toggle-container">
