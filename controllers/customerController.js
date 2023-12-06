@@ -5,7 +5,7 @@ import { collection, addDoc, getDocs } from 'firebase/firestore';
 const controller = {};
 
 controller.home = async (req, res) => {
-    res.render('/customer/index');
+    res.render('customer/index');
 };
 
 controller.create = async (req, res) => {

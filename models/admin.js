@@ -20,4 +20,4 @@ const adminConverter = {
     },
 };
 
-export default {Admin, adminConverter};
+export {Admin, adminConverter};

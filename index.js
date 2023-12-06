@@ -2,6 +2,7 @@ import express from 'express';
 import ejsMate from 'ejs-mate';
 import path, { delimiter } from 'path';
 import { fileURLToPath } from 'url';
+import bodyParser from 'body-parser';
 import route from './routes/indexRouter.js';
 
 const app = express();
@@ -16,6 +17,8 @@ app.set('views', path.join(__dirname, '/views'));
 
 // set static folder
 app.use(express.static('public'));
+
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // routes
 route(app);

@@ -1,5 +1,5 @@
 import db from '../config/firebase.js';
-import { collection, addDoc, getDocs, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, updateDoc, deleteDoc } from 'firebase/firestore';
 
 import { Customer, customerConverter } from '../models/customer.js';
 import { Merchant, merchantConverter } from '../models/merchant.js';
@@ -26,14 +26,14 @@ for (let item of customers) {
 ref = collection(db, 'merchants').withConverter(merchantConverter);
 for (let item of merchants) {
     const merchant = new Merchant(item.username, item.password, item.email);
-    const docRef = await addDoc(ref, customer);
+    const docRef = await addDoc(ref, merchant);
     await updateDoc(docRef, { userID: docRef.id });
 }
 
 ref = collection(db, 'admins').withConverter(adminConverter);
 for (let item of admins) {
     const admin = new Admin(item.username, item.password);
-    const docRef = await addDoc(ref, customer);
+    const docRef = await addDoc(ref, admin);
     await updateDoc(docRef, { adminID: docRef.id });
 }
 
