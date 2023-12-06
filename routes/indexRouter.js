@@ -3,11 +3,11 @@ import merchantRoutes from './merchantRouter.js';
 import adminRoutes from './adminRouter.js';
 
 function route() {
-    app.use('/customer', customerRoutes);
+    app.use('/customers', customerRoutes);
 
-    app.use('/merchant', merchantRoutes);
+    app.use('/merchants', merchantRoutes);
 
-    app.use('/admin', adminRoutes);
+    app.use('/admins', adminRoutes);
 
     app.use('/', userRoutes);
 }
