@@ -4,7 +4,15 @@ import { collection, addDoc, getDocs } from 'firebase/firestore';
 
 const controller = {};
 
-controller.checkValidPassword = function(req) {
-
-    return true;
-}
+controller.login = async (req, res) => {
+    try {
+        let { userName, password } = req.body;
+        const querySnapshot = await getDocs(collection(db, 'customers'));
+        const customers = [];
+        querySnapshot.forEach((doc) => {
+            customers.push(doc.data());
+        });
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+};
