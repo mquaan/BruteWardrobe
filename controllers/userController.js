@@ -24,6 +24,7 @@ controller.login = async (req, res) => {
             const querySnapshot = await getDocs(q);
             if (!querySnapshot.empty) {
                 success = true;
+                req.body = querySnapshot;
                 res.redirect(`/${role}`);
             }
         }
