@@ -1,13 +1,15 @@
-import customerRoutes from "./customerRouter.js";
-import merchantRoutes from "./merchantRouter.js";
-import adminRoutes from "./adminRouter.js";
+import customerRoutes from './customerRouter.js';
+import merchantRoutes from './merchantRouter.js';
+import adminRoutes from './adminRouter.js';
 
-function route(customerApp, merchantApp, adminApp) {
-    customerApp.use('/', customerRoutes);
+function route() {
+    app.use('/customer', customerRoutes);
 
-    merchantApp.use('/', merchantRoutes);
+    app.use('/merchant', merchantRoutes);
 
-    adminApp.use('/', adminRoutes);
+    app.use('/admin', adminRoutes);
+
+    app.use('/', userRoutes);
 }
 
 export default route;

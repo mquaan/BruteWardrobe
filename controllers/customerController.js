@@ -1,28 +1,12 @@
 import db from '../config/firebase.js';
-import Customer from '../models/customer.js';
+import { Customer, customerConverter } from '../models/customer.js';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 
-const customerConverter = {
-    toFirestore: (customer) => {
-        return {
-            userName: customer.userName,
-            userID: customer.userID,
-            password: customer.password,
-            address: customer.address,
-            phoneNumber: customer.phoneNumber,
-            email: customer.email,
-            loginStatus: customer.loginStatus,
-            activeStatus: customer.activeStatus,
-            shopping: customer.shopping,
-        };
-    },
-    fromFirestore: (snapshot, options) => {
-        const data = snapshot.data(options);
-        return new Customer(data.userName, data.userID, data.password, data.address, data.phoneNumber, data.email);
-    },
-};
-
 const controller = {};
+
+controller.home = async (req, res) => {
+    
+}
 
 controller.create = async (req, res) => {
     try {
@@ -39,12 +23,15 @@ controller.create = async (req, res) => {
 controller.read = async (req, res) => {
     try {
         const querySnapshot = await getDocs(collection(db, 'customers'));
+        const customers = [];
         querySnapshot.forEach((doc) => {
-            res.json(doc.data());
-            console.log(doc.data());
+            // Add each document's data to the customers array
+            customers.push(doc.data());
         });
+        // Send the response with the customers array
+        res.json(customers);
     } catch (error) {
-        return res.status(500).json(error.message); 
+        return res.status(500).json(error.message);
     }
 };
 
