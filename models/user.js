@@ -1,7 +1,7 @@
 class User {
-    constructor(userName, userID, password, email) {
+    constructor(userName, password, email) {
         this.userName = userName;
-        this.userID = userID;
+        this.userID = null;
         this.password = password;
         this.address = null;
         this.phoneNumber = null;
