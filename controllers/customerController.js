@@ -10,9 +10,9 @@ controller.home = async (req, res) => {
 
 controller.create = async (req, res) => {
     try {
-        let { userName, userID, password, address, phoneNumber, email } = req.body;
+        let { username, userID, password, address, phoneNumber, email } = req.body;
         const ref = collection(db, 'customers').withConverter(customerConverter);
-        const customer = new Customer(userName, userID, password, address, phoneNumber, email);
+        const customer = new Customer(username, userID, password, address, phoneNumber, email);
         await addDoc(ref, customer);
         res.send('Success');
     } catch (error) {
