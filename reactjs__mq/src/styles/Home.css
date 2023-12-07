@@ -43,8 +43,8 @@ button.normal {
 }
 
 #hero {
-    background-image: url("../../public/assets/hero1.jpg");
-    height: 90vh;
+    background-image: url("../../public/assets/hero2.jpg");
+    height: 60vh;
     width: 100%;
     background-size: cover;
     background-position: top 25% right 0;

@@ -32,6 +32,9 @@ function Feature(props){
 }
 
 function Home() {
+    const goToTop = () => {
+        window.scrollTo( {top: 0, behavior: 'auto'} );
+    }
     return (
         <div>
             <div id="hero">
@@ -40,7 +43,7 @@ function Home() {
                 <h1>On Tee products</h1>
                 <p>Sale up to 30% off!</p>
                 <Link to='/shop'>
-                    <button>Shop now</button>
+                    <button onClick={() => goToTop()}>Shop now</button>
                 </Link>
             </div>
             <section className='product1 section-p1'>
@@ -62,7 +65,7 @@ function Home() {
                 <h4>Bundle Sale</h4>
                 <h2>Save up to <span>50% off</span> - When buy 3 items</h2>
                 <Link to='/shop'>
-                    <button className="normal">Explore more </button>
+                    <button className="normal" onClick={() => goToTop()}>Explore more </button>
                 </Link>
             </section>
 
@@ -87,7 +90,7 @@ function Home() {
                     <h2>Buy 1 get voucher up to 40%</h2>
                     <span>The best collection is on sale at BruteWardrobe</span>
                     <Link to='/shop'>
-                        <button className="white">Learn More</button>
+                        <button className="white" onClick={() => goToTop()}>Learn More</button>
                     </Link>
                     
                 </div>
@@ -96,7 +99,7 @@ function Home() {
                     <h2>Upcomming season</h2>
                     <span>The best collection is on sale at BruteWardrobe</span>
                     <Link to='/shop'>
-                        <button className="white">Collection</button>
+                        <button className="white" onClick={() => goToTop()}>Collection</button>
                     </Link>
                     
                 </div>
