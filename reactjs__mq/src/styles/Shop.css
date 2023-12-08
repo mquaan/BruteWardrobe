@@ -119,7 +119,12 @@
     font-weight: 600;
 }
 
+#pagination button:hover {
+    background-color: #89b7b4;
+    color: #f3eded;
+}
+
 #pagination button i {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 600;
 }

@@ -1,6 +1,29 @@
 import React from 'react'
 import '../styles/Home.css'
 import { Link } from 'react-router-dom'
+
+const product1 = [
+    {image: '../assets/products/p1.jpg', span: 'Tee', type: 'Tee', price: '250.000'},
+    {image: '../assets/products/p2.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
+    {image: '../assets/products/p3.jpg', span: 'Tee', type: 'Tee', price: '470.000'},
+    {image: '../assets/products/p4.jpg', span: 'Tee', type: 'Tee', price: '290.000'},
+    {image: '../assets/products/p5.jpg', span: 'Tee', type: 'Tee', price: '160.000'},
+    {image: '../assets/products/p6.jpg', span: 'Tee', type: 'Tee', price: '240.000'},
+    {image: '../assets/products/p7.jpg', span: 'Tee', type: 'Tee', price: '250.000'},
+    {image: '../assets/products/p8.jpg', span: 'Tee', type: 'Tee', price: '350.000'}
+];
+
+const product2 = [
+    {image: '../assets/products/p9.jpg', span: 'Tee', type: 'Tee', price: '260.000'},
+    {image: '../assets/products/p10.jpg', span: 'Pants', type: 'Pants', price: '550.000'},
+    {image: '../assets/products/p11.jpg', span: 'Pants', type: 'Pants', price: '380.000'},
+    {image: '../assets/products/p12.jpg', span: 'Pants', type: 'Pants', price: '290.000'},
+    {image: '../assets/products/p13.jpg', span: 'Tee', type: 'Tee', price: '360.000'},
+    {image: '../assets/products/p14.jpg', span: 'Pants', type: 'Pants', price: '240.000'},
+    {image: '../assets/products/p15.jpg', span: 'Tee', type: 'Tee', price: '320.000'},
+    {image: '../assets/products/p16.jpg', span: 'Pants', type: 'Pants', price: '310.000'}
+]
+
 function Product(props) {
     return (
         <div className="pro">
@@ -50,14 +73,23 @@ function Home() {
                 <h2>Our products</h2>
                 <p>New Collection Design</p>
                 <div className="pro-container">
-                    <Product image="../assets/products/p1.jpg" span="unknown" product_type="Tee" price="250.000"/>
+                    {product1.map((product, index) => (
+                        <Product
+                            key={index}
+                            image={product.image}
+                            span={product.span}
+                            type={product.type}
+                            price={product.price}
+                        />
+                    ))}
+                    {/* <Product image="../assets/products/p1.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p2.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p3.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p4.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p5.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p6.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p7.jpg" span="unknown" product_type="Tee" price="250.000"/>
-                    <Product image="../assets/products/p8.jpg" span="unknown" product_type="Tee" price="250.000"/>
+                    <Product image="../assets/products/p8.jpg" span="unknown" product_type="Tee" price="250.000"/> */}
                 </div>
             </section>
             
@@ -73,14 +105,23 @@ function Home() {
                 <h2>New Arrivals</h2>
                 <p>New Collection Design</p>
                 <div className="pro-container">
-                    <Product image="../assets/products/p9.jpg" span="unknown" product_type="Tee" price="250.000"/>
+                    {product2.map((product, index) => (
+                        <Product
+                            key={index}
+                            image={product.image}
+                            span={product.span}
+                            type={product.type}
+                            price={product.price}
+                        />
+                    ))}
+                    {/* <Product image="../assets/products/p9.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p10.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p11.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p12.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p13.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p14.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p15.jpg" span="unknown" product_type="Tee" price="250.000"/>
-                    <Product image="../assets/products/p16.jpg" span="unknown" product_type="Tee" price="250.000"/>
+                    <Product image="../assets/products/p16.jpg" span="unknown" product_type="Tee" price="250.000"/> */}
                 </div>
             </section>
 
@@ -104,7 +145,7 @@ function Home() {
                     
                 </div>
             </section>
-
+{/* 
             <section id="banner3">
                 <div className="banner-box">
                     <h2>Advertisment</h2>
@@ -118,7 +159,7 @@ function Home() {
                     <h2>Advertisment</h2>
                     <h3>Something</h3>
                 </div>
-            </section>
+            </section> */}
 
             <section id="feature" className='section-p1'>
                 <Feature image="../assets/features/24-hours.png" feature="24/7 Support"/>
