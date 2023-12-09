@@ -18,20 +18,20 @@
     <section id="body_section">
         <div class="container" id="container">
             <div class="form-container sign-up">
-                <form method = "post" action="/login">
+                <form method = "post" action="/signup">
                     <h1>Create Account</h1>
                     <div class="social-icons">   
                         <a href="https://shorturl.at/bGLOS" class="icon"><i id="google-icon" class="fa-brands fa-google"></i></a>
                         <a href="https://vi-vn.facebook.com/" class="icon"><i id="facebook-icon" class="fa-brands fa-facebook"></i></a>
                     </div>
                     <span>or use your email for registeration</span>
-                    <input type="text" id="su_username" placeholder="Username" onchange="check_signUp_username()" required>
+                    <input name="username" type="text" id="su_username" placeholder="Username" onchange="check_signUp_username()" required>
                     <span id="errorSignUpUsername" class="signUp-error-message"></span>
-                    <input type="email" id="su_email" placeholder="Email">
-                    <input type="password" id="su_password" placeholder="Password" onchange="check_Password()" required>
+                    <input name="email" type="email" id="su_email" placeholder="Email">
+                    <input name="password" type="password" id="su_password" placeholder="Password" onchange="check_Password()" required>
                     <input type="password" id="su_confirmPassword" placeholder="Confirm Password" onchange="check_Password()" required>
                     <span id="wrongPassword" class="wrongPassword-message"></span>
-                    <select name="Role" id="role">
+                    <select name="role" id="role">
                         <option value="none">Choose your role</option>
                         <option value="Customer">Customer</option>
                         <option value="Merchant">Merchant</option>
@@ -40,16 +40,16 @@
                 </form>
             </div>
             <div class="form-container sign-in">
-                <form method = "post" action="/login">
+                <form method = "post" action="/signin">
                     <h1>Sign In</h1>
                     <div class="social-icons">
                         <a href="https://shorturl.at/bGLOS" class="icon"><i class="fa-brands fa-google"></i></a>
                         <a href="https://vi-vn.facebook.com/" class="icon"><i class="fa-brands fa-facebook"></i></a>
                     </div>
                     <span>or use your email password</span>
-                    <input type="text" id="si_username" placeholder="Username or Email" onchange="check_signIn_username()">
+                    <input name="username" type="text" id="si_username" placeholder="Username or Email" onchange="check_signIn_username()">
                     <span id="errorSignInUsername" class="signIn-error-message"></span>
-                    <input type="password" id="si_password" placeholder="Password">
+                    <input name="password" type="password" id="si_password" placeholder="Password">
                     <a href="#">Forget Your Password?</a>
                     <button id="signIn_btn" disabled>Sign In</button>
                 </form>
