@@ -25,8 +25,12 @@ const product2 = [
 ]
 
 function Product(props) {
+    const goToTop = () => {
+        window.scrollTo( {top: 0, behavior: 'auto'} );
+    }
     return (
-        <div className="pro">
+        <div className="pro" onClick={ () => goToTop() }>
+            <Link to={`/product-detail/${props.index + 1}`} style={{ textDecoration: 'none' }}>
             <img className="image" src={props.image} alt="" />
             <div className="des">
                 <span>{props.span}</span>
@@ -40,6 +44,7 @@ function Product(props) {
                 </div>
                 <h4>{props.price} VND</h4>
             </div>
+            </Link>
             <div><i className="fa-solid fa-cart-shopping cart"></i></div>
         </div>
     )
@@ -76,6 +81,7 @@ function Home() {
                     {product1.map((product, index) => (
                         <Product
                             key={index}
+                            index={index}
                             image={product.image}
                             span={product.span}
                             type={product.type}
@@ -145,21 +151,6 @@ function Home() {
                     
                 </div>
             </section>
-{/* 
-            <section id="banner3">
-                <div className="banner-box">
-                    <h2>Advertisment</h2>
-                    <h3>Something</h3>
-                </div>
-                <div className="banner-box banner-box2">
-                    <h2>Advertisment</h2>
-                    <h3>Something</h3>
-                </div>
-                <div className="banner-box banner-box3">
-                    <h2>Advertisment</h2>
-                    <h3>Something</h3>
-                </div>
-            </section> */}
 
             <section id="feature" className='section-p1'>
                 <Feature image="../assets/features/24-hours.png" feature="24/7 Support"/>
