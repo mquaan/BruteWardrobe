@@ -28,9 +28,10 @@ body{
 }
 
 #body_section{
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: left;
+    justify-content: left;
 }
 
 
@@ -42,8 +43,18 @@ body{
     position: relative;
     overflow: hidden;
     width: 768px;
+    /* width: 60%; */
     max-width: 100%;
     min-height: 480px;
+    margin: 0px 0px 0px 180px;
+    float:left;
+}
+
+.background_image
+{
+    float: right;
+    margin: 0px 0px 0px 20px;
+
 }
 
 .container p{
