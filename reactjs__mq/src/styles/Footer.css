@@ -1,10 +1,7 @@
 .footer {
-    border-top: 1px dashed #000000;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    background: linear-gradient(to right, #e5f4f5, #f4f9ff, #fafafb, #f7f9ff, #ffe7d7);
-
 }
 
 .footer .col{
@@ -21,7 +18,7 @@
 
 .footer .col .h4 {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 14px;
     padding-bottom: 20px;
 }
 
@@ -32,7 +29,7 @@
     padding-bottom: 20px;
 }
 
-.footer .col .follow .icon{
+.footer .col .follow .icon {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -54,8 +51,7 @@
     font-size: 13px;
     text-decoration: none;
     color: #222;
-    margin-bottom: 20px;
-    
+    margin-bottom: 10px;
 }
 
 .footer .col .follow {
@@ -68,7 +64,6 @@
 .footer .col .follow i:hover,
 .footer .col .link:hover  {
     color: #088178;
-    font-weight: bold;
 }
 
 .footer .copyright {
@@ -77,5 +72,5 @@
 }
 
 .section-p1 {
-    padding: 40px 80px 20px 80px;
+    padding: 40px 80px;
 }

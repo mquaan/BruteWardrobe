@@ -85,6 +85,7 @@ function Home() {
                     {product2.map((product, index) => (
                         <Product
                             key={index}
+                            index={index + 6}
                             image={product.image}
                             type={product.type}
                             price={product.price}

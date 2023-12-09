@@ -9,7 +9,7 @@ function Description({ product, productIndex }) {
     return (
         <div className="single-pro-details">
             <h4>{name}</h4>
-            <h2>{price}</h2>
+            <h2>{price} VND</h2>
             <select>
                 <option>Select Size</option>
                 <option>S</option>
