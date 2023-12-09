@@ -11,6 +11,12 @@
     position: sticky;
     top: 0;
     left: 0;
+    transition: transform 0.3s ease-in-out;
+}
+  
+.navbar.hidden {
+    /* CSS cho navbar khi nó ẩn đi */
+    transform: translateY(-100%);
 }
 
 .navbar_right {

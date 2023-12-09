@@ -1,19 +1,38 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import '../styles/Navbar.css'
 
 function Navbar() {
     const goToTop = () => {
         window.scrollTo( {top: 0, behavior: 'auto'} );
     }
+    const [isNavHidden, setIsNavHidden] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+        const scrollY = window.scrollY;
+
+        // Tùy thuộc vào vị trí cuộn, ẩn hoặc hiển thị navbar
+        setIsNavHidden(scrollY > 100); // Điều chỉnh giá trị 100 theo yêu cầu của bạn
+        };
+
+        // Thêm sự kiện nghe cho cuộn
+        window.addEventListener('scroll', handleScroll);
+
+        // Xóa sự kiện nghe khi component bị hủy
+        return () => {
+        window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
-        <div className="navbar">
+        <div className={`navbar ${isNavHidden ? 'hidden' : ''}`}>
             <img src='../assets/Logo.png' className="logo" alt=""/>
             <div>
                 <ul className="navbar_right">
                     <li><NavLink className='link' activeclassname='active' to="/" onClick={() => goToTop()}>Home</NavLink></li>
                     <li><NavLink className='link' activeclassname='active' to="/shop" onClick={() => goToTop()}>Shop</NavLink></li>
-                    <li><NavLink className='link' activeclassname='active' to="/blog" onClick={() => goToTop()}>Blog</NavLink></li>
                     <li><NavLink className='link' activeclassname='active' to="/about" onClick={() => goToTop()}>About</NavLink></li>
                     <li><NavLink className='link' activeclassname='active' to="/contact" onClick={() => goToTop()}>Contact</NavLink></li>
                     <li><NavLink className='link' activeclassname='active' to="/cart" onClick={() => goToTop()}>
