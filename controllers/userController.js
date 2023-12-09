@@ -14,7 +14,7 @@ controller.login = async (req, res) => {
         let roles = ['customers', 'merchants', 'admins'];
         
         let success = false;
-        for (let role of roles) { // Changed to 'for...of' loop
+        for (let role of roles) {
             const ref = collection(db, role);
             let q;
             if (!isEmail) {
@@ -25,7 +25,7 @@ controller.login = async (req, res) => {
             const querySnapshot = await getDocs(q);
             if (!querySnapshot.empty) {
                 success = true;
-                // Assuming you want to set the user data to req.body
+                // set the user data to req.body
                 req.body.user = querySnapshot.docs[0].data();
                 return res.redirect(`/${role}`);
             }
