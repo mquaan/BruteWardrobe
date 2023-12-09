@@ -26,8 +26,14 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html"><i class="fa-solid fa-bag-shopping fa-bounce"></i></a></li>
+                <li id="lg-bag"><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
             </ul>
+        </div>
+
+        <div id="mobile">
+            <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+            <i id="bar" class="fas fa-outdent"></i>
         </div>
     </section>
 
@@ -38,10 +44,8 @@
     </section>
 
     <section id="product1" class="section-p1">
-        <h2>Our products</h2>
-        <p>New Collection Design</p>
         <div class="pro-container">
-            <div class="pro">
+            <div class="pro" onclick="window.location.href='sproduct.html';">
                 <img src="images/products/p1.jpg" alt="">
                 <div class="des">
                     <span>unknown</span>
@@ -169,13 +173,7 @@
                 </div>
                 <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
             </div>  
-        </div>
-    </section>
 
-    <section id="product1" class="section-p1">
-        <h2>New Arrivals</h2>
-        <p>New Collection Design</p>
-        <div class="pro-container">
             <div class="pro">
                 <img src="images/products/p9.jpg" alt="">
                 <div class="des">
@@ -307,6 +305,12 @@
         </div>
     </section>
 
+    <section id="pagination" class="section-p1">
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <a href="#"><i class="fal fa-long-arrow-alt-right"></i></a>
+    </section>
+
     <footer class="section-p1">
         <div class="col">
             <img class="logo" src="images/Logo.png" alt="">
@@ -351,6 +355,6 @@
         </div>
     </footer>
 
-    <script src="../../public/customer/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
