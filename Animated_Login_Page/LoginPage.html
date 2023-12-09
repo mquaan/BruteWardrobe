@@ -25,10 +25,12 @@
                         <a href="https://vi-vn.facebook.com/" class="icon"><i id="facebook-icon" class="fa-brands fa-facebook"></i></a>
                     </div>
                     <span>or use your email for registeration</span>
-                    <input type="text" id="su_username" placeholder="Username" onchange="check_signUp_username()">
+                    <input type="text" id="su_username" placeholder="Username" onchange="check_signUp_username()" required>
                     <span id="errorSignUpUsername" class="signUp-error-message"></span>
                     <input type="email" id="su_email" placeholder="Email">
-                    <input type="password" id="su_password" placeholder="Password">
+                    <input type="password" id="su_password" placeholder="Password" onchange="check_Password()" required>
+                    <input type="password" id="su_confirmPassword" placeholder="Confirm Password" onchange="check_Password()" required>
+                    <span id="wrongPassword" class="wrongPassword-message"></span>
                     <select name="Role" id="role">
                         <option value="none">Choose your role</option>
                         <option value="Customer">Customer</option>

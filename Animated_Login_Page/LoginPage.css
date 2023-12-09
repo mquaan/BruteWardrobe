@@ -140,6 +140,12 @@ body{
     display: none;
 }
 
+.wrongPassword-message{
+    color: red !important;
+    font-style: italic;
+    display: none;
+}
+
 
 .sign-up{
     left: 0;

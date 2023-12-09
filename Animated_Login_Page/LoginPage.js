@@ -46,5 +46,20 @@ function check_signUp_username() {
     }
 }
 
-
+function check_Password(){
+    var password = document.getElementById("su_password").value;    
+    var cf_password = document.getElementById("su_confirmPassword").value;
+    console.log(typeof(password));
+    console.log(typeof(cf_password));
+    if(cf_password !== password && cf_password)
+    {
+        wrongPassword.textContent = "(*) Wrong password confirmation";
+        wrongPassword.style.display = "inline";
+        signUp_btn.disabled = true;
+    }
+    else {
+        wrongPassword.style.display = "none";
+        signUp_btn.disabled = false;
+    }
+}
 
