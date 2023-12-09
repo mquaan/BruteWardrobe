@@ -12,15 +12,11 @@ function Navbar() {
     useEffect(() => {
         const handleScroll = () => {
         const scrollY = window.scrollY;
-
-        // Tùy thuộc vào vị trí cuộn, ẩn hoặc hiển thị navbar
-        setIsNavHidden(scrollY > 100); // Điều chỉnh giá trị 100 theo yêu cầu của bạn
+        setIsNavHidden(scrollY > 100);
         };
 
-        // Thêm sự kiện nghe cho cuộn
         window.addEventListener('scroll', handleScroll);
 
-        // Xóa sự kiện nghe khi component bị hủy
         return () => {
         window.removeEventListener('scroll', handleScroll);
         };

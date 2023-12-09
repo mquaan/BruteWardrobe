@@ -5,8 +5,9 @@
     margin-left: 160px;
 }
 
-#prodetails .single-pro-image {
-    width: 40%;
+#prodetails .single-pro-image { 
+    width: 500px;
+    height: 250px;
     margin-right: 50px;
 }
 

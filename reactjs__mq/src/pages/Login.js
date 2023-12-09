@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import './Login.css';
 
 async function loginUser(credentials) {
-    return fetch('/login', {
+    return fetch('/signin', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

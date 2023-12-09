@@ -1,45 +1,7 @@
 import React, { useState } from 'react'
 import '../styles/Shop.css'
 import { Link } from 'react-router-dom';
-
-const allProducts = [
-    {image: '../assets/products/p1.jpg', span: 'Tee', type: 'Tee', price: '250.000'},
-    {image: '../assets/products/p2.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p3.jpg', span: 'Tee', type: 'Tee', price: '470.000'},
-    {image: '../assets/products/p4.jpg', span: 'Tee', type: 'Tee', price: '290.000'},
-    {image: '../assets/products/p5.jpg', span: 'Tee', type: 'Tee', price: '160.000'},
-    {image: '../assets/products/p6.jpg', span: 'Tee', type: 'Tee', price: '240.000'},
-    {image: '../assets/products/p7.jpg', span: 'Tee', type: 'Tee', price: '250.000'},
-    {image: '../assets/products/p8.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p9.jpg', span: 'Tee', type: 'Tee', price: '260.000'},
-    {image: '../assets/products/p10.jpg', span: 'Pants', type: 'Pants', price: '550.000'},
-    {image: '../assets/products/p11.jpg', span: 'Pants', type: 'Pants', price: '380.000'},
-    {image: '../assets/products/p12.jpg', span: 'Pants', type: 'Pants', price: '290.000'},
-    {image: '../assets/products/p13.jpg', span: 'Tee', type: 'Tee', price: '360.000'},
-    {image: '../assets/products/p14.jpg', span: 'Pants', type: 'Pants', price: '240.000'},
-    {image: '../assets/products/p15.jpg', span: 'Tee', type: 'Tee', price: '320.000'},
-    {image: '../assets/products/p16.jpg', span: 'Pants', type: 'Pants', price: '310.000'},
-    {image: '../assets/products/p17.jpg', span: 'Tee', type: 'Tee', price: '300.000'},
-    {image: '../assets/products/p18.jpg', span: 'Pants', type: 'Pants', price: '390.000'},
-    {image: '../assets/products/p19.jpg', span: 'Tee', type: 'Tee', price: '300.000'},
-    {image: '../assets/products/p20.jpg', span: 'Tee', type: 'Tee', price: '150.000'},
-    {image: '../assets/products/p21.jpg', span: 'Tee', type: 'Tee', price: '250.000'},
-    {image: '../assets/products/p22.jpg', span: 'Tee', type: 'Tee', price: '450.000'},
-    {image: '../assets/products/p23.jpg', span: 'Tee', type: 'Tee', price: '450.000'},
-    {image: '../assets/products/p24.jpg', span: 'Tee', type: 'Tee', price: '450.000'},
-    {image: '../assets/products/p25.jpg', span: 'Tee', type: 'Tee', price: '340.000'},
-    {image: '../assets/products/p26.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p26.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p26.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p26.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p26.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p27.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p28.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p29.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p30.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p31.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-    {image: '../assets/products/p32.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
-];
+import { products } from '../helpers/product_list';
 
 function Product(props) {
     const goToTop = () => {
@@ -50,8 +12,7 @@ function Product(props) {
             <Link to={`/product-detail/${props.index + 1}`} style={{ textDecoration: 'none' }}>
             <img className="image" src={props.image} alt="" />
             <div className="des">
-                <span>{props.span}</span>
-                <h5>{props.product_type}</h5>
+                <h5>{props.type}</h5>
                 <div className="star">
                     <i className="fas fa-star"></i>
                     <i className="fas fa-star"></i>
@@ -72,8 +33,8 @@ function Shop() {
     const [currentPage, setCurrentPage] = useState(1);
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
-    const totalPages = Math.ceil(allProducts.length / productsPerPage);
-    const displayedProducts = allProducts.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(products.length / productsPerPage);
+    const displayedProducts = products.slice(startIndex, endIndex);
     const goToPage = (page) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'auto' });
@@ -93,7 +54,6 @@ function Shop() {
                             key={index}
                             index={index}
                             image={product.image}
-                            span={product.span}
                             type={product.type}
                             price={product.price}
                         />
