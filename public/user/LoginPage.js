@@ -21,7 +21,6 @@ function check_signIn_username() {
         errorSignInUsername.textContent = "(*) Username musn't consist special character: /[!@#$%^&*(),.?:{}|<>]/";
         errorSignInUsername.style.display = "inline";
         signIn_btn.disabled = true;
-
     }
     else {
         errorSignInUsername.style.display = "none";
