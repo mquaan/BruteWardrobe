@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import '../../styles/Merchant/Products.css'
 import { Link } from 'react-router-dom';
 import { products } from '../../helpers/product_list';
+import Modal from '../../components/Modal';
 
 function Product(props) {
     const goToTop = () => {
         window.scrollTo( {top: 0, behavior: 'auto'} );
     }
     return (
-        <div className="pro" onClick={ () => goToTop() }>
-            <Link to={`/product-detail/${props.index + 1}`} style={{ textDecoration: 'none' }}>
+        <div className="pro" onClick={Modal(false)}>
+            
             <img className="image" src={props.image} alt="" />
             <div className="des">
                 <h5>{props.type}</h5>
@@ -22,8 +23,7 @@ function Product(props) {
                 </div>
                 <h4>{props.price} VND</h4>
             </div>
-            </Link>
-            <div><i className="fa-solid fa-cart-shopping cart"></i></div>
+            <div><i className="fa-solid fa-pen edit"></i></div>
         </div>
     )
 }

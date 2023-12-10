@@ -2,6 +2,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Sidebar from './components/Sidebar';
+import Modal from './components/Modal';
 import ProductDetail from './components/Product_detail';
 
 import Home from './pages/Home';
@@ -33,6 +34,7 @@ function App() {
                                         <Route path='/logout' element={<Login />} />
                                     </Routes>
                                 </div>
+                                <Modal />
                             </div>
                         }
                     />
