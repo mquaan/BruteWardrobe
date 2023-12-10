@@ -1,81 +1,157 @@
-import React, { useState } from 'react';
+import React from 'react'
 import '../styles/Login.css'
 import { Link } from 'react-router-dom';
 
-const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+// function CheckSignInUsername(username, signIn_btn, errorSignInUsername) {
+//     const regex = /[!@#$%^&*(),.?":{}|<>+=;']/;
+//     if (regex.test(username) && (!username.includes('@') || !username.endsWith('.com'))) {
+//         errorSignInUsername.textContent = "(*) Username must not consist of special characters: /[!@#$%^&*(),.?:{}|<>]/";
+//         errorSignInUsername.style.display = "inline";
+//         signIn_btn.disabled = true;
+//     } else {
+//         errorSignInUsername.style.display = "none";
+//         signIn_btn.disabled = false;
+//     }
+// }
 
-    const handleLogin = () => {
-        // Đưa logic xác thực ở đây
-        console.log('Username:', username);
-        console.log('Password:', password);
-    };
+function CheckSignUpUsername(username, signUp_btn, errorSignUpUsername) {
+    const regex = /[!@#$%^&*(),.?":{}|<>+=;']/;
+    if (regex.test(username)) {
+        errorSignUpUsername.textContent = "(*) Username musn't consist special character: /[!@#$%^&*(),.?:{}|<>]/";
+        errorSignUpUsername.style.display = "inline";
+        signUp_btn.disabled = true;
 
+    }
+    else {
+        errorSignUpUsername.style.display = "none";
+        signUp_btn.disabled = false;
+    }
+}
+
+function CheckPassword(password, cf_password, wrongPassword, signUp_btn){
+    if(cf_password !== password && cf_password)
+    {
+        wrongPassword.textContent = "(*) Wrong password confirmation";
+        wrongPassword.style.display = "inline";
+        signUp_btn.disabled = true;
+    }
+    else {
+        wrongPassword.style.display = "none";
+        signUp_btn.disabled = false;
+    }
+}
+
+function Login() {
     return (
         <div className='body'>
             <section id="header">
-                <img src="../assets/Logo.png" alt="Logo" width="120" height="100"/>
+                <img src="../assets/Logo.png" alt="Logo" width="170" height="150"/>
             </section>
+
             <section id="body_section">
-                <div className='container' id='container'>
-                    <div className="form-container sign-in"> 
+                <div className="container" id="container">
+                    <div className="form-container sign-in">
                         <form>
                             <h1>Sign In</h1>
-                            <div className="social-icons">   
-                                <div className="icon"><i id="google-icon" className="fa-brands fa-google"></i></div>
-                                <div className="icon"><i id="facebook-icon" className="fa-brands fa-facebook"></i></div>
+                            <div className="social-icons">
+                                <div className="a icon"><i className="fa-brands fa-google"></i></div>
+                                <div className="a icon"><i className="fa-brands fa-facebook"></i></div>
                             </div>
-                            <input
-                                id="si_username"
-                                type="text"
-                                placeholder='Username or Email'
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                            <span>or use your email password</span>
+                            <input 
+                                name="username" 
+                                type="text" id="si_username" 
+                                placeholder="Username or Email" 
+                                // onChange={(event) => CheckSignInUsername(
+                                //     event.target.value,
+                                //     document.getElementById("signIn_btn"),
+                                //     document.getElementById("errorSignInUsername")
+                                // )}
                             />
-                            <input
-                                id="si_password"
-                                type="password"
-                                placeholder='Password'
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <div className='forget'>Forget Your Password?</div>
-                            <button id='signIn_btn' type="button" onClick={handleLogin}>
-                                Sign In
-                            </button>
+                            <span id="errorSignInUsername" className="signIn-error-message"></span>
+                            <input name="password" type="password" id="si_password" placeholder="Password" required/>
+                            <div>Forget Your Password?</div>
+                            <Link to="/"><button id="signIn_btn">Sign In</button></Link>
                         </form>
                     </div>
-                    
+                    <div className="form-container sign-up">
+                        <form>
+                            <h1>Create Account</h1>
+                            <div className="social-icons">   
+                                <div className="a icon"><i id="google-icon" className="fa-brands fa-google"></i></div>
+                                <div className="a icon"><i id="facebook-icon" className="fa-brands fa-facebook"></i></div>
+                            </div>
+                            <span>or use your email for registeration</span>
+                            <input 
+                                name="username"
+                                type="text" id="su_username"
+                                placeholder="Username"
+                                onChange={(event) => CheckSignUpUsername(
+                                    event.target.value,
+                                    document.getElementById("signUp_btn"),
+                                    document.getElementById("errorSignUpUsername")
+                                )}
+                                required
+                            />
+                            <span id="errorSignUpUsername" className="signUp-error-message"></span>
+                            <input name="email" type="email" id="su_email" placeholder="Email"/>
+                            <input 
+                                name="password"
+                                type="password"
+                                id="su_password"
+                                placeholder="Password"
+                                onChange={(event) => CheckPassword(
+                                    event.target.value,
+                                    document.getElementById("su_confirmPassword").value,
+                                    document.getElementById("wrongPassword"),
+                                    document.getElementById("signUp_btn")
+                                )}
+                                required
+                            />
+                            <input 
+                                type="password"
+                                id="su_confirmPassword"
+                                placeholder="Confirm Password"
+                                onChange={(event) => CheckPassword(
+                                    document.getElementById("su_password").value,
+                                    event.target.value,
+                                    document.getElementById("wrongPassword"),
+                                    document.getElementById("signUp_btn")
+                                )}
+                                required
+                                />
+                            <span id="wrongPassword" className="wrongPassword-message"></span>
+                            <select name="role" id="role">
+                                <option value="none">Choose your role</option>
+                                <option value="Customer">Customer</option>
+                                <option value="Merchant">Merchant</option>
+                            </select>
+                            <button id="signUp_btn" disabled>Sign Up</button>
+                        </form>
+                    </div>
                     <div className="toggle-container">
                         <div className="toggle">
-                            <div class="toggle-panel toggle-left">
+                            <div className="toggle-panel toggle-left">
                                 <h1>Welcome Back!</h1>
                                 <p>Enter your personal details to use all of site features</p>
-                                <Link to="/login">
-                                    <button class="hidden" id="login">Sign In</button>
-                                </Link>
+                                <button className="hidden" id="login" onClick={() => {document.getElementById('container').classList.remove("active")}}>Sign In</button>
                             </div>
                             <div className="toggle-panel toggle-right">
                                 <h1>Hello, Friend!</h1>
                                 <p>Register with your personal details to use all of site features</p>
-                                <Link to="/signup">
-                                    <button class="hidden" id="register">
-                                        Sign Up
-                                    </button>
-                                </Link>
+                                <button className="hidden" id="register" onClick={() => {document.getElementById('container').classList.add("active")}}>Sign Up</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div className="background_image">
-                    <img src="../assets/clothing_background_2.png" alt="background_image" width="670" height="450"/>
-                </div>
-            </section>
-            
-        </div>
-    );
-};
 
-export default Login;
+                <div className="background_image" id="background_image">
+                    <img src="../assets/clothing_background_2.png" alt="background_image" width="750" height="500"/>
+                </div>
+                
+            </section>
+        </div>
+    )
+}
+
+export default Login
