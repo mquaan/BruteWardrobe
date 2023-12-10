@@ -2,18 +2,6 @@ import React from 'react'
 import '../styles/Login.css'
 import { Link } from 'react-router-dom';
 
-// function CheckSignInUsername(username, signIn_btn, errorSignInUsername) {
-//     const regex = /[!@#$%^&*(),.?":{}|<>+=;']/;
-//     if (regex.test(username) && (!username.includes('@') || !username.endsWith('.com'))) {
-//         errorSignInUsername.textContent = "(*) Username must not consist of special characters: /[!@#$%^&*(),.?:{}|<>]/";
-//         errorSignInUsername.style.display = "inline";
-//         signIn_btn.disabled = true;
-//     } else {
-//         errorSignInUsername.style.display = "none";
-//         signIn_btn.disabled = false;
-//     }
-// }
-
 function CheckSignUpUsername(username, signUp_btn, errorSignUpUsername) {
     const regex = /[!@#$%^&*(),.?":{}|<>+=;']/;
     if (regex.test(username)) {
@@ -61,12 +49,7 @@ function Login() {
                             <input 
                                 name="username" 
                                 type="text" id="si_username" 
-                                placeholder="Username or Email" 
-                                // onChange={(event) => CheckSignInUsername(
-                                //     event.target.value,
-                                //     document.getElementById("signIn_btn"),
-                                //     document.getElementById("errorSignInUsername")
-                                // )}
+                                placeholder="Username or Email"
                             />
                             <span id="errorSignInUsername" className="signIn-error-message"></span>
                             <input name="password" type="password" id="si_password" placeholder="Password" required/>
@@ -153,5 +136,4 @@ function Login() {
         </div>
     )
 }
-
 export default Login
