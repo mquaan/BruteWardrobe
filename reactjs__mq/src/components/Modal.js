@@ -1,12 +1,7 @@
 import React from 'react';
 import { Button, Dialog, Card, CardHeader, CardBody, CardFooter, Typography, Input, Checkbox } from '@material-tailwind/react';
 
-
-export function setOpen() {
-
-}
-
-export function Modal() {
+export default function Modal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     return (
