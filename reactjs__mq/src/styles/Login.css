@@ -7,18 +7,17 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+
+
 .body{
     background-color: #c9d6ff;
+    /* background: linear-gradient(to right, #93ffab, #e9ffee); */
     background: linear-gradient(to right, #c8e8e9, #eef6ff, #f6f6fa, #ecf5ff, #f8ded1);
+
+    /* display: flex; */
     flex-direction: column;
     height: 100vh;
-}
-
-h1 {
-    font-size: 26px;
-    font-weight: 800;
-    text-align: center; 
-    color: #000000;
+    
 }
 
 #header{
@@ -35,23 +34,27 @@ h1 {
     justify-content: left;
 }
 
+
 .container{
     background-color: #fff;
+    /* background: linear-gradient(to right, #c8e8e9, #eef6ff, #f6f6fa, #ecf5ff, #f8ded1); */
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
     overflow: hidden;
     width: 768px;
+    /* width: 60%; */
     max-width: 100%;
     min-height: 480px;
     margin: 0px 0px 0px 180px;
-    float: left;
+    float:left;
 }
 
 .background_image
 {
     float: right;
     margin: 0px 0px 0px 20px;
+
 }
 
 .container p{
@@ -65,7 +68,7 @@ h1 {
     font-size: 12px;
 }
 
-.container .forget{
+.container a{
     color: #333;
     font-size: 13px;
     text-decoration: none;
@@ -141,7 +144,7 @@ h1 {
     font-style: italic;
     display: none;
 }
-/*
+
 .signUp-error-message{
     color: red !important;
     font-style: italic;
@@ -167,7 +170,7 @@ h1 {
     opacity: 1;
     z-index: 5;
     animation: move 0.6s;
-} */
+}
 
 @keyframes move{
     0%, 49.99%{
@@ -181,27 +184,30 @@ h1 {
 }
 
 .social-icons{
-    margin: 10px 0;
+    margin: 20px 0;
+    
 }
 
 .social-icons .icon i {
-    font-size: 17px; 
+    font-size: 20px; 
 }
 
-.social-icons .icon{
+.social-icons .a{
     border: 1px solid #ccc;
     border-radius: 20%;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     margin: 0 3px;
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
 }
 
-.social-icons .icon:hover{
+.social-icons .a:hover{
     animation: beat 1s infinite;
 }
+
+
 
 
 @keyframes beat {

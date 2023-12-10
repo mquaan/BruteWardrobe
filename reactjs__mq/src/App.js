@@ -10,7 +10,6 @@ import Shop from './pages/Shop';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
-import Signup from './pages/Signup';
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -45,7 +44,7 @@ function App() {
                                 <Navbar />
                                 <Routes>
                                     <Route path='/login' element={<Login />} />
-                                    <Route path='/signup' element={<Signup />} />
+                                    {/* <Route path='/signup' element={<Signup />} /> */}
                                     <Route path='/' element={<Home />} />
                                     <Route path='/shop' element={<Shop />} />
                                     <Route path='/about' element={<About />} />
@@ -58,6 +57,7 @@ function App() {
                         }
                     />
                 </Routes>
+                {/* <Footer /> */}
             </Router>
         </div>
     );
