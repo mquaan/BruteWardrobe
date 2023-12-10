@@ -1,0 +1,10 @@
+.sidebar {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    height: 100%;
+    background-image: url(https://image.slidesdocs.com/responsive-images/docs/line-of-plants-in-geometric-color-block-with-light-pink-hue-page-border-background-word-template_96df5b7d1a__1131_1600.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

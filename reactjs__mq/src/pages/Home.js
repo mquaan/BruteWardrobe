@@ -90,7 +90,13 @@ function Home() {
                 <p>New Collection Design</p>
                 <div className='pro-container'>
                     {product2.map((product, index) => (
-                        <Product key={index} image={product.image} type={product.type} price={product.price} />
+                        <Product
+                            key={index}
+                            index={index + 6}
+                            image={product.image}
+                            type={product.type}
+                            price={product.price}
+                        />
                     ))}
                 </div>
             </section>
