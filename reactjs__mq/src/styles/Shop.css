@@ -38,8 +38,7 @@
 }
 
 .product1 .pro .image {
-    width: 350px;
-    height: 430px;
+    width: 100%;
     border-radius: 20px;
 }
 
@@ -48,15 +47,9 @@
     padding: 10px 0;
 }
 
-.product1 .pro .des span {
-    color: #606063;
-    font-size: 12px;
-}
-
-.product1 .pro .dex h5 {
-    padding-top: 7px;
-    padding: #1a1a1a;
+.product1 .pro .des h5 {
     font-size: 14px;
+    color: #000000;
 }
 
 .product1 .pro .des i {

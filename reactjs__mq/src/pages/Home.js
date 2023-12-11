@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import '../styles/Home.css'
 import { Link } from 'react-router-dom'
@@ -23,44 +24,65 @@ const product2 = [
     {image: '../assets/products/p15.jpg', span: 'Tee', type: 'Tee', price: '320.000'},
     {image: '../assets/products/p16.jpg', span: 'Pants', type: 'Pants', price: '310.000'}
 ]
+=======
+import React, { useState } from 'react';
+import '../styles/Home.css';
+import Login from './Login.js'
+import { Link } from 'react-router-dom';
+import { products } from '../helpers/product_list';
+>>>>>>> 6acaf0464c66b2d436bf06d0d9979e06939220ce
 
 function Product(props) {
+    const goToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+    };
     return (
-        <div className="pro">
-            <img className="image" src={props.image} alt="" />
-            <div className="des">
-                <span>{props.span}</span>
-                <h5>{props.product_type}</h5>
-                <div className="star">
-                    <i className="fas fa-star"></i>
-                    <i className="fas fa-star"></i>
-                    <i className="fas fa-star"></i>
-                    <i className="fas fa-star"></i>
-                    <i className="fas fa-star"></i>
+        <div className='pro' onClick={() => goToTop()}>
+            <Link to={`/product-detail/${props.index + 1}`} style={{ textDecoration: 'none' }}>
+                <img className='image' src={props.image} alt='' />
+                <div className='des'>
+                    <h5>{props.type}</h5>
+                    <div className='star'>
+                        <i className='fas fa-star'></i>
+                        <i className='fas fa-star'></i>
+                        <i className='fas fa-star'></i>
+                        <i className='fas fa-star'></i>
+                        <i className='fas fa-star'></i>
+                    </div>
+                    <h4>{props.price} VND</h4>
                 </div>
-                <h4>{props.price} VND</h4>
+            </Link>
+            <div>
+                <i className='fa-solid fa-cart-shopping cart'></i>
             </div>
-            <div><i className="fa-solid fa-cart-shopping cart"></i></div>
         </div>
-    )
+    );
 }
 
-function Feature(props){
+function Feature(props) {
     return (
-        <div className="fe-box">
-            <img className="image" src={props.image} alt="" />
+        <div className='fe-box'>
+            <img className='image' src={props.image} alt='' />
             <h6>{props.feature}</h6>
         </div>
-    )
+    );
 }
 
 function Home() {
+    // const [token, setToken] = useState();
+  
+    // if(!token) {
+    //   return <Login setToken={setToken} />
+    // }
+
+    const product1 = products.slice(0, 6);
+    const product2 = products.slice(6, 12);
     const goToTop = () => {
-        window.scrollTo( {top: 0, behavior: 'auto'} );
-    }
+        window.scrollTo({ top: 0, behavior: 'auto' });
+    };
     return (
         <div>
-            <div id="hero">
+            <div id='hero'>
                 <h4>What's new!</h4>
                 <h2>Spring offer</h2>
                 <h1>On Tee products</h1>
@@ -72,6 +94,7 @@ function Home() {
             <section className='product1 section-p1'>
                 <h2>Our products</h2>
                 <p>New Collection Design</p>
+<<<<<<< HEAD
                 <div className="pro-container">
                     {product1.map((product, index) => (
                         <Product
@@ -90,30 +113,50 @@ function Home() {
                     <Product image="../assets/products/p6.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p7.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p8.jpg" span="unknown" product_type="Tee" price="250.000"/> */}
+=======
+                <div className='pro-container'>
+                    {product1.map((product, index) => (
+                        <Product key={index} index={index} image={product.image} type={product.type} price={product.price} />
+                    ))}
+>>>>>>> 6acaf0464c66b2d436bf06d0d9979e06939220ce
                 </div>
             </section>
-            
-            <section id="banner" className="section-m1">
+
+            <section id='banner' className='section-m1'>
                 <h4>Bundle Sale</h4>
-                <h2>Save up to <span>50% off</span> - When buy 3 items</h2>
+                <h2>
+                    Save up to <span>50% off</span> - When buy 3 items
+                </h2>
                 <Link to='/shop'>
-                    <button className="normal" onClick={() => goToTop()}>Explore more </button>
+                    <button className='normal' onClick={() => goToTop()}>
+                        Explore more{' '}
+                    </button>
                 </Link>
             </section>
 
             <section className='product1 section-p1'>
                 <h2>New Arrivals</h2>
                 <p>New Collection Design</p>
+<<<<<<< HEAD
                 <div className="pro-container">
                     {product2.map((product, index) => (
                         <Product
                             key={index}
                             image={product.image}
                             span={product.span}
+=======
+                <div className='pro-container'>
+                    {product2.map((product, index) => (
+                        <Product
+                            key={index}
+                            index={index + 6}
+                            image={product.image}
+>>>>>>> 6acaf0464c66b2d436bf06d0d9979e06939220ce
                             type={product.type}
                             price={product.price}
                         />
                     ))}
+<<<<<<< HEAD
                     {/* <Product image="../assets/products/p9.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p10.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p11.jpg" span="unknown" product_type="Tee" price="250.000"/>
@@ -122,29 +165,34 @@ function Home() {
                     <Product image="../assets/products/p14.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p15.jpg" span="unknown" product_type="Tee" price="250.000"/>
                     <Product image="../assets/products/p16.jpg" span="unknown" product_type="Tee" price="250.000"/> */}
+=======
+>>>>>>> 6acaf0464c66b2d436bf06d0d9979e06939220ce
                 </div>
             </section>
 
-            <section id="sm-banner" className='section-p1'>
-                <div className="banner-box">
+            <section id='sm-banner' className='section-p1'>
+                <div className='banner-box'>
                     <h4>Super deal</h4>
                     <h2>Buy 1 get voucher up to 40%</h2>
                     <span>The best collection is on sale at BruteWardrobe</span>
                     <Link to='/shop'>
-                        <button className="white" onClick={() => goToTop()}>Learn More</button>
+                        <button className='white' onClick={() => goToTop()}>
+                            Learn More
+                        </button>
                     </Link>
-                    
                 </div>
-                <div className="banner-box banner-box2">
+                <div className='banner-box banner-box2'>
                     <h4>Summer</h4>
                     <h2>Upcomming season</h2>
                     <span>The best collection is on sale at BruteWardrobe</span>
                     <Link to='/shop'>
-                        <button className="white" onClick={() => goToTop()}>Collection</button>
+                        <button className='white' onClick={() => goToTop()}>
+                            Collection
+                        </button>
                     </Link>
-                    
                 </div>
             </section>
+<<<<<<< HEAD
 {/* 
             <section id="banner3">
                 <div className="banner-box">
@@ -168,9 +216,19 @@ function Home() {
                 <Feature image="../assets/features/save-money.png" feature="Economical"/>
                 <Feature image="../assets/features/shield.png" feature="Safe"/>
                 <Feature image="../assets/features/tap.png" feature="Convenient"/>
+=======
+
+            <section id='feature' className='section-p1'>
+                <Feature image='../assets/features/24-hours.png' feature='24/7 Support' />
+                <Feature image='../assets/features/product-management.png' feature='Secure' />
+                <Feature image='../assets/features/productivity.png' feature='Save Time' />
+                <Feature image='../assets/features/save-money.png' feature='Economical' />
+                <Feature image='../assets/features/shield.png' feature='Safe' />
+                <Feature image='../assets/features/tap.png' feature='Convenient' />
+>>>>>>> 6acaf0464c66b2d436bf06d0d9979e06939220ce
             </section>
         </div>
-    )
+    );
 }
 
-export default Home
+export default Home;

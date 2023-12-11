@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import '../styles/Shop.css'
+<<<<<<< HEAD
 // import ProductDetail from '../components/ProductDetail'
 // import { Link, Route } from 'react-router-dom';
 
@@ -41,14 +42,21 @@ const allProducts = [
     {image: '../assets/products/p31.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
     {image: '../assets/products/p32.jpg', span: 'Tee', type: 'Tee', price: '350.000'},
 ];
+=======
+import { Link } from 'react-router-dom';
+import { products } from '../helpers/product_list';
+>>>>>>> 6acaf0464c66b2d436bf06d0d9979e06939220ce
 
 function Product(props) {
+    const goToTop = () => {
+        window.scrollTo( {top: 0, behavior: 'auto'} );
+    }
     return (
-        <div className="pro">
+        <div className="pro" onClick={ () => goToTop() }>
+            <Link to={`/product-detail/${props.index + 1}`} style={{ textDecoration: 'none' }}>
             <img className="image" src={props.image} alt="" />
             <div className="des">
-                <span>{props.span}</span>
-                <h5>{props.product_type}</h5>
+                <h5>{props.type}</h5>
                 <div className="star">
                     <i className="fas fa-star"></i>
                     <i className="fas fa-star"></i>
@@ -58,6 +66,7 @@ function Product(props) {
                 </div>
                 <h4>{props.price} VND</h4>
             </div>
+            </Link>
             <div><i className="fa-solid fa-cart-shopping cart"></i></div>
         </div>
     )
@@ -68,8 +77,8 @@ function Shop() {
     const [currentPage, setCurrentPage] = useState(1);
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
-    const totalPages = Math.ceil(allProducts.length / productsPerPage);
-    const displayedProducts = allProducts.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(products.length / productsPerPage);
+    const displayedProducts = products.slice(startIndex, endIndex);
     const goToPage = (page) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'auto' });
@@ -87,8 +96,8 @@ function Shop() {
                     {displayedProducts.map((product, index) => (
                         <Product
                             key={index}
+                            index={index}
                             image={product.image}
-                            span={product.span}
                             type={product.type}
                             price={product.price}
                         />
