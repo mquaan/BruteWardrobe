@@ -100,12 +100,13 @@ button.normal {
     box-shadow: 10px 10px 54px rgba(70, 62, 221, 0.1);
 }
 
-/* #feature .fe-box .image {
-    width: 100%;    
-    margin-bottom: 10px;
-} */
+#feature .fe-box .image {
+    width: 60px;
+    margin: 0 auto 10px auto;
+}
 
 #feature .fe-box h6 {
+    font-weight: 500;
     display: inline-block;
     padding: 9px 30px 6px 30px;
     line-height: 1;

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../styles/Home.css';
-import Login from './Login.js'
 import { Link } from 'react-router-dom';
 import { products } from '../helpers/product_list';
 
