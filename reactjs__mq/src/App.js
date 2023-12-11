@@ -42,15 +42,14 @@ function App() {
                             </div>
                         }
                     />
+                    <Route path='/login' element={<Login />} />
                     <Route
                         path='*'
                         element={
                             <div>
                                 <Navbar />
                                 <Routes>
-                                    <Route path='/login' element={<Login />} />
-                                    {/* <Route path='/signup' element={<Signup />} /> */}
-                                    <Route path='/' element={<Home />} />
+                                    <Route path='' element={<Home />} />
                                     <Route path='/shop' element={<Shop />} />
                                     <Route path='/about' element={<About />} />
                                     <Route path='/contact' element={<Contact />} />
@@ -62,7 +61,6 @@ function App() {
                         }
                     />
                 </Routes>
-                {/* <Footer /> */}
             </Router>
         </div>
     );

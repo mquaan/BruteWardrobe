@@ -8,7 +8,6 @@ function CheckSignUpUsername(username, signUp_btn, errorSignUpUsername) {
         errorSignUpUsername.textContent = "(*) Username musn't consist special character: /[!@#$%^&*(),.?:{}|<>]/";
         errorSignUpUsername.style.display = "inline";
         signUp_btn.disabled = true;
-
     }
     else {
         errorSignUpUsername.style.display = "none";
@@ -33,7 +32,7 @@ function Login() {
     return (
         <div className='body'>
             <section id="header">
-                <img src="../assets/Logo.png" alt="Logo" width="170" height="150"/>
+                <img src="../assets/Logo.png" alt="Logo" width="90" height="50"/>
             </section>
 
             <section id="body_section">
@@ -53,7 +52,7 @@ function Login() {
                             />
                             <span id="errorSignInUsername" className="signIn-error-message"></span>
                             <input name="password" type="password" id="si_password" placeholder="Password" required/>
-                            <div>Forget Your Password?</div>
+                            <div className='a'>Forget Your Password?</div>
                             <Link to="/"><button id="signIn_btn">Sign In</button></Link>
                         </form>
                     </div>
@@ -104,11 +103,11 @@ function Login() {
                                 required
                                 />
                             <span id="wrongPassword" className="wrongPassword-message"></span>
-                            <select name="role" id="role">
+                            {/* <select name="role" id="role" onChange={() => {}}>
                                 <option value="none">Choose your role</option>
                                 <option value="Customer">Customer</option>
                                 <option value="Merchant">Merchant</option>
-                            </select>
+                            </select> */}
                             <button id="signUp_btn" disabled>Sign Up</button>
                         </form>
                     </div>
@@ -117,12 +116,24 @@ function Login() {
                             <div className="toggle-panel toggle-left">
                                 <h1>Welcome Back!</h1>
                                 <p>Enter your personal details to use all of site features</p>
-                                <button className="hidden" id="login" onClick={() => {document.getElementById('container').classList.remove("active")}}>Sign In</button>
+                                <button
+                                    className="hidden"
+                                    id="login"
+                                    onClick={() => {document.getElementById('container').classList.remove("active")}}
+                                >
+                                    Sign In
+                                </button>
                             </div>
                             <div className="toggle-panel toggle-right">
                                 <h1>Hello, Friend!</h1>
                                 <p>Register with your personal details to use all of site features</p>
-                                <button className="hidden" id="register" onClick={() => {document.getElementById('container').classList.add("active")}}>Sign Up</button>
+                                <button
+                                    className="hidden"
+                                    id="register"
+                                    onClick={() => {document.getElementById('container').classList.add("active")}}
+                                >
+                                    Sign Up
+                                </button>
                             </div>
                         </div>
                     </div>

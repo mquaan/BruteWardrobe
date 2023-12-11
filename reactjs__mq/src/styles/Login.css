@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-
 *{
     margin: 0;
     padding: 0;
@@ -7,7 +6,10 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-
+h1{
+    font-size: 32px;
+    font-weight: 700;
+}
 
 .body{
     background-color: #c9d6ff;
@@ -17,7 +19,6 @@
     /* display: flex; */
     flex-direction: column;
     height: 100vh;
-    
 }
 
 #header{
@@ -25,6 +26,7 @@
     align-items: left;
     justify-content: left;
     padding: 15px 30px;
+    margin-bottom: 20px;
 }
 
 #body_section{
@@ -42,10 +44,9 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
     overflow: hidden;
-    width: 768px;
-    /* width: 60%; */
+    width: 850px;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 500px;
     margin: 0px 0px 0px 180px;
     float:left;
 }
@@ -54,7 +55,6 @@
 {
     float: right;
     margin: 0px 0px 0px 20px;
-
 }
 
 .container p{
@@ -68,7 +68,7 @@
     font-size: 12px;
 }
 
-.container a{
+.container .a{
     color: #333;
     font-size: 13px;
     text-decoration: none;
@@ -94,10 +94,10 @@
     cursor: not-allowed;
 }
 
-
 .container button.hidden{
     background-color: transparent;
     border-color: #000000;
+    display: flex;
 }
 
 .container form{
@@ -157,7 +157,6 @@
     display: none;
 }
 
-
 .sign-up{
     left: 0;
     width: 50%;
@@ -184,12 +183,12 @@
 }
 
 .social-icons{
-    margin: 20px 0;
-    
+    margin-top: 5px;
+    margin-bottom: 15px; 
 }
 
 .social-icons .icon i {
-    font-size: 20px; 
+    font-size: 16px; 
 }
 
 .social-icons .a{
@@ -199,16 +198,13 @@
     justify-content: center;
     align-items: center;
     margin: 0 3px;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
 }
 
 .social-icons .a:hover{
     animation: beat 1s infinite;
 }
-
-
-
 
 @keyframes beat {
     0% {
@@ -238,6 +234,16 @@
 .form-container.sign-up .icon i.fa-facebook-f {
     font-size: 18px; /* Đặt kích thước của icon Facebook tại đây */
 }
+
+/* .form-container.sign-up #role{
+    width: 50%;
+    height: 35px;
+    border-radius: 8px;
+    border: 1px solid #c8baba;
+    margin: 8px 0;
+    font-size: 13px;
+    outline: none;
+} */
 
 .toggle-container{
     position: absolute;
@@ -287,7 +293,6 @@
     top: 0;
     transform: translateX(0);
     transition: all 0.6s ease-in-out;
-    
 }
 
 .toggle-left{
