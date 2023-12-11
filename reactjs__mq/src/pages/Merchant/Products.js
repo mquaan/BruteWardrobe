@@ -1,34 +1,38 @@
-import React, { useState } from 'react'
-import '../../styles/Merchant/Products.css'
+import React, { useState } from 'react';
+import '../../styles/Merchant/Products.css';
 import { Link } from 'react-router-dom';
 import { products } from '../../helpers/product_list';
 import Modal from '../../components/Modal';
 
-function Product(props) {
-    const goToTop = () => {
-        window.scrollTo( {top: 0, behavior: 'auto'} );
-    }
+function Product({ handleOpen, handleProductModal, product }) {
     return (
-        <div className="pro" onClick={Modal(false)}>
-            
-            <img className="image" src={props.image} alt="" />
-            <div className="des">
-                <h5>{props.type}</h5>
-                <div className="star">
-                    <i className="fas fa-star"></i>
-                    <i className="fas fa-star"></i>
-                    <i className="fas fa-star"></i>
-                    <i className="fas fa-star"></i>
-                    <i className="fas fa-star"></i>
+        <div
+            className='pro'
+            onClick={() => {
+                handleProductModal(product);
+                handleOpen();
+            }}
+        >
+            <img className='image' src={product.image} alt='' />
+            <div className='des'>
+                <h5>{product.type}</h5>
+                <div className='star'>
+                    <i className='fas fa-star'></i>
+                    <i className='fas fa-star'></i>
+                    <i className='fas fa-star'></i>
+                    <i className='fas fa-star'></i>
+                    <i className='fas fa-star'></i>
                 </div>
-                <h4>{props.price} VND</h4>
+                <h4>{product.price} VND</h4>
             </div>
-            <div><i className="fa-solid fa-pen edit"></i></div>
+            <div>
+                <i className='fa-solid fa-pen edit'></i>
+            </div>
         </div>
-    )
+    );
 }
 
-function Shop() {
+function MerchantProducts({ handleOpen, handleProductModal }) {
     const productsPerPage = 12;
     const [currentPage, setCurrentPage] = useState(1);
     const startIndex = (currentPage - 1) * productsPerPage;
@@ -39,47 +43,41 @@ function Shop() {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'auto' });
     };
-    
+
     return (
         <div>
-            <section className="product1 section-p1">
-                <div className="pro-container">
+            <section className='product1 section-p1'>
+                <div className='pro-container'>
                     {displayedProducts.map((product, index) => (
-                        <Product
-                            key={index}
-                            index={index}
-                            image={product.image}
-                            type={product.type}
-                            price={product.price}
-                        />
+                        <Product handleOpen={handleOpen} handleProductModal={handleProductModal} product={product} />
                     ))}
                 </div>
             </section>
-  
-            <section id="pagination" className="section-p1">
+
+            <section id='pagination' className='section-p1'>
                 {/* Previous button */}
                 {currentPage > 1 && (
-                <button onClick={() => goToPage(currentPage - 1)}>
-                    <i className="fal fa-long-arrow-alt-left"></i>
-                </button>
+                    <button onClick={() => goToPage(currentPage - 1)}>
+                        <i className='fal fa-long-arrow-alt-left'></i>
+                    </button>
                 )}
 
                 {/* Create buttons dynamically based on the number of pages */}
                 {Array.from({ length: totalPages }, (_, index) => (
-                <button key={index + 1} onClick={() => goToPage(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>
-                    {index + 1}
-                </button>
+                    <button key={index + 1} onClick={() => goToPage(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>
+                        {index + 1}
+                    </button>
                 ))}
 
                 {/* Next button */}
                 {currentPage < totalPages && (
-                <button onClick={() => goToPage(currentPage + 1)}>
-                    <i className="fal fa-long-arrow-alt-right"></i>
-                </button>
+                    <button onClick={() => goToPage(currentPage + 1)}>
+                        <i className='fal fa-long-arrow-alt-right'></i>
+                    </button>
                 )}
             </section>
         </div>
     );
 }
 
-export default Shop
+export default MerchantProducts;

@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+.font-sans {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.custom-dialog {
+    max-height: 96vh; 
+    overflow: hidden;
+}
+
+.custom-dialog > div {
+    overflow: auto;
+}
+

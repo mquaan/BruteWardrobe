@@ -1,43 +1,58 @@
-import React from 'react';
-import { Button, Dialog, Card, CardHeader, CardBody, CardFooter, Typography, Input, Checkbox } from '@material-tailwind/react';
+import React, { useState, useEffect } from 'react';
+import { Button, Dialog, Card, CardBody, CardFooter, Typography, Input, Checkbox } from '@material-tailwind/react';
+import '../styles/Merchant/Modal.css';
 
-export default function Modal() {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen((cur) => !cur);
+export default function Modal({ open, handleOpen, product }) {
+    const [values, setValues] = useState(product);
+    useEffect(() => {
+        setValues(product);
+    }, [product]);
+    const handleChange = (e) => {
+        console.log(values);
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value,
+        });
+    };
     return (
         <>
             <Dialog size='lg' open={open} handler={handleOpen} className='bg-transparent shadow-none'>
-                <Card className='mx-auto w-full'>
+                <Card className='mx-auto w-full custom-dialog'>
+                    <div>
                     <CardBody className='flex flex-col gap-4'>
                         <Typography variant='h4' color='blue-gray'>
-                            Sign In
+                            Edit product
                         </Typography>
-                        <Typography className='mb-3 font-normal' variant='paragraph' color='gray'>
-                            Enter your email and password to Sign In.
+                        <div className='flex items-center gap-4'>
+                            <Typography variant='medium' color='blue-gray' className='pt-5 pb-2 mt-0 mb-0 font-medium' style={{ fontWeight: 'bold' }}>
+                                Name:
+                            </Typography>
+                            <Input variant='standard' size='lg' name='name' value={values.name} onChange={handleChange} />
+                        </div>
+                        <Typography variant='medium' color='blue-gray' className='mb-2 font-medium' style={{ fontWeight: 'bold' }}>
+                            Description
                         </Typography>
-                        <Typography className='-mb-2' variant='h6'>
-                            Your Email
-                        </Typography>
-                        <Input label='Email' size='lg' />
-                        <Typography className='-mb-2' variant='h6'>
-                            Your Password
-                        </Typography>
-                        <Input label='Password' size='lg' />
-                        <div className='-ml-2.5 -mt-3'>
-                            <Checkbox label='Remember Me' />
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                            {Object.entries(product).map(([key, value], index) => {
+                                if (key !== 'name' && key !== 'image' && !key.includes('sub')) {
+                                    return (
+                                        <div className='flex items-center gap-4' key={index}>
+                                            <Typography variant='small' color='blue-gray' className='pt-5 pb-2 mt-0 mb-0 font-medium' style={{ fontWeight: 'bold' }}>
+                                                {key.charAt(0).toUpperCase() + key.slice(1) + ':'}
+                                            </Typography>
+                                            <Input variant='standard' size='lg' name={key} value={values[key]} onChange={handleChange} />
+                                        </div>
+                                    );
+                                }
+                            })}
                         </div>
                     </CardBody>
                     <CardFooter className='pt-0'>
-                        <Button variant='gradient' onClick={handleOpen} fullWidth>
-                            Sign In
+                        <Button variant='gradient' onClick={handleOpen}>
+                            Edit
                         </Button>
-                        <Typography variant='small' className='mt-4 flex justify-center'>
-                            Don&apos;t have an account?
-                            <Typography as='a' href='#signup' variant='small' color='blue-gray' className='ml-1 font-bold' onClick={handleOpen}>
-                                Sign up
-                            </Typography>
-                        </Typography>
                     </CardFooter>
+                    </div>
                 </Card>
             </Dialog>
         </>

@@ -13,8 +13,13 @@ import Cart from './pages/Cart';
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
 
 function App() {
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen((cur) => !cur);
+    const [productModal, setProductModal] = useState(false);
+    const handleProductModal = (value) => setProductModal(value);
     return (
         <div className='App'>
             <Router>
@@ -26,14 +31,14 @@ function App() {
                                 <Sidebar />
                                 <div style={{ flex: 1, paddingLeft: '20rem' }}>
                                     <Routes>
-                                        <Route path='/' element={<MerchantProducts />} />
-                                        <Route path='/products' element={<MerchantProducts />} />
+                                        <Route path='/' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
+                                        <Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
                                         <Route path='/orders' element={<Cart />} />
                                         <Route path='/profile' element={<About />} />
                                         <Route path='/logout' element={<Login />} />
                                     </Routes>
                                 </div>
-                                <Modal />
+                                <Modal open={open} handleOpen={handleOpen} product={productModal} />
                             </div>
                         }
                     />
