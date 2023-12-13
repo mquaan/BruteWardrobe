@@ -8,7 +8,6 @@
     margin: 40px 0;
 }
 
-
 .product1 {
     text-align: center;
 }
@@ -99,4 +98,45 @@
 #pagination button i {
     font-size: 10px;
     font-weight: 600;
+}
+
+.search-bar {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.search-bar i {
+    padding: 0 16px;
+}
+
+.search-click {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    background-size: 22px;
+    background-position: 13px;
+    border-radius: 10px;
+    width: 0px;
+    height: 50px;
+    transition: all 0.5s;
+}
+
+.search-click.expanded {
+    width: 300px;
+}
+.search-click {
+    position: relative;
+    overflow: hidden;
+    height: 50px;
+}
+.search-click input {
+    background: transparent;
+    border: 1px solid #ccc;
+    outline: none;
+    position: absolute;
+    width: 300px;
+    height: 50px;
+    left: 0%;
+    padding: 10px;
 }
