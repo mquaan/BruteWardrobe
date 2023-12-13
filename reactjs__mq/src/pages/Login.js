@@ -1,34 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/Login.css'
 import { Link } from 'react-router-dom';
 
-function CheckSignUpUsername(username, signUp_btn, errorSignUpUsername) {
-    const regex = /[!@#$%^&*(),.?":{}|<>+=;']/;
-    if (regex.test(username)) {
-        errorSignUpUsername.textContent = "(*) Username musn't consist special character: /[!@#$%^&*(),.?:{}|<>]/";
-        errorSignUpUsername.style.display = "inline";
-        signUp_btn.disabled = true;
+function Login({ handleLogin }) {
+    const [username, setUsername] = useState('');
+    const [pass, setPass] = useState('');
+    const [cfpass, setCfPass] = useState('');
+    const isSubmitDisabled = !username || !pass || !cfpass;
+    
+    function CheckSignUpUsername(username, errorSignUpUsername) {
+        setUsername(username);
+        const regex = /[!@#$%^&*(),.?":{}|<>+=;']/;
+        if (regex.test(username)) {
+            errorSignUpUsername.textContent = "(*) Username musn't consist special character: /[!@#$%^&*(),.?:{}|<>]/";
+            errorSignUpUsername.style.display = "inline";
+        }
+        else {
+            errorSignUpUsername.style.display = "none";
+        }
     }
-    else {
-        errorSignUpUsername.style.display = "none";
-        signUp_btn.disabled = false;
-    }
-}
 
-function CheckPassword(password, cf_password, wrongPassword, signUp_btn){
-    if(cf_password !== password && cf_password)
-    {
-        wrongPassword.textContent = "(*) Wrong password confirmation";
-        wrongPassword.style.display = "inline";
-        signUp_btn.disabled = true;
+    function CheckPassword(password, cf_password, wrongPassword){
+        setPass(password);
+        setCfPass(cf_password);
+        if(cf_password !== password && cf_password){
+            wrongPassword.textContent = "(*) Wrong password confirmation";
+            wrongPassword.style.display = "inline";
+            setCfPass('');
+        }
+        else {
+            wrongPassword.style.display = "none";
+        }
     }
-    else {
-        wrongPassword.style.display = "none";
-        signUp_btn.disabled = false;
-    }
-}
 
-function Login() {
     return (
         <div className='body'>
             <section id="header">
@@ -53,7 +57,7 @@ function Login() {
                             <span id="errorSignInUsername" className="signIn-error-message"></span>
                             <input name="password" type="password" id="si_password" placeholder="Password" required/>
                             <div className='a'>Forget Your Password?</div>
-                            <Link to="/"><button id="signIn_btn">Sign In</button></Link>
+                            <Link to="/"><button id="signIn_btn" onClick={handleLogin}>Sign In</button></Link>
                         </form>
                     </div>
                     <div className="form-container sign-up">
@@ -70,7 +74,6 @@ function Login() {
                                 placeholder="Username"
                                 onChange={(event) => CheckSignUpUsername(
                                     event.target.value,
-                                    document.getElementById("signUp_btn"),
                                     document.getElementById("errorSignUpUsername")
                                 )}
                                 required
@@ -85,8 +88,7 @@ function Login() {
                                 onChange={(event) => CheckPassword(
                                     event.target.value,
                                     document.getElementById("su_confirmPassword").value,
-                                    document.getElementById("wrongPassword"),
-                                    document.getElementById("signUp_btn")
+                                    document.getElementById("wrongPassword")
                                 )}
                                 required
                             />
@@ -97,18 +99,12 @@ function Login() {
                                 onChange={(event) => CheckPassword(
                                     document.getElementById("su_password").value,
                                     event.target.value,
-                                    document.getElementById("wrongPassword"),
-                                    document.getElementById("signUp_btn")
+                                    document.getElementById("wrongPassword")
                                 )}
                                 required
                                 />
                             <span id="wrongPassword" className="wrongPassword-message"></span>
-                            {/* <select name="role" id="role" onChange={() => {}}>
-                                <option value="none">Choose your role</option>
-                                <option value="Customer">Customer</option>
-                                <option value="Merchant">Merchant</option>
-                            </select> */}
-                            <button id="signUp_btn" disabled>Sign Up</button>
+                            <button id="signUp_btn" disabled={ isSubmitDisabled }>Sign Up</button>
                         </form>
                     </div>
                     <div className="toggle-container">

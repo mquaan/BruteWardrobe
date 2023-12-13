@@ -9,6 +9,8 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
     z-index: 999;
     position: sticky;
+    /* position: relative; */
+
     top: 0;
     left: 0;
     transition: transform 0.3s ease-in-out;
@@ -64,6 +66,117 @@
     align-items: center;
 }
 
-.close {
-    display: none;
+.user-info{
+    display: flex;
+    align-items: center;
+    /* flex-direction: column; */
+}
+
+.user-pic{
+    width: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    width: 280px;
+    right: 10px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.45s;
+}
+
+.sub-menu-wrap.open-menu{
+    max-height: 240px;
+}
+
+.sub-menu{
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px
+}
+
+.user-info{
+    display: flex;
+    align-items: center;
+    /* flex-direction: column; */
+}
+
+.user-info img{
+    width: 45px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.user-info h3{
+    font-weight: 500;
+}
+
+.sub-menu hr{
+    border: 0;
+    height: 1px;
+    width: 100%;
+    background: #ccc;
+    margin: 15px 0 10px;
+}
+
+.sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #525252;
+    margin: 12px 0;
+    cursor: pointer;
+}
+
+.sub-menu-link p {
+    width: 100%;
+}
+
+.sub-menu-link img{
+    width: 40px;
+    background:  #e5e5e5;
+    border-radius: 50%;
+    padding: 8px;
+    margin-right: 12px; 
+}
+
+.sub-menu-link span{
+    font-size: 20px;
+    margin-right: 15px;
+    transition: transform 0.5s;
+}
+
+.sub-menu-link:hover span{
+    transform: translateX(7px);
+    font-weight: 600;
+}
+
+.sub-menu-link:hover p{
+    font-weight: 600;
+}
+
+.fa-thin{
+    font-weight: 300;
+    font-size: 30px;
+    margin-top: 3px;
+    margin-right: 7px;
+}
+
+.login{
+    font-weight: 550;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.to-login{
+    display: flex;
+    flex-direction: row;
+    border: #1a1a1a solid 2px;
+    border-radius: 5px;
+    padding: 4px 5px;
 }

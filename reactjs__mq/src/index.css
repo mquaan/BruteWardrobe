@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+    .tailwind .container { @apply container; }
+    .tailwind .px-4 { @apply px-4; }
+}
