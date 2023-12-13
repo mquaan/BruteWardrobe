@@ -36,7 +36,7 @@ function Login({ handleLogin }) {
     return (
         <div className='body'>
             <section id="header">
-                <img src="../assets/Logo.png" alt="Logo" width="90" height="50"/>
+                <img src="../assets/Logo.png" alt="Logo" width="90" height="75"/>
             </section>
 
             <section id="body_section">
@@ -136,7 +136,7 @@ function Login({ handleLogin }) {
                 </div>
 
                 <div className="background_image" id="background_image">
-                    <img src="../assets/clothing_background_2.png" alt="background_image" width="750" height="500"/>
+                    <img src="../assets/clothing_background_2.png" alt="background_image" width="650" height="480"/>
                 </div>
                 
             </section>

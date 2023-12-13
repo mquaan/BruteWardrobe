@@ -26,11 +26,14 @@ function Navbar({ isLoggedIn, handleLogout }) {
         subMenu.classList.toggle("open-menu");
     }
 
+    function hideMenu(subMenu) {
+        subMenu.classList.remove("open-menu");
+    }
+
     const handleLogoutAndToggleMenu = () => {
         handleLogout();
-        ToggleMenu(document.getElementById("subMenu"));
+        hideMenu(document.getElementById("subMenu"));
     };
-
     return (
         <div className={`navbar ${isNavHidden ? 'hidden' : ''}`}>
             <img src='../assets/Logo.png' className="logo" alt=""/>
@@ -48,12 +51,13 @@ function Navbar({ isLoggedIn, handleLogout }) {
                         <img src="../assets/features/avatar_cus.png" 
                             className='user-pic' 
                             onClick={() => ToggleMenu(document.getElementById("subMenu"))}
+                            alt=""
                             >
                         </img>
                     </li>) 
                     :
                     (<li>
-                        <Link to="/login">
+                        <Link to="/login" style={{ textDecoration: 'none' }}>
                             <div className="to-login">
                                 <i className="fa-thin fa-circle-user"></i>
                                 <div className='login'>Sign In</div>
@@ -76,7 +80,7 @@ function Navbar({ isLoggedIn, handleLogout }) {
                         <h3>Phạm Sĩ Phú</h3>
                     </div>
                     <hr/>
-                    <Link to="/edit-profile">
+                    <Link to="/edit-profile" style={{ textDecoration: 'none' }}>
                         <div className="sub-menu-link">
                             <img src="../assets/features/profile.png" alt=""/>
                             <p>Edit Profile</p>
