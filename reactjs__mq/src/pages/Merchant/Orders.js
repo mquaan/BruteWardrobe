@@ -10,16 +10,14 @@ import Box from '@mui/material/Box';
 import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
-
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
+import Button from '@mui/material/Button';
 
 import '../../styles/Merchant/Orders.css';
 import { products } from '../../helpers/product_list';
 import { customers } from '../../helpers/customer_list';
 import { Link } from 'react-router-dom';
-import Modal from '../../components/Modal';
 
 const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -89,6 +87,9 @@ function MerchantOrders() {
                                 {customer.shopping.orderList.map((order, orderIndex) => {
                                     return (
                                         <>
+                                            <Button variant="contained" color="primary" onClick={() => viewOrderDetails(order)}>
+                                                View Full Details
+                                            </Button>
                                             <ListItemButton sx={{ pl: 4 }} onClick={() => handleClick2(custIndex, orderIndex)}>
                                                 <ListItemIcon>
                                                     <ShoppingCartIcon />
@@ -123,6 +124,8 @@ function MerchantOrders() {
         </List>
     );
 }
+export default MerchantOrders;
+
 //     <section id='pagination' className='section-p1'>
 //         {/* Previous button */}
 //         {currentPage > 1 && (
@@ -145,4 +148,3 @@ function MerchantOrders() {
 //             </button>
 //         )}
 //     </section>
-export default MerchantOrders;
