@@ -12,6 +12,7 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products';
+<<<<<<< HEAD
 import React, { useState } from 'react'; 
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { products } from './helpers/product_list';
@@ -36,6 +37,32 @@ function App() {
         setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
         }
     };
+=======
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+function App() {
+    const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
+    const [isLoggedIn, setLoggedIn] = useState(initialLoggedInState);
+
+    const handleLogin = () => {
+        setLoggedIn(true);
+        localStorage.setItem('isLoggedIn', 'true');
+    };
+
+    const handleLogout = () => {
+        setLoggedIn(false);
+        localStorage.removeItem('isLoggedIn');
+    };
+
+    useEffect(() => {
+        const storedLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
+        if (storedLoggedInState !== isLoggedIn) {
+        setLoggedIn(storedLoggedInState);
+        }
+    }, [isLoggedIn]);
+
+>>>>>>> f0ef4c6fde41b03151bc729bcc2d28ba3e0bb2e6
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [productModal, setProductModal] = useState(false);
@@ -44,6 +71,7 @@ function App() {
         <div className='App'>
             <Router>
                 <Routes>
+                    <Route path='/login' element={<Login handleLogin={handleLogin}/>} />
                     <Route
                         path='/merchant/*'
                         element={
@@ -62,12 +90,11 @@ function App() {
                             </div>
                         }
                     />
-                    <Route path='/login' element={<Login />} />
                     <Route
                         path='*'
                         element={
                             <div>
-                                <Navbar />
+                                <Navbar isLoggedIn={ isLoggedIn } handleLogout={ handleLogout }/>
                                 <Routes>
                                     <Route path='/' element={<Home />} />
                                     <Route path='/shop' element={<Shop />} />
