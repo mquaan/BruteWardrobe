@@ -10,12 +10,15 @@ import Shop from './pages/Shop';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
+
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products';
 import MerchantOrders from './pages/Merchant/Orders.js';
+
 import React, { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { products } from './helpers/product_list';
+import EditProfile from './pages/EditProfile.js';
 
 function App(){
     const [ cartItems, setCartItems ] = useState([]);
@@ -59,7 +62,6 @@ function App(){
     const handleOpen = () => setOpen((cur) => !cur);
     const [productModal, setProductModal] = useState(false);
     const handleProductModal = (value) => setProductModal(value);
-    const handleCustomerModal = (value) => setCustomerModal(value);
     return (
         <div className='App'>
             <Router>
@@ -94,10 +96,12 @@ function App(){
                                     <Route path='/about' element={<About />} />
                                     <Route path='/contact' element={<Contact />} />
                                     <Route path="/cart" element={cartItems.length > 0 ? <Cart cartItems={cartItems} setCartItems={setCartItems}/> : 
-                                        <p> Your cart is empty.{" "}
-                                            Click <Link to="/shop">here</Link> to buy products.
-                                        </p>} />
-                                    <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart}/>}  />
+                                        <section className="cart-header">
+                                        <h2>Your cart is empty!</h2>
+                                        <h3>Click <Link to="/shop">here</Link> to buy products.</h3>
+                                        </section>} />
+                                    <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart}/>} />
+                                    <Route path="/edit-profile" element={<EditProfile/>} />
                                 </Routes>
                                 <Footer />
                             </div>
