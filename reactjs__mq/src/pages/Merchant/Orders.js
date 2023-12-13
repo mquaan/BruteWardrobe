@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import '../../styles/Merchant/Orders.css';
-import { Link } from 'react-router-dom';
 import { products } from '../../helpers/product_list';
+import { customers } from '../../helpers/customer_list';
+import { Link } from 'react-router-dom';
 import Modal from '../../components/Modal';
 
-function Order({ handleOpen, handleProductModal, product }) {
+function Product({ handleOpen, handleProductModal, product }) {
     return (
         <div
             className='pro'
@@ -32,13 +33,62 @@ function Order({ handleOpen, handleProductModal, product }) {
     );
 }
 
+function Order({ handleOpen, handleOrderModal, order}) {
+    let productListt = order.productList;
+    for (let i = 0; i < productListt.length; i++) {
+        productListt[i] = products[i];
+    }
+    return (
+        <div
+            className='pro'
+            onClick={() => {
+                handleOrderModal(order);
+                handleOpen();
+            }}
+        >
+            <section className='order section-p3'>
+                <h5>{order.orderStatus}</h5>
+                <h5>{order.dateCreated}</h5>
+                <h5>{order.paymentInfo}</h5>
+                <h5>{order.deliverInfo}</h5>
+                <div className='pro-container'>
+                    {productListt.map((product, index) => (
+                        <Product handleOpen={handleOpen} handleProductModal={handleProductModal} product={product} />
+                    ))}
+                </div>
+            </section>
+        </div>
+    );
+}
+
+function Customer({ handleOpen, handleCustomerModal, customer }) {
+    return (
+        <div
+            className='pro'
+            onClick={() => {
+                handleCustomerModal(customer);
+                handleOpen();
+            }}
+        >
+            <section className='customer section-p2'>
+                <h5>{customer.username}</h5>
+                <div className='pro-container'>
+                    {customer.shopping.orderList.map((order, index) => (
+                        <Order handleOpen={handleOpen} handleOrderModal={handleOrderModal} order={order} />
+                    ))}
+                </div>
+            </section>
+        </div>
+    );
+}
+
 function MerchantOrders({ handleOpen, handleProductModal }) {
-    const productsPerPage = 12;
+    const customerPerPage = 5;
     const [currentPage, setCurrentPage] = useState(1);
-    const startIndex = (currentPage - 1) * productsPerPage;
-    const endIndex = startIndex + productsPerPage;
-    const totalPages = Math.ceil(products.length / productsPerPage);
-    const displayedProducts = products.slice(startIndex, endIndex);
+    const startIndex = (currentPage - 1) * customerPerPage;
+    const endIndex = startIndex + customerPerPage;
+    const totalPages = Math.ceil(customers.length / customerPerPage);
+    const displayedCustomers = customers.slice(startIndex, endIndex);
     const goToPage = (page) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'auto' });
@@ -46,10 +96,10 @@ function MerchantOrders({ handleOpen, handleProductModal }) {
 
     return (
         <div>
-            <section className='product1 section-p1'>
+            <section className='customer section-p1'>
                 <div className='pro-container'>
-                    {displayedProducts.map((product, index) => (
-                        <Product handleOpen={handleOpen} handleProductModal={handleProductModal} product={product} />
+                    {displayedCustomers.map((customer, index) => (
+                        <Customer handleOpen={handleOpen} handleCustomerModal={handleCustomerModal} customer={customer} />
                     ))}
                 </div>
             </section>
@@ -80,4 +130,4 @@ function MerchantOrders({ handleOpen, handleProductModal }) {
     );
 }
 
-export default MerchantProducts;
+export default MerchantOrders;
