@@ -6,8 +6,13 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-h1{
-    font-size: 32px;
+.form-container h1{
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.toggle-container h1{
+    font-size: 28px;
     font-weight: 700;
 }
 
@@ -234,16 +239,6 @@ h1{
 .form-container.sign-up .icon i.fa-facebook-f {
     font-size: 18px; /* Đặt kích thước của icon Facebook tại đây */
 }
-
-/* .form-container.sign-up #role{
-    width: 50%;
-    height: 35px;
-    border-radius: 8px;
-    border: 1px solid #c8baba;
-    margin: 8px 0;
-    font-size: 13px;
-    outline: none;
-} */
 
 .toggle-container{
     position: absolute;

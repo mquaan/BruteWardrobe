@@ -12,8 +12,7 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products';
-<<<<<<< HEAD
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { products } from './helpers/product_list';
 
@@ -37,11 +36,6 @@ function App() {
         setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
         }
     };
-=======
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-
-function App() {
     const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
     const [isLoggedIn, setLoggedIn] = useState(initialLoggedInState);
 
@@ -61,8 +55,6 @@ function App() {
         setLoggedIn(storedLoggedInState);
         }
     }, [isLoggedIn]);
-
->>>>>>> f0ef4c6fde41b03151bc729bcc2d28ba3e0bb2e6
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [productModal, setProductModal] = useState(false);
