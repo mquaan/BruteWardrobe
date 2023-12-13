@@ -1,5 +1,5 @@
-import { Card, Typography, List, ListItem, ListItemPrefix, ListItemSuffix, Chip } from '@material-tailwind/react';
-import { BuildingStorefrontIcon, ShoppingBagIcon, UserCircleIcon, Cog6ToothIcon, InboxIcon, PowerIcon } from '@heroicons/react/24/solid';
+import { Card, Typography, List, ListItem, ListItemPrefix } from '@material-tailwind/react';
+import { BuildingStorefrontIcon, ShoppingBagIcon, UserCircleIcon, PowerIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
 import '../styles/Merchant/Sidebar.css';
 

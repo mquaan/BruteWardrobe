@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import '../../styles/Merchant/Products.css';
 import { Link } from 'react-router-dom';
 import { products } from '../../helpers/product_list';
 import Modal from '../../components/Modal';
+import { MDBContainer } from 'mdb-react-ui-kit';
 
 function Product({ handleOpen, handleProductModal, product }) {
     return (
@@ -43,10 +44,22 @@ function MerchantProducts({ handleOpen, handleProductModal }) {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'auto' });
     };
+    const [isExpanded, setIsExpanded] = useState(false);
+    const inputRef = useRef();
+
+    const handleBlur = (event) => {
+        if (!inputRef.current.contains(event.relatedTarget)) {
+            setIsExpanded(false);
+        }
+    };
 
     return (
         <div>
             <section className='product1 section-p1'>
+                <div className='search-bar' onClick={() => setIsExpanded(true)} onBlur={handleBlur} tabIndex={0} ref={inputRef}>
+                    <i className='fa-solid fa-magnifying-glass'></i>
+                    <input type='text' className={`search-click ${isExpanded ? 'expanded' : ''}`} placeholder='search here...' />
+                </div>
                 <div className='pro-container'>
                     {displayedProducts.map((product, index) => (
                         <Product handleOpen={handleOpen} handleProductModal={handleProductModal} product={product} />
