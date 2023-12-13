@@ -11,14 +11,18 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
+<<<<<<< HEAD
 import MerchantProducts from './pages/Merchant/Products';
 import React, { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { products } from './helpers/product_list';
+=======
+>>>>>>> 4efe6ff0fb65f794e2505fabdca27757af902209
 
-function App() {
-    const [cartItems, setCartItems] = useState([]);
+import MerchantProducts from './pages/Merchant/Products.js';
+import MerchantOrders from './pages/Merchant/Orders.js';
 
+<<<<<<< HEAD
     const addToCart = ({ productIndex, quantity, selectedSize }) => {
         const existingItem = cartItems.find(item => item.productIndex === productIndex && item.selectedSize === selectedSize);
 
@@ -36,6 +40,12 @@ function App() {
         setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
         }
     };
+=======
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+function App() {
+>>>>>>> 4efe6ff0fb65f794e2505fabdca27757af902209
     const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
     const [isLoggedIn, setLoggedIn] = useState(initialLoggedInState);
 
@@ -55,10 +65,15 @@ function App() {
         setLoggedIn(storedLoggedInState);
         }
     }, [isLoggedIn]);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4efe6ff0fb65f794e2505fabdca27757af902209
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [productModal, setProductModal] = useState(false);
     const handleProductModal = (value) => setProductModal(value);
+    const handleCustomerModal = (value) => setCustomerModal(value);
     return (
         <div className='App'>
             <Router>
@@ -73,7 +88,7 @@ function App() {
                                     <Routes>
                                         <Route path='/' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
                                         <Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
-                                        <Route path='/orders' element={<Cart />} />
+                                        <Route path='/orders' element={<MerchantOrders/>} />
                                         <Route path='/profile' element={<About />} />
                                         <Route path='/logout' element={<Login />} />
                                     </Routes>
