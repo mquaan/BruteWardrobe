@@ -7,6 +7,7 @@ export default function Modal({ open, handleOpen, product }) {
     useEffect(() => {
         setValues(product);
     }, [product]);
+    
     const handleChange = (e) => {
         console.log(values);
         setValues({

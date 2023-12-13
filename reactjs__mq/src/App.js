@@ -12,13 +12,13 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products';
+import MerchantOrders from './pages/Merchant/Orders.js';
 import React, { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { products } from './helpers/product_list';
 
-function App() {
-    const [cartItems, setCartItems] = useState([]);
-
+function App(){
+    const [ cartItems, setCartItems ] = useState([]);
     const addToCart = ({ productIndex, quantity, selectedSize }) => {
         const existingItem = cartItems.find(item => item.productIndex === productIndex && item.selectedSize === selectedSize);
 
@@ -36,7 +36,6 @@ function App() {
         setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
         }
     };
-
     const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
     const [isLoggedIn, setLoggedIn] = useState(initialLoggedInState);
 
@@ -56,7 +55,6 @@ function App() {
         setLoggedIn(storedLoggedInState);
         }
     }, [isLoggedIn]);
-
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [productModal, setProductModal] = useState(false);
@@ -75,7 +73,7 @@ function App() {
                                     <Routes>
                                         <Route path='/' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
                                         <Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
-                                        <Route path='/orders' element={<Cart />} />
+                                        <Route path='/orders' element={<MerchantOrders/>} />
                                         <Route path='/profile' element={<About />} />
                                         <Route path='/logout' element={<Login />} />
                                     </Routes>

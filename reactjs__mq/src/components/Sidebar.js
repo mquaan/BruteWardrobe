@@ -1,10 +1,10 @@
 import { Card, Typography, List, ListItem, ListItemPrefix } from '@material-tailwind/react';
 import { BuildingStorefrontIcon, ShoppingBagIcon, UserCircleIcon, PowerIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
-import '../styles/Merchant/Sidebar.css';
 
 export default function Sidebar() {
     require('../../src/index.css');
+    require('../styles/Merchant/Sidebar.css');
     return (
         <Card className='h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 sidebar'>
             <div className='mb-2 p-4'>
