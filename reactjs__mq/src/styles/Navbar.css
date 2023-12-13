@@ -91,7 +91,6 @@
     max-height: 0px;
     overflow: hidden;
     transition: max-height 0.45s;
-    border-radius: 10px 10px 10px 10px;
 }
 
 .sub-menu-wrap.open-menu{
