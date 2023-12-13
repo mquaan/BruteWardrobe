@@ -11,12 +11,31 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
-import MerchantProducts from './pages/Merchant/Products.js';
-import MerchantOrders from './pages/Merchant/Orders.js';
-
+import MerchantProducts from './pages/Merchant/Products';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 function App() {
+    const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
+    const [isLoggedIn, setLoggedIn] = useState(initialLoggedInState);
+
+    const handleLogin = () => {
+        setLoggedIn(true);
+        localStorage.setItem('isLoggedIn', 'true');
+    };
+
+    const handleLogout = () => {
+        setLoggedIn(false);
+        localStorage.removeItem('isLoggedIn');
+    };
+
+    useEffect(() => {
+        const storedLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
+        if (storedLoggedInState !== isLoggedIn) {
+        setLoggedIn(storedLoggedInState);
+        }
+    }, [isLoggedIn]);
+
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [productModal, setProductModal] = useState(false);
@@ -26,6 +45,7 @@ function App() {
         <div className='App'>
             <Router>
                 <Routes>
+                    <Route path='/login' element={<Login handleLogin={handleLogin}/>} />
                     <Route
                         path='/merchant/*'
                         element={
@@ -44,19 +64,21 @@ function App() {
                             </div>
                         }
                     />
-                    <Route path='/login' element={<Login />} />
                     <Route
                         path='*'
                         element={
                             <div>
-                                <Navbar />
+                                <Navbar isLoggedIn={ isLoggedIn } handleLogout={ handleLogout }/>
                                 <Routes>
                                     <Route path='/' element={<Home />} />
                                     <Route path='/shop' element={<Shop />} />
                                     <Route path='/about' element={<About />} />
                                     <Route path='/contact' element={<Contact />} />
-                                    <Route path='/cart' element={<Cart />} />
-                                    <Route path='/product-detail/:index' element={<ProductDetail />} />
+                                    <Route path="/cart" element={cartItems.length > 0 ? <Cart cartItems={cartItems} setCartItems={setCartItems}/> : 
+                                        <p> Your cart is empty.{" "}
+                                            Click <Link to="/shop">here</Link> to buy products.
+                                        </p>} />
+                                    <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart}/>}  />
                                 </Routes>
                                 <Footer />
                             </div>
