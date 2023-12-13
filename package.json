@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "@mui/x-date-pickers": "^6.18.4",
     "body-parser": "^1.20.2",
     "ejs": "^3.1.9",
     "ejs-mate": "^4.0.0",
