@@ -20,7 +20,7 @@ function Product(props) {
                     <i className="fas fa-star"></i>
                     <i className="fas fa-star"></i>
                 </div>
-                <h4>{props.price} VND</h4>
+                <h4>${props.price}</h4>
             </div>
             </Link>
             <div><i className="fa-solid fa-cart-shopping cart"></i></div>

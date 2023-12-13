@@ -12,10 +12,30 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState } from 'react'; 
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { products } from './helpers/product_list';
 
 function App() {
+    const [cartItems, setCartItems] = useState([]);
+
+    const addToCart = ({ productIndex, quantity, selectedSize }) => {
+        const existingItem = cartItems.find(item => item.productIndex === productIndex && item.selectedSize === selectedSize);
+
+        const product = products[productIndex - 1];
+        const price = product.price; 
+
+        if (existingItem) {
+        const updatedCart = cartItems.map(item =>
+            item.productIndex === productIndex && item.selectedSize === selectedSize
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+        setCartItems(updatedCart);
+        } else {
+        setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
+        }
+    };
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [productModal, setProductModal] = useState(false);
@@ -53,8 +73,11 @@ function App() {
                                     <Route path='/shop' element={<Shop />} />
                                     <Route path='/about' element={<About />} />
                                     <Route path='/contact' element={<Contact />} />
-                                    <Route path='/cart' element={<Cart />} />
-                                    <Route path='/product-detail/:index' element={<ProductDetail />} />
+                                    <Route path="/cart" element={cartItems.length > 0 ? <Cart cartItems={cartItems} setCartItems={setCartItems}/> : 
+                                        <p> Your cart is empty.{" "}
+                                            Click <Link to="/shop">here</Link> to buy products.
+                                        </p>} />
+                                    <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart}/>}  />
                                 </Routes>
                                 <Footer />
                             </div>
