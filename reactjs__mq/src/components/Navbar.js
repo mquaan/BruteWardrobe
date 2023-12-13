@@ -1,9 +1,9 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import '../styles/Navbar.css'
 
-function Navbar() {
+function Navbar({ isLoggedIn, handleLogout }) {
     const goToTop = () => {
         window.scrollTo( {top: 0, behavior: 'auto'} );
     }
@@ -26,6 +26,14 @@ function Navbar() {
         subMenu.classList.toggle("open-menu");
     }
 
+    function hideMenu(subMenu) {
+        subMenu.classList.remove("open-menu");
+    }
+
+    const handleLogoutAndToggleMenu = () => {
+        handleLogout();
+        hideMenu(document.getElementById("subMenu"));
+    };
     return (
         <div className={`navbar ${isNavHidden ? 'hidden' : ''}`}>
             <img src='../assets/Logo.png' className="logo" alt=""/>
@@ -38,12 +46,23 @@ function Navbar() {
                     <li><NavLink className='link' activeclassname='active' to="/cart" onClick={() => goToTop()}>
                         <i className="fa-solid fa-bag-shopping fa-bounce"></i>
                     </NavLink></li>
-                    <li>
-                    <img src="../assets/features/avatar_cus.png" 
-                        className='user-pic' 
-                        onClick={() => ToggleMenu(document.getElementById("subMenu"))}>
-                    </img>
-                    </li>
+                    {isLoggedIn ?
+                    (<li>
+                        <img src="../assets/features/avatar_cus.png" alt=""
+                            className='user-pic' 
+                            onClick={() => ToggleMenu(document.getElementById("subMenu"))}
+                            >
+                        </img>
+                    </li>) 
+                    :
+                    (<li>
+                        <Link to="/login" style={{ textDecoration: 'none' }}>
+                            <div className="to-login">
+                                <i className="fa-thin fa-circle-user"></i>
+                                <div className='login'>Sign In</div>
+                            </div>
+                        </Link>
+                    </li>)}
                 </ul>
             </div>
             <div className="mobile">
@@ -59,23 +78,20 @@ function Navbar() {
                         <img src="../assets/features/avatar_cus.png" alt=""/>
                         <h3>Phạm Sĩ Phú</h3>
                     </div>
-
                     <hr/>
-
-                    <a href="#" class="sub-menu-link">
-                        <img src="../assets/features/profile.png" alt=""/>
-                        <p>Edit Profile</p>
-                        <span>{'>'}</span>
-                    </a>
-
-                    <a href="#" class="sub-menu-link">
+                    <Link to="/edit-profile" style={{ textDecoration: 'none' }}>
+                        <div className="sub-menu-link">
+                            <img src="../assets/features/profile.png" alt=""/>
+                            <p>Edit Profile</p>
+                            <span>{'>'}</span>
+                        </div>
+                    </Link>
+                    <div className="sub-menu-link" onClick={ handleLogoutAndToggleMenu }>
                         <img src="../assets/features/logout.png" alt=""/>
                         <p>Logout</p>
                         <span>{'>'}</span>
-                    </a>
-
+                    </div>
                 </div>
-
             </div>
         </div>
     )

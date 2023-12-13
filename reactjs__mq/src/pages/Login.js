@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../styles/Login.css'
 import { Link } from 'react-router-dom';
 
-function Login() {
+function Login({ handleLogin }) {
     const [username, setUsername] = useState('');
     const [pass, setPass] = useState('');
     const [cfpass, setCfPass] = useState('');
@@ -36,7 +36,7 @@ function Login() {
     return (
         <div className='body'>
             <section id="header">
-                <img src="../assets/Logo.png" alt="Logo" width="90" height="50"/>
+                <img src="../assets/Logo.png" alt="Logo" width="90" height="75"/>
             </section>
 
             <section id="body_section">
@@ -57,7 +57,7 @@ function Login() {
                             <span id="errorSignInUsername" className="signIn-error-message"></span>
                             <input name="password" type="password" id="si_password" placeholder="Password" required/>
                             <div className='a'>Forget Your Password?</div>
-                            <Link to="/"><button id="signIn_btn">Sign In</button></Link>
+                            <Link to="/"><button id="signIn_btn" onClick={handleLogin}>Sign In</button></Link>
                         </form>
                     </div>
                     <div className="form-container sign-up">
@@ -136,7 +136,7 @@ function Login() {
                 </div>
 
                 <div className="background_image" id="background_image">
-                    <img src="../assets/clothing_background_2.png" alt="background_image" width="750" height="500"/>
+                    <img src="../assets/clothing_background_2.png" alt="background_image" width="650" height="480"/>
                 </div>
                 
             </section>
