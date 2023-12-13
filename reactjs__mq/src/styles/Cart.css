@@ -84,3 +84,17 @@
     padding: 10px;
     font-size: 13px;
 }
+
+.cart-header {
+    background-image: url(../../public/assets/banners/b17.png);
+    width: 100%;
+    height: 35vh;
+    /* background-size: cover; */
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 14px;
+    /* Thêm đổ bóng cho chữ */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
