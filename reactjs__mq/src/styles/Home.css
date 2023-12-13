@@ -87,6 +87,8 @@ button.normal {
 }
 
 #feature .fe-box {
+    flex-direction: column;
+    display: flex;
     width: 180px;
     text-align: center;
     padding: 25px 15px;
