@@ -10,7 +10,7 @@ function About() {
       <div class="container">	
 				<div class="about">
 					<div class="about_image">
-						<img src="../assets/features/about_pic.png"/>
+						<img src="../assets/Logo.png" alt=""/>
 					</div>
 					<div class="about_content">
 						<h3>Dress Your Best, Impress the Rest</h3>
@@ -24,7 +24,7 @@ function About() {
 							Discover the perfect ensemble that not only complements your outer beauty but also boosts your inner confidence. 
 							Welcome to a world where every stitch is infused with passion, and every piece is designed to make you stand out in the crowd.
 						</p>
-						<a href="#" class="read_more">Read More</a>
+						<div class="read_more">Read More</div>
 					</div>
 				</div>
 			</div>
