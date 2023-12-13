@@ -8,7 +8,7 @@ import {
     ListItemText,
     Collapse,
     Box,
-    Button,
+    IconButton,
     Grid,
     Typography,
     Modal,
@@ -24,6 +24,7 @@ import {
     ExpandMore
 } from '@mui/icons-material';
 
+import EditIcon from '@mui/icons-material/Edit';
 
 import '../../styles/Merchant/Orders.css';
 import { products } from '../../helpers/product_list';
@@ -132,44 +133,26 @@ function MerchantOrders() {
                                         <>
                                             <Grid
                                                 container
-                                                alignItems="flex-start"
-                                                spacing={1}
+                                                alignItems="center"
                                             >
-                                                <Grid item xs={11}>
-                                                    <ListItemButton sx={{ pl: 4, flexGrow: 1 }} onClick={() => handleClick2(custIndex, orderIndex)}>
+                                                <Grid item xs>
+                                                    <ListItemButton sx={{ pl: 4 }} onClick={() => handleClick2(custIndex, orderIndex)}>
                                                         <ListItemIcon>
                                                             <ShoppingCartIcon />
                                                         </ListItemIcon>
                                                         <ListItemText primary={`Order ID: ${order.orderID}, Date:  ${order.dateCreated.toLocaleString('en-US', options)}, Status: ${order.orderStatus}`} />
                                                         {open2s[custIndex][orderIndex] ? <ExpandLess /> : <ExpandMore />}
                                                     </ListItemButton>
-                                                    <Collapse in={open2s[custIndex][orderIndex]} timeout="auto" unmountOnExit>
-                                                        <List component="div" disablePadding>
-                                                            {order.productList.map((product, productIndex) => {
-                                                                return (
-                                                                    <>
-                                                                        <ListItemButton sx={{ pl: 8 }}>
-                                                                            <ListItemIcon>
-                                                                                <LocalMallIcon />
-                                                                            </ListItemIcon>
-                                                                            <ListItemText primary={`Product: ${order.quantityList[productIndex]} * ${products[product].name} `} />
-                                                                        </ListItemButton>
-                                                                    </>
-                                                                );
-                                                            })}
-                                                        </List>
-                                                    </Collapse>
                                                 </Grid>
                                                 <Grid item xs={1}>
-                                                    <Button
-                                                        sx={{ marginTop: 1 }}
-                                                        variant="outlined"
+                                                    <IconButton
                                                         color="success"
                                                         size="small"
+                                                        aria-label="Edit"
                                                         onClick={() => handleOpen(custIndex, orderIndex)}
                                                     >
-                                                        Edit
-                                                    </Button>
+                                                        <EditIcon/>
+                                                    </IconButton>
                                                     <Modal
                                                         open={openModal[custIndex][orderIndex]}
                                                         onClose={() => handleClose(custIndex, orderIndex)}
@@ -211,7 +194,7 @@ function MerchantOrders() {
                                                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                                 {`Delivery Info: ${order.deliverInfo}`}
                                                             </Typography>
-                                                            {order.orderStatus == 'Delivered' && (
+                                                            {(order.orderStatus === 'Delivered' || order.orderStatus === 'Completed') && (
                                                                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                                     {`Date shipped: ${order.dateShipped.toLocaleString('en-US', options)}`}
                                                                 </Typography>
@@ -220,7 +203,24 @@ function MerchantOrders() {
                                                         </Box>
                                                     </Modal>
                                                 </Grid>
+
                                             </Grid>
+                                            <Collapse in={open2s[custIndex][orderIndex]} timeout="auto" unmountOnExit>
+                                                <List component="div" disablePadding>
+                                                    {order.productList.map((product, productIndex) => {
+                                                        return (
+                                                            <>
+                                                                <ListItemButton sx={{ pl: 8 }}>
+                                                                    <ListItemIcon>
+                                                                        <LocalMallIcon />
+                                                                    </ListItemIcon>
+                                                                    <ListItemText primary={`Product: ${order.quantityList[productIndex]} * ${products[product].name} `} />
+                                                                </ListItemButton>
+                                                            </>
+                                                        );
+                                                    })}
+                                                </List>
+                                            </Collapse>
 
                                         </>
                                     );
