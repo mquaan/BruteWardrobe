@@ -13,17 +13,12 @@ import Cart from './pages/Cart';
 
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products';
-<<<<<<< HEAD
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
-import EditProfile from './pages/EditProfile';
-=======
 import MerchantOrders from './pages/Merchant/Orders.js';
->>>>>>> 509b33402507d0cfa79801bb6590b075e5dd2360
 
 import React, { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { products } from './helpers/product_list';
+import EditProfile from './pages/EditProfile.js';
 
 function App(){
     const [ cartItems, setCartItems ] = useState([]);
@@ -100,18 +95,13 @@ function App(){
                                     <Route path='/shop' element={<Shop />} />
                                     <Route path='/about' element={<About />} />
                                     <Route path='/contact' element={<Contact />} />
-<<<<<<< HEAD
-                                    <Route path='/cart' element={<Cart />} />
-                                    <Route path='/edit-profile' element={<EditProfile />} />
-                                    <Route path='/product-detail/:index' element={<ProductDetail />} />
-=======
                                     <Route path="/cart" element={cartItems.length > 0 ? <Cart cartItems={cartItems} setCartItems={setCartItems}/> : 
                                         <section className="cart-header">
                                         <h2>Your cart is empty!</h2>
                                         <h3>Click <Link to="/shop">here</Link> to buy products.</h3>
                                         </section>} />
                                     <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart}/>} />
->>>>>>> 509b33402507d0cfa79801bb6590b075e5dd2360
+                                    <Route path="/edit-profile" element={<EditProfile/>} />
                                 </Routes>
                                 <Footer />
                             </div>
