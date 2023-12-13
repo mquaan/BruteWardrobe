@@ -1,34 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/Login.css'
 import { Link } from 'react-router-dom';
 
-function CheckSignUpUsername(username, signUp_btn, errorSignUpUsername) {
-    const regex = /[!@#$%^&*(),.?":{}|<>+=;']/;
-    if (regex.test(username)) {
-        errorSignUpUsername.textContent = "(*) Username musn't consist special character: /[!@#$%^&*(),.?:{}|<>]/";
-        errorSignUpUsername.style.display = "inline";
-        signUp_btn.disabled = true;
-    }
-    else {
-        errorSignUpUsername.style.display = "none";
-        signUp_btn.disabled = false;
-    }
-}
-
-function CheckPassword(password, cf_password, wrongPassword, signUp_btn){
-    if(cf_password !== password && cf_password)
-    {
-        wrongPassword.textContent = "(*) Wrong password confirmation";
-        wrongPassword.style.display = "inline";
-        signUp_btn.disabled = true;
-    }
-    else {
-        wrongPassword.style.display = "none";
-        signUp_btn.disabled = false;
-    }
-}
-
 function Login() {
+    const [username, setUsername] = useState('');
+    const [pass, setPass] = useState('');
+    const [cfpass, setCfPass] = useState('');
+    const isSubmitDisabled = !username || !pass || !cfpass;
+    
+    function CheckSignUpUsername(username, errorSignUpUsername) {
+        setUsername(username);
+        const regex = /[!@#$%^&*(),.?":{}|<>+=;']/;
+        if (regex.test(username)) {
+            errorSignUpUsername.textContent = "(*) Username musn't consist special character: /[!@#$%^&*(),.?:{}|<>]/";
+            errorSignUpUsername.style.display = "inline";
+        }
+        else {
+            errorSignUpUsername.style.display = "none";
+        }
+    }
+
+    function CheckPassword(password, cf_password, wrongPassword){
+        setPass(password);
+        setCfPass(cf_password);
+        if(cf_password !== password && cf_password){
+            wrongPassword.textContent = "(*) Wrong password confirmation";
+            wrongPassword.style.display = "inline";
+            setCfPass('');
+        }
+        else {
+            wrongPassword.style.display = "none";
+        }
+    }
+
     return (
         <div className='body'>
             <section id="header">
@@ -70,7 +74,6 @@ function Login() {
                                 placeholder="Username"
                                 onChange={(event) => CheckSignUpUsername(
                                     event.target.value,
-                                    document.getElementById("signUp_btn"),
                                     document.getElementById("errorSignUpUsername")
                                 )}
                                 required
@@ -85,8 +88,7 @@ function Login() {
                                 onChange={(event) => CheckPassword(
                                     event.target.value,
                                     document.getElementById("su_confirmPassword").value,
-                                    document.getElementById("wrongPassword"),
-                                    document.getElementById("signUp_btn")
+                                    document.getElementById("wrongPassword")
                                 )}
                                 required
                             />
@@ -97,18 +99,12 @@ function Login() {
                                 onChange={(event) => CheckPassword(
                                     document.getElementById("su_password").value,
                                     event.target.value,
-                                    document.getElementById("wrongPassword"),
-                                    document.getElementById("signUp_btn")
+                                    document.getElementById("wrongPassword")
                                 )}
                                 required
                                 />
                             <span id="wrongPassword" className="wrongPassword-message"></span>
-                            {/* <select name="role" id="role" onChange={() => {}}>
-                                <option value="none">Choose your role</option>
-                                <option value="Customer">Customer</option>
-                                <option value="Merchant">Merchant</option>
-                            </select> */}
-                            <button id="signUp_btn" disabled>Sign Up</button>
+                            <button id="signUp_btn" disabled={ isSubmitDisabled }>Sign Up</button>
                         </form>
                     </div>
                     <div className="toggle-container">
