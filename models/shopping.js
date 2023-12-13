@@ -2,9 +2,9 @@ import Cart from './cart.js';
 import Order from './order.js';
 
 class Shopping {
-    constructor() {
-        this.cart = new Cart();
+    constructor(orderList = []) {
         this.orderList = [];
+        this.cart = new Cart();
     }
 }
 
