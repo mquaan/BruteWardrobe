@@ -6,13 +6,14 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import Button from '@mui/material/Button';
 
 import '../../styles/Merchant/Orders.css';
 import { products } from '../../helpers/product_list';
@@ -21,6 +22,9 @@ import { Link } from 'react-router-dom';
 
 const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
+function editOrder(order) {
+    console.log(order);
+}
 
 function MerchantOrders() {
     const customerPerPage = 5;
@@ -53,24 +57,24 @@ function MerchantOrders() {
 
     return (
         <List
-        sx={{ 
-            width: '100%',
-            bgcolor: 'background.paper',
-            
-        }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        subheader={
-            <ListSubheader component="div" id="nested-list-subheader">
-                Customers
-            </ListSubheader>
-        }
+            sx={{
+                width: '100%',
+                bgcolor: 'background.paper',
+
+            }}
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+            subheader={
+                <ListSubheader component="div" id="nested-list-subheader">
+                    Customers
+                </ListSubheader>
+            }
         >
             {displayedCustomers.map((customer, custIndex) => {
                 return (
-                    <Box sx={{ 
-                        border: '1px solid #3f51b5', 
-                        borderRadius: '10px', 
+                    <Box sx={{
+                        border: '1px solid #3f51b5',
+                        borderRadius: '10px',
                         marginBottom: '10px',
                         marginRight: '40px',
 
@@ -87,32 +91,49 @@ function MerchantOrders() {
                                 {customer.shopping.orderList.map((order, orderIndex) => {
                                     return (
                                         <>
-                                            <Button variant="contained" color="primary" onClick={() => viewOrderDetails(order)}>
-                                                View Full Details
-                                            </Button>
-                                            <ListItemButton sx={{ pl: 4 }} onClick={() => handleClick2(custIndex, orderIndex)}>
-                                                <ListItemIcon>
-                                                    <ShoppingCartIcon />
-                                                </ListItemIcon>
-                                                <ListItemText primary={`Order ID: ${order.orderID}, Date:  ${order.dateCreated.toLocaleString('en-US', options)}, Status: ${order.orderStatus}`} />
-                                                {open2s[custIndex][orderIndex] ? <ExpandLess /> : <ExpandMore />}
-                                            </ListItemButton>
-                                            <Collapse in={open2s[custIndex][orderIndex]} timeout="auto" unmountOnExit>
-                                                <List component="div" disablePadding>
-                                                    {order.productList.map((product, productIndex) => {
-                                                        return (
-                                                            <>
-                                                                <ListItemButton sx={{ pl: 8 }}>
-                                                                    <ListItemIcon>
-                                                                        <LocalMallIcon />
-                                                                    </ListItemIcon>
-                                                                    <ListItemText primary={`Product: ${order.quantityList[productIndex]} * ${products[product].name} `} />
-                                                                </ListItemButton>
-                                                            </>
-                                                        );
-                                                    })}
-                                                </List>
-                                            </Collapse>
+                                            <Grid 
+                                                container 
+                                                alignItems="flex-start" 
+                                                spacing={1}
+                                            >
+                                                <Grid item xs={11}>
+                                                    <ListItemButton sx={{ pl: 4, flexGrow: 1 }} onClick={() => handleClick2(custIndex, orderIndex)}>
+                                                        <ListItemIcon>
+                                                            <ShoppingCartIcon />
+                                                        </ListItemIcon>
+                                                        <ListItemText primary={`Order ID: ${order.orderID}, Date:  ${order.dateCreated.toLocaleString('en-US', options)}, Status: ${order.orderStatus}`} />
+                                                        {open2s[custIndex][orderIndex] ? <ExpandLess /> : <ExpandMore />}
+                                                    </ListItemButton>
+                                                    <Collapse in={open2s[custIndex][orderIndex]} timeout="auto" unmountOnExit>
+                                                        <List component="div" disablePadding>
+                                                            {order.productList.map((product, productIndex) => {
+                                                                return (
+                                                                    <>
+                                                                        <ListItemButton sx={{ pl: 8 }}>
+                                                                            <ListItemIcon>
+                                                                                <LocalMallIcon />
+                                                                            </ListItemIcon>
+                                                                            <ListItemText primary={`Product: ${order.quantityList[productIndex]} * ${products[product].name} `} />
+                                                                        </ListItemButton>
+                                                                    </>
+                                                                );
+                                                            })}
+                                                        </List>
+                                                    </Collapse>
+                                                </Grid>
+                                                <Grid item xs={1}>
+                                                    <Button 
+                                                        sx={{ marginTop: 1 }}
+                                                        variant="outlined" 
+                                                        color="success" 
+                                                        size="small"
+                                                        onClick={() => editOrder(order)}
+                                                    >
+                                                        Edit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+
                                         </>
                                     );
                                 })}
