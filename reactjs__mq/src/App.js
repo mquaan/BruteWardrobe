@@ -11,15 +11,17 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
-import MerchantProducts from './pages/Merchant/Products';
+import MerchantProducts from './pages/Merchant/Products.js';
+import MerchantOrders from './pages/Merchant/Orders.js';
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useState } from 'react';
-
 function App() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [productModal, setProductModal] = useState(false);
     const handleProductModal = (value) => setProductModal(value);
+    const handleCustomerModal = (value) => setCustomerModal(value);
     return (
         <div className='App'>
             <Router>
@@ -33,7 +35,7 @@ function App() {
                                     <Routes>
                                         <Route path='/' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
                                         <Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
-                                        <Route path='/orders' element={<Cart />} />
+                                        <Route path='/orders' element={<MerchantOrders/>} />
                                         <Route path='/profile' element={<About />} />
                                         <Route path='/logout' element={<Login />} />
                                     </Routes>
