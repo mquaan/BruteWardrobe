@@ -1,30 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import ListSubheader from '@mui/material/ListSubheader';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import React, { useState } from 'react';
 
-import PersonIcon from '@mui/icons-material/Person';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LocalMallIcon from '@mui/icons-material/LocalMall';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import {
+    ListSubheader,
+    List,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Collapse,
+    Box,
+    Button,
+    Grid,
+    Typography,
+    Modal,
+    Select,
+    MenuItem,
+} from '@mui/material';
+
+import {
+    Person as PersonIcon,
+    ShoppingCart as ShoppingCartIcon,
+    LocalMall as LocalMallIcon,
+    ExpandLess,
+    ExpandMore
+} from '@mui/icons-material';
+
 
 import '../../styles/Merchant/Orders.css';
 import { products } from '../../helpers/product_list';
 import { customers } from '../../helpers/customer_list';
 import { Link } from 'react-router-dom';
 
-const options = { year: 'numeric', month: 'long', day: 'numeric' };
-
-function editOrder(order) {
-    console.log(order);
-}
+const options = {
+    year: 'numeric', month: 'long', day: 'numeric',
+    hour: 'numeric', minute: 'numeric', second: 'numeric'
+};
 
 function MerchantOrders() {
     const customerPerPage = 5;
@@ -43,17 +52,47 @@ function MerchantOrders() {
     // Initialize an array of states for each order of each customer
     const [open2s, setOpen2s] = useState(displayedCustomers.map(customer => Array(customer.shopping.orderList.length).fill(false)));
 
+    // drop button 
     const handleClick1 = (index) => {
         const newOpen1s = [...open1s];
         newOpen1s[index] = !newOpen1s[index];
         setOpen1s(newOpen1s);
     };
-
     const handleClick2 = (custIndex, orderIndex) => {
         const newOpen2s = [...open2s];
         newOpen2s[custIndex][orderIndex] = !newOpen2s[custIndex][orderIndex];
         setOpen2s(newOpen2s);
     };
+
+    // modal
+    const [openModal, setopenModal] = useState(displayedCustomers.map(customer => Array(customer.shopping.orderList.length).fill(false)));
+    const handleOpen = (custIndex, orderIndex) => {
+        const newOpenMoal = [...openModal];
+        newOpenMoal[custIndex][orderIndex] = !newOpenMoal[custIndex][orderIndex];
+        setopenModal(newOpenMoal);
+    };
+    const handleClose = (custIndex, orderIndex) => {
+        const newOpenMoal = [...openModal];
+        newOpenMoal[custIndex][orderIndex] = !newOpenMoal[custIndex][orderIndex];
+        setopenModal(newOpenMoal);
+    };
+
+    // order
+    const [statuses, setStatus] = useState(displayedCustomers.map(customer => customer.shopping.orderList.map(order => order.orderStatus)));
+
+    const handleStatusChange = (event, order, custIndex, orderIndex) => {
+        const newStatus = [...statuses];
+        const status = event.target.value; // Get the new status from the event object
+
+        newStatus[custIndex][orderIndex] = status; // Update the specific status
+        setStatus(newStatus);
+
+        order.orderStatus = status;
+        if (status === 'Delivered') {
+            order.dateShipped = new Date();
+        }
+    };
+
 
     return (
         <List
@@ -76,7 +115,7 @@ function MerchantOrders() {
                         border: '1px solid #3f51b5',
                         borderRadius: '10px',
                         marginBottom: '10px',
-                        marginRight: '40px',
+                        marginRight: '20px',
 
                     }}>
                         <ListItemButton onClick={() => handleClick1(custIndex)}>
@@ -91,9 +130,9 @@ function MerchantOrders() {
                                 {customer.shopping.orderList.map((order, orderIndex) => {
                                     return (
                                         <>
-                                            <Grid 
-                                                container 
-                                                alignItems="flex-start" 
+                                            <Grid
+                                                container
+                                                alignItems="flex-start"
                                                 spacing={1}
                                             >
                                                 <Grid item xs={11}>
@@ -122,15 +161,64 @@ function MerchantOrders() {
                                                     </Collapse>
                                                 </Grid>
                                                 <Grid item xs={1}>
-                                                    <Button 
+                                                    <Button
                                                         sx={{ marginTop: 1 }}
-                                                        variant="outlined" 
-                                                        color="success" 
+                                                        variant="outlined"
+                                                        color="success"
                                                         size="small"
-                                                        onClick={() => editOrder(order)}
+                                                        onClick={() => handleOpen(custIndex, orderIndex)}
                                                     >
                                                         Edit
                                                     </Button>
+                                                    <Modal
+                                                        open={openModal[custIndex][orderIndex]}
+                                                        onClose={() => handleClose(custIndex, orderIndex)}
+                                                        aria-labelledby="modal-modal-title"
+                                                        aria-describedby="modal-modal-description"
+                                                    >
+                                                        <Box sx={{
+                                                            position: 'absolute',
+                                                            top: '50%',
+                                                            left: '50%',
+                                                            transform: 'translate(-50%, -50%)',
+                                                            bgcolor: 'background.paper',
+                                                            border: '2px solid #000',
+                                                            boxShadow: 24,
+                                                            p: 4,
+                                                        }}>
+                                                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                                {`Order ID: ${order.orderID}`}
+                                                            </Typography>
+                                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                                {`Date Created: ${order.dateCreated.toLocaleString('en-US', options)}`}
+                                                            </Typography>
+                                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                                Order Status:
+                                                                <Select
+                                                                    value={statuses[custIndex][orderIndex]}
+                                                                    onChange={(e) => handleStatusChange(e, order, custIndex, orderIndex)}
+                                                                >
+                                                                    <MenuItem value="Processing">Processing</MenuItem>
+                                                                    <MenuItem value="Confirmed">Confirmed</MenuItem>
+                                                                    <MenuItem value="Shipping">Shipping</MenuItem>
+                                                                    <MenuItem value="Delivered">Delivered</MenuItem>
+                                                                    <MenuItem value="Completed">Completed</MenuItem>
+                                                                </Select>
+                                                            </Typography>
+                                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                                {`Payment Info: ${order.paymentInfo}`}
+                                                            </Typography>
+                                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                                {`Delivery Info: ${order.deliverInfo}`}
+                                                            </Typography>
+                                                            {order.orderStatus == 'Delivered' && (
+                                                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                                    {`Date shipped: ${order.dateShipped.toLocaleString('en-US', options)}`}
+                                                                </Typography>
+                                                            )}
+
+                                                        </Box>
+                                                    </Modal>
                                                 </Grid>
                                             </Grid>
 
