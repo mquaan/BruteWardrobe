@@ -48,10 +48,9 @@ function Navbar({ isLoggedIn, handleLogout }) {
                     </NavLink></li>
                     {isLoggedIn ?
                     (<li>
-                        <img src="../assets/features/avatar_cus.png" 
+                        <img src="../assets/features/avatar_cus.png" alt=""
                             className='user-pic' 
                             onClick={() => ToggleMenu(document.getElementById("subMenu"))}
-                            alt=""
                             >
                         </img>
                     </li>) 
