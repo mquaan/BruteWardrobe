@@ -103,6 +103,7 @@
 }
 
 #pagination button {
+    cursor: pointer;
     text-decoration: none;
     background-color: rgba(255, 242, 188, 0.385);
     padding: 15px 20px;
