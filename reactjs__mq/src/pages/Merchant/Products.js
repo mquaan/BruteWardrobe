@@ -3,7 +3,7 @@ import '../../styles/Merchant/Products.css';
 import { Link } from 'react-router-dom';
 import { products } from '../../helpers/product_list';
 import Modal from '../../components/Modal';
-import { MDBContainer } from 'mdb-react-ui-kit';
+import { Select, Option } from '@material-tailwind/react';
 
 function Product({ handleOpen, handleProductModal, product }) {
     return (
@@ -56,10 +56,59 @@ function MerchantProducts({ handleOpen, handleProductModal }) {
     return (
         <div>
             <section className='product1 section-p1'>
-                <div className='search-bar' onClick={() => setIsExpanded(true)} onBlur={handleBlur} tabIndex={0} ref={inputRef}>
-                    <i className='fa-solid fa-magnifying-glass'></i>
-                    <input type='text' className={`search-click ${isExpanded ? 'expanded' : ''}`} placeholder='search here...' />
+                <div className='control-bar flex items-center justify-between'>
+                    <div className='buttons-part flex items-center gap-4'>
+                        <button
+                            className='add-button'
+                            onClick={() => {
+                                handleProductModal({
+                                    image: null,
+                                    type: null,
+                                    price: null,
+                                    star: null,
+                                    name: null,
+                                    Occasion: null,
+                                    Color: null,
+                                    Pattern: null,
+                                    Collar: null,
+                                    Material: null,
+                                    SleevesLength: null,
+                                    Brand: null,
+                                    Thickness: null,
+                                    Season: null,
+                                    DesignElement: null,
+                                    FitType: null,
+                                    Collection: null,
+                                    sub_p1: null,
+                                    sub_p2: null,
+                                    sub_p3: null,
+                                    sub_p4: null,
+                                });
+                                handleOpen();
+                            }}
+                        >
+                            <i className='fa-solid fa-plus'></i>
+                        </button>
+                        <button className='filter-button'>
+                            <i class='fa-regular fa-filter'></i>
+                        </button>
+                        <div className='search-bar' onClick={() => setIsExpanded(true)} onBlur={handleBlur} tabIndex={0} ref={inputRef}>
+                            <i className='fa-solid fa-magnifying-glass'></i>
+                            <input type='text' className={`search-click ${isExpanded ? 'expanded' : ''}`} placeholder='search here...' />
+                        </div>
+                    </div>
+                    <div className='sort-part flex flex-row items-center gap-4'>
+                        <span style={{ width: '100%' }}>Sort by</span>
+                        <div className='text-left' style={{ whiteSpace: 'nowrap', width: 'max-content' }}>
+                            <Select label='Select Order' style={{ padding: '16px'}}>
+                                <Option>Price high to low</Option>
+                                <Option>Price low to high</Option>
+                                <Option>Popular</Option>
+                            </Select>
+                        </div>
+                    </div>
                 </div>
+
                 <div className='pro-container'>
                     {displayedProducts.map((product, index) => (
                         <Product handleOpen={handleOpen} handleProductModal={handleProductModal} product={product} />

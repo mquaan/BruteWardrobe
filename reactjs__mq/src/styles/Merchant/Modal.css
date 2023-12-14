@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-.font-sans {
+.custom-dialog .font-sans {
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -12,3 +12,32 @@
     overflow: auto;
 }
 
+.custom-dialog button {
+    background-color: #f8ded1;
+    color: #000000;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#form__file {
+    visibility: hidden;
+}
+
+.custom-dialog .form__file-btn {
+    background-color: #fff;
+    border: 1px solid #f8ded1; 
+    border-radius: 0.375rem;
+    color: #333;
+    padding: 6px 16px;
+    margin: 6px 0;
+}
+
+.form__file-btn label:hover {
+    cursor: pointer;
+}
