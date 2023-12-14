@@ -79,7 +79,7 @@ function App(){
                                         <Route path='/' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
                                         <Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
                                         <Route path='/orders' element={<MerchantOrders/>} />
-                                        <Route path='/profile' element={<About />} />
+                                        <Route path='/profile' element={<MerchantProfile />} />
                                         <Route path='/logout' element={<Login />} />
                                     </Routes>
                                 </div>
