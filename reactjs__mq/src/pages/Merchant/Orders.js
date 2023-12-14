@@ -136,7 +136,7 @@ function MerchantOrders() {
             aria-labelledby="nested-list-subheader"
             subheader={
                 <ListSubheader component="div" id="nested-list-subheader">
-                    Customers
+                    Customers' orders
                 </ListSubheader>
             }
         >
