@@ -51,7 +51,7 @@ function Cart({ cartItems, setCartItems }) {
             {cartItems.map((item, index) => (
               <tr key={`${item.productIndex}-${item.selectedSize}`}>
                 <td>
-                  <button onClick={() => handleRemove(index)}>
+                  <button className="remove" onClick={() => handleRemove(index)}>
                     <i className="far fa-times-circle"></i>
                   </button>
                 </td>
@@ -69,8 +69,6 @@ function Cart({ cartItems, setCartItems }) {
                       type="number"
                       aria-live="polite"
                       data-bs-step="counter"
-                      name="quantity"
-                      title="quantity"
                       value={item.quantity}
                       min="0"
                       max="10"

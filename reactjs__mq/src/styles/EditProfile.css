@@ -1,26 +1,18 @@
-.body {
+.body-editprofile {
     margin: 0;
     padding: 0;
     background: #fff;
     box-sizing: border-box;
-}
-
-.title {
+    height: 100vh;
     display: flex;
-    width: 100%;
-    height: 10%;
+    justify-content: center;
     align-items: center;
-}
-
-.title h1{
-    font-weight: 500;
-    margin-left: 180px;
 }
 
 .sub-profile-wrap {
     display: flex;
     width: 100%;
-    height: 90%;
+    height: 80%;
     justify-content: center;
 }
 
@@ -74,7 +66,6 @@
 
 
 
-
 .option .personal-info{
     display: flex;
     width: 100%;
@@ -83,7 +74,7 @@
     cursor: pointer;
 }
 
-i{
+.fa-user-tie, .fa-lock{
     margin-top: 18px;
     margin-left: 15px;
     margin-right: 10px;
@@ -175,7 +166,7 @@ i{
     width: 85%;
 }
 
-button {
+.update_btn, .cancel_btn {
     background-color: #04AA6D; /* Green */
     border: none;
     color: white;
@@ -209,7 +200,7 @@ form p{
 }
 
 
-input{ 
+.details input{ 
     background-color: #eee;
     border: none;
     padding: 5px 15px;

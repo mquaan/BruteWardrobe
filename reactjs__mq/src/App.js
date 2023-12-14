@@ -8,12 +8,14 @@ import ProductDetail from './components/Product_detail';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import About from './pages/About';
-import Contact from './pages/Contact';
 import Cart from './pages/Cart';
+import EditProfile from './pages/EditProfile';
 
 import Login from './pages/Login';
-import MerchantProducts from './pages/Merchant/Products';
+import MerchantProducts from './pages/Merchant/Products.js';
 import MerchantOrders from './pages/Merchant/Orders.js';
+import MerchantProfile from './pages/Merchant/Profile.js';
+
 
 import React, { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
@@ -40,7 +42,6 @@ function App(){
     };
     const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
     const [isLoggedIn, setLoggedIn] = useState(initialLoggedInState);
-
     const handleLogin = () => {
         setLoggedIn(true);
         localStorage.setItem('isLoggedIn', 'true');
@@ -57,6 +58,7 @@ function App(){
         setLoggedIn(storedLoggedInState);
         }
     }, [isLoggedIn]);
+
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [productModal, setProductModal] = useState(false);
@@ -76,7 +78,7 @@ function App(){
                                         <Route path='/' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
                                         <Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
                                         <Route path='/orders' element={<MerchantOrders/>} />
-                                        <Route path='/profile' element={<About />} />
+                                        <Route path='/profile' element={<MerchantProfile />} />
                                         <Route path='/logout' element={<Login />} />
                                     </Routes>
                                 </div>
@@ -93,13 +95,13 @@ function App(){
                                     <Route path='/' element={<Home />} />
                                     <Route path='/shop' element={<Shop />} />
                                     <Route path='/about' element={<About />} />
-                                    <Route path='/contact' element={<Contact />} />
                                     <Route path="/cart" element={cartItems.length > 0 ? <Cart cartItems={cartItems} setCartItems={setCartItems}/> : 
                                         <section className="cart-header">
                                         <h2>Your cart is empty!</h2>
                                         <h3>Click <Link to="/shop">here</Link> to buy products.</h3>
                                         </section>} />
                                     <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart}/>} />
+                                    <Route path="/edit-profile" element={<EditProfile/>} />
                                 </Routes>
                                 <Footer />
                             </div>

@@ -6,7 +6,8 @@ class Order {
         this.orderID = orderID;
         this.productList = productList;
         this.quantityList = quantityList;
-        this.orderStatus = 'Open';
+        // Processing, Confirmed, Shipping, Delivered, Completed
+        this.orderStatus = 'Processing';
         this.dateCreated = dateCreated;
         this.dateShipped = null;
         this.paymentInfo = paymentInfo;

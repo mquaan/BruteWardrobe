@@ -26,13 +26,9 @@ function Navbar({ isLoggedIn, handleLogout }) {
         subMenu.classList.toggle('open-menu');
     }
 
-    function hideMenu(subMenu) {
-        subMenu.classList.remove('open-menu');
-    }
-
-    const handleLogoutAndToggleMenu = () => {
+    const HandleLogout = () => {
         handleLogout();
-        hideMenu(document.getElementById('subMenu'));
+        ToggleMenu(document.getElementById('subMenu'));
     };
 
     const [isExpanded, setIsExpanded] = useState(false);
@@ -49,7 +45,7 @@ function Navbar({ isLoggedIn, handleLogout }) {
                 <img src='../assets/Logo.png' className='logo' alt='' />
                 <div className='search-bar1' onClick={() => setIsExpanded(true)} onBlur={handleBlur} tabIndex={0} ref={inputRef}>
                     <i className='fa-solid fa-magnifying-glass'></i>
-                    <input type='text' className={`search-click1 ${isExpanded ? 'expanded' : ''}`} placeholder='search here...' />
+                    <input type='text' className={`search-click1 ${isExpanded ? 'expanded' : ''}`} placeholder='Search here...' />
                 </div>
             </div>
             <div>
@@ -70,18 +66,15 @@ function Navbar({ isLoggedIn, handleLogout }) {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink className='link' activeclassname='active' to='/contact' onClick={() => goToTop()}>
-                            Contact
-                        </NavLink>
-                    </li>
-                    <li>
                         <NavLink className='link' activeclassname='active' to='/cart' onClick={() => goToTop()}>
                             <i className='fa-solid fa-bag-shopping fa-bounce'></i>
                         </NavLink>
                     </li>
                     {isLoggedIn ? (
                         <li>
-                            <img src='../assets/features/avatar_cus.png' className='user-pic' onClick={() => ToggleMenu(document.getElementById('subMenu'))} alt=''></img>
+                            <img src='../assets/features/avatar_cus.png' className='user-pic' 
+                                onClick={() => ToggleMenu(document.getElementById('subMenu'))} alt=''>
+                            </img>
                         </li>
                     ) : (
                         <li>
@@ -109,18 +102,21 @@ function Navbar({ isLoggedIn, handleLogout }) {
                         <h3>Phạm Sĩ Phú</h3>
                     </div>
                     <hr />
-                    <Link to='/edit-profile' style={{ textDecoration: 'none' }}>
+                    <Link to='/edit-profile' style={{ textDecoration: 'none' }}
+                        onClick={() => ToggleMenu(document.getElementById('subMenu'))}>
                         <div className='sub-menu-link'>
                             <img src='../assets/features/profile.png' alt='' />
                             <p>Edit Profile</p>
                             <span>{'>'}</span>
                         </div>
                     </Link>
-                    <div className='sub-menu-link' onClick={handleLogoutAndToggleMenu}>
-                        <img src='../assets/features/logout.png' alt='' />
-                        <p>Logout</p>
-                        <span>{'>'}</span>
-                    </div>
+                    <Link to='/' style={{ textDecoration: 'none' }}>
+                        <div className='sub-menu-link' onClick={HandleLogout}>
+                            <img src='../assets/features/logout.png' alt='' />
+                            <p>Logout</p>
+                            <span>{'>'}</span>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </div>
