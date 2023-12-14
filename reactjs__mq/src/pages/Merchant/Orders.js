@@ -284,7 +284,7 @@ function MerchantOrders() {
                                                                     <ListItemIcon>
                                                                         <LocalMallIcon />
                                                                     </ListItemIcon>
-                                                                    <ListItemText primary={`Product: ${order.quantityList[productIndex]} * ${products[product].name} `} />
+                                                                    <ListItemText primary={`Product: ${order.quantityList[productIndex]} * ${products[product].type} `} />
                                                                 </ListItemButton>
                                                             </>
                                                         );
