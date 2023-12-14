@@ -3,7 +3,7 @@ import '../../styles/Merchant/Products.css';
 import { Link } from 'react-router-dom';
 import { products } from '../../helpers/product_list';
 import Modal from '../../components/Modal';
-import { MDBContainer } from 'mdb-react-ui-kit';
+// import { MDBContainer } from 'mdb-react-ui-kit';
 
 function Product({ handleOpen, handleProductModal, product }) {
     return (

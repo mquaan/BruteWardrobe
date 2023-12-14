@@ -70,11 +70,6 @@ function Navbar({ isLoggedIn, handleLogout }) {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink className='link' activeclassname='active' to='/contact' onClick={() => goToTop()}>
-                            Contact
-                        </NavLink>
-                    </li>
-                    <li>
                         <NavLink className='link' activeclassname='active' to='/cart' onClick={() => goToTop()}>
                             <i className='fa-solid fa-bag-shopping fa-bounce'></i>
                         </NavLink>
