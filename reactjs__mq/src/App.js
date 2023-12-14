@@ -8,7 +8,6 @@ import ProductDetail from './components/Product_detail';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import About from './pages/About';
-import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 
 import Login from './pages/Login';
@@ -94,7 +93,6 @@ function App(){
                                     <Route path='/' element={<Home />} />
                                     <Route path='/shop' element={<Shop />} />
                                     <Route path='/about' element={<About />} />
-                                    <Route path='/contact' element={<Contact />} />
                                     <Route path="/cart" element={cartItems.length > 0 ? <Cart cartItems={cartItems} setCartItems={setCartItems}/> : 
                                         <section className="cart-header">
                                         <h2>Your cart is empty!</h2>

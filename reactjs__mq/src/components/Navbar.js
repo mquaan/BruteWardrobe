@@ -49,7 +49,7 @@ function Navbar({ isLoggedIn, handleLogout }) {
                 <img src='../assets/Logo.png' className='logo' alt='' />
                 <div className='search-bar1' onClick={() => setIsExpanded(true)} onBlur={handleBlur} tabIndex={0} ref={inputRef}>
                     <i className='fa-solid fa-magnifying-glass'></i>
-                    <input type='text' className={`search-click1 ${isExpanded ? 'expanded' : ''}`} placeholder='search here...' />
+                    <input type='text' className={`search-click1 ${isExpanded ? 'expanded' : ''}`} placeholder='Search here...' />
                 </div>
             </div>
             <div>
@@ -67,11 +67,6 @@ function Navbar({ isLoggedIn, handleLogout }) {
                     <li>
                         <NavLink className='link' activeclassname='active' to='/about' onClick={() => goToTop()}>
                             About
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink className='link' activeclassname='active' to='/contact' onClick={() => goToTop()}>
-                            Contact
                         </NavLink>
                     </li>
                     <li>
