@@ -166,7 +166,7 @@
     width: 85%;
 }
 
-button {
+.update_btn, .cancel_btn {
     background-color: #04AA6D; /* Green */
     border: none;
     color: white;
@@ -200,7 +200,7 @@ form p{
 }
 
 
-input{ 
+.details input{ 
     background-color: #eee;
     border: none;
     padding: 5px 15px;
