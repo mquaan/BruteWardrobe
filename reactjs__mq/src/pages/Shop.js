@@ -69,7 +69,13 @@ function Shop() {
                 </div>
                 <div className='pro-container'>
                     {displayedProducts.map((product, index) => (
-                        <Product key={index} index={index} image={product.image} type={product.type} price={product.price} />
+                        <Product
+                            key={index}
+                            index={index + (currentPage - 1) * productsPerPage}
+                            image={product.image}
+                            type={product.type}
+                            price={product.price}
+                        />
                     ))}
                 </div>
             </section>

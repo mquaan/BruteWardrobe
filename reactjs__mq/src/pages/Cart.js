@@ -39,22 +39,17 @@ function Cart({ cartItems, setCartItems }) {
         <table width="100%">
           <thead>
             <tr>
-              <td>Remove</td>
               <td>Product</td>
               <td>Image</td>
               <td>Size</td>
               <td>Quantity</td>
               <td>Price</td>
+              <td>Remove</td>
             </tr>
           </thead>
           <tbody>
             {cartItems.map((item, index) => (
               <tr key={`${item.productIndex}-${item.selectedSize}`}>
-                <td>
-                  <button className="remove" onClick={() => handleRemove(index)}>
-                    <i className="far fa-times-circle"></i>
-                  </button>
-                </td>
                 <td>{products[item.productIndex - 1].name}</td>
                 <td>
                   <img src={products[item.productIndex - 1].image} alt={`Product ${item.productIndex}`} />
@@ -83,6 +78,11 @@ function Cart({ cartItems, setCartItems }) {
                   </div>
                 </td>
                 <td>${item.price * item.quantity}</td>
+                <td>
+                  <button className="remove" onClick={() => handleRemove(index)}>
+                    <i className="far fa-times-circle"></i>
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

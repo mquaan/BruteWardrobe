@@ -1,19 +1,22 @@
-import p1 from '../assets/products/p1.jpg';
-import p2 from '../assets/products/p2.jpg';
-import p3 from '../assets/products/p3.jpg';
-import p4 from '../assets/products/p4.jpg';
-import p5 from '../assets/products/p5.jpg';
-import p6 from '../assets/products/p6.jpg';
-import p7 from '../assets/products/p7.jpg';
-import p8 from '../assets/products/p8.jpg';
-import p9 from '../assets/products/p9.jpg';
-import p10 from '../assets/products/p10.jpg';
-import p11 from '../assets/products/p11.jpg';
-import p12 from '../assets/products/p12.jpg';
-import p13 from '../assets/products/p13.jpg';
-import p14 from '../assets/products/p14.jpg';
-import p15 from '../assets/products/p15.jpg';
-import p16 from '../assets/products/p16.jpg';
+import p1 from '../assets/products/p1.jpg'
+import p1_s1 from '../assets/products/p1_s1.jpg'
+import p1_s2 from '../assets/products/p1_s2.jpg'
+import p1_s3 from '../assets/products/p1_s3.jpg'
+import p2 from '../assets/products/p2.jpg'
+import p3 from '../assets/products/p3.jpg'
+import p4 from '../assets/products/p4.jpg'
+import p5 from '../assets/products/p5.jpg'
+import p6 from '../assets/products/p6.jpg'
+import p7 from '../assets/products/p7.jpg'
+import p8 from '../assets/products/p8.jpg'
+import p9 from '../assets/products/p9.jpg'
+import p10 from '../assets/products/p10.jpg'
+import p11 from '../assets/products/p11.jpg'
+import p12 from '../assets/products/p12.jpg'
+import p13 from '../assets/products/p13.jpg'
+import p14 from '../assets/products/p14.jpg'
+import p15 from '../assets/products/p15.jpg'
+import p16 from '../assets/products/p16.jpg'    
 
 export const products = [
     {
@@ -36,9 +39,9 @@ export const products = [
         FitType: 'Regular',
         Collection: 'Mensclo',
         sub_p1: p1,
-        sub_p2: p2,
-        sub_p3: p3,
-        sub_p4: p4,
+        sub_p2: p1_s1,
+        sub_p3: p1_s2,
+        sub_p4: p1_s3,
     },
     {
         id: 2,
