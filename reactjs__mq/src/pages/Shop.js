@@ -52,7 +52,7 @@ function Shop() {
                     {displayedProducts.map((product, index) => (
                         <Product
                             key={index}
-                            index={index}
+                            index={index + (currentPage - 1) * productsPerPage}
                             image={product.image}
                             type={product.type}
                             price={product.price}
