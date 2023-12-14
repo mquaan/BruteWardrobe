@@ -40,7 +40,6 @@ function App(){
     };
     const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
     const [isLoggedIn, setLoggedIn] = useState(initialLoggedInState);
-
     const handleLogin = () => {
         setLoggedIn(true);
         localStorage.setItem('isLoggedIn', 'true');
@@ -57,6 +56,7 @@ function App(){
         setLoggedIn(storedLoggedInState);
         }
     }, [isLoggedIn]);
+
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [productModal, setProductModal] = useState(false);

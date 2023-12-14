@@ -187,6 +187,7 @@
 }
 
 .search-bar1 {
+    cursor: pointer;
     display: inline-flex;
     flex-wrap: nowrap;
     align-items: center;
