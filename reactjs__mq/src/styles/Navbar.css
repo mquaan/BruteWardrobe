@@ -119,6 +119,10 @@
     font-weight: 500;
 }
 
+.sub-menu{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
 .sub-menu hr{
     border: 0;
     height: 1px;
