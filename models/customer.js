@@ -1,8 +1,9 @@
 import User from './user.js';
 
 class Customer extends User {
-    constructor(username, password, email, userID = null, address = null, phoneNumber = null, loginStatus = false, activeStatus = false, shopping = null) {
-        super(username, password, email, userID, address, phoneNumber, loginStatus);
+    constructor(username, password, email, userID = null, address = null, phoneNumber = null, loginStatus = false, gender = 'male', dob=null,
+    activeStatus = false, shopping = null) {
+        super(username, password, email, userID, address, phoneNumber, loginStatus, gender, dob);
         this.activeStatus = activeStatus;
         this.shopping = shopping;
     }
@@ -17,6 +18,8 @@ const customerConverter = {
             address: customer.address,
             phoneNumber: customer.phoneNumber,
             email: customer.email,
+            gender: customer.gender,
+            dob: customer.dob,
             loginStatus: customer.loginStatus,
             activeStatus: customer.activeStatus,
             shopping: customer.shopping,
@@ -24,7 +27,9 @@ const customerConverter = {
     },
     fromFirestore: (snapshot, options) => {
         const data = snapshot.data(options);
-        return new Customer(data.username, data.password, data.email, data.userID, data.address, data.phoneNumber, data.loginStatus, data.activeStatus, data.shopping);
+        return new Customer(data.username, data.password, data.email, data.userID, 
+            data.address, data.phoneNumber, data.loginStatus, data.gender, data.dob, 
+            data.activeStatus, data.shopping);
     },
 };
 
