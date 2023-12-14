@@ -11,8 +11,10 @@ import About from './pages/About';
 import Cart from './pages/Cart';
 
 import Login from './pages/Login';
-import MerchantProducts from './pages/Merchant/Products';
+import MerchantProducts from './pages/Merchant/Products.js';
 import MerchantOrders from './pages/Merchant/Orders.js';
+import MerchantProfile from './pages/Merchant/Profile.js';
+
 
 import React, { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
@@ -76,7 +78,7 @@ function App(){
                                         <Route path='/' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
                                         <Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
                                         <Route path='/orders' element={<MerchantOrders/>} />
-                                        <Route path='/profile' element={<About />} />
+                                        <Route path='/profile' element={<MerchantProfile />} />
                                         <Route path='/logout' element={<Login />} />
                                     </Routes>
                                 </div>
