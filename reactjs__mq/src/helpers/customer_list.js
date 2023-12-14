@@ -1,7 +1,7 @@
 
 export const customers = [
     {
-        username: '123', 
+        username: 'dat123', 
         password: '123', 
         email: '123@gmail.com', 
         shopping: {
@@ -18,7 +18,7 @@ export const customers = [
     },
     
     {
-        username: 'abc', 
+        username: 'phatdat21', 
         password: 'abc', 
         email: 'abc@gmail.com', 
         shopping: {
@@ -42,7 +42,7 @@ export const customers = [
     },
     
     {
-        username: 'xyz', 
+        username: 'datne', 
         password: 'xyz', 
         email: 'xyz@gmail.com', 
         shopping: {
@@ -59,7 +59,7 @@ export const customers = [
     },
     
     {
-        username: 'dat', 
+        username: 'tuilakhachhang', 
         password: 'dat', 
         email: 'dat@gmail.com', 
         shopping: {
