@@ -136,7 +136,7 @@ function MerchantOrders() {
             aria-labelledby="nested-list-subheader"
             subheader={
                 <ListSubheader component="div" id="nested-list-subheader">
-                    Customers
+                    Customers' orders
                 </ListSubheader>
             }
         >
@@ -284,7 +284,7 @@ function MerchantOrders() {
                                                                     <ListItemIcon>
                                                                         <LocalMallIcon />
                                                                     </ListItemIcon>
-                                                                    <ListItemText primary={`Product: ${order.quantityList[productIndex]} * ${products[product].name} `} />
+                                                                    <ListItemText primary={`Product: ${order.quantityList[productIndex]} * ${products[product].type} `} />
                                                                 </ListItemButton>
                                                             </>
                                                         );
