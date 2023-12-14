@@ -1,7 +1,7 @@
 
 export const customers = [
     {
-        username: '123', 
+        username: 'dat123', 
         password: '123', 
         email: '123@gmail.com', 
         shopping: {
@@ -10,7 +10,7 @@ export const customers = [
                     orderID: 1,
                     productList: [1, 2, 3],
                     quantityList: [2, 2, 1],
-                    orderStatus: 'Open',
+                    orderStatus: 'Processing',
                     dateCreated: new Date("2023-12-01")
                 }
             ]
@@ -18,7 +18,7 @@ export const customers = [
     },
     
     {
-        username: 'abc', 
+        username: 'phatdat21', 
         password: 'abc', 
         email: 'abc@gmail.com', 
         shopping: {
@@ -27,15 +27,22 @@ export const customers = [
                     orderID: 2,
                     productList: [2],
                     quantityList: [3],
-                    orderStatus: 'Open',
+                    orderStatus: 'Processing',
                     dateCreated: new Date("2023-12-02")
+                },
+                {
+                    orderID: 12,
+                    productList: [2, 1],
+                    quantityList: [3, 2],
+                    orderStatus: 'Processing',
+                    dateCreated: new Date("2023-11-02")
                 }
             ]
         }
     },
     
     {
-        username: 'xyz', 
+        username: 'datne', 
         password: 'xyz', 
         email: 'xyz@gmail.com', 
         shopping: {
@@ -44,7 +51,7 @@ export const customers = [
                     orderID: 3,
                     productList: [4, 1],
                     quantityList: [2, 1],
-                    orderStatus: 'Open',
+                    orderStatus: 'Processing',
                     dateCreated: new Date("2023-12-05")
                 }
             ]
@@ -52,7 +59,7 @@ export const customers = [
     },
     
     {
-        username: 'dat', 
+        username: 'tuilakhachhang', 
         password: 'dat', 
         email: 'dat@gmail.com', 
         shopping: {
@@ -61,7 +68,7 @@ export const customers = [
                     orderID: 4,
                     productList: [3, 4],
                     quantityList: [1, 1],
-                    orderStatus: 'Open',
+                    orderStatus: 'Processing',
                     dateCreated: new Date("2023-12-10")
                 }
             ]

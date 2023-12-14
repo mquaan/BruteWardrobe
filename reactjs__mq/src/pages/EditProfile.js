@@ -5,11 +5,7 @@ import '../styles/EditProfile.css'
 
 function EditProfile() {
     return (
-        <div className='body'>
-            <div className='title'>
-                <h1></h1>
-            </div>
-
+        <div className='body-editprofile'>
             <div className='sub-profile-wrap'>
                 <div className='sub-profile'>
                     

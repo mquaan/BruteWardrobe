@@ -15,7 +15,6 @@ import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products';
 import MerchantOrders from './pages/Merchant/Orders.js';
 
-
 import React, { useState, useEffect } from 'react'; 
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { products } from './helpers/product_list';
@@ -100,7 +99,7 @@ function App(){
                                         <h3>Click <Link to="/shop">here</Link> to buy products.</h3>
                                         </section>} />
                                     <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart}/>} />
-                                    <Route path='/edit-profile' element={<EditProfile/>} />
+                                    <Route path="/edit-profile" element={<EditProfile/>} />
                                 </Routes>
                                 <Footer />
                             </div>
