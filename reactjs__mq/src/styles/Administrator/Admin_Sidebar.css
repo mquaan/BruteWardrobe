@@ -7,7 +7,8 @@
     position: fixed;
     width: 200px;
     height: 100%;
-    background: #faf4c6;
+    /* background: #faf4c6; */
+    background: #09084e;
     display: flex;
     flex-direction: column;
     /* text-align: center; */
@@ -37,8 +38,8 @@
 .ad_sidebar_tab .fa-solid {
     font-size: 22px;
     margin-right: 10px;
-    margin-left: 15px;
-
+    margin-left: 10px;
+    transition: all 0.3s ease-in-out;
 }
 
 .ad_sidebar_tab p {
@@ -49,17 +50,23 @@
     margin-bottom: 30px;
     padding: 10px 5px 10px 5px;
     border-radius: 30px;
+    
 
 }
 
 .ad_sidebar_tab li:hover{
-    background-color: rgb(102, 255, 102);
+    background-color: #5250e8;
+    box-shadow: 0 3px 3px #5250e8;
+    text-align: center;
+    .fa-solid{
+        margin-left: 20px;
+    }
 }
 
 .p-dashboard, .p-users, .p-products, .p-logout{
     font-size: 20px;
     font-weight: 600;
-    color: black;
+    color: white;
 }
 
 
