@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import Sidebar from './components/Sidebar';
 import Modal from './components/Modal';
 import ProductDetail from './components/Product_detail';
+import Admin_Sidebar from './components/Admin_Sidebar.js';
 
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -15,6 +16,10 @@ import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products.js';
 import MerchantOrders from './pages/Merchant/Orders.js';
 import MerchantProfile from './pages/Merchant/Profile.js';
+
+import Dashboard from './pages/Administrator/Dashboard.js';
+import Users from './pages/Administrator/Users.js'; 
+import Products from './pages/Administrator/Products.js';
 
 
 import React, { useState, useEffect } from 'react'; 
@@ -104,6 +109,19 @@ function App(){
                                     <Route path="/edit-profile" element={<EditProfile/>} />
                                 </Routes>
                                 <Footer />
+                            </div>
+                        }
+                    />
+                    <Route
+                        path='/admin/*'
+                        element={
+                            <div>
+                                <Admin_Sidebar/>
+                                <Routes>
+                                    <Route path = '/' element={<Dashboard/>}/>
+                                    <Route path = '/users' element={<Users/>}/>
+                                    <Route path = '/products' element={<Products/>}/>
+                                </Routes>
                             </div>
                         }
                     />

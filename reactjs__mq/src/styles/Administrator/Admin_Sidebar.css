@@ -1,0 +1,69 @@
+.admin_page{
+    margin: 0;
+    padding: 0;
+}
+
+.ad_sidebar{
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    background: #faf4c6;
+    display: flex;
+    flex-direction: column;
+    /* text-align: center; */
+}
+
+.bybruteforce p{
+    text-align: center;
+    color: green;
+    font-weight: 600;
+}
+
+.link{
+    text-decoration: none;
+}
+
+.ad-bruteforce-logo{
+    width: 130px;
+    height: 110px;
+    margin-top: 15px;
+    margin-left: 33px;    
+}
+
+.ad_sidebar_tab {
+    padding-top: 30px;
+}
+
+.ad_sidebar_tab .fa-solid {
+    font-size: 22px;
+    margin-right: 10px;
+    margin-left: 15px;
+
+}
+
+.ad_sidebar_tab p {
+    text-align: left;
+}
+
+.ad_sidebar_tab li{
+    margin-bottom: 30px;
+    padding: 10px 5px 10px 5px;
+    border-radius: 30px;
+
+}
+
+.ad_sidebar_tab li:hover{
+    background-color: rgb(102, 255, 102);
+}
+
+.p-dashboard, .p-users, .p-products, .p-logout{
+    font-size: 20px;
+    font-weight: 600;
+    color: black;
+}
+
+
+
+
+
+
