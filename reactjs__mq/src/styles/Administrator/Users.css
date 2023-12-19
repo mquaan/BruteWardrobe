@@ -1,0 +1,113 @@
+.ad_Users_Tab{
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+    flex-direction: column;
+}
+
+.introduction-users-tabs h1{
+    font-size: 30px;
+    padding: 30px 0 10px 550px;
+}
+
+.Users_Tab{
+    display: flex;
+    flex-direction: column;
+    margin-left: 200px;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    background-color: #ebebff;
+}
+
+
+.box-user-manage{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    margin-top: 20px;
+    margin-left: 50px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    width: 1400px;
+}
+
+
+.box-input{
+    height: 30px;
+    display: flex;
+    cursor: pointer;
+    padding: 20px 20px;
+    background: #fff;
+    border-radius: 30px;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.box-input:hover input{
+    width: 150px;
+}
+
+.box-input input{
+    width: 0;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    transition: 0.8s;
+    background: transparent;
+}
+
+.box-input .fas{
+    color: #5250e8;
+
+    
+}
+
+.user-manage-elements{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+
+}
+
+
+.user-management-table{
+    margin-top: 30px;
+}
+
+.users-table{
+    height: 520px;
+}
+
+.h2-user-list{
+    font-size: 25px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.box-input{
+    margin-top: 20px;
+    margin-left: 20px;
+
+}
+
+.btn-add-merchant{
+    margin-top: 20px;
+    position: absolute;
+    right: 10px;
+    padding: 15px 15px;
+    border-radius: 15px;
+    background-color: rgb(252, 108, 56);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.btn-add-merchant .fa-solid{
+    margin-left: 10px;
+}
+
+
