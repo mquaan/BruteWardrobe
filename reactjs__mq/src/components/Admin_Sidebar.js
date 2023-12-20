@@ -30,7 +30,7 @@ function Admin_Sidebar(){
                         </li>
                     </Link>
 
-                    <Link className='link'>
+                    <Link to='/login' className='link'>
                         <li>
                             <p className='p-logout'><i className="fa-solid fa-right-from-bracket"></i>Log out</p>
                             

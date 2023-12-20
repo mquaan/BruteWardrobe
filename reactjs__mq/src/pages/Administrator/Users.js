@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import '../../styles/Administrator/Users.css';
-// import { Table } from '@mui/material';
 import DataTable from 'react-data-table-component';
 import {Space, Switch} from 'antd';
 import Model from 'react-modal';
@@ -243,6 +242,8 @@ function Users() {
                                     width: '30%', // adjust the width as needed
                                     height: '60%', // adjust the height as needed
                                     margin: 'auto', // center the modal
+                                    borderRadius: '20px'
+                                    
                                 },
                             }}>
                             <form className='form-create-merchant'>
