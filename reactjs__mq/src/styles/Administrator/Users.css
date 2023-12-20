@@ -110,4 +110,54 @@
     margin-left: 10px;
 }
 
+.btn-add-merchant:hover{
+    box-shadow: 0 10px 10px rgb(252, 108, 56);
+}
 
+
+.form-create-merchant{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.form-create-merchant h2{
+    font-size: 30px;
+    color: rgb(252, 108, 56);
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.form-create-merchant input{
+    background-color: #eee;
+    border: none;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 50%;
+    outline: none;
+    margin-bottom: 20px;
+}
+
+.div-gender{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.div-gender input{
+    margin-left: 15px;
+    margin-top: 3px;
+
+}
+
+.btn-add-merchant-popup {
+    margin-top: 15px;
+    padding: 15px 15px;
+    border-radius: 15px;
+    background-color: rgb(252, 108, 56);
+    font-size: 18px;
+    cursor: pointer;
+}

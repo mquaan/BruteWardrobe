@@ -3,6 +3,7 @@ import '../../styles/Administrator/Users.css';
 // import { Table } from '@mui/material';
 import DataTable from 'react-data-table-component';
 import {Space, Switch} from 'antd';
+import Model from 'react-modal';
 
 
 function Users() {
@@ -211,6 +212,8 @@ function Users() {
             }
         }
     };
+    
+    const  [visible, setvisible] = useState(false)
 
     return(
         <div className='ad_Users_Tab'>
@@ -230,7 +233,34 @@ function Users() {
                             ></input>
                             <i className='fas fa-search'></i>
                         </div>
-                        <button className='btn-add-merchant'>Create Merchant<i class="fa-solid fa-plus"></i></button>
+                        <button className='btn-add-merchant' onClick={()=>setvisible(true)}>Create Merchant<i class="fa-solid fa-plus"></i></button>
+                        <Model isOpen={visible} on onRequestClose={()=>setvisible(false)}
+                            style={{
+                                overlay: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // background overlay color
+                                },
+                                content: {
+                                    width: '30%', // adjust the width as needed
+                                    height: '60%', // adjust the height as needed
+                                    margin: 'auto', // center the modal
+                                },
+                            }}>
+                            <form className='form-create-merchant'>
+                                <h2>Create Merchant</h2>
+                                <input name="merchant-fname" type='text' placeholder='Fullname...' required/>
+                                <div className='div-gender'>
+                                    <input type='radio' id='merchant-gender' name='gender' value='male'required></input>
+                                    <label for="merchant-gender">Male</label> 
+                                    <input type='radio' id='merchant-gender' name='gender' value='female' required></input>
+                                    <label for="merchant-gender">Female</label>
+                                </div>
+                                <input name='merchant-username' type="text" placeholder='Username...'/>
+                                <input type='password' placeholder='Password' required/>
+                                <input type='email'placeholder='Email...' required/>
+                                <button type="submit" className='btn-add-merchant-popup'>Create</button>
+                            </form> 
+                        </Model>
+
                     </div>
 
                     <div className='user-management-table'>
