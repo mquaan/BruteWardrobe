@@ -53,7 +53,12 @@
 
 }
 
-.box-input:hover input{
+.box-input .input-products
+{
+    margin-top: 10px;
+}
+
+.box-input:hover .input-products{
     width: 180px;
 }
 

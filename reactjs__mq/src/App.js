@@ -11,6 +11,7 @@ import Shop from './pages/Shop';
 import About from './pages/About';
 import Cart from './pages/Cart';
 import EditProfile from './pages/EditProfile';
+import Checkout from './pages/Checkout';
 
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products.js';
@@ -105,8 +106,9 @@ function App() {
                                             <h2>Your cart is empty!</h2>
                                             <h3>Click <Link to="/shop">here</Link> to buy products.</h3>
                                         </section>} />
-                                    <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} />} />
-                                    <Route path="/edit-profile" element={<EditProfile />} />
+                                    <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} isLoggedIn={ isLoggedIn }/>} />
+                                    <Route path="/checkout" element={<Checkout cartItems={cartItems} setCartItems={setCartItems}/>} />
+                                    <Route path="/edit-profile" element={<EditProfile/>} />
                                 </Routes>
                                 <Footer />
                             </div>

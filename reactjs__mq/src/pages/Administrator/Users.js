@@ -178,9 +178,9 @@ function Users() {
         }
     ];
 
-    // const handleRemoveRow = (id) => {
-    //     setTableData((prevData) => prevData.filter((row) => row.id !== id));
-    // };
+    const handleRemoveRow = (id) => {
+        // setTableData((prevData) => prevData.filter((row) => row.id !== id));
+    };
 
     const [records, setRecords] = useState(data);
 
@@ -240,7 +240,7 @@ function Users() {
                                 },
                                 content: {
                                     width: '30%', // adjust the width as needed
-                                    height: '60%', // adjust the height as needed
+                                    height: '45%', // adjust the height as needed
                                     margin: 'auto', // center the modal
                                     borderRadius: '20px'
                                     
@@ -248,16 +248,9 @@ function Users() {
                             }}>
                             <form className='form-create-merchant'>
                                 <h2>Create Merchant</h2>
-                                <input name="merchant-fname" type='text' placeholder='Fullname...' required/>
-                                <div className='div-gender'>
-                                    <input type='radio' id='merchant-gender' name='gender' value='male'required></input>
-                                    <label for="merchant-gender">Male</label> 
-                                    <input type='radio' id='merchant-gender' name='gender' value='female' required></input>
-                                    <label for="merchant-gender">Female</label>
-                                </div>
-                                <input name='merchant-username' type="text" placeholder='Username...'/>
+                                <input name='merchant-username' type="text" placeholder='Username' required/>
                                 <input type='password' placeholder='Password' required/>
-                                <input type='email'placeholder='Email...' required/>
+                                <input type='email'placeholder='Email' required/>
                                 <button type="submit" className='btn-add-merchant-popup'>Create</button>
                             </form> 
                         </Model>

@@ -66,3 +66,43 @@
 #prodetails .single-pro-details p {
     line-height: 25px;
 }
+
+.ReactModal__Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Add styles for the modal content */
+  .ReactModal__Content {
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Add styles for the modal close button */
+  .ReactModal__Content button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #088178;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Add hover effect for the modal close button */
+  .ReactModal__Content button:hover {
+    background-color: #08736c;
+  }
