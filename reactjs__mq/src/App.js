@@ -21,114 +21,106 @@ import Dashboard from './pages/Administrator/Dashboard.js';
 import Users from './pages/Administrator/Users.js';
 import Products from './pages/Administrator/Products.js';
 
-
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { products } from './helpers/product_list';
 
 function App() {
-    const [cartItems, setCartItems] = useState([]);
-    const addToCart = ({ productIndex, quantity, selectedSize }) => {
-        const existingItem = cartItems.find(item => item.productIndex === productIndex && item.selectedSize === selectedSize);
+	const [cartItems, setCartItems] = useState([]);
+	const addToCart = ({ productIndex, quantity, selectedSize }) => {
+		const existingItem = cartItems.find((item) => item.productIndex === productIndex && item.selectedSize === selectedSize);
 
-        const product = products[productIndex - 1];
-        const price = product.price;
+		const product = products[productIndex - 1];
+		const price = product.price;
 
-        if (existingItem) {
-            const updatedCart = cartItems.map(item =>
-                item.productIndex === productIndex && item.selectedSize === selectedSize
-                    ? { ...item, quantity: item.quantity + quantity }
-                    : item
-            );
-            setCartItems(updatedCart);
-        } else {
-            setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
-        }
-    };
-    const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
-    const [isLoggedIn, setLoggedIn] = useState(initialLoggedInState);
-    const handleLogin = () => {
-        setLoggedIn(true);
-        localStorage.setItem('isLoggedIn', 'true');
-    };
+		if (existingItem) {
+			const updatedCart = cartItems.map((item) =>
+				item.productIndex === productIndex && item.selectedSize === selectedSize ? { ...item, quantity: item.quantity + quantity } : item
+			);
+			setCartItems(updatedCart);
+		} else {
+			setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
+		}
+	};
 
-    const handleLogout = () => {
-        setLoggedIn(false);
-        localStorage.removeItem('isLoggedIn');
-    };
+	const [open, setOpen] = useState(false);
+	const handleOpen = () => setOpen((cur) => !cur);
+	const [productModal, setProductModal] = useState(false);
+	const handleProductModal = (value) => setProductModal(value);
 
-    useEffect(() => {
-        const storedLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
-        if (storedLoggedInState !== isLoggedIn) {
-            setLoggedIn(storedLoggedInState);
-        }
-    }, [isLoggedIn]);
+	const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')));
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen((cur) => !cur);
-    const [productModal, setProductModal] = useState(false);
-    const handleProductModal = (value) => setProductModal(value);
-    return (
-        <div className='App'>
-            <Router>
-                <Routes>
-                    <Route path='/login' element={<Login handleLogin={handleLogin} />} />
-                    <Route
-                        path='/merchant/*'
-                        element={
-                            <div style={{ display: 'flex' }}>
-                                <Sidebar />
-                                <div style={{ flex: 1, paddingLeft: '20rem' }}>
-                                    <Routes>
-                                        <Route path='/' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
-                                        <Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
-                                        <Route path='/orders' element={<MerchantOrders />} />
-                                        <Route path='/profile' element={<MerchantProfile />} />
-                                        <Route path='/logout' element={<Login />} />
-                                    </Routes>
-                                </div>
-                                <Modal open={open} handleOpen={handleOpen} product={productModal} />
-                            </div>
-                        }
-                    />
-                    <Route
-                        path='*'
-                        element={
-                            <div>
-                                <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-                                <Routes>
-                                    <Route path='/' element={<Home />} />
-                                    <Route path='/shop' element={<Shop />} />
-                                    <Route path='/about' element={<About />} />
-                                    <Route path="/cart" element={cartItems.length > 0 ? <Cart cartItems={cartItems} setCartItems={setCartItems} /> :
-                                        <section className="cart-header">
-                                            <h2>Your cart is empty!</h2>
-                                            <h3>Click <Link to="/shop">here</Link> to buy products.</h3>
-                                        </section>} />
-                                    <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} />} />
-                                    <Route path="/edit-profile" element={<EditProfile />} />
-                                </Routes>
-                                <Footer />
-                            </div>
-                        }
-                    />
-                    <Route
-                        path='/admin/*'
-                        element={
-                            <div>
-                                <Admin_Sidebar />
-                                <Routes>
-                                    <Route path='/' element={<Dashboard />} />
-                                    <Route path='/users' element={<Users />} />
-                                    <Route path='/products' element={<Products />} />
-                                </Routes>
-                            </div>
-                        }
-                    />
-                </Routes>
-            </Router>
-        </div>
-    );
+	return (
+		<div className='App'>
+			<Router>
+				<Routes>
+					<Route path='/login' element={<Login />} />
+					<Route
+						path='/merchant/*'
+						element={
+							<div style={{ display: 'flex' }}>
+								<Sidebar />
+								<div style={{ flex: 1, paddingLeft: '20rem' }}>
+									<Routes>
+										<Route path='/' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
+										<Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
+										<Route path='/orders' element={<MerchantOrders />} />
+										<Route path='/profile' element={<MerchantProfile />} />
+										<Route path='/logout' element={<Login />} />
+									</Routes>
+								</div>
+								<Modal open={open} handleOpen={handleOpen} product={productModal} />
+							</div>
+						}
+					/>
+					<Route
+						path='*'
+						element={
+							<div>
+								<Navbar token={token} setToken={setToken} />
+								<Routes>
+									<Route path='/' element={<Home />} />
+									<Route path='/shop' element={<Shop />} />
+									<Route path='/about' element={<About />} />
+									<Route
+										path='/cart'
+										element={
+											cartItems.length > 0 ? (
+												<Cart cartItems={cartItems} setCartItems={setCartItems} />
+											) : (
+												<section className='cart-header'>
+													<h2>Your cart is empty!</h2>
+													<h3>
+														Click <Link to='/shop'>here</Link> to buy products.
+													</h3>
+												</section>
+											)
+										}
+									/>
+									<Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} />} />
+									<Route path='/edit-profile' element={<EditProfile />} />
+								</Routes>
+								<Footer />
+							</div>
+						}
+					/>
+					<Route
+						path='/admin/*'
+						element={
+							<div>
+								<Admin_Sidebar />
+								<Routes>
+									<Route path='/' element={<Dashboard />} />
+									<Route path='/users' element={<Users />} />
+									<Route path='/products' element={<Products />} />
+								</Routes>
+							</div>
+						}
+					/>
+				</Routes>
+			</Router>
+		</div>
+	);
 }
 
 export default App;
