@@ -1,0 +1,218 @@
+.ad_dashboard{
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+    flex-direction: column;
+}
+
+.introduction h1{
+    font-size: 30px;
+    padding: 30px 0 10px 470px;
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    margin-left: 200px;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    background-color: #ebebff;
+}
+
+.parameter-boxes{
+    display: flex;
+    width: 100vw;
+    flex-direction: row;
+    align-items: center;
+}
+
+.parameter-admin, .parameter-merchant, .parameter-customer, .parameter-profit, .parameter-revenue {
+    width: 200px;
+    height: 180px;
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.parameter-admin{
+    margin-left: 50px;
+    /* justify-content: space-between; */
+}
+
+.parameter-admin .tit{
+    color: #7D99E8;
+}
+
+.parameter-merchant .tit{
+    color: #FAB3A7;
+}
+
+.parameter-customer .tit{
+    color: #9DD2A8;
+}
+
+.parameter-admin:hover{
+    background-color: #7D99E8;
+    .tit{
+        color: #fff;
+    }
+}
+
+.parameter-merchant:hover{
+    background-color: #FAB3A7;
+    .tit{
+        color: #fff;
+    }
+}
+
+.parameter-customer:hover{
+    background-color: #9DD2A8;
+    .tit{
+        color: #fff;
+    }
+}
+
+.parameter-merchant, .parameter-customer {
+    margin-left: 50px;
+}
+
+.parameter-profit{
+    width: 280px;
+    margin-left: 80px;
+}
+
+.parameter-revenue {
+    width: 280px;
+    margin-left: 50px;
+}
+
+
+.parameter-profit img, .parameter-revenue img{
+    width: 60px;
+    height: 60px;
+}
+
+.parameter-boxes .fa-solid {
+    font-size: 30px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.admin-num, .merchant-num, .customer-num {
+    font-size: 25px;
+    font-weight: 600;
+    margin-top: 25px;
+    margin-left: 20px;
+}
+
+.parameter-boxes .tit{
+    margin-top: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.profit, .revenue{
+    font-size: 22px;
+    font-weight: 700;;
+}
+
+.parameter-profit .total-profit, .parameter-revenue .total-revenue{
+    font-size: 30px;
+    font-weight: 800;
+    margin-top: 27px;
+    margin-left: 15px;
+}
+
+.box-users-sales {
+    display: flex;
+    flex-direction: row;
+    padding-left: 50px;
+    padding-top: 35px;
+}
+
+.btn-users-sync, .btn-sales-sync {
+    background-color: #FFF; /* Green */
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px 2px;
+    padding: 0 20px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.btn-users-sync:hover{
+    background-color: #9DD2A8;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+}
+
+
+
+.btn-sales-sync:hover{
+    background-color: #4098DB;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+}
+
+.users, .sales{
+    font-size: 22px;
+    font-weight: 600;
+    font-style: italic;
+    padding-top: 20px;
+    color:black;
+}
+
+.btn-users-sync
+{
+    margin-left: 450px;
+}
+
+.btn-sales-sync
+{
+    margin-left: 535px;
+}
+
+.sales {
+    margin-left: 30px;
+}
+
+.box-users-sales i{
+    margin-right: 5px;
+}
+
+
+.box-chart {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.chart1, .chart2{
+    width: 700px;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+}
+
+.chart1{
+    margin-left: 50px;
+}
+
+.chart2{
+    margin-left: 30px;
+}
+
+
+

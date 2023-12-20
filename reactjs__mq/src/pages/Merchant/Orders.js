@@ -20,12 +20,19 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
 } from '@mui/material';
+
 
 import {
     Person as PersonIcon,
     ShoppingCart as ShoppingCartIcon,
-    LocalMall as LocalMallIcon,
     ExpandLess,
     ExpandMore
 } from '@mui/icons-material';
@@ -35,12 +42,45 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 import { products } from '../../helpers/product_list';
 import { customers } from '../../helpers/customer_list';
-import { Link } from 'react-router-dom';
 
 const options = {
     year: 'numeric', month: 'long', day: 'numeric',
     hour: 'numeric', minute: 'numeric', second: 'numeric'
 };
+
+function MerchantCart({ cart }) {
+    return (
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} size="small" aria-label="Customer's order">
+                <TableHead>
+                    <TableRow>
+                        <TableCell align="center">Product name</TableCell>
+                        <TableCell align="center">Image</TableCell>
+                        <TableCell align="center">Size</TableCell>
+                        <TableCell align="center">Quantity</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {cart.productList.map((item, proIndex) => (
+                        <TableRow
+                            key={products[item].name}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                            <TableCell component="th" scope="row" align="center">
+                                {products[item].name}
+                            </TableCell>
+                            <TableCell align="center" style={{ display: 'flex', justifyContent: 'center' }}>
+                                <img src={products[item].image} alt={`Product ${item}`} style={{ maxWidth: '100px' }} />
+                            </TableCell>
+                            <TableCell align="center">{cart.sizeList[proIndex]}</TableCell>
+                            <TableCell align="center">{cart.quantityList[proIndex]}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
+}
 
 function MerchantOrders() {
     const customerPerPage = 5;
@@ -149,8 +189,7 @@ function MerchantOrders() {
                         border: '1px solid #3f51b5',
                         borderRadius: '10px',
                         marginBottom: '10px',
-                        marginRight: '20px',
-
+                        marginRight: '20px'
                     }}>
                         <ListItemButton onClick={() => handleClick1(custIndex)}>
                             <ListItemIcon>
@@ -275,20 +314,28 @@ function MerchantOrders() {
                                                 </DialogActions>
                                             </Dialog>
                                             <Collapse in={open2s[custIndex][orderIndex]} timeout="auto" unmountOnExit>
-                                                <List component="div" disablePadding>
-                                                    {order.productList.map((product, productIndex) => {
+                                                {/* <List component="div" disablePadding>
+                                                    {order.cart.productList.map((product, productIndex) => {
                                                         return (
                                                             <>
                                                                 <ListItemButton sx={{ pl: 8 }}>
                                                                     <ListItemIcon>
                                                                         <LocalMallIcon />
                                                                     </ListItemIcon>
-                                                                    <ListItemText primary={`Product: ${order.quantityList[productIndex]} * ${products[product].type} `} />
+                                                                    <ListItemText primary={`Product: ${order.cart.quantityList[productIndex]} * ${products[product].type} `} />
                                                                 </ListItemButton>
                                                             </>
                                                         );
                                                     })}
-                                                </List>
+                                                </List> */}
+                                                <Box sx={{
+                                                    marginTop: '5px',
+                                                    marginBottom: '20px',
+                                                    marginRight: '20px',
+                                                    pl: 8
+                                                }}>
+                                                    {<MerchantCart cart={order.cart} />}
+                                                </Box>
                                             </Collapse>
 
                                         </>

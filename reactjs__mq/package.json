@@ -15,12 +15,19 @@
         "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
+        "antd": "^5.12.4",
+        "chart.js": "^4.4.1",
         "mdb-react-ui-kit": "^7.0.0",
         "postcss-nested": "^6.0.1",
         "react": "^18.2.0",
+        "react-chartjs-2": "^5.2.0",
+        "react-data-table-component": "^7.5.4",
         "react-dom": "^18.2.0",
         "react-modal": "^3.16.1",
+<<<<<<< HEAD
         "react-popup": "^0.11.2",
+=======
+>>>>>>> 852c36067bffc056a2bea485f10ccaad3e701f78
         "react-pro-sidebar": "^1.1.0-alpha.1",
         "react-router-dom": "^6.20.1",
         "react-scripts": "^5.0.1",
