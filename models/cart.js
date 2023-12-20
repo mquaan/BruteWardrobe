@@ -5,8 +5,6 @@ class Cart {
         this.productList = [];
         this.quantityList = [];
         this.sizeList = [];
-        this.colorList = [];
-
     }
 }
 
