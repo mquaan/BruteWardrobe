@@ -8,8 +8,12 @@ export const customers = [
             orderList: [
                 {
                     orderID: 1,
-                    productList: [1, 2, 3],
-                    quantityList: [2, 2, 1],
+                    cart: {
+                        productList: [1, 2, 3],
+                        quantityList: [2, 2, 1],
+                        sizeList: ['L', 'M', 'S'],
+
+                    },
                     orderStatus: 'Processing',
                     dateCreated: new Date("2023-12-01")
                 }
@@ -25,15 +29,21 @@ export const customers = [
             orderList: [
                 {
                     orderID: 2,
-                    productList: [2],
-                    quantityList: [3],
+                    cart: {
+                        productList: [2],
+                        quantityList: [3],
+                        sizeList: ['L'],
+                    },
                     orderStatus: 'Processing',
                     dateCreated: new Date("2023-12-02")
                 },
                 {
                     orderID: 12,
-                    productList: [2, 1],
-                    quantityList: [3, 2],
+                    cart: {
+                        productList: [2, 1],
+                        quantityList: [3, 2],
+                        sizeList: ['M', 'S'],
+                    },
                     orderStatus: 'Processing',
                     dateCreated: new Date("2023-11-02")
                 }
@@ -49,8 +59,11 @@ export const customers = [
             orderList: [
                 {
                     orderID: 3,
-                    productList: [4, 1],
-                    quantityList: [2, 1],
+                    cart: {
+                        productList: [4, 1],
+                        quantityList: [2, 1],
+                        sizeList: ['L', 'S'],
+                    },
                     orderStatus: 'Processing',
                     dateCreated: new Date("2023-12-05")
                 }
@@ -66,8 +79,11 @@ export const customers = [
             orderList: [
                 {
                     orderID: 4,
-                    productList: [3, 4],
-                    quantityList: [1, 1],
+                    cart: {
+                        productList: [3, 4],
+                        quantityList: [1, 1],
+                        sizeList: ['L', 'M'],
+                    },
                     orderStatus: 'Processing',
                     dateCreated: new Date("2023-12-10")
                 }
