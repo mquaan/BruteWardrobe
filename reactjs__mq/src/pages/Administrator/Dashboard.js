@@ -27,13 +27,7 @@ function Dashboard() {
             {
                 data: [18000, 16000, 5000, 8000, 3000, 14000, 14000, 16000, 17000, 18000, 17770, 20000],
                 backgroundColor: '#4098DB',
-                barThickness: 12,
-                borderWidth: 1
-            },
-            {
-                data: [12000, 11000, 4000, 6000, 2000, 8000, 8000, 9000, 10000, 11000, 12770, 12770],
-                backgroundColor: '#C1EBFB',
-                barThickness: 12,
+                barThickness: 22,
                 borderWidth: 1
             }
         ]

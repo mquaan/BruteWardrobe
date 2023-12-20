@@ -11,6 +11,7 @@ import Shop from './pages/Shop';
 import About from './pages/About';
 import Cart from './pages/Cart';
 import EditProfile from './pages/EditProfile';
+import Checkout from './pages/Checkout';
 
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products.js';
