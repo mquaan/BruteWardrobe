@@ -2,10 +2,17 @@ import express from 'express';
 import ejsMate from 'ejs-mate';
 import path, { delimiter } from 'path';
 import { fileURLToPath } from 'url';
-import bodyParser from 'body-parser';
-import route from './routes/indexRouter.js';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import session from 'express-session';
+import dotenv from 'dotenv';
+import './auth/auth.js';
+import userRouter from './routes/userRouter.js';
+import customerRouter from './routes/customerRouter.js';
+import merchantRouter from './routes/merchantRouter.js';
+import adminRouter from './routes/adminRouter.js';
+
+dotenv.config();
 
 const app = express();
 
@@ -18,7 +25,6 @@ app.use(
 		cookie: {
 			secure: false, // if true only transmit cookie over https
 			httpOnly: true, // prevent client side JS from reading the cookie
-			maxAge: 60 * 60 * 1000, // 60m
 		},
 	})
 );
@@ -35,9 +41,10 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(express.static('public'));
 
 app.use(express.json());
-
+app.use(cookieParser());
 // routes
-route(app);
+app.use('/', userRouter);
+// app.use('/', passport.authenticate('jwt', { session: false }), customerRouter);
 
 // listen
 app.listen(4000, () => {

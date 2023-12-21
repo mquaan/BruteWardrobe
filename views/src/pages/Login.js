@@ -36,10 +36,10 @@ function Login({token}) {
 		event.preventDefault();
 
 		await axios
-			.post('http://localhost:4000/login/password', { username, password: pass })
+			.post('http://localhost:4000/login', { username, password: pass })
 			.then((response) => {
-				if (response.data.success) {
-					localStorage.setItem('token', JSON.stringify(response.data.user.userId));
+				if (response.data.token) {
+					localStorage.setItem('token', JSON.stringify(response.data.token));
 					window.location.href = '/';
 				} else {
 					// Show error message

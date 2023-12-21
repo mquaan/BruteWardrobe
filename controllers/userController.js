@@ -1,7 +1,7 @@
 import db from '../config/firebase.js';
 import { collection, query, getDoc, getDocs, where, addDoc, updateDoc } from 'firebase/firestore';
 import { Customer, customerConverter } from '../models/customer.js';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 const controller = {};
 
 controller.signup = async (req, res) => {
@@ -20,12 +20,12 @@ controller.signup = async (req, res) => {
 			await updateDoc(docRef, { userId: docRef.id });
 			user = (await getDoc(docRef)).data();
 
-			return res.json({ success: true, user});
+			return res.json({ success: true, user });
 		} else {
 			return res.json({ success: false, message: '(*) User already exist!' });
 		}
 	} catch (error) {
-		console.log(error)
+		console.log(error);
 		return res.status(500).json({ success: false, message: error.message });
 	}
 };
