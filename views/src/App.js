@@ -34,7 +34,10 @@ function App() {
         fullName: '',
         address: '',
         phoneNumber: '',
+        paymentMethod: '',
     });
+
+    const [orderedProducts, setOrderedProducts] = useState([]);
     
     const [cartItems, setCartItems] = useState([]);
     const addToCart = ({ productIndex, quantity, selectedSize }) => {
@@ -94,7 +97,7 @@ function App() {
                                         <Route path='/orders' element={<MerchantOrders />} />
                                         <Route path='/profile' element={<MerchantProfile />} />
                                         <Route path='/logout' element={<Login />} />
-                                    </Routes>
+                                    </Routes> 
                                 </div>
                                 <Modal open={open} handleOpen={handleOpen} product={productModal} />
                             </div>
@@ -115,9 +118,9 @@ function App() {
                                             <h3>Click <Link to="/shop">here</Link> to buy products.</h3>
                                         </section>} />
                                     <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} isLoggedIn={ isLoggedIn }/>} />
-                                    <Route path="/checkout" element={<Checkout cartItems={cartItems} setCartItems={setCartItems} deliveryInfo={deliveryInfo} setDeliveryInfo={setDeliveryInfo}/>} />
+                                    <Route path="/checkout" element={<Checkout cartItems={cartItems} setCartItems={setCartItems} deliveryInfo={deliveryInfo} setDeliveryInfo={setDeliveryInfo} setOrderedProducts={setOrderedProducts}/>} />
                                     <Route path="/edit-profile" element={<EditProfile/>} />
-                                    <Route path="/order-status" element={<OrderStatus deliveryInfo={deliveryInfo}/>} />
+                                    <Route path="/order-status" element={<OrderStatus deliveryInfo={deliveryInfo} orderedProducts={orderedProducts}/>} />
                                 </Routes>
                                 <Footer />
                             </div>
