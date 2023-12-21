@@ -58,6 +58,8 @@
     font-weight: 500;
     transition: 0.8s;
     background: transparent;
+    margin-top: 10px;
+
 }
 
 .box-input .fas{
