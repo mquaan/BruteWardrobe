@@ -71,7 +71,7 @@ function MerchantCart({ cart }) {
                                 {products[item].name}
                             </TableCell>
                             <TableCell component="th" align="center" style={{ display: 'flex', justifyContent: 'center' }}>
-                                <img src={products[item].image} alt={`Product ${item}`} style={{ maxWidth: '100px' }} />
+                                <img src={products[item].imageURLs[0]} alt={`Product ${item}`} style={{ maxWidth: '100px' }} />
                             </TableCell>
                             <TableCell component="th" align="center">{cart.sizeList[proIndex]}</TableCell>
                             <TableCell component="th" align="center">{cart.quantityList[proIndex]}</TableCell>
