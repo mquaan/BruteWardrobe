@@ -21,9 +21,9 @@ passport.use(
 					snapshot1 = await getDocs(query(collection(db, 'merchants'), where('username', '==', username)));
 					snapshot2 = await getDocs(query(collection(db, 'merchants'), where('email', '==', username)));
 					if (snapshot1.empty && snapshot2.empty) {
-						console.log('No such user found.');
+						console.log('User not found.');
 						return cb(null, false, {
-							message: '(*) No such user found.',
+							message: '(*) User not found.',
 						});
 					}
 				}
@@ -58,7 +58,6 @@ passport.deserializeUser(function (user, done) {
 	done(null, user);
 });
 
-router.get('/', controller.show);
 router.post('/login/password', function (req, res, next) {
 	passport.authenticate('local', function (err, user, info) {
 		if (err) {

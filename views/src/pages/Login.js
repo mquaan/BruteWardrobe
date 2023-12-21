@@ -6,6 +6,7 @@ function Login() {
 	const [username, setUsername] = useState('');
 	const [pass, setPass] = useState('');
 	const [cfpass, setCfPass] = useState('');
+	const [email, setEmail] = useState('');
 	const isSubmitDisabled = !username || !pass || !cfpass;
 
 	function CheckSignUpUsername(username, errorSignUpUsername) {
@@ -31,7 +32,7 @@ function Login() {
 		}
 	}
 
-	async function handleSignin(event, msg) {
+	async function handleSignIn(event, msg) {
 		event.preventDefault();
 
 		await axios
@@ -52,6 +53,27 @@ function Login() {
 			});
 	}
 
+	async function handleSignUp(event, msg) {
+		event.preventDefault();
+
+		await axios
+			.post('http://localhost:4000/signup', { username, email, password: pass })
+			.then((response) => {
+				if (response.data.success) {
+					console.log(response.data.user);
+					localStorage.setItem('token', JSON.stringify(response.data.user.userId));
+					window.location.href = '/';
+				} else {
+					msg.textContent = response.data.message;
+					msg.style.display = 'inline';
+					console.log(response.data.message);
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}
+
 	return (
 		<div className='body'>
 			<section id='header'>
@@ -61,7 +83,7 @@ function Login() {
 			<section id='body_section'>
 				<div className='container' id='container'>
 					<div className='form-container sign-in'>
-						<form onSubmit={(event) => handleSignin(event, document.getElementById('errorSignIn'))}>
+						<form onSubmit={(event) => handleSignIn(event, document.getElementById('errorSignIn'))}>
 							<h1>Sign In</h1>
 							<div className='social-icons'>
 								<div className='a icon'>
@@ -101,7 +123,7 @@ function Login() {
 						</form>
 					</div>
 					<div className='form-container sign-up'>
-						<form>
+						<form onSubmit={(event) => handleSignIn(event, document.getElementById('errorSignUpUsername'))}>
 							<h1>Create Account</h1>
 							<div className='social-icons'>
 								<div className='a icon'>
@@ -121,7 +143,15 @@ function Login() {
 								required
 							/>
 							<span id='errorSignUpUsername' className='signUp-error-message'></span>
-							<input name='email' type='email' id='su_email' placeholder='Email' />
+							<input
+								name='email'
+								type='email'
+								id='su_email'
+								placeholder='Email'
+								onChange={(event) => {
+									setEmail(event.target.value);
+								}}
+							/>
 							<input
 								name='password'
 								type='password'
