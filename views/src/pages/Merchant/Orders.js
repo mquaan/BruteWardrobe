@@ -64,16 +64,17 @@ function MerchantCart({ cart }) {
                     {cart.productList.map((item, proIndex) => (
                         <TableRow
                             key={proIndex}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            sx={{ '& td': { border: 0 },
+                            '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row" align="center">
                                 {products[item].name}
                             </TableCell>
-                            <TableCell align="center" style={{ display: 'flex', justifyContent: 'center' }}>
+                            <TableCell component="th" align="center" style={{ display: 'flex', justifyContent: 'center' }}>
                                 <img src={products[item].image} alt={`Product ${item}`} style={{ maxWidth: '100px' }} />
                             </TableCell>
-                            <TableCell align="center">{cart.sizeList[proIndex]}</TableCell>
-                            <TableCell align="center">{cart.quantityList[proIndex]}</TableCell>
+                            <TableCell component="th" align="center">{cart.sizeList[proIndex]}</TableCell>
+                            <TableCell component="th" align="center">{cart.quantityList[proIndex]}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

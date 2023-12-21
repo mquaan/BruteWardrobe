@@ -5,7 +5,7 @@ class Product {
         this.description = description;
         this.rate = null;
         this.price = price;
-        this.imgURL = imgURLs;
+        this.imgURLs = imgURLs;
         this.numSold = 0;
     }
 }

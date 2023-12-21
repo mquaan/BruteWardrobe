@@ -53,7 +53,7 @@
                 <tr key={`${item.productIndex}-${item.selectedSize}`}>
                   <td>{products[item.productIndex - 1].name}</td>
                   <td>
-                    <img src={products[item.productIndex - 1].image} alt={`Product ${item.productIndex}`} />
+                    <img src={products[item.productIndex - 1].imgURLs[0]} alt={`Product ${item.productIndex}`} />
                   </td>
                   <td>{item.selectedSize}</td>
                   <td>

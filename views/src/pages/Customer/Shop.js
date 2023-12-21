@@ -72,8 +72,8 @@ function Shop() {
                         <Product
                             key={index}
                             index={index + (currentPage - 1) * productsPerPage}
-                            image={product.image}
-                            type={product.type}
+                            image={product.imgURLs[0]}
+                            type={product.description.type}
                             price={product.price}
                         />
                     ))}
