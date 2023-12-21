@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../styles/Checkout.css';
-import { products } from '../helpers/product_list';
+import '../../styles/Customer/Checkout.css';
+import { products } from '../../helpers/product_list';
 import { useNavigate } from 'react-router-dom';
 
 function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo }) {

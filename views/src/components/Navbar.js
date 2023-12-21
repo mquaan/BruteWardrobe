@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import '../styles/Navbar.css';
+import '../styles/Customer/Navbar.css';
 
 function Navbar({ token, setToken }) {
 	const goToTop = () => {

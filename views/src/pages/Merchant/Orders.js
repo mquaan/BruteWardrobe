@@ -63,7 +63,7 @@ function MerchantCart({ cart }) {
                 <TableBody>
                     {cart.productList.map((item, proIndex) => (
                         <TableRow
-                            key={products[item].name}
+                            key={proIndex}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row" align="center">

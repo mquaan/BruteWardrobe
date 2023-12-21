@@ -1,7 +1,7 @@
 import React from 'react';
-import '../styles/Home.css';
+import '../../styles/Customer/Home.css';
 import { Link } from 'react-router-dom';
-import { products } from '../helpers/product_list';
+import { products } from '../../helpers/product_list';
 
 function Product(props) {
 	const goToTop = () => {
@@ -112,12 +112,12 @@ function Home() {
 			</section>
 
 			<section id='feature' className='section-p1'>
-				<Feature image='../assets/features/24-hours.png' feature='24/7 Support' />
-				<Feature image='../assets/features/product-management.png' feature='Secure' />
-				<Feature image='../assets/features/productivity.png' feature='Save Time' />
-				<Feature image='../assets/features/save-money.png' feature='Economical' />
-				<Feature image='../assets/features/shield.png' feature='Safe' />
-				<Feature image='../assets/features/tap.png' feature='Convenient' />
+				<Feature image='../../assets/features/24-hours.png' feature='24/7 Support' />
+				<Feature image='../../assets/features/product-management.png' feature='Secure' />
+				<Feature image='../../assets/features/productivity.png' feature='Save Time' />
+				<Feature image='../../assets/features/save-money.png' feature='Economical' />
+				<Feature image='../../assets/features/shield.png' feature='Safe' />
+				<Feature image='../../assets/features/tap.png' feature='Convenient' />
 			</section>
 		</div>
 	);

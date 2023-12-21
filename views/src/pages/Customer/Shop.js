@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import '../styles/Shop.css';
+import '../../styles/Customer/Shop.css';
 import { Link } from 'react-router-dom';
-import { products } from '../helpers/product_list';
+import { products } from '../../helpers/product_list';
 
 function Product(props) {
     const goToTop = () => {

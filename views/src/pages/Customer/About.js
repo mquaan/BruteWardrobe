@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/About.css'
+import '../../styles/Customer/About.css'
 
 function About() {
   return(
@@ -10,7 +10,7 @@ function About() {
             </section>
 
 			<section id="about-head" className="section-p1">
-				<img src="../assets/banners/b17.png" alt=""/>
+				<img src="../../assets/banners/b17.png" alt=""/>
 				<div>
 					<h2>Who We Are?</h2>
 					<p> Welcome to BruteWardrobe, where fashion meets passion and style becomes a statement. 

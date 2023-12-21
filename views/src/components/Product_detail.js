@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import '../styles/Product_detail.css';
+import '../styles/Customer/Product_detail.css';
 import { products } from '../helpers/product_list';
 import Modal from 'react-modal';
 

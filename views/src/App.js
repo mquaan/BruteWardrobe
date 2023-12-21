@@ -6,15 +6,16 @@ import Modal from './components/Modal';
 import ProductDetail from './components/Product_detail';
 import Admin_Sidebar from './components/Admin_Sidebar.js';
 
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import About from './pages/About';
-import Cart from './pages/Cart';
-import EditProfile from './pages/EditProfile';
-import Checkout from './pages/Checkout';
-import OrderStatus from './pages/OrderStatus';
+import Login from './pages/Login.js';
 
-import Login from './pages/Login';
+import Home from './pages/Customer/Home';
+import Shop from './pages/Customer/Shop';
+import About from './pages/Customer/About';
+import Cart from './pages/Customer/Cart';
+import EditProfile from './pages/Customer/EditProfile';
+import Checkout from './pages/Customer/Checkout';
+import OrderStatus from './pages/Customer/OrderStatus';
+
 import MerchantProducts from './pages/Merchant/Products.js';
 import MerchantOrders from './pages/Merchant/Orders.js';
 import MerchantProfile from './pages/Merchant/Profile.js';

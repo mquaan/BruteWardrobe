@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/OrderStatus.css';
+import '../../styles/Customer/OrderStatus.css';
 
 function OrderStatus({ deliveryInfo }) {
     return (

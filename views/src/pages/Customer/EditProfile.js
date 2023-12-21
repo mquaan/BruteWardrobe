@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/EditProfile.css'
+import '../../styles/Customer/EditProfile.css'
 
 
 

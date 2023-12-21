@@ -1,6 +1,6 @@
   import React, { useState } from 'react';
-  import { products } from '../helpers/product_list';
-  import '../styles/Cart.css'
+  import { products } from '../../helpers/product_list';
+  import '../../styles/Customer/Cart.css'
   import { Link } from 'react-router-dom';
 
   function Cart({ cartItems, setCartItems}) { 

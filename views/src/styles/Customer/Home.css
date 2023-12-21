@@ -43,7 +43,7 @@ button.normal {
 }
 
 #hero {
-    background-image: url("../../public/assets/hero2.jpg");
+    background-image: url("../../../public/assets/hero2.jpg");
     height: 60vh;
     width: 100%;
     background-size: cover;
@@ -64,7 +64,7 @@ button.normal {
 }
 
 #hero button {
-    background-image: url("../../public/assets/button.png");
+    background-image: url("../../../public/assets/button.png");
     background-color: transparent;
     color: #02d330;
     border: 0;
@@ -217,7 +217,7 @@ button.normal {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-image: url("../../public/assets/banners/b2.jpg");
+    background-image: url("../../../public/assets/banners/b2.jpg");
     width: 100%;
     height: 40vh;
     background-size: cover;
@@ -256,7 +256,7 @@ button.normal {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    background-image: url("../../public/assets/banners/b6.jpg");
+    background-image: url("../../../public/assets/banners/b6.jpg");
     width: 48%;
     height: 50vh;
     background-size: cover;
@@ -265,7 +265,7 @@ button.normal {
 }
 
 #sm-banner .banner-box2 {
-    background-image: url("../../public/assets/banners/b7.jpg");
+    background-image: url("../../../public/assets/banners/b7.jpg");
 } 
 
 #sm-banner h4 {
