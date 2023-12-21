@@ -12,6 +12,7 @@ import About from './pages/About';
 import Cart from './pages/Cart';
 import EditProfile from './pages/EditProfile';
 import Checkout from './pages/Checkout';
+import OrderStatus from './pages/OrderStatus';
 
 import Login from './pages/Login';
 import MerchantProducts from './pages/Merchant/Products.js';
@@ -28,6 +29,12 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { products } from './helpers/product_list';
 
 function App() {
+    const [deliveryInfo, setDeliveryInfo] = useState({
+        fullName: '',
+        address: '',
+        phoneNumber: '',
+    });
+    
     const [cartItems, setCartItems] = useState([]);
     const addToCart = ({ productIndex, quantity, selectedSize }) => {
         const existingItem = cartItems.find(item => item.productIndex === productIndex && item.selectedSize === selectedSize);
@@ -107,8 +114,9 @@ function App() {
                                             <h3>Click <Link to="/shop">here</Link> to buy products.</h3>
                                         </section>} />
                                     <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} isLoggedIn={ isLoggedIn }/>} />
-                                    <Route path="/checkout" element={<Checkout cartItems={cartItems} setCartItems={setCartItems}/>} />
+                                    <Route path="/checkout" element={<Checkout cartItems={cartItems} setCartItems={setCartItems} deliveryInfo={deliveryInfo} setDeliveryInfo={setDeliveryInfo}/>} />
                                     <Route path="/edit-profile" element={<EditProfile/>} />
+                                    <Route path="/order-status" element={<OrderStatus deliveryInfo={deliveryInfo}/>} />
                                 </Routes>
                                 <Footer />
                             </div>

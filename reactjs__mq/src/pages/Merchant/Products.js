@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import '../../styles/Merchant/Products.css';
-import { Link } from 'react-router-dom';
 import { products } from '../../helpers/product_list';
 import Modal from '../../components/Modal';
 import { Select, Option } from '@material-tailwind/react';

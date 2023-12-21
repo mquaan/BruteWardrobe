@@ -179,7 +179,7 @@ function Users() {
     ];
 
     const handleRemoveRow = (id) => {
-        setTableData((prevData) => prevData.filter((row) => row.id !== id));
+        // setTableData((prevData) => prevData.filter((row) => row.id !== id));
     };
 
     const [records, setRecords] = useState(data);

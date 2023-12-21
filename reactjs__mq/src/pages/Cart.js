@@ -3,7 +3,7 @@
   import '../styles/Cart.css'
   import { Link } from 'react-router-dom';
 
-  function Cart({ cartItems, setCartItems }) { 
+  function Cart({ cartItems, setCartItems}) { 
     const [updatedCartItems, setUpdatedCartItems] = useState(cartItems);
 
     const handleQuantityChange = (index, newQuantity) => {

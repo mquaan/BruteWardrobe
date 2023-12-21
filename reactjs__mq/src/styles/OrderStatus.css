@@ -1,0 +1,50 @@
+.track-order-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.order-details,
+.delivery-info,
+.delivery-progress {
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+}
+
+.progress-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 10px;
+  transition: background-color 0.3s ease;
+}
+
+.progress-indicator.shipped {
+  background-color: #3498db; /* Update with your desired color for shipped stage */
+}
+
+.progress-indicator.delivered {
+  background-color: #27ae60; /* Update with your desired color for delivered stage */
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-labels span {
+  flex-grow: 1;
+  text-align: center;
+  color: #888;
+}
+
+.progress-labels span.active {
+  color: #3498db; /* Update with your desired color for active stage */
+}

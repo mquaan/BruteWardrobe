@@ -34,7 +34,7 @@ function Description({ isLoggedIn, product, productIndex, addToCart }) {
     };
     
     const handleAddToCart = () => {
-        if (!isLoggedIn) {
+        if (isLoggedIn) {
             if (selectedSize && quantity > 0) {
                 addToCart({
                     productIndex,
@@ -115,7 +115,7 @@ function SmallImg({ image, onClick }) {
     );
 }
 
-const ProductDetail = ({ addToCart }) => {
+const ProductDetail = ({ addToCart, isLoggedIn }) => {
     const { index } = useParams();
     const [mainImg, setMainImg] = useState(products[index - 1].image);
 
@@ -135,7 +135,7 @@ const ProductDetail = ({ addToCart }) => {
                     <SmallImg image={products[index - 1].sub_p4} onClick={() => handleSmallImgClick(products[index - 1].sub_p4)} />
                 </div>
             </div>
-            <Description product={products} productIndex={index} addToCart={addToCart}/>
+            <Description product={products} productIndex={index} addToCart={addToCart} isLoggedIn={ isLoggedIn }/>
         </section>
         </div>
     )

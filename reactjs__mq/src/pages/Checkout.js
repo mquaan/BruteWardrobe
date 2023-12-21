@@ -1,35 +1,29 @@
 import React, { useState } from 'react';
 import '../styles/Checkout.css';
 import { products } from '../helpers/product_list';
+import { useNavigate } from 'react-router-dom';
 
-function Checkout({ cartItems, setCartItems }) {
-  const [deliveryInfo, setDeliveryInfo] = useState({
-    fullName: '',
-    address: '',
-    phoneNumber: '',
-    email: '',
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setDeliveryInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
-  };
-
+function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo }) {
+  const navigate = useNavigate();
   const handlePaymentMethod = (method) => {
     // Handle payment method selection (e.g., update state)
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setDeliveryInfo((deliveryInfo) => ({ ...deliveryInfo, [name]: value }));
+  };
+  
   const handlePlaceOrder = () => {
     if (
       deliveryInfo.fullName &&
       deliveryInfo.address &&
       deliveryInfo.phoneNumber &&
-      deliveryInfo.email &&
       document.querySelector('input[name="paymenMethod"]:checked') 
     ) {
-      // Handle placing the order (e.g., send data to the server)
-      alert('Order placed successfully!');
-      setCartItems([]); 
+      // alert('Order placed successfully!');
+      navigate('/order-status');
+      // setCartItems([]); 
     } else {
       alert('Please fill in all required information.');
     }
@@ -76,17 +70,6 @@ function Checkout({ cartItems, setCartItems }) {
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="email">E-mail:</label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              value={deliveryInfo.email}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
         </form>
       </section>
 
@@ -96,6 +79,7 @@ function Checkout({ cartItems, setCartItems }) {
           <thead>
             <tr>
               <th>Product</th>
+              <th>Image</th>
               <th>Quantity</th>
               <th>Price</th>
             </tr>
@@ -104,6 +88,7 @@ function Checkout({ cartItems, setCartItems }) {
             {cartItems.map((item) => (
               <tr key={`${item.productIndex}-${item.selectedSize}`}>
                 <td>{products[item.productIndex - 1].name}</td>
+                <td><img src={products[item.productIndex - 1].image} alt={`Product ${item.productIndex}`} /></td>
                 <td>{item.quantity}</td>
                 <td>${item.price * item.quantity}</td>
               </tr>
@@ -136,10 +121,9 @@ function Checkout({ cartItems, setCartItems }) {
           />
         </div>
       </section>
-
-      <button className="place-order-btn" onClick={handlePlaceOrder}>
-        Place Order
-      </button>
+        <button className="place-order-btn" onClick={handlePlaceOrder}>
+          Place Order
+        </button>
     </div>
   );
 }

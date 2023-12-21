@@ -5,7 +5,23 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
   }
-  
+
+  #order-summary table {
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+  }
+
+  #order-summary table img {
+    width: 100px;
+  }
+
+  #order-summary table {
+    table-layout: fixed;
+    white-space: nowrap;
+  }
+
   #delivery-info,
   #order-summary,
   #payment-method {
@@ -15,14 +31,18 @@
   .form-group {
     margin-bottom: 15px;
   }
+
+  .checkout-container form {
+    margin-top: 10px;
+  }
   
-  label {
+  .form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
   }
   
-  input,
+  .form-group input,
   textarea {
     width: 100%;
     padding: 8px;
@@ -31,21 +51,16 @@
     box-sizing: border-box;
     margin-bottom: 10px;
   }
+
   
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 15px;
-  }
-  
-  th,
+  #order-summary th,
   td {
     border: 1px solid #ddd;
     padding: 10px;
-    text-align: left;
+    text-align: center;
   }
   
-  th {
+  #order-summary th {
     background-color: #f2f2f2;
   }
   
