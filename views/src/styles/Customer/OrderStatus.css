@@ -12,39 +12,33 @@
   margin-bottom: 20px;
 }
 
-.progress-bar {
-  display: flex;
-  align-items: center;
+.order-details table {
+  margin-top: 10px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
 }
 
-.progress-indicator {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #ccc;
-  margin: 0 10px;
-  transition: background-color 0.3s ease;
+.order-details table img {
+  width: 100px;
 }
 
-.progress-indicator.shipped {
-  background-color: #3498db; /* Update with your desired color for shipped stage */
+.order-details table {
+  table-layout: fixed;
+  white-space: nowrap;
 }
 
-.progress-indicator.delivered {
-  background-color: #27ae60; /* Update with your desired color for delivered stage */
-}
+.order-details th,
+  td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .order-details th {
+    background-color: #f2f2f2;
+  }
 
-.progress-labels {
-  display: flex;
-  justify-content: space-between;
-}
-
-.progress-labels span {
-  flex-grow: 1;
-  text-align: center;
-  color: #888;
-}
-
-.progress-labels span.active {
-  color: #3498db; /* Update with your desired color for active stage */
-}
+  .total-price {
+    margin-top: 10px;
+  }

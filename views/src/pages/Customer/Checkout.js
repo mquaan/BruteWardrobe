@@ -3,11 +3,8 @@ import '../../styles/Customer/Checkout.css';
 import { products } from '../../helpers/product_list';
 import { useNavigate } from 'react-router-dom';
 
-function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo }) {
+function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo, setOrderedProducts }) {
   const navigate = useNavigate();
-  const handlePaymentMethod = (method) => {
-    // Handle payment method selection (e.g., update state)
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,11 +16,13 @@ function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo }) {
       deliveryInfo.fullName &&
       deliveryInfo.address &&
       deliveryInfo.phoneNumber &&
-      document.querySelector('input[name="paymenMethod"]:checked') 
+      document.querySelector('input[name="paymentMethod"]:checked') 
     ) {
       // alert('Order placed successfully!');
+      const orderedProducts = [...cartItems];
       navigate('/order-status');
-      // setCartItems([]); 
+      setOrderedProducts(cartItems);
+      setCartItems([]); 
     } else {
       alert('Please fill in all required information.');
     }
@@ -103,20 +102,20 @@ function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo }) {
       <section id="payment-method">
         <h2>Payment Method</h2>
         <div className="payment-options">
-          <label htmlFor="paymenMethod">Cash on Delivery</label>
+          <label htmlFor="paymentMethod">Cash on Delivery</label>
           <input 
                 type="radio"
-                name="paymenMethod"
+                name="paymentMethod"
                 value="cash"
-                onChange={() => handlePaymentMethod('cash')}
+                onChange={handleInputChange}
                 required
           />
-          <label htmlFor="paymenMethod">Banking</label>
+          <label htmlFor="paymentMethod">Banking</label>
           <input 
                 type="radio"
-                name="paymenMethod"
+                name="paymentMethod"
                 value="banking"
-                onChange={() => handlePaymentMethod('banking')}
+                onChange={handleInputChange}
                 required
           />
         </div>

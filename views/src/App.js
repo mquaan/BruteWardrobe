@@ -34,7 +34,10 @@ function App() {
         fullName: '',
         address: '',
         phoneNumber: '',
+        paymentMethod: '',
     });
+
+    const [orderedProducts, setOrderedProducts] = useState([]);
     
     const [cartItems, setCartItems] = useState([]);
     const addToCart = ({ productIndex, quantity, selectedSize }) => {
@@ -54,24 +57,8 @@ function App() {
             setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
         }
     };
-    const initialLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
-    const [isLoggedIn, setLoggedIn] = useState(initialLoggedInState);
-    const handleLogin = () => {
-        setLoggedIn(true);
-        localStorage.setItem('isLoggedIn', 'true');
-    };
 
-    const handleLogout = () => {
-        setLoggedIn(false);
-        localStorage.removeItem('isLoggedIn');
-    };
-
-    useEffect(() => {
-        const storedLoggedInState = localStorage.getItem('isLoggedIn') === 'true';
-        if (storedLoggedInState !== isLoggedIn) {
-            setLoggedIn(storedLoggedInState);
-        }
-    }, [isLoggedIn]);
+    const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')));
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
@@ -81,7 +68,7 @@ function App() {
         <div className='App'>
             <Router>
                 <Routes>
-                    <Route path='/login' element={<Login handleLogin={handleLogin} />} />
+                    <Route path='/login' element={<Login />} />
                     <Route
                         path='/merchant/*'
                         element={
@@ -94,7 +81,7 @@ function App() {
                                         <Route path='/orders' element={<MerchantOrders />} />
                                         <Route path='/profile' element={<MerchantProfile />} />
                                         <Route path='/logout' element={<Login />} />
-                                    </Routes>
+                                    </Routes> 
                                 </div>
                                 <Modal open={open} handleOpen={handleOpen} product={productModal} />
                             </div>
@@ -104,7 +91,7 @@ function App() {
                         path='*'
                         element={
                             <div>
-                                <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+                                <Navbar token={token} setToken={setToken} />
                                 <Routes>
                                     <Route path='/' element={<Home />} />
                                     <Route path='/shop' element={<Shop />} />
@@ -115,9 +102,9 @@ function App() {
                                             <h3>Click <Link to="/shop">here</Link> to buy products.</h3>
                                         </section>} />
                                     <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} isLoggedIn={ isLoggedIn }/>} />
-                                    <Route path="/checkout" element={<Checkout cartItems={cartItems} setCartItems={setCartItems} deliveryInfo={deliveryInfo} setDeliveryInfo={setDeliveryInfo}/>} />
+                                    <Route path="/checkout" element={<Checkout cartItems={cartItems} setCartItems={setCartItems} deliveryInfo={deliveryInfo} setDeliveryInfo={setDeliveryInfo} setOrderedProducts={setOrderedProducts}/>} />
                                     <Route path="/edit-profile" element={<EditProfile/>} />
-                                    <Route path="/order-status" element={<OrderStatus deliveryInfo={deliveryInfo}/>} />
+                                    <Route path="/order-status" element={<OrderStatus deliveryInfo={deliveryInfo} orderedProducts={orderedProducts}/>} />
                                 </Routes>
                                 <Footer />
                             </div>
