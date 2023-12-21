@@ -23,7 +23,7 @@ passport.use(
 					if (snapshot1.empty && snapshot2.empty) {
 						console.log('User not found.');
 						return cb(null, false, {
-							message: '(*) User not found.',
+							message: '(*) User not found!',
 						});
 					}
 				}
@@ -35,7 +35,7 @@ passport.use(
 
 				if (!passwordMatch) {
 					console.log('Incorrect password.');
-					return cb(null, false, { message: '(*) Incorrect password.' });
+					return cb(null, false, { message: '(*) Incorrect password!' });
 				}
 
 				console.log('Validation passed');

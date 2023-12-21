@@ -1,30 +1,32 @@
 import db from '../config/firebase.js';
-import { collection, query, getDocs, where, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, query, getDoc, getDocs, where, addDoc, updateDoc } from 'firebase/firestore';
 import { Customer, customerConverter } from '../models/customer.js';
-import { Merchant, merchantConverter } from '../models/merchant.js';
+import bcrypt from 'bcrypt'
 const controller = {};
 
 controller.signup = async (req, res) => {
-	console.log(req.body);
 	try {
 		let { username, email, password } = req.body;
-		let ref = collection(db, 'customers');
-		let q1 = query(ref, where('username', '==', username));
-		let q2 = query(ref, where('email', '==', email));
-
-		if (!getDocs(q1).empty && !getDocs(q2).empty) {
-            let reff = collection(db, role).withConverter(customerConverter);
+		const saltRounds = 10;
+		const salt = bcrypt.genSaltSync(saltRounds);
+		password = bcrypt.hashSync(password, salt);
+		let snapshot1 = await getDocs(query(collection(db, 'customers'), where('username', '==', username)));
+		let snapshot2 = await getDocs(query(collection(db, 'customers'), where('email', '==', email)));
+		if (snapshot1.empty || snapshot2.empty) {
+			let ref = collection(db, 'customers').withConverter(customerConverter);
 			let user = new Customer(username, password, email);
 
-			const docRef = await addDoc(reff, user);
+			const docRef = await addDoc(ref, user);
 			await updateDoc(docRef, { userId: docRef.id });
+			user = (await getDoc(docRef)).data();
 
-			return res.json({ success: true, user: docRef });
+			return res.json({ success: true, user});
 		} else {
-			return res.status(409).send('User already exist');
+			return res.json({ success: false, message: '(*) User already exist!' });
 		}
 	} catch (error) {
-		return res.status(500).json({ message: error.message });
+		console.log(error)
+		return res.status(500).json({ success: false, message: error.message });
 	}
 };
 

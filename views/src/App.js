@@ -65,7 +65,7 @@ function App() {
         <div className='App'>
             <Router>
                 <Routes>
-                    <Route path='/login' element={<Login />} />
+                    <Route path='/login' element={<Login token={token}/>} />
                     <Route
                         path='/merchant/*'
                         element={

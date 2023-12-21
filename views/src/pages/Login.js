@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/Login.css';
 
-function Login() {
+function Login({token}) {
 	const [username, setUsername] = useState('');
 	const [pass, setPass] = useState('');
 	const [cfpass, setCfPass] = useState('');
@@ -60,7 +60,6 @@ function Login() {
 			.post('http://localhost:4000/signup', { username, email, password: pass })
 			.then((response) => {
 				if (response.data.success) {
-					console.log(response.data.user);
 					localStorage.setItem('token', JSON.stringify(response.data.user.userId));
 					window.location.href = '/';
 				} else {
@@ -74,146 +73,152 @@ function Login() {
 			});
 	}
 
-	return (
-		<div className='body'>
-			<section id='header'>
-				<img src='../assets/Logo.png' alt='Logo' width='90' height='75' />
-			</section>
-
-			<section id='body_section'>
-				<div className='container' id='container'>
-					<div className='form-container sign-in'>
-						<form onSubmit={(event) => handleSignIn(event, document.getElementById('errorSignIn'))}>
-							<h1>Sign In</h1>
-							<div className='social-icons'>
-								<div className='a icon'>
-									<i className='fa-brands fa-google'></i>
+	if (token) {
+		window.location.href = '/';
+	} else {
+		return (
+			<div className='body'>
+				<section id='header'>
+					<img src='../assets/Logo.png' alt='Logo' width='90' height='75' />
+				</section>
+	
+				<section id='body_section'>
+					<div className='container' id='container'>
+						<div className='form-container sign-in'>
+							<form onSubmit={(event) => handleSignIn(event, document.getElementById('errorSignIn'))}>
+								<h1>Sign In</h1>
+								<div className='social-icons'>
+									<div className='a icon'>
+										<i className='fa-brands fa-google'></i>
+									</div>
+									<div className='a icon'>
+										<i className='fa-brands fa-facebook'></i>
+									</div>
 								</div>
-								<div className='a icon'>
-									<i className='fa-brands fa-facebook'></i>
-								</div>
-							</div>
-							<span>or use your email password</span>
-							<input
-								name='username'
-								type='text'
-								id='si_username'
-								placeholder='Username or Email'
-								onChange={(event) => {
-									setUsername(event.target.value);
-								}}
-							/>
-							<span id='errorSignInUsername' className='signIn-error-message'></span>
-							<input
-								name='password'
-								type='password'
-								id='si_password'
-								placeholder='Password'
-								onChange={(event) => {
-									setPass(event.target.value);
-								}}
-								required
-							/>
-							<span id='errorSignIn' className='signUp-error-message'></span>
-
-							<div className='a'>Forget Your Password?</div>
-							<button type='submit' id='signIn_btn'>
-								Sign In
-							</button>
-						</form>
-					</div>
-					<div className='form-container sign-up'>
-						<form onSubmit={(event) => handleSignIn(event, document.getElementById('errorSignUpUsername'))}>
-							<h1>Create Account</h1>
-							<div className='social-icons'>
-								<div className='a icon'>
-									<i id='google-icon' className='fa-brands fa-google'></i>
-								</div>
-								<div className='a icon'>
-									<i id='facebook-icon' className='fa-brands fa-facebook'></i>
-								</div>
-							</div>
-							<span>or use your email for registeration</span>
-							<input
-								name='username'
-								type='text'
-								id='su_username'
-								placeholder='Username'
-								onChange={(event) => CheckSignUpUsername(event.target.value, document.getElementById('errorSignUpUsername'))}
-								required
-							/>
-							<span id='errorSignUpUsername' className='signUp-error-message'></span>
-							<input
-								name='email'
-								type='email'
-								id='su_email'
-								placeholder='Email'
-								onChange={(event) => {
-									setEmail(event.target.value);
-								}}
-							/>
-							<input
-								name='password'
-								type='password'
-								id='su_password'
-								placeholder='Password'
-								onChange={(event) =>
-									CheckPassword(event.target.value, document.getElementById('su_confirmPassword').value, document.getElementById('wrongPassword'))
-								}
-								required
-							/>
-							<input
-								type='password'
-								id='su_confirmPassword'
-								placeholder='Confirm Password'
-								onChange={(event) =>
-									CheckPassword(document.getElementById('su_password').value, event.target.value, document.getElementById('wrongPassword'))
-								}
-								required
-							/>
-							<span id='wrongPassword' className='wrongPassword-message'></span>
-							<button id='signUp_btn' disabled={isSubmitDisabled}>
-								Sign Up
-							</button>
-						</form>
-					</div>
-					<div className='toggle-container'>
-						<div className='toggle'>
-							<div className='toggle-panel toggle-left'>
-								<h1>Welcome Back!</h1>
-								<p>Enter your personal details to use all of site features</p>
-								<button
-									className='hidden'
-									id='login'
-									onClick={() => {
-										document.getElementById('container').classList.remove('active');
+								<span>or use your email password</span>
+								<input
+									name='username'
+									type='text'
+									id='si_username'
+									placeholder='Username or Email'
+									onChange={(event) => {
+										setUsername(event.target.value);
 									}}
-								>
+								/>
+								<span id='errorSignInUsername' className='signIn-error-message'></span>
+								<input
+									name='password'
+									type='password'
+									id='si_password'
+									placeholder='Password'
+									onChange={(event) => {
+										setPass(event.target.value);
+									}}
+									required
+								/>
+								<span id='errorSignIn' className='signUp-error-message'></span>
+	
+								<div className='a'>Forget Your Password?</div>
+								<button type='submit' id='signIn_btn'>
 									Sign In
 								</button>
-							</div>
-							<div className='toggle-panel toggle-right'>
-								<h1>Hello, Friend!</h1>
-								<p>Register with your personal details to use all of site features</p>
-								<button
-									className='hidden'
-									id='register'
-									onClick={() => {
-										document.getElementById('container').classList.add('active');
+							</form>
+						</div>
+						<div className='form-container sign-up'>
+							<form onSubmit={(event) => handleSignUp(event, document.getElementById('errorSignUp'))}>
+								<h1>Create Account</h1>
+								<div className='social-icons'>
+									<div className='a icon'>
+										<i id='google-icon' className='fa-brands fa-google'></i>
+									</div>
+									<div className='a icon'>
+										<i id='facebook-icon' className='fa-brands fa-facebook'></i>
+									</div>
+								</div>
+								<span>or use your email for registeration</span>
+								<input
+									name='email'
+									type='email'
+									id='su_email'
+									placeholder='Email'
+									onChange={(event) => {
+										setEmail(event.target.value);
 									}}
-								>
+								/>
+								<input
+									name='username'
+									type='text'
+									id='su_username'
+									placeholder='Username'
+									onChange={(event) => CheckSignUpUsername(event.target.value, document.getElementById('errorSignUpUsername'))}
+									required
+								/>
+								<span id='errorSignUpUsername' className='signUp-error-message'></span>
+								<input
+									name='password'
+									type='password'
+									id='su_password'
+									placeholder='Password'
+									onChange={(event) =>
+										CheckPassword(event.target.value, document.getElementById('su_confirmPassword').value, document.getElementById('wrongPassword'))
+									}
+									required
+								/>
+								<input
+									type='password'
+									id='su_confirmPassword'
+									placeholder='Confirm Password'
+									onChange={(event) =>
+										CheckPassword(document.getElementById('su_password').value, event.target.value, document.getElementById('wrongPassword'))
+									}
+									required
+								/>
+								<span id='wrongPassword' className='wrongPassword-message'></span>
+								<span id='errorSignUp' className='signUp-error-message'></span>
+								<button id='signUp_btn' disabled={isSubmitDisabled}>
 									Sign Up
 								</button>
+							</form>
+						</div>
+						<div className='toggle-container'>
+							<div className='toggle'>
+								<div className='toggle-panel toggle-left'>
+									<h1>Welcome Back!</h1>
+									<p>Enter your personal details to use all of site features</p>
+									<button
+										className='hidden'
+										id='login'
+										onClick={() => {
+											document.getElementById('container').classList.remove('active');
+										}}
+									>
+										Sign In
+									</button>
+								</div>
+								<div className='toggle-panel toggle-right'>
+									<h1>Hello, Friend!</h1>
+									<p>Register with your personal details to use all of site features</p>
+									<button
+										className='hidden'
+										id='register'
+										onClick={() => {
+											document.getElementById('container').classList.add('active');
+										}}
+									>
+										Sign Up
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+	
+					<div className='background_image' id='background_image'>
+						<img src='../assets/clothing_background_2.png' alt='background_image' width='650' height='480' />
+					</div>
+				</section>
+			</div>
+		);
+	}
 
-				<div className='background_image' id='background_image'>
-					<img src='../assets/clothing_background_2.png' alt='background_image' width='650' height='480' />
-				</div>
-			</section>
-		</div>
-	);
 }
 export default Login;

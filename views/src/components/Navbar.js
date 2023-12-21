@@ -117,7 +117,7 @@ function Navbar({ token, setToken }) {
 						</div>
 					</Link>
 
-					<Link to='/' style={{ textDecoration: 'none' }}>
+					<Link to='/login' style={{ textDecoration: 'none' }}>
 						<div className='sub-menu-link' onClick={handleLogout}>
 							<img src='../assets/features/logout.png' alt='' />
 							<p>Logout</p>
