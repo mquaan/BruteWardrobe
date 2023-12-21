@@ -108,6 +108,15 @@ function Navbar({ token, setToken }) {
 							<span>{'>'}</span>
 						</div>
 					</Link>
+
+					<Link to='/order-status' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>
+						<div className='sub-menu-link'>
+							<img src='../assets/features/order.png' alt='' />
+							<p>Order Status</p>
+							<span>{'>'}</span>
+						</div>
+					</Link>
+
 					<Link to='/' style={{ textDecoration: 'none' }}>
 						<div className='sub-menu-link' onClick={handleLogout}>
 							<img src='../assets/features/logout.png' alt='' />
