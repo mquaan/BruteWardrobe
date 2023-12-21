@@ -19,7 +19,7 @@ import OrderStatus from './pages/Customer/OrderStatus';
 import MerchantProducts from './pages/Merchant/Products.js';
 import MerchantOrders from './pages/Merchant/Orders.js';
 import MerchantProfile from './pages/Merchant/Profile.js';
-
+ 
 import Dashboard from './pages/Administrator/Dashboard.js';
 import Users from './pages/Administrator/Users.js';
 import Products from './pages/Administrator/Products.js';
@@ -68,7 +68,7 @@ function App() {
         <div className='App'>
             <Router>
                 <Routes>
-                    <Route path='/login' element={<Login />} />
+                    <Route path='/login' element={<Login token={token}/>} />
                     <Route
                         path='/merchant/*'
                         element={
@@ -101,7 +101,7 @@ function App() {
                                             <h2>Your cart is empty!</h2>
                                             <h3>Click <Link to="/shop">here</Link> to buy products.</h3>
                                         </section>} />
-                                    <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} isLoggedIn={ isLoggedIn }/>} />
+                                    <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} token={ token }/>} />
                                     <Route path="/checkout" element={<Checkout cartItems={cartItems} setCartItems={setCartItems} deliveryInfo={deliveryInfo} setDeliveryInfo={setDeliveryInfo} setOrderedProducts={setOrderedProducts}/>} />
                                     <Route path="/edit-profile" element={<EditProfile/>} />
                                     <Route path="/order-status" element={<OrderStatus deliveryInfo={deliveryInfo} orderedProducts={orderedProducts}/>} />

@@ -1,8 +1,8 @@
 import User from './user.js';
 
 class Merchant extends User {
-    constructor(username, password, email, userID = null, address = null, phoneNumber = null, loginStatus = false, gender = 'male', dob=null, experience = 0, totalProducts = 0, salary = 0) {
-        super(username, password, email, userID, address, phoneNumber, loginStatus, gender, dob);
+    constructor(username, password, email, userId = null, address = null, phoneNumber = null, loginStatus = false, gender = 'male', dob=null, experience = 0, totalProducts = 0, salary = 0) {
+        super(username, password, email, userId, address, phoneNumber, loginStatus, gender, dob);
         this.experience = experience;
         this.totalProducts = totalProducts;
         this.salary = salary;
@@ -13,7 +13,7 @@ const merchantConverter = {
     toFirestore: (merchant) => {
         return {
             username: merchant.username,
-            userID: merchant.userID,
+            userId: merchant.userId,
             password: merchant.password,
             address: merchant.address,
             phoneNumber: merchant.phoneNumber,
@@ -29,7 +29,7 @@ const merchantConverter = {
     fromFirestore: (snapshot, options) => {
         const data = snapshot.data(options);
         return new Merchant(data.username, data.password, data.email,
-             data.userID, data.address, data.phoneNumber, data.loginStatus,
+             data.userId, data.address, data.phoneNumber, data.loginStatus,
              data.gender, data.dob,
              data.experience, data.totalProducts, data.salary);
     },

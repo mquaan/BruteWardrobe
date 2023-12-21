@@ -4,7 +4,7 @@ import '../styles/Customer/Product_detail.css';
 import { products } from '../helpers/product_list';
 import Modal from 'react-modal';
 
-function Description({ isLoggedIn, productIndex, addToCart }) { 
+function Description({ token, productIndex, addToCart }) { 
     const pro = products[productIndex - 1];
     const [quantity, setQuantity] = React.useState(0);
     const [selectedSize, setSelectedSize] = React.useState('');
@@ -34,7 +34,7 @@ function Description({ isLoggedIn, productIndex, addToCart }) {
     };
     
     const handleAddToCart = () => {
-        if (isLoggedIn) {
+        if (token) {
             if (selectedSize && quantity > 0) {
                 addToCart({
                     productIndex,
@@ -115,7 +115,7 @@ function SmallImg({ image, onClick }) {
     );
 }
 
-const ProductDetail = ({ addToCart, isLoggedIn }) => {
+const ProductDetail = ({ addToCart, token }) => {
     const { index } = useParams();
     const [mainImg, setMainImg] = useState(products[index - 1].imgURLs[0]);
 
@@ -135,7 +135,7 @@ const ProductDetail = ({ addToCart, isLoggedIn }) => {
                     <SmallImg image={products[index - 1].imgURLs[3]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[3])} />
                 </div>
             </div>
-            <Description productIndex={index} addToCart={addToCart} isLoggedIn={ isLoggedIn }/>
+            <Description productIndex={index} addToCart={addToCart} token={ token }/>
         </section>
         </div>
     )
