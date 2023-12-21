@@ -34,8 +34,8 @@ passport.use(
 				const passwordMatch = await bcrypt.compare(password, user.password);
 
 				if (!passwordMatch) {
-					console.log('Incorrect username/email or password.');
-					return cb(null, false, { message: '(*) Incorrect username/email or password.' });
+					console.log('Incorrect password.');
+					return cb(null, false, { message: '(*) Incorrect password.' });
 				}
 
 				console.log('Validation passed');
