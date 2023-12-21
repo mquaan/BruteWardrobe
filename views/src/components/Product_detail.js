@@ -4,8 +4,8 @@ import '../styles/Customer/Product_detail.css';
 import { products } from '../helpers/product_list';
 import Modal from 'react-modal';
 
-function Description({ isLoggedIn, product, productIndex, addToCart }) { 
-    const { name, price, star, image, sub_p1, sub_p2, sub_p3, sub_p4, type, ...productDetails } = product[productIndex - 1];
+function Description({ isLoggedIn, productIndex, addToCart }) { 
+    const pro = products[productIndex - 1];
     const [quantity, setQuantity] = React.useState(0);
     const [selectedSize, setSelectedSize] = React.useState('');
     const [showModal, setShowModal] = useState(false);
@@ -71,8 +71,8 @@ function Description({ isLoggedIn, product, productIndex, addToCart }) {
       
     return (
         <div className="single-pro-details">
-            <h4>{name}</h4>
-            <h2>${price}</h2>
+            <h4>{pro.name}</h4>
+            <h2>${pro.price}</h2>
             <select value={selectedSize} onChange={handleSizeChange}> 
                 <option>Select Size</option>
                 <option>S</option>
@@ -97,7 +97,7 @@ function Description({ isLoggedIn, product, productIndex, addToCart }) {
             </Modal>
             <h4>Desciption</h4>
             <ul>
-                {Object.entries(productDetails).map(([key, value]) => (
+                {Object.entries(pro.description).map(([key, value]) => (
                     <li key={key}>
                     <strong>{key}:</strong> {value}
                     </li>
@@ -117,7 +117,7 @@ function SmallImg({ image, onClick }) {
 
 const ProductDetail = ({ addToCart, isLoggedIn }) => {
     const { index } = useParams();
-    const [mainImg, setMainImg] = useState(products[index - 1].image);
+    const [mainImg, setMainImg] = useState(products[index - 1].imgURLs[0]);
 
     const handleSmallImgClick = (newImg) => {
         setMainImg(newImg);
@@ -129,13 +129,13 @@ const ProductDetail = ({ addToCart, isLoggedIn }) => {
                 <img src={mainImg} width="100%" id="MainImg" alt="" />
 
                 <div className="small-img-group">
-                    <SmallImg image={products[index - 1].sub_p1} onClick={() => handleSmallImgClick(products[index - 1].sub_p1)} />
-                    <SmallImg image={products[index - 1].sub_p2} onClick={() => handleSmallImgClick(products[index - 1].sub_p2)} />
-                    <SmallImg image={products[index - 1].sub_p3} onClick={() => handleSmallImgClick(products[index - 1].sub_p3)} />
-                    <SmallImg image={products[index - 1].sub_p4} onClick={() => handleSmallImgClick(products[index - 1].sub_p4)} />
+                    <SmallImg image={products[index - 1].imgURLs[0]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[0])} />
+                    <SmallImg image={products[index - 1].imgURLs[1]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[1])} />
+                    <SmallImg image={products[index - 1].imgURLs[2]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[2])} />
+                    <SmallImg image={products[index - 1].imgURLs[3]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[3])} />
                 </div>
             </div>
-            <Description product={products} productIndex={index} addToCart={addToCart} isLoggedIn={ isLoggedIn }/>
+            <Description productIndex={index} addToCart={addToCart} isLoggedIn={ isLoggedIn }/>
         </section>
         </div>
     )
