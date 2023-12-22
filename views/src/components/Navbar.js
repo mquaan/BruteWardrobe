@@ -3,12 +3,12 @@ import { Link, NavLink } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import '../styles/Customer/Navbar.css';
 
-function Navbar({ token, setToken }) {
+function Navbar({ token, setToken, cartItems }) {
 	const goToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'auto' });
 	};
 	const [isNavHidden, setIsNavHidden] = useState(false);
-
+	const isEmptyCart = cartItems.length === 0;
 	useEffect(() => {
 		const handleScroll = () => {
 			const scrollY = window.scrollY;
@@ -68,7 +68,7 @@ function Navbar({ token, setToken }) {
 					</li>
 					<li>
 						<NavLink className='link' activeclassname='active' to='/cart' onClick={() => goToTop()}>
-							<i className='fa-solid fa-bag-shopping fa-bounce'></i>
+							<i className={`fa-solid fa-bag-shopping ${isEmptyCart ? '' : 'fa-bounce'}`}></i>
 						</NavLink>
 					</li>
 					{token ? (

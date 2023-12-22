@@ -37,7 +37,6 @@ function App() {
         phoneNumber: '',
         paymentMethod: '',
     });
-
     const [orderedProducts, setOrderedProducts] = useState([]);
     
     const [cartItems, setCartItems] = useState([]);
@@ -92,7 +91,7 @@ function App() {
                         path='*'
                         element={
                             <div>
-                                <Navbar token={token} setToken={setToken} />
+                                <Navbar token={token} setToken={setToken} cartItems={cartItems}/>
                                 <Routes>
                                     <Route path='/' element={<Home />} />
                                     <Route path='/shop' element={<Shop />} />

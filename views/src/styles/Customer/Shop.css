@@ -131,6 +131,33 @@
 
 .filter-button {
     background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.filter-panel {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    margin-left: 50px;
+    border: 10px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.filter-panel select {
+    flex-grow: 1; 
+    margin-right: 8px; 
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filter-panel.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .sort-part {
@@ -148,6 +175,7 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     flex-grow: 1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .sort-part option {

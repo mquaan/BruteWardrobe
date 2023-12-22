@@ -20,7 +20,7 @@
 }
 
 #cart table td:nth-child(3) {
-    width: 250px;
+    width: 150px;
     text-align: center;
 }
 
@@ -46,11 +46,12 @@
 
 #cart table tbody tr td {
     padding-top: 15px;
-
 }
 
 #cart table tbody td {
     font-size: 13px;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 #cart table tbody button {

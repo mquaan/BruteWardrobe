@@ -62,7 +62,7 @@ function MerchantProducts({ handleOpen, handleProductModal }) {
                             onClick={() => {
                                 handleProductModal({
                                     image: null,
-                                    type: null,
+                                    Type: null,
                                     price: null,
                                     star: null,
                                     name: null,
