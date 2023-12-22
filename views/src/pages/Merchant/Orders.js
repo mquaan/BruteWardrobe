@@ -136,7 +136,7 @@ function MerchantOrders() {
         setStatus(newStatus);
 
         order.orderStatus = status;
-        if (status === 'Delivered') {
+        if (status === 'Delivered' && !order.dateShipped) {
             order.dateShipped = new Date();
         }
     };
