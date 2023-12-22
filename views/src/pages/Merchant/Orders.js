@@ -314,6 +314,7 @@ function MerchantOrders() {
                                                         variant="standard"
                                                         value={reason}
                                                         onChange={(e) => setReason(e.target.value)}
+                                                        required
                                                     />
 
                                                     <DialogContentText id="alert-dialog-description">
