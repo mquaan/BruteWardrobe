@@ -30,6 +30,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { products } from './helpers/product_list';
 
 function App() {
+    const [orderStatus, setOrderStatus] = useState('Shipping');
     const [deliveryInfo, setDeliveryInfo] = useState({
         fullName: '',
         address: '',
@@ -104,7 +105,7 @@ function App() {
                                     <Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} token={ token }/>} />
                                     <Route path="/checkout" element={<Checkout cartItems={cartItems} setCartItems={setCartItems} deliveryInfo={deliveryInfo} setDeliveryInfo={setDeliveryInfo} setOrderedProducts={setOrderedProducts}/>} />
                                     <Route path="/edit-profile" element={<EditProfile/>} />
-                                    <Route path="/order-status" element={<OrderStatus deliveryInfo={deliveryInfo} orderedProducts={orderedProducts}/>} />
+                                    <Route path="/order-status" element={<OrderStatus deliveryInfo={deliveryInfo} orderedProducts={orderedProducts} orderStatus={orderStatus}/>} />
                                 </Routes>
                                 <Footer />
                             </div>

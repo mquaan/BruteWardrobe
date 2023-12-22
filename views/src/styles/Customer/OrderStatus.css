@@ -28,7 +28,7 @@
   white-space: nowrap;
 }
 
-.order-details th,
+  .order-details th,
   td {
     border: 1px solid #ddd;
     padding: 10px;
@@ -42,3 +42,80 @@
   .total-price {
     margin-top: 10px;
   }
+
+.order-details {
+    margin-bottom: 20px;
+}
+
+.order-details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.order-details th, .order-details td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.order-details th {
+    background-color: #f2f2f2;
+}
+
+.total-price {
+    margin-top: 10px;
+}
+
+.delivery-info, .delivery-progress {
+    margin-bottom: 20px;
+}
+
+.steps {
+  display: flex;
+  margin-top: 20px;
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+}
+
+.step-icon {
+  font-size: 20px;
+  color: #333;
+}
+
+.step.completed .step-icon {
+  color: #008178; /* Green color for completed steps */
+}
+
+.step-title {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+.step.completed:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #008178; /* Color for the progress line */
+  bottom: -5px; /* Adjust the distance from the step titles */
+  left: 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .steps {
+      flex-wrap: wrap;
+  }
+
+  .step {
+      flex-basis: 48%;
+      margin-bottom: 10px;
+  }
+}
