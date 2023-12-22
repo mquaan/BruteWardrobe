@@ -2,7 +2,11 @@ import { Card, Typography, List, ListItem, ListItemPrefix } from '@material-tail
 import { BuildingStorefrontIcon, ShoppingBagIcon, UserCircleIcon, PowerIcon } from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
 
-export default function Sidebar() {
+export default function Sidebar({ setToken }) {
+    const handleLogout = () => {
+		localStorage.removeItem('token');
+        setToken(null)
+	};
     require('../../src/index.css');
     require('../styles/Merchant/Sidebar.css');
     return (
@@ -37,8 +41,8 @@ export default function Sidebar() {
                         Profile
                     </ListItem>
                 </Link>
-                <Link to='/merchant/logout'>
-                    <ListItem>
+                <Link to='/login'>
+                    <ListItem onClick={handleLogout}>
                         <ListItemPrefix>
                             <PowerIcon className='h-5 w-5' />
                         </ListItemPrefix>

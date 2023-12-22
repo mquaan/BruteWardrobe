@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/Login.css';
 
-function Login({token}) {
+function Login({ token }) {
 	const [username, setUsername] = useState('');
 	const [pass, setPass] = useState('');
 	const [cfpass, setCfPass] = useState('');
@@ -32,7 +32,7 @@ function Login({token}) {
 		}
 	}
 
-	async function handleSignIn(event, msg) {
+	async function handleLogin(event, msg) {
 		event.preventDefault();
 
 		await axios
@@ -40,9 +40,21 @@ function Login({token}) {
 			.then((response) => {
 				if (response.data.token) {
 					localStorage.setItem('token', JSON.stringify(response.data.token));
-					window.location.href = '/';
+					const data = decodeURIComponent(
+						atob(response.data.token.split('.')[1].replace('-', '+').replace('_', '/'))
+							.split('')
+							.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+							.join('')
+					);
+					const role = JSON.parse(data).user.role;
+					if (role === 'customer') {
+						window.location.href = '/';
+					} else if (role === 'merchant') {
+						window.location.href = '/merchant';
+					} else if (role === 'admin') {
+						window.location.href = '/admin';
+					}
 				} else {
-					// Show error message
 					msg.textContent = response.data.message;
 					msg.style.display = 'inline';
 					console.log(response.data.message);
@@ -60,7 +72,7 @@ function Login({token}) {
 			.post('http://localhost:4000/signup', { username, email, password: pass })
 			.then((response) => {
 				if (response.data.success) {
-					localStorage.setItem('token', JSON.stringify(response.data.user.userId));
+					localStorage.setItem('token', JSON.stringify(response.data.token));
 					window.location.href = '/';
 				} else {
 					msg.textContent = response.data.message;
@@ -81,19 +93,19 @@ function Login({token}) {
 				<section id='header'>
 					<img src='../assets/Logo.png' alt='Logo' width='90' height='75' />
 				</section>
-	
+
 				<section id='body_section'>
 					<div className='container' id='container'>
 						<div className='form-container sign-in'>
-							<form onSubmit={(event) => handleSignIn(event, document.getElementById('errorSignIn'))}>
+							<form onSubmit={(event) => handleLogin(event, document.getElementById('errorSignIn'))}>
 								<h1>Sign In</h1>
 								<div className='social-icons'>
-									<div className='a icon'>
+									<a className='a icon' href={'http://localhost:4000/login/google'}>
 										<i className='fa-brands fa-google'></i>
-									</div>
-									<div className='a icon'>
+									</a>
+									<a className='a icon' href={'http://localhost:4000/login/facebook'}>
 										<i className='fa-brands fa-facebook'></i>
-									</div>
+									</a>
 								</div>
 								<span>or use your email password</span>
 								<input
@@ -117,7 +129,7 @@ function Login({token}) {
 									required
 								/>
 								<span id='errorSignIn' className='signUp-error-message'></span>
-	
+
 								<div className='a'>Forget Your Password?</div>
 								<button type='submit' id='signIn_btn'>
 									Sign In
@@ -211,14 +223,13 @@ function Login({token}) {
 							</div>
 						</div>
 					</div>
-	
+
 					<div className='background_image' id='background_image'>
 						<img src='../assets/clothing_background_2.png' alt='background_image' width='650' height='480' />
 					</div>
 				</section>
 			</div>
 		);
-	}
-
+	} 
 }
 export default Login;

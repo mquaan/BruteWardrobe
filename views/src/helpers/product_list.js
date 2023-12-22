@@ -19,7 +19,7 @@ let imageFilenames = [
 
 for (let i = 0; i < imageFilenames.length; i++) {
     for (let j = 0; j < imageFilenames[i].length; j++) {
-        imageFilenames[i][j] = require(`../assets/products/${imageFilenames[i][j]}.jpg`);
+        imageFilenames[i][j] = require(`/src/assets/products/${imageFilenames[i][j]}.jpg`);
     }
 }
 
