@@ -61,7 +61,7 @@ function Home() {
 				<p>New Collection Design</p>
 				<div className='pro-container'>
 					{product1.map((product, index) => (
-						<Product key={index} index={index} image={product.imgURLs[0]} type={product.description.type} price={product.price} />
+						<Product key={index} index={index} image={product.imgURLs[0]} type={product.description.Type} price={product.price} />
 					))}
 				</div>
 			</section>

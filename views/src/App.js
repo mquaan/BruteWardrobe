@@ -90,7 +90,7 @@ function App() {
 		} else {
 			setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
 		}
-	};
+	}; 
 
 	const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')));
 
