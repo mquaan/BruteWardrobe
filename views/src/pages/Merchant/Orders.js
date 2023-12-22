@@ -27,6 +27,7 @@ import {
     TableHead,
     TableRow,
     Paper,
+    TextField,
 } from '@mui/material';
 
 
@@ -34,7 +35,7 @@ import {
     Person as PersonIcon,
     ShoppingCart as ShoppingCartIcon,
     ExpandLess,
-    ExpandMore
+    ExpandMore,
 } from '@mui/icons-material';
 
 import EditIcon from '@mui/icons-material/Edit';
@@ -64,8 +65,10 @@ function MerchantCart({ cart }) {
                     {cart.productList.map((item, proIndex) => (
                         <TableRow
                             key={proIndex}
-                            sx={{ '& td': { border: 0 },
-                            '&:last-child td, &:last-child th': { border: 0 } }}
+                            sx={{
+                                '& td': { border: 0 },
+                                '&:last-child td, &:last-child th': { border: 0 }
+                            }}
                         >
                             <TableCell component="th" scope="row" align="center">
                                 {products[item].name}
@@ -156,13 +159,15 @@ function MerchantOrders() {
 
     // dialog
     const [canceled, setCancel] = useState(displayedCustomers.map(customer => Array(customer.shopping.orderList.length).fill(false)))
-
+    const [reason, setReason] = useState('');
     const handleCancelOrder = (order, custIndex, orderIndex) => {
         const newCanceled = [...canceled];
 
         newCanceled[custIndex][orderIndex] = true; // Update the specific status
         setCancel(newCanceled);
         handleCloseDialog(custIndex, orderIndex);
+
+        console.log(`The order: ${order.orderID} have been canceled. Because: ${reason}`); // the customer should see this
     };
 
 
@@ -303,6 +308,14 @@ function MerchantOrders() {
                                                     {`Do you really want to cancel the order ${order.orderID} by ${customer.username}?`}
                                                 </DialogTitle>
                                                 <DialogContent>
+                                                    <TextField
+                                                        id="standard-basic"
+                                                        label="Reason"
+                                                        variant="standard"
+                                                        value={reason}
+                                                        onChange={(e) => setReason(e.target.value)}
+                                                    />
+
                                                     <DialogContentText id="alert-dialog-description">
                                                         This action will remove the customer's order. Please confirm your action and note that this process is irreversible.
                                                     </DialogContentText>
