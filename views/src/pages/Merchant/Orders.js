@@ -218,6 +218,7 @@ function MerchantOrders() {
                                                 alignItems="center"
                                                 justifyContent="center"
                                                 columns={28}
+                                                sx = {{pr:4}}
                                             >
                                                 <Grid item xs>
                                                     <ListItemButton sx={{ pl: 4 }} onClick={() => handleClick2(custIndex, orderIndex)}>
