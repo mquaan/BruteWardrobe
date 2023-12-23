@@ -109,6 +109,7 @@
 .product1 .add-button,
 .product1 .filter-button,
 .search-bar {
+    cursor: pointer;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -165,7 +166,7 @@
     flex-grow: 1; 
     margin-right: 8px; 
     padding: 2px;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     border-radius: 4px;
 }
 
