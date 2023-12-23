@@ -62,7 +62,7 @@ function MerchantCart({ cart }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {cart.productList.map((item, proIndex) => (
+                    {cart.map((item, proIndex) => (
                         <TableRow
                             key={proIndex}
                             sx={{
@@ -71,13 +71,13 @@ function MerchantCart({ cart }) {
                             }}
                         >
                             <TableCell component="th" scope="row" align="center">
-                                {products[item].name}
+                                {products[item.productID].name}
                             </TableCell>
                             <TableCell component="th" align="center" style={{ display: 'flex', justifyContent: 'center' }}>
-                                <img src={products[item].imgURLs[0]} alt={`Product ${item}`} style={{ maxWidth: '100px' }} />
+                                <img src={products[item.productID].imgURLs[0]} alt={`Product ${item.productID}`} style={{ maxWidth: '100px' }} />
                             </TableCell>
-                            <TableCell component="th" align="center">{cart.sizeList[proIndex]}</TableCell>
-                            <TableCell component="th" align="center">{cart.quantityList[proIndex]}</TableCell>
+                            <TableCell component="th" align="center">{item.size}</TableCell>
+                            <TableCell component="th" align="center">{item.quantity}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
