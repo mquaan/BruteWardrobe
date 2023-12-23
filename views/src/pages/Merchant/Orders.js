@@ -313,9 +313,11 @@ function MerchantOrders() {
                                                         label="Reason"
                                                         variant="standard"
                                                         value={reason}
+                                                        fullWidth
                                                         onChange={(e) => setReason(e.target.value)}
                                                         required
                                                     />
+                                                    <div style={{ marginBottom: '16px' }} />
 
                                                     <DialogContentText id="alert-dialog-description">
                                                         This action will remove the customer's order. Please confirm your action and note that this process is irreversible.
