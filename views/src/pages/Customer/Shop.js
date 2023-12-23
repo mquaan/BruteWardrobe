@@ -119,54 +119,54 @@ function Shop() {
                         </button>
                     </div>
 
-                {filterPanelVisible && (    
-                    <div className={`filter-panel ${filterPanelVisible ? 'show' : ''}`}>
-                        <select name='type' value={filterOptions.type} onChange={handleFilterChange}>
-                            <option value=''>All types</option>
-                            <option value='T-Shirts'>T-Shirts</option>
-                            <option value='Shirts'>Shirts</option>
-                            <option value='Hoodies'>Hoodies</option>
-                            <option value='Sweatshirts'>Sweatshirts</option>
-                            <option value='Pants'>Pants</option>
-                            <option value='Shorts'>Shorts</option>
-                        </select>
+                    {filterPanelVisible && (    
+                        <div className={`filter-panel ${filterPanelVisible ? 'show' : ''}`}>
+                            <select name='type' value={filterOptions.type} onChange={handleFilterChange}>
+                                <option value=''>All types</option>
+                                <option value='T-Shirts'>T-Shirts</option>
+                                <option value='Shirts'>Shirts</option>
+                                <option value='Hoodies'>Hoodies</option>
+                                <option value='Sweatshirts'>Sweatshirts</option>
+                                <option value='Pants'>Pants</option>
+                                <option value='Shorts'>Shorts</option>
+                            </select>
 
-                        <select name='occasion' value={filterOptions.occasion} onChange={handleFilterChange}>
-                            <option value=''>All occasions</option>
-                            <option value='Vacation'>Vacation</option>
-                            <option value='Casual'>Casual</option>
-                            <option value='Basics'>Basics</option>
-                            <option value='Street'>Street</option>
-                            <option value='Daily'>Daily</option>
-                        </select>
+                            <select name='occasion' value={filterOptions.occasion} onChange={handleFilterChange}>
+                                <option value=''>All occasions</option>
+                                <option value='Vacation'>Vacation</option>
+                                <option value='Casual'>Casual</option>
+                                <option value='Basics'>Basics</option>
+                                <option value='Street'>Street</option>
+                                <option value='Daily'>Daily</option>
+                            </select>
 
-                        <select name='color' value={filterOptions.color} onChange={handleFilterChange}>
-                            <option value=''>All colors</option>
-                            <option value='Blue'>Blue</option> 
-                            <option value='Brown'>Brown</option>
-                            <option value='Black'>Black</option>
-                            <option value='Red'>Red</option>
-                            <option value='White'>White</option>
-                            <option value='Green'>Green</option>
-                        </select>
+                            <select name='color' value={filterOptions.color} onChange={handleFilterChange}>
+                                <option value=''>All colors</option>
+                                <option value='Blue'>Blue</option> 
+                                <option value='Brown'>Brown</option>
+                                <option value='Black'>Black</option>
+                                <option value='Red'>Red</option>
+                                <option value='White'>White</option>
+                                <option value='Green'>Green</option>
+                            </select>
 
-                        <select name='brand' value={filterOptions.brand} onChange={handleFilterChange}>
-                            <option value=''>All brands</option>
-                            <option value='ChArmkpR'>ChArmkpR</option>
-                            <option value='Mensclo'>Mensclo</option>
-                            <option value='INCERUN'>INCERUN</option>
-                            <option value='KOYYE'>KOYYE</option>
-                        </select>
+                            <select name='brand' value={filterOptions.brand} onChange={handleFilterChange}>
+                                <option value=''>All brands</option>
+                                <option value='ChArmkpR'>ChArmkpR</option>
+                                <option value='Mensclo'>Mensclo</option>
+                                <option value='INCERUN'>INCERUN</option>
+                                <option value='KOYYE'>KOYYE</option>
+                            </select>
 
-                        <select name='season' value={filterOptions.season} onChange={handleFilterChange}>
-                            <option value=''>All seasons</option>
-                            <option value='Spring'>Spring</option>
-                            <option value='Summer'>Summer</option>
-                            <option value='Autumn'>Autumn</option>
-                            <option value='Winter'>Winter</option> 
-                        </select>
-                    </div>
-                )}
+                            <select name='season' value={filterOptions.season} onChange={handleFilterChange}>
+                                <option value=''>All seasons</option>
+                                <option value='Spring'>Spring</option>
+                                <option value='Summer'>Summer</option>
+                                <option value='Autumn'>Autumn</option>
+                                <option value='Winter'>Winter</option> 
+                            </select>
+                        </div>
+                    )}
             <div className='sort-part'>
                 <span style={{ width: '100%' }}>Sort by</span>
                 <div className='select-container'>

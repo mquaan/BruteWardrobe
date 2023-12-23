@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/Login.css';
+import { toast } from 'react-hot-toast';
 
 function Login({ token, setToken }) {
 	axios
@@ -236,7 +237,7 @@ function Login({ token, setToken }) {
 					</div>
 
 					<div className='background_image' id='background_image'>
-						<img src='../assets/clothing_background_2.png' alt='background_image' width='650' height='480' />
+						<img src='../assets/clothing_background_2.png' alt='background_image' width='100%' height='110%' />
 					</div>
 				</section>
 			</div>

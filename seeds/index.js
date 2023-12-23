@@ -4,12 +4,14 @@ import { collection, addDoc, getDocs, updateDoc, deleteDoc } from 'firebase/fire
 import { Customer, customerConverter } from '../models/customer.js';
 import { Merchant, merchantConverter } from '../models/merchant.js';
 import { Admin, adminConverter } from '../models/admin.js';
+import { Product, productConverter } from '../models/product.js';
 
-import { customers, merchants, admins } from './data.js';
+
+import { customers, merchants, admins, products } from './data.js';
 
 import bcrypt from 'bcrypt';
 
-const collections = ['customers', 'merchants', 'admins'];
+const collections = ['customers', 'merchants', 'admins', 'products'];
 for (let collectionName of collections) {
     const ref = collection(db, collectionName);
     const querySnapshot = await getDocs(ref);
@@ -46,6 +48,13 @@ for (let item of admins) {
     const admin = new Admin(item.username, item.password);
     const docRef = await addDoc(ref, admin);
     await updateDoc(docRef, { adminId: docRef.id });
+}
+
+ref = collection(db, 'products').withConverter(productConverter);
+for (let item of products) {
+    const product = new Product(null, item.name, item.description, item.price, item.imgURLs);
+    const docRef = await addDoc(ref, product);
+    await updateDoc(docRef, { productId: docRef.id });
 }
 
 console.log("Seed data successfully!")
