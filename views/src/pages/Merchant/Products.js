@@ -125,7 +125,7 @@ function MerchantProducts({ handleOpen, handleProductModal }) {
 									productID: null,
 									name: '',
 									description: {
-										type: '',
+										Type: '',
 										Occasion: '',
 										Color: '',
 										Pattern: '',
