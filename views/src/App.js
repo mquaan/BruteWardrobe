@@ -76,19 +76,19 @@ function App() {
 	const [orderedProducts, setOrderedProducts] = useState([]);
 
 	const [cartItems, setCartItems] = useState([]);
-	const addToCart = ({ productIndex, quantity, selectedSize }) => {
-		const existingItem = cartItems.find((item) => item.productIndex === productIndex && item.selectedSize === selectedSize);
+	const addToCart = ({ productID, quantity, selectedSize }) => {
+		const existingItem = cartItems.find((item) => item.productID === productID && item.selectedSize === selectedSize);
 
-		const product = products[productIndex - 1];
+		const product = products[productID - 1];
 		const price = product.price;
 
 		if (existingItem) {
 			const updatedCart = cartItems.map((item) =>
-				item.productIndex === productIndex && item.selectedSize === selectedSize ? { ...item, quantity: item.quantity + quantity } : item
+				item.productID === productID && item.selectedSize === selectedSize ? { ...item, quantity: item.quantity + quantity } : item
 			);
 			setCartItems(updatedCart);
 		} else {
-			setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
+			setCartItems([...cartItems, { productID, quantity, selectedSize, price }]);
 		}
 	};
 
@@ -143,7 +143,7 @@ function App() {
 						path='*'
 						element={
 							<div>
-								<Navbar token={token} setToken={setToken} />
+								<Navbar token={token} setToken={setToken} cartItems={cartItems} />
 								<Routes>
 									<Route path='/' element={<Home />} />
 									<Route path='/shop' element={<Shop />} />
