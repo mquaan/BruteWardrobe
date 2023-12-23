@@ -32,10 +32,15 @@ controller.loginFB = (req, res, next) => {
 		req.login(user, { session: false }, async (error) => {
 			if (error) return next(error);
 
-			// const body = { userId: user.userId, role: user.role };
-			const token = jwt.sign({ user: user }, process.env.TOKEN_SECRET);
+			const body = { userId: user.userId, role: user.role };
+			const token = jwt.sign({ user: body }, process.env.TOKEN_SECRET);
 
-			return res.json({ token });
+			res.cookie('token', token, {
+				secure: false, // if true only transmit cookie over https
+				httpOnly: true, // prevent client side JS from reading the cookie
+			});
+
+			return res.redirect('http://localhost:3000/login');
 		});
 	})(req, res, next);
 };
@@ -51,9 +56,12 @@ controller.loginGG = (req, res, next) => {
 			const body = { userId: user.userId, role: user.role };
 			const token = jwt.sign({ user: body }, process.env.TOKEN_SECRET);
 
-			res.cookie('token', token, { httpOnly: true });
+			res.cookie('token', token, {
+				secure: false, // if true only transmit cookie over https
+				httpOnly: true, // prevent client side JS from reading the cookie
+			});
 
-			return res.redirect('http://localhost:3000/');
+			return res.redirect('http://localhost:3000/login');
 		});
 	})(req, res, next);
 };
@@ -63,6 +71,7 @@ controller.logout = (req, res, next) => {
 		if (err) {
 			return next(err);
 		}
+		res.clearCookie('token');
 		res.json({ success: true });
 	});
 };
@@ -95,6 +104,10 @@ controller.signup = async (req, res) => {
 
 controller.auth = (req, res) => {
 	res.json({ role: req.user.role });
+};
+
+controller.token = (req, res) => {
+	res.json({ token: req.cookies.token });
 };
 
 export default controller;

@@ -2,7 +2,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/Login.css';
 
-function Login({ token }) {
+function Login({ token, setToken }) {
+	axios
+		.get('http://localhost:4000/token', { withCredentials: true })
+		.then((response) => {
+			if (response.data.token) {
+				setToken(response.data.token);
+				localStorage.setItem('token', JSON.stringify(response.data.token));
+			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
 	const [username, setUsername] = useState('');
 	const [pass, setPass] = useState('');
 	const [cfpass, setCfPass] = useState('');
@@ -230,6 +241,6 @@ function Login({ token }) {
 				</section>
 			</div>
 		);
-	} 
+	}
 }
 export default Login;

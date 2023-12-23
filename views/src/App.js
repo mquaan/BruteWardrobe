@@ -90,7 +90,7 @@ function App() {
 		} else {
 			setCartItems([...cartItems, { productIndex, quantity, selectedSize, price }]);
 		}
-	}; 
+	};
 
 	const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')));
 
@@ -103,7 +103,7 @@ function App() {
 		<div className='App'>
 			<Router>
 				<Routes>
-					<Route path='/login' element={<Login token={token} />} />
+					<Route path='/login' element={<Login token={token} setToken={setToken} />} />
 					<Route
 						path='/merchant/*'
 						element={

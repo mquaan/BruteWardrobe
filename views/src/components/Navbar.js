@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import '../styles/Customer/Navbar.css';
+import axios from 'axios';
 
 function Navbar({ token, setToken, cartItems }) {
 	const goToTop = () => {
@@ -27,9 +28,20 @@ function Navbar({ token, setToken, cartItems }) {
 	}
 
 	const handleLogout = () => {
-		localStorage.removeItem('token');
-        setToken(null)
-		ToggleMenu(document.getElementById('subMenu'));
+		axios
+			.get('http://localhost:4000/logout', { withCredentials: true })
+			.then((response) => {
+				if (response.data.success) {
+					localStorage.removeItem('token');
+					setToken(null);
+					ToggleMenu(document.getElementById('subMenu'));
+					window.location.href = '/login'
+				} else {
+				}
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
 	};
 
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -117,7 +129,7 @@ function Navbar({ token, setToken, cartItems }) {
 						</div>
 					</Link>
 
-					<Link to='/login' style={{ textDecoration: 'none' }}>
+					<Link style={{ textDecoration: 'none' }}>
 						<div className='sub-menu-link' onClick={handleLogout}>
 							<img src='../assets/features/logout.png' alt='' />
 							<p>Logout</p>

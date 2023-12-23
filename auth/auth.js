@@ -91,9 +91,28 @@ passport.use(
 			clientSecret: '0457bdd700994322dde417d8f3640d6e',
 			callbackURL: '/auth/facebook/callback',
 		},
-		(accessToken, refreshToken, profile, done) => {
-			console.log(profile);
-			done(null, profile);
+		async (accessToken, refreshToken, profile, done) => {
+			try {
+				const facebookId = profile.id;
+				let snapshot = await getDocs(query(collection(db, 'customers'), where('facebookId', '==', facebookId)));
+				if (!snapshot.empty) {
+					let user = snapshot.docs[0].data();
+					user.role = 'customer';
+					return done(null, user);
+				}
+				let ref = collection(db, 'customers').withConverter(customerConverter);
+				let user = new Customer(profile.displayName, null, null, facebookId);
+
+				const docRef = await addDoc(ref, user);
+				await updateDoc(docRef, { userId: docRef.id });
+				user = (await getDoc(docRef)).data();
+
+				user.role = 'customer';
+				return done(null, user);
+			} catch (err) {
+				console.error(err);
+				return done(err);
+			}
 		}
 	)
 );
@@ -115,7 +134,7 @@ passport.use(
 					return done(null, user);
 				}
 				let ref = collection(db, 'customers').withConverter(customerConverter);
-				let user = new Customer(null, null, email);
+				let user = new Customer(profile.displayName, null, email);
 
 				const docRef = await addDoc(ref, user);
 				await updateDoc(docRef, { userId: docRef.id });
