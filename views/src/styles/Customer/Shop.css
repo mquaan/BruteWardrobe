@@ -96,7 +96,7 @@
 #pagination button {
     cursor: pointer;
     text-decoration: none;
-    background-color: rgba(255, 242, 188, 0.385);
+    background-color: rgba(255, 255, 255, 0.385);
     padding: 15px 20px;
     margin: 0 3px;
     border-radius: 3px;
@@ -104,9 +104,14 @@
     font-weight: 600;
 }
 
+#pagination button.active {
+    background-color: #badfdc;
+    color: #000000;
+}
+
 #pagination button:hover {
-    background-color: #89b7b4;
-    color: #f3eded;
+    background-color: #badfdc;
+    color: #000000;
 }
 
 #pagination button i {
