@@ -111,3 +111,24 @@
       margin-bottom: 10px;
   }
 }
+
+.confirm-order-button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: right;
+  margin-right: 20px;
+}
+
+.confirm-order-button button {
+  background-color: #088178;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.confirm-order-button button:hover {
+  background-color: #03716a;
+}

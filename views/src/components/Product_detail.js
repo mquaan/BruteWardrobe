@@ -3,13 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import '../styles/Customer/Product_detail.css';
 import { products } from '../helpers/product_list';
 import Modal from 'react-modal';
+import { toast } from 'react-hot-toast';
 
 function Description({ token, productID, addToCart }) { 
     const pro = products[productID - 1];
     const [quantity, setQuantity] = React.useState(0);
     const [selectedSize, setSelectedSize] = React.useState('');
     const [showModal, setShowModal] = useState(false);
-    
+
     const handleQuantityChange = (event) => {
         const newQuantity = parseInt(event.target.value, 10);
         setQuantity(newQuantity);
@@ -43,7 +44,9 @@ function Description({ token, productID, addToCart }) {
                 });
                 setSelectedSize('');
                 setQuantity(0);
+                toast.success("Added to Cart")
             }
+            else toast.error("Missing options")
         } else {
             setShowModal(true);
         }
@@ -82,7 +85,7 @@ function Description({ token, productID, addToCart }) {
                 <option>2XL</option>
             </select>
             <input type="number" value={quantity} onBlur={handleInputBlur} onChange={handleQuantityChange}/>
-            <button className="normal" onClick={handleAddToCart} >Add to cart</button> 
+            <button className="normal" onClick={handleAddToCart} >Add to cart</button>
             <Modal
                 isOpen={showModal}
                 shouldCloseOnEsc = {false}

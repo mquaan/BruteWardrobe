@@ -2,6 +2,7 @@
   import { products } from '../../helpers/product_list';
   import '../../styles/Customer/Cart.css'
   import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
   function Cart({ cartItems, setCartItems}) { 
     const [updatedCartItems, setUpdatedCartItems] = useState(cartItems);
@@ -29,6 +30,7 @@
     const handleRemove = (index) => {
       const updatedCart = cartItems.filter((item, i) => i !== index);
       setCartItems(updatedCart);
+      toast.success("Removed from Cart")
     };
 
     const calculateTotalPrice = () => {
