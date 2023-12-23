@@ -65,7 +65,7 @@ function ProtectedComponent({ children, token, role }) {
 }
 
 function App() {
-	const [orderStatus, setOrderStatus] = useState('Shipping');
+	const [orderStatus, setOrderStatus] = useState('Processing');
 	const [deliveryInfo, setDeliveryInfo] = useState({
 		fullName: '',
 		address: '',
@@ -151,16 +151,16 @@ function App() {
 									<Route
 										path='/cart'
 										element={
-											cartItems.length > 0 ? (
-												<Cart cartItems={cartItems} setCartItems={setCartItems} />
-											) : (
-												<section className='cart-header'>
-													<h2>Your cart is empty!</h2>
-													<h3>
-														Click <Link to='/shop'>here</Link> to buy products.
-													</h3>
-												</section>
-											)
+											// cartItems.length > 0 ? (
+												<Cart cartItems={cartItems} setCartItems={setCartItems} token={token} />
+											// ) : (
+											// 	<section className='cart-header'>
+											// 		<h2>Your cart is empty!</h2>
+											// 		<h3>
+											// 			Click <Link to='/shop'>here</Link> to buy products.
+											// 		</h3>
+											// 	</section>
+											// )
 										}
 									/>
 									<Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} token={token} />} />

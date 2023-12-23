@@ -64,7 +64,6 @@ passport.use(
 				}
 
 				let user = !snapshot1.empty ? snapshot1.docs[0].data() : snapshot2.docs[0].data();
-				console.log(user);
 
 				const passwordMatch = await bcrypt.compare(password, user.password);
 

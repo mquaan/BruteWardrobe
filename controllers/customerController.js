@@ -1,39 +1,71 @@
 import db from '../config/firebase.js';
+import { Shopping, shoppingConverter } from '../models/shopping.js';
 import { Customer, customerConverter } from '../models/customer.js';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, getDoc, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
 
 const controller = {};
 
-controller.home = async (req, res) => {
-    res.render('customer/index');
+controller.addToCart = async (req, res) => {
+	let { userId, productId, quantity, size } = req.body;
+	let userRef = doc(db, 'customers', userId);
+	let userSnapshot = await getDoc(doc(db, 'customers', userId));
+
+	if (!userSnapshot.exists) {
+		console.log('No user found!');
+	} else {
+		let user = userSnapshot.data();
+		let shoppingId = user.shopping;
+		if (!shoppingId) {
+			let ref = collection(db, 'shoppings').withConverter(shoppingConverter);
+			let shopping = new Shopping();
+			const docRef = await addDoc(ref, shopping);
+			await updateDoc(docRef, { shoppingId: docRef.id, cart: [{ productId, quantity, size }] });
+			shoppingId = docRef.id;
+		} else {
+			let shoppingSnapshot = await getDoc(doc(db, 'shoppings', shoppingId));
+			if (!shoppingSnapshot.exists) {
+				console.log('No shopping document found!');
+			} else {
+				let shoppingRef = doc(db, 'shoppings', shoppingId);
+				let shopping = shoppingSnapshot.data();
+				let cartItemIndex = shopping.cart.findIndex((item) => {
+					return item.productId == productId && item.size == size;
+				});
+
+				if (cartItemIndex !== -1) {
+					shopping.cart[cartItemIndex].quantity += quantity;
+				} else {
+					shopping.cart.push({ productId, quantity, size });
+				}
+				await updateDoc(shoppingRef, { cart: shopping.cart });
+			}
+		}
+		await updateDoc(userRef, { shopping: shoppingId });
+	}
 };
 
-controller.create = async (req, res) => {
-    try {
-        let { username, userID, password, address, phoneNumber, email } = req.body;
-        const ref = collection(db, 'customers').withConverter(customerConverter);
-        const customer = new Customer(username, userID, password, address, phoneNumber, email);
-        await addDoc(ref, customer);
-        res.send('Success');
-    } catch (error) {
-        return res.status(500).json(error.message);
-    }
-};
+controller.getCart = async (req, res) => {
+	let { userId } = req.body;
+	console.log(userId)
+	let userSnapshot = await getDoc(doc(db, 'customers', userId));
 
-controller.read = async (req, res) => {
-    try {
-        const querySnapshot = await getDocs(collection(db, 'customers'));
-        const customers = [];
-        querySnapshot.forEach((doc) => {
-            // Add each document's data to the customers array
-            customers.push(doc.data());
-        });
-        // Send the response with the customers array
-        res.json(customers);
-    } catch (error) {
-        return res.status(500).json(error.message);
-    }
+	if (!userSnapshot.exists) {
+		console.log('No user found!');
+	} else {
+		let user = userSnapshot.data();
+		let shoppingId = user.shopping;
+		if (!shoppingId) {
+			res.json({ succuss: false });
+		} else {
+			let shoppingSnapshot = await getDoc(doc(db, 'shoppings', shoppingId));
+			if (!shoppingSnapshot.exists) {
+				console.log('No shopping document found!');
+			} else {
+				let shopping = shoppingSnapshot.data();
+				res.json({ succuss: true, shopping: shopping });
+			}
+		}
+	}
 };
-
 
 export default controller;

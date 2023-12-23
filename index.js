@@ -42,6 +42,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', userRouter);
+app.use('/customer', customerRouter)
 
 app.listen(4000, () => {
 	console.log('Serving on port 4000');

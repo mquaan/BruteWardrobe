@@ -51,13 +51,13 @@ function Login({ token, setToken }) {
 			.then((response) => {
 				if (response.data.token) {
 					localStorage.setItem('token', JSON.stringify(response.data.token));
-					const data = decodeURIComponent(
+					const decodeToken = decodeURIComponent(
 						atob(response.data.token.split('.')[1].replace('-', '+').replace('_', '/'))
 							.split('')
 							.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
 							.join('')
 					);
-					const role = JSON.parse(data).user.role;
+					const role = JSON.parse(decodeToken).user.role;
 					if (role === 'customer') {
 						window.location.href = '/';
 					} else if (role === 'merchant') {

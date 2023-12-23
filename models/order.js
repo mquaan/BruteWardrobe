@@ -1,6 +1,5 @@
 import Product from './product.js';
 import Payment from './payment.js';
-import Cart from './cart.js';
 
 
 class Order {
