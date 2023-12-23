@@ -61,9 +61,9 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus }) {
                     </thead>
                     <tbody>
                         {orderedProducts.map((item) => (
-                        <tr key={`${item.productIndex}-${item.selectedSize}`}>
-                            <td>{products[item.productIndex - 1].name}</td>
-                            <td><img src={products[item.productIndex - 1].imgURLs[0]} alt={`Product ${item.productIndex}`} /></td>
+                        <tr key={`${item.productID}-${item.selectedSize}`}>
+                            <td>{products[item.productID - 1].name}</td>
+                            <td><img src={products[item.productID - 1].imgURLs[0]} alt={`Product ${item.productID}`} /></td>
                             <td>{item.quantity}</td>
                             <td>${item.price * item.quantity}</td>
                         </tr>

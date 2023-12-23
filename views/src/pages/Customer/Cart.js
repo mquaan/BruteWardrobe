@@ -50,10 +50,10 @@
             </thead>
             <tbody>
               {cartItems.map((item, index) => (
-                <tr key={`${item.productIndex}-${item.selectedSize}`}>
-                  <td>{products[item.productIndex - 1].name}</td>
+                <tr key={`${item.productID}-${item.selectedSize}`}>
+                  <td>{products[item.productID - 1].name}</td>
                   <td>
-                    <img src={products[item.productIndex - 1].imgURLs[0]} alt={`Product ${item.productIndex}`} />
+                    <img src={products[item.productID - 1].imgURLs[0]} alt={`Product ${item.productID}`} />
                   </td>
                   <td>{item.selectedSize}</td>
                   <td>
