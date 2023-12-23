@@ -99,12 +99,6 @@ function Navbar({ token, setToken, cartItems }) {
 					)}
 				</ul>
 			</div>
-			<div className='mobile'>
-				<NavLink className='link' activeclassname='active' to='/cart' onClick={() => goToTop()}>
-					<i className='fa-solid fa-bag-shopping'></i>
-				</NavLink>
-				<i id='bar' className='fas fa-outdent'></i>
-			</div>
 
 			<div className='sub-menu-wrap' id='subMenu'>
 				<div className='sub-menu'>

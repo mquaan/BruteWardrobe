@@ -335,14 +335,14 @@ function MerchantOrders() {
                                                 </Dialog>
                                                 <Collapse in={open2s[custIndex][orderIndex]} timeout="auto" unmountOnExit>
                                                     {/* <List component="div" disablePadding>
-                                                    {order.cart.productList.map((product, productIndex) => {
+                                                    {order.cart.productList.map((product, productID) => {
                                                         return (
                                                             <>
                                                                 <ListItemButton sx={{ pl: 8 }}>
                                                                     <ListItemIcon>
                                                                         <LocalMallIcon />
                                                                     </ListItemIcon>
-                                                                    <ListItemText primary={`Product: ${order.cart.quantityList[productIndex]} * ${products[product].type} `} />
+                                                                    <ListItemText primary={`Product: ${order.cart.quantityList[productID]} * ${products[product].type} `} />
                                                                 </ListItemButton>
                                                             </>
                                                         );

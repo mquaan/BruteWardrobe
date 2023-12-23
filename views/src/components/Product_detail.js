@@ -4,8 +4,8 @@ import '../styles/Customer/Product_detail.css';
 import { products } from '../helpers/product_list';
 import Modal from 'react-modal';
 
-function Description({ token, productIndex, addToCart }) { 
-    const pro = products[productIndex - 1];
+function Description({ token, productID, addToCart }) { 
+    const pro = products[productID - 1];
     const [quantity, setQuantity] = React.useState(0);
     const [selectedSize, setSelectedSize] = React.useState('');
     const [showModal, setShowModal] = useState(false);
@@ -37,7 +37,7 @@ function Description({ token, productIndex, addToCart }) {
         if (token) {
             if (selectedSize && quantity > 0) {
                 addToCart({
-                    productIndex,
+                    productID,
                     quantity,
                     selectedSize,
                 });
@@ -135,7 +135,7 @@ const ProductDetail = ({ addToCart, token }) => {
                     <SmallImg image={products[index - 1].imgURLs[3]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[3])} />
                 </div>
             </div>
-            <Description productIndex={index} addToCart={addToCart} token={ token }/>
+            <Description productID={index} addToCart={addToCart} token={ token }/>
         </section>
         </div>
     )
