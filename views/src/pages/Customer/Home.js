@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/Customer/Home.css';
 import { Link } from 'react-router-dom';
-import { products } from '../../helpers/product_list';
+import axios from 'axios';
 
 function Product(props) {
 	const goToTop = () => {
@@ -40,6 +40,21 @@ function Feature(props) {
 }
 
 function Home() {
+	const [products, setProducts] = useState([]);
+
+	useEffect(() => {
+		axios
+			.get('http://localhost:4000/products')
+			.then((response) => {
+				console.log(response.data.products)
+				if (response.data.success) {
+					setProducts(response.data.products);
+				}
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	}, []);
 	const product1 = products.slice(0, 8);
 	const product2 = products.slice(8, 16);
 	const goToTop = () => {

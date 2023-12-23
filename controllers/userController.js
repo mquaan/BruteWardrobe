@@ -110,4 +110,12 @@ controller.token = (req, res) => {
 	res.json({ token: req.cookies.token });
 };
 
+controller.products = async (req, res) => {
+	let snapshot = await getDocs(query(collection(db, 'products')));
+	if (!snapshot.empty) {
+		let products = snapshot.docs.map((doc) => doc.data());
+		res.json({ success: true, products });
+	}
+};
+
 export default controller;

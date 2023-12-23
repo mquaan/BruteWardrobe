@@ -13,13 +13,6 @@
     text-align: center;
 }
 
-.product1 .pro-container {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 20px;
-    flex-wrap: wrap;
-}
-
 .product1 .pro {
     width: 23%;
     min-width: 250px;
@@ -81,13 +74,11 @@
     background-image: url(../../../public/assets/banners/b17.jpg);
     width: 100%;
     height: 35vh;
-    /* background-size: cover; */
     display: flex;
     justify-content: center;
     text-align: center;
     flex-direction: column;
     padding: 14px;
-    /* Thêm đổ bóng cho chữ */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .page-header h2{
@@ -105,7 +96,7 @@
 #pagination button {
     cursor: pointer;
     text-decoration: none;
-    background-color: rgba(255, 242, 188, 0.385);
+    background-color: rgba(255, 255, 255, 0.385);
     padding: 15px 20px;
     margin: 0 3px;
     border-radius: 3px;
@@ -113,9 +104,14 @@
     font-weight: 600;
 }
 
+#pagination button.active {
+    background-color: #badfdc;
+    color: #000000;
+}
+
 #pagination button:hover {
-    background-color: #89b7b4;
-    color: #f3eded;
+    background-color: #badfdc;
+    color: #000000;
 }
 
 #pagination button i {
@@ -151,7 +147,7 @@
     flex-grow: 1; 
     margin-right: 8px; 
     padding: 2px;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     border-radius: 4px;
 }
 

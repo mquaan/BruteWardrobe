@@ -5,21 +5,24 @@ import { products } from '../helpers/product_list';
 import Modal from 'react-modal';
 import axios from 'axios';
 
-function Description({ token, productIndex, addToCart }) {
-	const pro = products[productIndex - 1];
-	const [quantity, setQuantity] = React.useState(0);
-	const [selectedSize, setSelectedSize] = React.useState('');
-	const [showModal, setShowModal] = useState(false);
-
-	const handleQuantityChange = (event) => {
-		const newQuantity = parseInt(event.target.value, 10);
-		setQuantity(newQuantity);
-		if (!isNaN(newQuantity)) {
-			if (newQuantity < 0) setQuantity(0);
-			else if (newQuantity > 10) setQuantity(10);
-			else setQuantity(newQuantity);
-		}
-	};
+function Description({ token, productID, addToCart }) { 
+    const pro = products[productID - 1];
+    const [quantity, setQuantity] = React.useState(0);
+    const [selectedSize, setSelectedSize] = React.useState('');
+    const [showModal, setShowModal] = useState(false);
+    
+    const handleQuantityChange = (event) => {
+        const newQuantity = parseInt(event.target.value, 10);
+        setQuantity(newQuantity);
+        if (!isNaN(newQuantity)) {
+            if (newQuantity < 0) 
+                setQuantity(0);
+            else if (newQuantity > 10)
+                setQuantity(10);
+            else
+                setQuantity(newQuantity);
+        }
+    }
 
 	const handleInputBlur = () => {
 		if (isNaN(quantity)) {
@@ -35,7 +38,7 @@ function Description({ token, productIndex, addToCart }) {
 		if (token) {
 			if (selectedSize && quantity > 0) {
 				addToCart({
-					productIndex,
+					productID,
 					quantity,
 					selectedSize,
 				});
@@ -46,7 +49,7 @@ function Description({ token, productIndex, addToCart }) {
 						.join('')
 				);
 				const userId = JSON.parse(decodeToken).user.userId;
-				axios.post('http://localhost:4000/customer/addtocart', { userId, productId: productIndex, quantity, size: selectedSize });
+				axios.post('http://localhost:4000/customer/addtocart', { userId, productId: productID, quantity, size: selectedSize });
 
 				setSelectedSize('');
 				setQuantity(0);
@@ -133,17 +136,17 @@ const ProductDetail = ({ addToCart, token }) => {
 				<div className='single-pro-image'>
 					<img src={mainImg} width='100%' id='MainImg' alt='' />
 
-					<div className='small-img-group'>
-						<SmallImg image={products[index - 1].imgURLs[0]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[0])} />
-						<SmallImg image={products[index - 1].imgURLs[1]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[1])} />
-						<SmallImg image={products[index - 1].imgURLs[2]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[2])} />
-						<SmallImg image={products[index - 1].imgURLs[3]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[3])} />
-					</div>
-				</div>
-				<Description productIndex={index} addToCart={addToCart} token={token} />
-			</section>
-		</div>
-	);
+                <div className="small-img-group">
+                    <SmallImg image={products[index - 1].imgURLs[0]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[0])} />
+                    <SmallImg image={products[index - 1].imgURLs[1]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[1])} />
+                    <SmallImg image={products[index - 1].imgURLs[2]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[2])} />
+                    <SmallImg image={products[index - 1].imgURLs[3]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[3])} />
+                </div>
+            </div>
+            <Description productID={index} addToCart={addToCart} token={ token }/>
+        </section>
+        </div>
+    )
 };
 
 export default ProductDetail;

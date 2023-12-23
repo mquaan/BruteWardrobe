@@ -16,5 +16,6 @@ router.get('/auth/facebook/callback', controller.loginFB);
 router.get('/auth/google/callback', controller.loginGG);
 
 router.get('/token', controller.token);
+router.get('/products', controller.products);
 
 export default router;

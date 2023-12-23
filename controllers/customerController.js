@@ -62,7 +62,7 @@ controller.getCart = async (req, res) => {
 				console.log('No shopping document found!');
 			} else {
 				let shopping = shoppingSnapshot.data();
-				res.json({ succuss: true, shopping: shopping });
+				res.json({ success: true, shopping: shopping });
 			}
 		}
 	}

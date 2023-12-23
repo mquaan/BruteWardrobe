@@ -8,14 +8,14 @@
 }
 
 .introduction h1{
-    font-size: 30px;
-    padding: 30px 0 10px 470px;
+    font-size: 25px;
+    padding: 30px 0 10px 420px;
 }
 
 .dashboard {
     display: flex;
     flex-direction: column;
-    margin-left: 200px;
+    margin-left: 180px;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -31,16 +31,14 @@
 }
 
 .parameter-admin, .parameter-merchant, .parameter-customer, .parameter-profit, .parameter-revenue {
-    width: 200px;
-    height: 180px;
+    width: 160px;
+    /* height: 130px; */
     background-color: #fff;
     margin-top: 20px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     display: flex;
     flex-direction: column;
-
-
 }
 
 .parameter-admin{
@@ -86,12 +84,12 @@
 }
 
 .parameter-profit{
-    width: 280px;
+    width: 265px;
     margin-left: 80px;
 }
 
 .parameter-revenue {
-    width: 280px;
+    width: 265px;
     margin-left: 50px;
 }
 
@@ -102,21 +100,21 @@
 }
 
 .parameter-boxes .fa-solid {
-    font-size: 30px;
+    font-size: 25px;
     margin-top: 20px;
     margin-left: 20px;
 }
 
 .admin-num, .merchant-num, .customer-num {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
-    margin-top: 25px;
+    margin-top: 20px;
     margin-left: 20px;
 }
 
 .parameter-boxes .tit{
-    margin-top: 8px;
-    font-size: 20px;
+    margin-top: 0px;
+    font-size: 18px;
     font-weight: bold;
     text-align: center;
 }
@@ -137,7 +135,7 @@
     display: flex;
     flex-direction: row;
     padding-left: 50px;
-    padding-top: 35px;
+    padding-top: 25px;
 }
 
 .btn-users-sync, .btn-sales-sync {
@@ -158,33 +156,31 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
 }
 
-
-
 .btn-sales-sync:hover{
     background-color: #4098DB;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
 }
 
 .users, .sales{
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
     font-style: italic;
-    padding-top: 20px;
+    padding-top: 10px;
     color:black;
 }
 
 .btn-users-sync
 {
-    margin-left: 450px;
+    margin-left: 345px;
 }
 
 .btn-sales-sync
 {
-    margin-left: 535px;
+    margin-left: 425px;
 }
 
 .sales {
-    margin-left: 30px;
+    margin-left: 80px;
 }
 
 .box-users-sales i{
@@ -199,8 +195,8 @@
 }
 
 .chart1, .chart2{
-    width: 700px;
-    height: 400px;
+    width: 580px;
+    height: 330px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
@@ -211,7 +207,7 @@
 }
 
 .chart2{
-    margin-left: 30px;
+    margin-left: 80px;
 }
 
 

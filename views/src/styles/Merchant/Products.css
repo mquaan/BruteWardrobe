@@ -17,6 +17,7 @@
     justify-content: space-between;
     padding-top: 20px;
     flex-wrap: wrap;
+    margin-top: 30px;
 }
 
 .product1 .pro {
@@ -82,7 +83,7 @@
 
 #pagination button {
     text-decoration: none;
-    background-color: rgba(255, 242, 188, 0.385);
+    background-color: rgba(255, 255, 255, 0.385);
     padding: 15px 20px;
     margin: 0 3px;
     border-radius: 3px;
@@ -90,9 +91,14 @@
     font-weight: 600;
 }
 
+#pagination button.active {
+    background-color: #badfdc;
+    color: #000000;
+}
+
 #pagination button:hover {
-    background-color: #89b7b4;
-    color: #f3eded;
+    background-color: #badfdc;
+    color: #000000;
 }
 
 #pagination button i {
@@ -103,9 +109,11 @@
 .product1 .add-button,
 .product1 .filter-button,
 .search-bar {
+    cursor: pointer;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .product1 .add-button i,
@@ -139,4 +147,30 @@
     height: 50px;
     left: 0%;
     padding: 10px;
+}
+
+.filter-panel1 {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    margin-left: 65px;
+    margin-top: 110px;
+    border: 10px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.filter-panel1 select {
+    flex-grow: 1; 
+    margin-right: 8px; 
+    padding: 2px;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+}
+
+.filter-panel1.show {
+    opacity: 1;
+    visibility: visible;
 }

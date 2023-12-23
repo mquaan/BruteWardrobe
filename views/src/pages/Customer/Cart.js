@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function Cart({ cartItems, setCartItems, token }) {
+	let cart;
 	const decodeToken = decodeURIComponent(
 		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
 			.split('')
@@ -15,9 +16,9 @@ function Cart({ cartItems, setCartItems, token }) {
 	axios
 		.post('http://localhost:4000/customer/getcart', { userId })
 		.then((response) => {
-			console.log(response.data)
 			if (response.data.success) {
-				console.log(response.data.shopping);
+				cart = response.data.shopping.cart;
+				console.log(cart)
 			}
 		})
 		.catch((error) => {
@@ -81,13 +82,13 @@ function Cart({ cartItems, setCartItems, token }) {
 						</tr>
 					</thead>
 					<tbody>
-						{cartItems.map((item, index) => (
-							<tr key={`${item.productIndex}-${item.selectedSize}`}>
-								<td>{products[item.productIndex - 1].name}</td>
+						{cart.map((item, index) => (
+							<tr key={`${item.productId}-${item.size}`}>
+								<td>{products[item.productId - 1].name}</td>
 								<td>
-									<img src={products[item.productIndex - 1].imgURLs[0]} alt={`Product ${item.productIndex}`} />
+									<img src={products[item.productId - 1].imgURLs[0]} alt={`Product ${item.productId}`} />
 								</td>
-								<td>{item.selectedSize}</td>
+								<td>{item.size}</td>
 								<td>
 									<div>
 										<button onClick={() => handleDecrement(index)}>
