@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { products } from '../../helpers/product_list';
 import '../../styles/Customer/Cart.css';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
 function Cart({ cartItems, setCartItems, token }) {
@@ -59,10 +60,11 @@ function Cart({ cartItems, setCartItems, token }) {
 		}
 	};
 
-	const handleRemove = (index) => {
-		const updatedCart = cartItems.filter((item, i) => i !== index);
-		setCartItems(updatedCart);
-	};
+    const handleRemove = (index) => {
+      const updatedCart = cartItems.filter((item, i) => i !== index);
+      setCartItems(updatedCart);
+      toast.success("Removed from Cart")
+    };
 
 	const calculateTotalPrice = () => {
 		return updatedCartItems.reduce((total, item) => total + item.price * item.quantity, 0);

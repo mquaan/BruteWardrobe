@@ -1,4 +1,3 @@
-import Product from './product.js';
 import Payment from './payment.js';
 
 

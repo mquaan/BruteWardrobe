@@ -1,5 +1,3 @@
-import Product from './product.js';
-
 class CartItem {
 	constructor(productId, quantity, size) {
 		this.productId = productId;

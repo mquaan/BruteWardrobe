@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../styles/Customer/OrderStatus.css';
 import { products } from '../../helpers/product_list';
-// import { customers } from '../../helpers/customer_list';
+import { toast } from 'react-hot-toast';
 
-function OrderStatus({ deliveryInfo, orderedProducts, orderStatus }) {
+
+function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryInfo, setOrderedProducts }) {
+    const [isConfirmationVisible, setConfirmationVisible] = useState(false);
     const calculateTotalPrice = () => {
         return orderedProducts.reduce((total, item) => total + item.price * item.quantity, 0);
       };
@@ -43,6 +45,19 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus }) {
                 <h4 className="step-title">{step.title}</h4>
             </div>
         ));
+    };
+
+    const handleConfirmOrder = () => {
+        // Add logic to update information
+        setDeliveryInfo({
+            fullName: '',
+            address: '',
+            phoneNumber: '',
+            paymentMethod: '',
+        });
+        setOrderedProducts([]);
+        setConfirmationVisible(true);
+        toast.error("This didn't work.")
     };
     
     return (
@@ -99,6 +114,11 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus }) {
                     </div>
                 </div>
             </div>
+            {orderStatus === 'Completed' && !isConfirmationVisible && (
+                <div className="confirm-order-button">
+                    <button onClick={handleConfirmOrder}>Confirm Order</button>
+                </div>
+            )}
         </div>
     );
 }

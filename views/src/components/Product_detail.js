@@ -4,13 +4,14 @@ import '../styles/Customer/Product_detail.css';
 import { products } from '../helpers/product_list';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
-function Description({ token, productID, addToCart }) { 
-    const pro = products[productID - 1];
+function Description({ token, productId, addToCart }) { 
+    const pro = products[productId - 1];
     const [quantity, setQuantity] = React.useState(0);
     const [selectedSize, setSelectedSize] = React.useState('');
     const [showModal, setShowModal] = useState(false);
-    
+
     const handleQuantityChange = (event) => {
         const newQuantity = parseInt(event.target.value, 10);
         setQuantity(newQuantity);
@@ -38,7 +39,7 @@ function Description({ token, productID, addToCart }) {
 		if (token) {
 			if (selectedSize && quantity > 0) {
 				addToCart({
-					productID,
+					productId,
 					quantity,
 					selectedSize,
 				});
@@ -49,11 +50,13 @@ function Description({ token, productID, addToCart }) {
 						.join('')
 				);
 				const userId = JSON.parse(decodeToken).user.userId;
-				axios.post('http://localhost:4000/customer/addtocart', { userId, productId: productID, quantity, size: selectedSize });
+				axios.post('http://localhost:4000/customer/addtocart', { userId, productId, quantity, size: selectedSize });
 
 				setSelectedSize('');
 				setQuantity(0);
+                toast.success("Added to Cart")
 			}
+            else toast.error("Missing options")
 		} else {
 			setShowModal(true);
 		}
@@ -143,7 +146,7 @@ const ProductDetail = ({ addToCart, token }) => {
                     <SmallImg image={products[index - 1].imgURLs[3]} onClick={() => handleSmallImgClick(products[index - 1].imgURLs[3])} />
                 </div>
             </div>
-            <Description productID={index} addToCart={addToCart} token={ token }/>
+            <Description productId={index} addToCart={addToCart} token={ token }/>
         </section>
         </div>
     )

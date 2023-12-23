@@ -28,6 +28,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, Navigate, useLocation } from 'react-router-dom';
 import { products } from './helpers/product_list';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 function ProtectedComponent({ children, token, role }) {
 	const location = useLocation();
@@ -65,7 +66,7 @@ function ProtectedComponent({ children, token, role }) {
 }
 
 function App() {
-	const [orderStatus, setOrderStatus] = useState('Processing');
+	const [orderStatus, setOrderStatus] = useState('Completed');
 	const [deliveryInfo, setDeliveryInfo] = useState({
 		fullName: '',
 		address: '',
@@ -179,7 +180,7 @@ function App() {
 									<Route path='/edit-profile' element={<EditProfile />} />
 									<Route
 										path='/order-status'
-										element={<OrderStatus deliveryInfo={deliveryInfo} orderedProducts={orderedProducts} orderStatus={orderStatus} />}
+										element={<OrderStatus deliveryInfo={deliveryInfo} orderedProducts={orderedProducts} orderStatus={orderStatus} setDeliveryInfo={setDeliveryInfo} setOrderedProducts={setOrderedProducts} />}
 									/>
 								</Routes>
 								<Footer />
@@ -188,6 +189,10 @@ function App() {
 					/>
 				</Routes>
 			</Router>
+			<Toaster
+				position="bottom-right"
+				reverseOrder={false}
+			/>
 		</div>
 	);
 }
