@@ -1,8 +1,7 @@
 import express from 'express';
+import controller from '../controllers/merchantController.js';
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('merchant/index.ejs');
-});
+router.post('/editproductlist', controller.editProductList);
 
 export default router;

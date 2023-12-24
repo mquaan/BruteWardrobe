@@ -6,10 +6,7 @@ import { Merchant, merchantConverter } from '../models/merchant.js';
 import { Admin, adminConverter } from '../models/admin.js';
 import { Product, productConverter } from '../models/product.js';
 
-
 import { customers, merchants, admins, products } from './data.js';
-
-import bcrypt from 'bcrypt';
 
 const collections = ['customers', 'merchants', 'admins', 'products'];
 for (let collectionName of collections) {
@@ -22,9 +19,6 @@ for (let collectionName of collections) {
 
 let ref = collection(db, 'customers').withConverter(customerConverter);
 for (let item of customers) {
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    item.password = bcrypt.hashSync(item.password, salt);
     const customer = new Customer(item.username, item.password, item.email);
     const docRef = await addDoc(ref, customer);
     await updateDoc(docRef, { userId: docRef.id });
@@ -32,9 +26,6 @@ for (let item of customers) {
 
 ref = collection(db, 'merchants').withConverter(merchantConverter);
 for (let item of merchants) {
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    item.password = bcrypt.hashSync(item.password, salt);
     const merchant = new Merchant(item.username, item.password, item.email);
     const docRef = await addDoc(ref, merchant);
     await updateDoc(docRef, { userId: docRef.id });
@@ -42,9 +33,6 @@ for (let item of merchants) {
 
 ref = collection(db, 'admins').withConverter(adminConverter);
 for (let item of admins) {
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    item.password = bcrypt.hashSync(item.password, salt);
     const admin = new Admin(item.username, item.password);
     const docRef = await addDoc(ref, admin);
     await updateDoc(docRef, { adminId: docRef.id });

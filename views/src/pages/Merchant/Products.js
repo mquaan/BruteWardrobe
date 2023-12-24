@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import '../../styles/Merchant/Products.css';
-import { products } from '../../helpers/product_list';
+import axios from 'axios';
 import Modal from '../../components/Modal';
 import { Select, Option } from '@material-tailwind/react';
 
@@ -32,7 +32,22 @@ function Product({ handleOpen, handleProductModal, product }) {
 	);
 }
 
-function MerchantProducts({ handleOpen, handleProductModal }) {
+function MerchantProducts({ open, handleOpen, handleProductModal }) {
+	const [products, setProducts] = useState([]);
+
+	useEffect(() => {
+		axios
+			.get('http://localhost:4000/products')
+			.then((response) => {
+				if (response.data.success) {
+					setProducts(response.data.products);
+				}
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	}, [open]);
+	
 	const productsPerPage = 12;
 	const [currentPage, setCurrentPage] = useState(1);
 	const [filterPanelVisible, setFilterPanelVisible] = useState(false);
@@ -122,7 +137,7 @@ function MerchantProducts({ handleOpen, handleProductModal }) {
 							className='add-button'
 							onClick={() => {
 								handleProductModal({
-									productID: null,
+									productId: null,
 									name: '',
 									description: {
 										Type: '',
@@ -141,7 +156,7 @@ function MerchantProducts({ handleOpen, handleProductModal }) {
 									},
 									rate: '',
 									price: '',
-									imgURLs: '',
+									imgURLs: ['', '', '', ''],
 									numSold: '',
 								});
 								handleOpen();

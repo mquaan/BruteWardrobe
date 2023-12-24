@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import { products } from '../../helpers/product_list';
+import React, { useState, useEffect } from 'react';
 import '../../styles/Customer/Cart.css';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
 function Cart({ cartItems, setCartItems, token }) {
-	let cart;
 	const decodeToken = decodeURIComponent(
 		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
 			.split('')
@@ -14,60 +12,60 @@ function Cart({ cartItems, setCartItems, token }) {
 			.join('')
 	);
 	const userId = JSON.parse(decodeToken).user.userId;
-	axios
-		.post('http://localhost:4000/customer/getcart', { userId })
-		.then((response) => {
+
+	const [cart, setCart] = useState([]);
+	const [itemChanged, setItemChanged] = useState(false);
+
+	useEffect(() => {
+		axios
+			.post('http://localhost:4000/customer/getcart', { userId })
+			.then((response) => {
+				if (response.data.success) {
+					console.log(response.data.cart);
+					setCart(response.data.cart);
+					setItemChanged(false);
+				}
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	}, [itemChanged]);
+
+	const handleQuantityChange = async (productId, quantity, size) => {
+		try {
+			const response = await axios.post('http://localhost:4000/customer/updatecartquantity', { userId, productId, quantity, size });
 			if (response.data.success) {
-				cart = response.data.shopping.cart;
-				console.log(cart)
+				setItemChanged(true);
 			}
-		})
-		.catch((error) => {
-			console.error(error);
-		});
-
-	const [updatedCartItems, setUpdatedCartItems] = useState(cartItems);
-
-	const handleQuantityChange = (index, newQuantity) => {
-		// axios
-		// 	.post('http://localhost:4000/customer/updatequantity', { userId })
-		// 	.then((response) => {
-		// 		if (response.data.success) {
-		// 			console.log('success');
-		// 		} else {
-		// 			console.log(response.data.message);
-		// 		}
-		// 	})
-		// 	.catch((error) => {
-		// 		console.error(error);
-		// 	});
-		const updatedCart = [...updatedCartItems];
-		updatedCart[index].quantity = newQuantity;
-		setUpdatedCartItems(updatedCart);
-	};
-
-	const handleIncrement = (index) => {
-		const newQuantity = updatedCartItems[index].quantity + 1;
-		if (newQuantity >= 1) {
-			handleQuantityChange(index, newQuantity);
+		} catch (error) {
+			console.error('Error:', error);
 		}
 	};
 
-	const handleDecrement = (index) => {
-		const newQuantity = updatedCartItems[index].quantity - 1;
-		if (newQuantity >= 1) {
-			handleQuantityChange(index, newQuantity);
+	const handleIncrement = (productId, quantity, size) => {
+		handleQuantityChange(productId, quantity + 1, size);
+	};
+
+	const handleDecrement = (productId, quantity, size) => {
+		if (quantity >= 2) {
+			handleQuantityChange(productId, quantity - 1, size);
 		}
 	};
 
-    const handleRemove = (index) => {
-      const updatedCart = cartItems.filter((item, i) => i !== index);
-      setCartItems(updatedCart);
-      toast.success("Removed from Cart")
-    };
+	const handleRemove = async (productId, size) => {
+		try {
+			const response = await axios.post('http://localhost:4000/customer/removefromcart', { userId, productId, size });
+			if (response.data.success) {
+				setItemChanged(true);
+				toast.success('Removed from Cart');
+			}
+		} catch (error) {
+			console.error('Error:', error);
+		}
+	};
 
 	const calculateTotalPrice = () => {
-		return updatedCartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+		return cart.reduce((total, item) => total + item.price * item.quantity, 0);
 	};
 	return (
 		<div>
@@ -84,47 +82,48 @@ function Cart({ cartItems, setCartItems, token }) {
 						</tr>
 					</thead>
 					<tbody>
-						{cart.map((item, index) => (
-							<tr key={`${item.productId}-${item.size}`}>
-								<td>{products[item.productId - 1].name}</td>
-								<td>
-									<img src={products[item.productId - 1].imgURLs[0]} alt={`Product ${item.productId}`} />
-								</td>
-								<td>{item.size}</td>
-								<td>
-									<div>
-										<button onClick={() => handleDecrement(index)}>
-											<span>
-												<i className='fa-solid fa-minus'></i>
-											</span>
+						{cart &&
+							cart.map((item, index) => (
+								<tr>
+									<td>{item.name}</td>
+									<td>
+										<img src={item.imgURLs[0]} alt={`Product ${item.name}`} />
+									</td>
+									<td>{item.size}</td>
+									<td>
+										<div>
+											<button onClick={() => handleDecrement(item.productId, item.quantity, item.size)}>
+												<span>
+													<i className='fa-solid fa-minus'></i>
+												</span>
+											</button>
+											<input
+												type='number'
+												aria-live='polite'
+												data-bs-step='counter'
+												value={item.quantity}
+												min='0'
+												max='10'
+												step='1'
+												data-bs-round='0'
+												aria-label='Quantity selector'
+												readOnly
+											/>
+											<button onClick={() => handleIncrement(item.productId, item.quantity, item.size)}>
+												<span>
+													<i class='fa-solid fa-plus'></i>
+												</span>
+											</button>
+										</div>
+									</td>
+									<td>${item.price * item.quantity}</td>
+									<td>
+										<button className='remove' onClick={() => handleRemove(item.productId, item.size)}>
+											<i className='far fa-times-circle'></i>
 										</button>
-										<input
-											type='number'
-											aria-live='polite'
-											data-bs-step='counter'
-											value={item.quantity}
-											min='0'
-											max='10'
-											step='1'
-											data-bs-round='0'
-											aria-label='Quantity selector'
-											readOnly
-										/>
-										<button onClick={() => handleIncrement(index)}>
-											<span>
-												<i class='fa-solid fa-plus'></i>
-											</span>
-										</button>
-									</div>
-								</td>
-								<td>${item.price * item.quantity}</td>
-								<td>
-									<button className='remove' onClick={() => handleRemove(index)}>
-										<i className='far fa-times-circle'></i>
-									</button>
-								</td>
-							</tr>
-						))}
+									</td>
+								</tr>
+							))}
 					</tbody>
 				</table>
 			</section>

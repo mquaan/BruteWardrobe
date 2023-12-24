@@ -9,7 +9,7 @@ function Product(props) {
 	};
 	return (
 		<div className='pro' onClick={() => goToTop()}>
-			<Link to={`/product-detail/${props.index + 1}`} style={{ textDecoration: 'none' }}>
+			<Link to={`/product-detail/${props.id}`} style={{ textDecoration: 'none' }}>
 				<img className='image' src={props.image} alt='' />
 				<div className='des'>
 					<h5>{props.type}</h5>
@@ -46,7 +46,6 @@ function Home() {
 		axios
 			.get('http://localhost:4000/products')
 			.then((response) => {
-				console.log(response.data.products)
 				if (response.data.success) {
 					setProducts(response.data.products);
 				}
@@ -76,7 +75,7 @@ function Home() {
 				<p>New Collection Design</p>
 				<div className='pro-container'>
 					{product1.map((product, index) => (
-						<Product key={index} index={index} image={product.imgURLs[0]} type={product.description.Type} price={product.price} />
+						<Product id={product.productId} image={product.imgURLs[0]} type={product.description.Type} price={product.price} />
 					))}
 				</div>
 			</section>
@@ -98,7 +97,7 @@ function Home() {
 				<p>New Collection Design</p>
 				<div className='pro-container'>
 					{product2.map((product, index) => (
-						<Product key={index} index={index + 8} image={product.imgURLs[0]} type={product.description.type} price={product.price} />
+						<Product id={product.productId} image={product.imgURLs[0]} type={product.description.Type} price={product.price} />
 					))}
 				</div>
 			</section>

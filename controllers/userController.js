@@ -1,5 +1,5 @@
 import db from '../config/firebase.js';
-import { collection, query, getDoc, getDocs, where, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, query, getDoc, getDocs, where, addDoc, updateDoc, doc } from 'firebase/firestore';
 import { Customer, customerConverter } from '../models/customer.js';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
@@ -115,6 +115,15 @@ controller.products = async (req, res) => {
 	if (!snapshot.empty) {
 		let products = snapshot.docs.map((doc) => doc.data());
 		res.json({ success: true, products });
+	}
+};
+
+controller.product = async (req, res) => {
+	let { productId } = req.body;
+	let snapshot = await getDoc(doc(db, 'products', productId));
+	if (!snapshot.empty) {
+		let product = snapshot.data();
+		res.json({ success: true, product });
 	}
 };
 

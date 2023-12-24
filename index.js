@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 app.use(cors());
 app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); 
+	res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
 	res.header('Access-Control-Allow-Credentials', 'true');
 	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 	next();
@@ -42,7 +42,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', userRouter);
-app.use('/customer', customerRouter)
+app.use('/customer', customerRouter);
+app.use('/merchant', merchantRouter);
 
 app.listen(4000, () => {
 	console.log('Serving on port 4000');

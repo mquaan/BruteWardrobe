@@ -83,8 +83,7 @@ var imageFilenames = [];
 try {
 	const data = await fs.readFile('seeds/imageURLs.txt');
 	let strdata = data.toString();
-	let groups = strdata.split(',\n');
-	// console.log(groups);
+	let groups = strdata.split(',\r\n');
 	// Initialize an empty 2D array
 	// Loop through each group
 	for (let group of groups) {

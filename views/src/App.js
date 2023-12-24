@@ -67,6 +67,7 @@ function ProtectedComponent({ children, token, role }) {
 
 function App() {
 	const [orderStatus, setOrderStatus] = useState('Completed');
+
 	const [deliveryInfo, setDeliveryInfo] = useState({
 		fullName: '',
 		address: '',
@@ -113,7 +114,7 @@ function App() {
 									<Sidebar setToken={setToken} />
 									<div style={{ flex: 1, paddingLeft: '20rem' }}>
 										<Routes>
-											<Route path='/' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
+											<Route path='/' element={<MerchantProducts open={open} handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
 											<Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
 											<Route path='/orders' element={<MerchantOrders />} />
 											<Route path='/profile' element={<MerchantProfile />} />
@@ -164,7 +165,7 @@ function App() {
 											// )
 										}
 									/>
-									<Route path='/product-detail/:index' element={<ProductDetail addToCart={addToCart} token={token} />} />
+									<Route path='/product-detail/:productId' element={<ProductDetail addToCart={addToCart} token={token} />} />
 									<Route
 										path='/checkout'
 										element={
