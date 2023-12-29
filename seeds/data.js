@@ -1,55 +1,134 @@
 import * as fs from 'fs/promises';
 export const customers = [
 	{
-		username: 'customer',
-		password: 'customer',
-		email: 'customer@gmail.com',
-	},
-	{
-		username: 'stevenblake',
-		password: 'B$J:*2a,hL|=',
-		email: 'stevenblake@gmail.com',
-	},
-	{
-		username: 'philipcooper',
-		password: 'mSCtmRMAb^s`',
-		email: 'philipcooper@gmail.com',
-	},
-	{
-		username: 'wmoran',
-		password: 'ZO.J{q&q7u)$',
-		email: 'wmoran@gmail.com',
-	},
-	{
-		username: 'christopher62',
-		password: 'Q*5&B=ds,RO?',
-		email: 'christopher62@gmail.com',
-	},
-	{
-		username: 'greenjesus',
-		password: 'Pe=:m;^-G_?F',
-		email: 'greenjesus@gmail.com',
-	},
-	{
-		username: 'cdillon',
-		password: '>dy,[?oR`mP9',
-		email: 'cdillon@gmail.com',
-	},
-	{
-		username: 'johnnielsen',
-		password: 'U@\\w!Mo)W/J+',
-		email: 'johnnielsen@gmail.com',
-	},
-	{
-		username: 'stacy53',
-		password: '4@NU,3~ucKDq',
-		email: 'stacy53@gmail.com',
-	},
-	{
-		username: 'ucollier',
-		password: 'SQ|pi-9Fwh?[',
-		email: 'ucollier@gmail.com',
-	},
+        username: 'dat123',
+        password: '123',
+        email: '123@gmail.com',
+        shopping: {
+            cart: [],
+            orderList: [
+                {
+                    orderID: 1,
+                    cart: [
+                        {
+                            productID: 1,
+                            quantity: 2,
+                            size: 'L'
+                        },
+                        {
+                            productID: 2,
+                            quantity: 2,
+                            size: 'M'
+                        },
+                        {
+                            productID: 3,
+                            quantity: 1,
+                            size: 'S'
+                        }
+                    ],
+                    orderStatus: 'Processing',
+                    dateCreated: new Date("2023-12-01")
+                }
+            ]
+        }
+    },
+
+    {
+        username: 'customer',
+        password: 'customer',
+        email: 'customer@gmail.com',
+        shopping: {
+            cart: [],
+            orderList: [
+                {
+                    orderID: 2,
+                    cart: [
+                        {
+                            productID: 2,
+                            quantity: 3,
+                            size: 'L'
+                        },
+                    ],
+                    orderStatus: 'Processing',
+                    dateCreated: new Date("2023-12-02")
+                },
+                {
+                    orderID: 12,
+                    cart: [
+                        {
+                            productID: 2,
+                            quantity: 3,
+                            size: 'M'
+                        },
+                        {
+                            productID: 1,
+                            quantity: 2,
+                            size: 'S'
+                        },
+
+                    ],
+                    orderStatus: 'Processing',
+                    dateCreated: new Date("2023-11-02")
+                }
+            ]
+        }
+    },
+
+    {
+        username: 'datne',
+        password: 'xyz',
+        email: 'xyz@gmail.com',
+        shopping: {
+            cart: [],
+            orderList: [
+                {
+                    orderID: 3,
+                    cart: [
+                        {
+                            productID: 4,
+                            quantity: 1,
+                            size: 'L'
+                        },
+                        {
+                            productID: 1,
+                            quantity: 1,
+                            size: 's'
+                        },
+                    ],
+                    orderStatus: 'Processing',
+                    dateCreated: new Date("2023-12-05")
+                }
+            ]
+        }
+    },
+
+    {
+        username: 'tuilakhachhang',
+        password: 'dat',
+        email: 'dat@gmail.com',
+        shopping: {
+            cart: [],
+            orderList: [
+                {
+                    orderID: 4,
+                    cart: [
+                        {
+                            productID: 3,
+                            quantity: 1,
+                            size: 'L'
+                        },
+                        {
+                            productID: 4,
+                            quantity: 1,
+                            size: 'M'
+                        },
+                    ],
+                    orderStatus: 'Processing',
+                    dateCreated: new Date("2023-12-10")
+                }
+            ]
+        }
+    },
 ];
 
 export const merchants = [

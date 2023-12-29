@@ -1,12 +1,12 @@
 class Product {
-    constructor(name, description, price, imgURLs, productId = null) {
+    constructor(name, description, imgURLs, price, rate, productId=null) {
         this.name = name;
         this.description = description;
-        this.rate = null;
-        this.price = price;
         this.imgURLs = imgURLs;
-        this.numSold = 0;
+        this.price = price;
+        this.rate = rate;
         this.productId = productId;
+        this.numSold = 0;
     }
 }
 
@@ -25,13 +25,12 @@ const productConverter = {
 	fromFirestore: (snapshot, options) => {
 		const data = snapshot.data(options);
 		return new Product(
-            data.productId,
-            data.name,
-            data.description,
-            data.rate,
-            data.price,
-            data.imgURLs,
-            data.numSold,
+            data.name, 
+            data.description, 
+            data.imgURLs, 
+            data.price, 
+            data.rate, 
+            data.productId
 		);
 	},
 };

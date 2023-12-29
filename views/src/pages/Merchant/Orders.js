@@ -87,6 +87,20 @@ function MerchantCart({ cart }) {
 }
 
 function MerchantOrders() {
+
+    // useEffect(() => {
+	// 	axios
+	// 		.get('http://localhost:4000/customers')
+	// 		.then((response) => {
+	// 			if (response.data.success) {
+	// 				setProducts(response.data.products);
+	// 			}
+	// 		})
+	// 		.catch((error) => {
+	// 			console.error('Error:', error);
+	// 		});
+	// }, [open]);
+
     const customerPerPage = 5;
     const [currentPage, setCurrentPage] = useState(1);
     const startIndex = (currentPage - 1) * customerPerPage;
