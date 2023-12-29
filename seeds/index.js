@@ -37,7 +37,7 @@ for (let item of customers) {
     );
     const docRef = await addDoc(ref, customer);
     custIds.push(docRef.id);
-    await updateDoc(docRef, { userId: docRef.id });
+    await updateDoc(docRef, { userId: docRef.id, shoppingId: docRef.id });
 }
 
 ref = collection(db, 'shoppings').withConverter(shoppingConverter);

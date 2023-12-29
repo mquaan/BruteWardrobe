@@ -12,10 +12,12 @@ class Customer extends User {
 		loginStatus = false,
 		gender = 'male',
 		dob = null,
-		activeStatus = false
+		activeStatus = false,
+		shoppingId = null
 	) {
 		super(username, password, email, facebookId, userId, address, phoneNumber, loginStatus, gender, dob);
 		this.activeStatus = activeStatus;
+		this.shoppingId = shoppingId;
 	}
 }
 
@@ -32,7 +34,8 @@ const customerConverter = {
 			gender: customer.gender,
 			dob: customer.dob,
 			loginStatus: customer.loginStatus,
-			activeStatus: customer.activeStatus
+			activeStatus: customer.activeStatus,
+			shoppingId: customer.shoppingId,
 		};
 	},
 	fromFirestore: (snapshot, options) => {
@@ -49,6 +52,7 @@ const customerConverter = {
 			data.gender,
 			data.dob,
 			data.activeStatus,
+			data.shoppingId
 		);
 	},
 };

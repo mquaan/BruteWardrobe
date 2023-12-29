@@ -2,10 +2,10 @@ import { CartItem } from './cartItem.js';
 import Order from './order.js';
 
 class Shopping {
-	constructor(orderList = [], cart = [], userId=null) {
+	constructor(orderList = [], cart = [], shoppingId=null) {
 		this.orderList = orderList;
 		this.cart = cart;
-		this.userId = userId;
+		this.shoppingId = shoppingId;
 	}
 }
 
@@ -14,12 +14,12 @@ const shoppingConverter = {
 		return {
 			orderList: shopping.orderList,
 			cart: shopping.cart,
-			userId: shopping.userId,
+			shoppingId: shopping.shoppingId,
 		};
 	},
 	fromFirestore: (snapshot, options) => {
 		const data = snapshot.data(options);
-		return new Shopping(data.orderList, data.cart, data.userId);
+		return new Shopping(data.orderList, data.cart, data.shoppingId);
 	},
 };
 
