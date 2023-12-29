@@ -136,11 +136,15 @@ export const merchants = [
 		username: 'merchant',
 		password: 'merchant',
 		email: 'twashington@gmail.com',
+		experience: 2,
+        salary: 3000,
 	},
 	{
 		username: 'helloworld',
 		password: 'B$J:*2a,hL|=',
 		email: 'stevenblake@gmail.com',
+		experience: 3,
+        salary: 3500,
 	},
 ];
 

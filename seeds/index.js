@@ -39,7 +39,10 @@ for (let item of customers) {
 
 ref = collection(db, 'merchants').withConverter(merchantConverter);
 for (let item of merchants) {
-    const merchant = new Merchant(item.username, item.password, item.email);
+    const merchant = new Merchant(item.username, item.password, item.email,
+        item.userId, item.address, item.phoneNumber, item.loginStatus,
+        item.gender, item.dob,
+        item.experience, item.salary);
     const docRef = await addDoc(ref, merchant);
     await updateDoc(docRef, { userId: docRef.id });
 }
@@ -59,6 +62,8 @@ for (let item of products) {
         item.imgURLs, 
         item.price, 
         item.rate, 
+        0, 
+        null, 
         null
     );
     const docRef = await addDoc(ref, product);

@@ -1,10 +1,9 @@
 import User from './user.js';
 
 class Merchant extends User {
-    constructor(username, password, email, userId = null, address = null, phoneNumber = null, loginStatus = false, gender = 'male', dob=null, experience = 0, totalProducts = 0, salary = 0) {
+    constructor(username, password, email, userId = null, address = null, phoneNumber = null, loginStatus = false, gender = 'male', dob=null, experience = 0, salary = 0) {
         super(username, password, email, userId, address, phoneNumber, loginStatus, gender, dob);
         this.experience = experience;
-        this.totalProducts = totalProducts;
         this.salary = salary;
     }
 }
@@ -22,7 +21,6 @@ const merchantConverter = {
             gender: merchant.gender,
             dob: merchant.dob,
             experience: merchant.experience,
-            totalProducts: merchant.totalProducts,
             salary: merchant.salary,
         };
     },
@@ -31,7 +29,7 @@ const merchantConverter = {
         return new Merchant(data.username, data.password, data.email,
              data.userId, data.address, data.phoneNumber, data.loginStatus,
              data.gender, data.dob,
-             data.experience, data.totalProducts, data.salary);
+             data.experience, data.salary);
     },
 };
 
