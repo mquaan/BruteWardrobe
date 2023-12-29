@@ -18,5 +18,7 @@ router.get('/auth/google/callback', controller.loginGG);
 router.get('/token', controller.token);
 router.get('/products', controller.products);
 router.post('/product', controller.product);
+router.get('/shoppings', controller.shoppings);
+router.post('/shopping', controller.shopping);
 
 export default router;

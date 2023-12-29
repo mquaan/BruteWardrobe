@@ -127,4 +127,21 @@ controller.product = async (req, res) => {
 	}
 };
 
+controller.shoppings = async (req, res) => {
+	let snapshot = await getDocs(query(collection(db, 'shoppings')));
+	if (!snapshot.empty) {
+		let shoppings = snapshot.docs.map((doc) => doc.data());
+		res.json({ success: true, shoppings });
+	}
+};
+
+controller.shopping = async (req, res) => {
+	let { shoppingId } = req.body;
+	let snapshot = await getDoc(doc(db, 'shoppings', shoppingId));
+	if (!snapshot.empty) {
+		let shopping = snapshot.data();
+		res.json({ success: true, shopping });
+	}
+};
+
 export default controller;
