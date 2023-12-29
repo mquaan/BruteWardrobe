@@ -51,7 +51,7 @@ ref = collection(db, 'admins').withConverter(adminConverter);
 for (let item of admins) {
     const admin = new Admin(item.username, item.password);
     const docRef = await addDoc(ref, admin);
-    await updateDoc(docRef, { adminId: docRef.id });
+    await updateDoc(docRef, { userId: docRef.id });
 }
 
 ref = collection(db, 'products').withConverter(productConverter);
