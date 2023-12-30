@@ -41,15 +41,15 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-import { products } from '../../helpers/product_list';
-import { customers } from '../../helpers/customer_list';
+// import { products } from '../../helpers/product_list';
+// import { customers } from '../../helpers/customer_list';
 
 const options = {
     year: 'numeric', month: 'long', day: 'numeric',
     hour: 'numeric', minute: 'numeric', second: 'numeric'
 };
 
-function MerchantCart({ cart }) {
+function MerchantCart({ cart, products }) {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="Customer's order">
@@ -86,27 +86,71 @@ function MerchantCart({ cart }) {
     );
 }
 
-function MerchantOrders() {
+function MerchantOrders({ open, handleOpen }) {
+    const [products, setProducts] = useState([]);
+    useEffect(() => {
+        axios
+            .get('http://localhost:4000/products')
+            .then((response) => {
+                if (response.data.success) {
+                    setProducts(response.data.products);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, [open]);
 
-    // useEffect(() => {
-	// 	axios
-	// 		.get('http://localhost:4000/customers')
-	// 		.then((response) => {
-	// 			if (response.data.success) {
-	// 				setProducts(response.data.products);
-	// 			}
-	// 		})
-	// 		.catch((error) => {
-	// 			console.error('Error:', error);
-	// 		});
-	// }, [open]);
+    const [shoppings, setShoppings] = useState([]);
+    useEffect(() => {
+        axios
+            .get('http://localhost:4000/shoppings')
+            .then((response) => {
+                if (response.data.success) {
+                    setShoppings(response.data.shoppings);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, [open]);
 
+    let updatedCustomers;
+    const [customers, setCustomers] = useState([]);
+    useEffect(() => {
+        axios
+            .get('http://localhost:4000/customers')
+            .then((response) => {
+                if (response.data.success) {
+                    setCustomers(response.data.customers);
+
+                    let filteredShoppings = shoppings.filter((value) => (value.orderList && value.orderList.length != 0))
+                    // link each shopping to a customer
+                    updatedCustomers = customers.map((value) => {
+                        let foundShopping = filteredShoppings.find((sval) => {
+                            return value.shoppingId == sval.shoppingId;
+                        });
+                        if (!foundShopping)
+                            return null;
+                        return {...value, shopping: foundShopping};
+                    }).filter(Boolean); // Filter out null values
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, [open]);
+
+    if (!updatedCustomers) {
+        return <></>;
+    }
+    
     const customerPerPage = 5;
     const [currentPage, setCurrentPage] = useState(1);
     const startIndex = (currentPage - 1) * customerPerPage;
     const endIndex = startIndex + customerPerPage;
-    const totalPages = Math.ceil(customers.length / customerPerPage);
-    const displayedCustomers = customers.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(updatedCustomers.length / customerPerPage);
+    const displayedCustomers = updatedCustomers.slice(startIndex, endIndex);
     const goToPage = (page) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'auto' });
@@ -368,7 +412,7 @@ function MerchantOrders() {
                                                         marginRight: '20px',
                                                         pl: 8
                                                     }}>
-                                                        {<MerchantCart cart={order.cart} />}
+                                                        {<MerchantCart cart={order.cart} products={products} />}
                                                     </Box>
                                                 </Collapse>
 

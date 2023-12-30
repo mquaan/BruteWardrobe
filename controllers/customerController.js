@@ -14,7 +14,7 @@ controller.addToCart = async (req, res) => {
 		console.log('No user found!');
 	} else {
 		let user = userSnapshot.data();
-		let shoppingId = user.shopping;
+		let shoppingId = user.shoppingId;
 		if (!shoppingId) {
 			let ref = collection(db, 'shoppings').withConverter(shoppingConverter);
 			let shopping = new Shopping();
@@ -40,7 +40,7 @@ controller.addToCart = async (req, res) => {
 				await updateDoc(shoppingRef, { cart: shopping.cart });
 			}
 		}
-		await updateDoc(userRef, { shopping: shoppingId });
+		await updateDoc(userRef, { shoppingId: shoppingId });
 	}
 };
 
@@ -52,7 +52,7 @@ controller.getCart = async (req, res) => {
 		console.log('No user found!');
 	} else {
 		let user = userSnapshot.data();
-		let shoppingId = user.shopping;
+		let shoppingId = user.shoppingId;
 		if (!shoppingId) {
 			res.json({ succuss: false });
 		} else {
@@ -82,7 +82,7 @@ controller.removeFromCart = async (req, res) => {
 		console.log('No user found!');
 	} else {
 		let user = userSnapshot.data();
-		let shoppingId = user.shopping;
+		let shoppingId = user.shoppingId;
 		if (!shoppingId) {
 			res.json({ success: false });
 		} else {
@@ -109,7 +109,7 @@ controller.updateCartQuantity = async (req, res) => {
 		console.log('No user found!');
 	} else {
 		let user = userSnapshot.data();
-		let shoppingId = user.shopping;
+		let shoppingId = user.shoppingId;
 		if (!shoppingId) {
 			let ref = collection(db, 'shoppings').withConverter(shoppingConverter);
 			let shopping = new Shopping();
@@ -135,7 +135,7 @@ controller.updateCartQuantity = async (req, res) => {
 				await updateDoc(shoppingRef, { cart: shopping.cart });
 			}
 		}
-		await updateDoc(userRef, { shopping: shoppingId });
+		await updateDoc(userRef, { shoppingId: shoppingId });
 		res.json({ success: true });
 	}
 };
