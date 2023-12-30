@@ -140,4 +140,8 @@ controller.updateCartQuantity = async (req, res) => {
 	}
 };
 
+controller.makeOrder = async (req, res) => {
+	
+}
+
 export default controller;

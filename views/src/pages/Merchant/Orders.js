@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import {
     ListSubheader,
@@ -41,15 +42,13 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-// import { products } from '../../helpers/product_list';
-// import { customers } from '../../helpers/customer_list';
 
 const options = {
     year: 'numeric', month: 'long', day: 'numeric',
     hour: 'numeric', minute: 'numeric', second: 'numeric'
 };
 
-function MerchantCart({ cart, products }) {
+function MerchantCart({ cart }) {
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="Customer's order">
@@ -62,24 +61,30 @@ function MerchantCart({ cart, products }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {cart.map((item, proIndex) => (
-                        <TableRow
-                            key={proIndex}
-                            sx={{
-                                '& td': { border: 0 },
-                                '&:last-child td, &:last-child th': { border: 0 }
-                            }}
-                        >
-                            <TableCell component="th" scope="row" align="center">
-                                {products[item.productID].name}
-                            </TableCell>
-                            <TableCell component="th" align="center" style={{ display: 'flex', justifyContent: 'center' }}>
-                                <img src={products[item.productID].imgURLs[0]} alt={`Product ${item.productID}`} style={{ maxWidth: '100px' }} />
-                            </TableCell>
-                            <TableCell component="th" align="center">{item.size}</TableCell>
-                            <TableCell component="th" align="center">{item.quantity}</TableCell>
-                        </TableRow>
-                    ))}
+                    {cart.map((item, proIndex) => {
+                        if (!item.product) {
+                            return <></>
+                        }
+                        return (
+                            <TableRow
+                                key={proIndex}
+                                sx={{
+                                    '& td': { border: 0 },
+                                    '&:last-child td, &:last-child th': { border: 0 }
+                                }}
+                            >
+                                <TableCell component="th" scope="row" align="center">
+                                    {item.product.name}
+                                </TableCell>
+                                <TableCell component="th" align="center" style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <img src={item.product.imgURLs[0]} alt={`Product ${item.productID}`} style={{ maxWidth: '100px' }} />
+                                </TableCell>
+                                <TableCell component="th" align="center">{item.size}</TableCell>
+                                <TableCell component="th" align="center">{item.quantity}</TableCell>
+                            </TableRow>
+                        )
+
+                    })}
                 </TableBody>
             </Table>
         </TableContainer>
@@ -88,78 +93,89 @@ function MerchantCart({ cart, products }) {
 
 function MerchantOrders({ open, handleOpen }) {
     const [products, setProducts] = useState([]);
-    useEffect(() => {
-        axios
-            .get('http://localhost:4000/products')
-            .then((response) => {
-                if (response.data.success) {
-                    setProducts(response.data.products);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }, [open]);
-
     const [shoppings, setShoppings] = useState([]);
-    useEffect(() => {
-        axios
-            .get('http://localhost:4000/shoppings')
-            .then((response) => {
-                if (response.data.success) {
-                    setShoppings(response.data.shoppings);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }, [open]);
-
-    let updatedCustomers;
     const [customers, setCustomers] = useState([]);
-    useEffect(() => {
-        axios
-            .get('http://localhost:4000/customers')
-            .then((response) => {
-                if (response.data.success) {
-                    setCustomers(response.data.customers);
+    const [updatedCustomers, setUpdatedCustomers] = useState([]);
 
-                    let filteredShoppings = shoppings.filter((value) => (value.orderList && value.orderList.length != 0))
-                    // link each shopping to a customer
-                    updatedCustomers = customers.map((value) => {
-                        let foundShopping = filteredShoppings.find((sval) => {
-                            return value.shoppingId == sval.shoppingId;
-                        });
-                        if (!foundShopping)
-                            return null;
-                        return {...value, shopping: foundShopping};
-                    }).filter(Boolean); // Filter out null values
+
+    const [reason, setReason] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [open1s, setOpen1s] = useState([]);
+    const [open2s, setOpen2s] = useState([]);
+    const [openModal, setOpenModal] = useState([]);
+    const [statuses, setStatus] = useState([]);
+    const [openDialog, setOpenDialog] = useState([]);
+    const [canceled, setCanceled] = useState([]);
+
+    const customerPerPage = 5;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const responseProducts = await axios.get('http://localhost:4000/products');
+                const responseShoppings = await axios.get('http://localhost:4000/shoppings');
+                const responseCustomers = await axios.get('http://localhost:4000/customers');
+
+                if (responseProducts.data.success) {
+                    setProducts(responseProducts.data.products);
                 }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+
+                if (responseShoppings.data.success) {
+                    setShoppings(responseShoppings.data.shoppings);
+                }
+
+                if (responseCustomers.data.success) {
+                    setCustomers(responseCustomers.data.customers);
+                }
+            } catch (errors) {
+                console.error('Error:', errors);
+            }
+        };
+
+        fetchData();
     }, [open]);
 
-    if (!updatedCustomers) {
-        return <></>;
-    }
-    
-    const customerPerPage = 5;
-    const [currentPage, setCurrentPage] = useState(1);
+    // Move the logic here, after shoppings and customers have been updated
+    useEffect(() => {
+        let filteredShoppings = shoppings.filter((value) => value.orderList && value.orderList.length !== 0);
+        // link to shopping
+        let with_shopping = customers.map((value) => {
+            let foundShopping = filteredShoppings.find((sval) => value.shoppingId === sval.shoppingId);
+            if (!foundShopping) return null;
+            // link to product name
+            foundShopping.orderList.forEach((ord) => {
+                ord.cart.forEach((ell) => {
+                    ell.product = products.find((pr) => pr.productId == ell.productId)
+                })
+            });
+            return { ...value, shopping: foundShopping };
+        }).filter(Boolean);
+
+        setUpdatedCustomers(with_shopping);
+    }, [products, shoppings, customers]);
+
+
+    useEffect(() => {
+        setCurrentPage(1);
+        setOpen1s(Array(updatedCustomers.length).fill(false));
+        setOpen2s(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
+        setOpenModal(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
+        setStatus(updatedCustomers.map((customer) => customer.shopping.orderList.map((order) => order.orderStatus)));
+        setOpenDialog(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
+        setCanceled(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
+    }, [updatedCustomers]);
+
+
     const startIndex = (currentPage - 1) * customerPerPage;
     const endIndex = startIndex + customerPerPage;
     const totalPages = Math.ceil(updatedCustomers.length / customerPerPage);
     const displayedCustomers = updatedCustomers.slice(startIndex, endIndex);
+
+
     const goToPage = (page) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'auto' });
     };
-    // Initialize an array of states for each customer
-    const [open1s, setOpen1s] = useState(Array(displayedCustomers.length).fill(false));
-
-    // Initialize an array of states for each order of each customer
-    const [open2s, setOpen2s] = useState(displayedCustomers.map(customer => Array(customer.shopping.orderList.length).fill(false)));
 
     // drop button 
     const handleClick1 = (index) => {
@@ -174,20 +190,18 @@ function MerchantOrders({ open, handleOpen }) {
     };
 
     // edit button
-    const [openModal, setopenModal] = useState(displayedCustomers.map(customer => Array(customer.shopping.orderList.length).fill(false)));
-    const handleOpen = (custIndex, orderIndex) => {
-        const newOpenMoal = [...openModal];
-        newOpenMoal[custIndex][orderIndex] = !newOpenMoal[custIndex][orderIndex];
-        setopenModal(newOpenMoal);
+    const handleOpenModal = (custIndex, orderIndex) => {
+        const newOpenModal = [...openModal];
+        newOpenModal[custIndex][orderIndex] = !newOpenModal[custIndex][orderIndex];
+        setopenModal(newOpenModal);
     };
-    const handleClose = (custIndex, orderIndex) => {
-        const newOpenMoal = [...openModal];
-        newOpenMoal[custIndex][orderIndex] = !newOpenMoal[custIndex][orderIndex];
-        setopenModal(newOpenMoal);
+    const handleCloseModal = (custIndex, orderIndex) => {
+        const newOpenModal = [...openModal];
+        newOpenModal[custIndex][orderIndex] = !newOpenModal[custIndex][orderIndex];
+        setopenModal(newOpenModal);
     };
 
     // order
-    const [statuses, setStatus] = useState(displayedCustomers.map(customer => customer.shopping.orderList.map(order => order.orderStatus)));
 
     const handleStatusChange = (event, order, custIndex, orderIndex) => {
         const newStatus = [...statuses];
@@ -200,10 +214,10 @@ function MerchantOrders({ open, handleOpen }) {
         if (status === 'Delivered' && !order.dateShipped) {
             order.dateShipped = new Date();
         }
+        handleOpen();
     };
 
     // cancel order
-    const [openDialog, setopenDialog] = useState(displayedCustomers.map(customer => Array(customer.shopping.orderList.length).fill(false)));
     const handleOpenDialog = (custIndex, orderIndex) => {
         const newDialog = [...openDialog];
         newDialog[custIndex][orderIndex] = !newDialog[custIndex][orderIndex];
@@ -216,8 +230,6 @@ function MerchantOrders({ open, handleOpen }) {
     };
 
     // dialog
-    const [canceled, setCancel] = useState(displayedCustomers.map(customer => Array(customer.shopping.orderList.length).fill(false)))
-    const [reason, setReason] = useState('');
     const handleCancelOrder = (order, custIndex, orderIndex) => {
         const newCanceled = [...canceled];
 
@@ -227,8 +239,6 @@ function MerchantOrders({ open, handleOpen }) {
 
         console.log(`The order: ${order.orderID} have been canceled. Because: ${reason}`); // the customer should see this
     };
-
-
     return (
         <div>
 
@@ -247,7 +257,7 @@ function MerchantOrders({ open, handleOpen }) {
                 }
             >
                 {displayedCustomers.map((customer, custIndex) => {
-                    if (canceled[custIndex].every((ord) => ord)) {
+                    if (!canceled[custIndex] || canceled[custIndex].every((ord) => ord)) {
                         return (<></>);
                     }
                     return (
@@ -294,7 +304,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                             color="success"
                                                             size="small"
                                                             aria-label="Edit"
-                                                            onClick={() => handleOpen(custIndex, orderIndex)}
+                                                            onClick={() => handleOpenModal(custIndex, orderIndex)}
                                                         >
                                                             <EditIcon />
                                                         </IconButton>
@@ -312,7 +322,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                 </Grid>
                                                 <Modal
                                                     open={openModal[custIndex][orderIndex]}
-                                                    onClose={() => handleClose(custIndex, orderIndex)}
+                                                    onClose={() => handleCloseModal(custIndex, orderIndex)}
                                                     aria-labelledby="modal-modal-title"
                                                     aria-describedby="modal-modal-description"
                                                 >
@@ -393,26 +403,26 @@ function MerchantOrders({ open, handleOpen }) {
                                                 </Dialog>
                                                 <Collapse in={open2s[custIndex][orderIndex]} timeout="auto" unmountOnExit>
                                                     {/* <List component="div" disablePadding>
-                                                    {order.cart.productList.map((product, productID) => {
-                                                        return (
-                                                            <>
-                                                                <ListItemButton sx={{ pl: 8 }}>
-                                                                    <ListItemIcon>
-                                                                        <LocalMallIcon />
-                                                                    </ListItemIcon>
-                                                                    <ListItemText primary={`Product: ${order.cart.quantityList[productID]} * ${products[product].type} `} />
-                                                                </ListItemButton>
-                                                            </>
-                                                        );
-                                                    })}
-                                                </List> */}
+                                                {order.cart.productList.map((product, productID) => {
+                                                    return (
+                                                        <>
+                                                            <ListItemButton sx={{ pl: 8 }}>
+                                                                <ListItemIcon>
+                                                                    <LocalMallIcon />
+                                                                </ListItemIcon>
+                                                                <ListItemText primary={`Product: ${order.cart.quantityList[productID]} * ${products[product].type} `} />
+                                                            </ListItemButton>
+                                                        </>
+                                                    );
+                                                })}
+                                            </List> */}
                                                     <Box sx={{
                                                         marginTop: '5px',
                                                         marginBottom: '20px',
                                                         marginRight: '20px',
                                                         pl: 8
                                                     }}>
-                                                        {<MerchantCart cart={order.cart} products={products} />}
+                                                        {<MerchantCart cart={order.cart} />}
                                                     </Box>
                                                 </Collapse>
 
@@ -451,5 +461,6 @@ function MerchantOrders({ open, handleOpen }) {
 
         </div>
     );
+
 }
 export default MerchantOrders;

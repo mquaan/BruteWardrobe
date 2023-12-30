@@ -98,6 +98,10 @@ function App() {
 
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen((cur) => !cur);
+
+	const [openOrder, setOpenOrder] = useState(false);
+	const handleOpenOrder = () => setOpenOrder((cur) => !cur);
+
 	const [productModal, setProductModal] = useState(false);
 	const handleProductModal = (value) => setProductModal(value);
 
@@ -116,7 +120,7 @@ function App() {
 										<Routes>
 											<Route path='/' element={<MerchantProducts open={open} handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
 											<Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
-											<Route path='/orders' element={<MerchantOrders />} />
+											<Route path='/orders' element={<MerchantOrders open={openOrder} handleOpen={handleOpenOrder} />} />
 											<Route path='/profile' element={<MerchantProfile />} />
 											<Route path='/logout' element={<Login />} />
 										</Routes>

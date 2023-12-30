@@ -25,114 +25,114 @@ export const customers = [
     },
 ];
 
-export const shoppings = [
-	{
-		cart: [],
-		orderList: [
-			{
-				orderID: 1,
-				cart: [
-					{
-						productID: 1,
-						quantity: 2,
-						size: 'L'
-					},
-					{
-						productID: 2,
-						quantity: 2,
-						size: 'M'
-					},
-					{
-						productID: 3,
-						quantity: 1,
-						size: 'S'
-					}
-				],
-				orderStatus: 'Processing',
-				dateCreated: new Date("2023-12-01")
-			}
-		]
-	},
-	{
-		cart: [],
-		orderList: [
-			{
-				orderID: 2,
-				cart: [
-					{
-						productID: 2,
-						quantity: 3,
-						size: 'L'
-					},
-				],
-				orderStatus: 'Processing',
-				dateCreated: new Date("2023-12-02")
-			},
-			{
-				orderID: 12,
-				cart: [
-					{
-						productID: 2,
-						quantity: 3,
-						size: 'M'
-					},
-					{
-						productID: 1,
-						quantity: 2,
-						size: 'S'
-					},
+// export const shoppings = [
+// 	{
+// 		cart: [],
+// 		orderList: [
+// 			{
+// 				orderId: 1,
+// 				cart: [
+// 					{
+// 						productId: 1,
+// 						quantity: 2,
+// 						size: 'L'
+// 					},
+// 					{
+// 						productId: 2,
+// 						quantity: 2,
+// 						size: 'M'
+// 					},
+// 					{
+// 						productId: 3,
+// 						quantity: 1,
+// 						size: 'S'
+// 					}
+// 				],
+// 				orderStatus: 'Processing',
+// 				dateCreated: new Date("2023-12-01")
+// 			}
+// 		]
+// 	},
+// 	{
+// 		cart: [],
+// 		orderList: [
+// 			{
+// 				orderId: 2,
+// 				cart: [
+// 					{
+// 						productId: 2,
+// 						quantity: 3,
+// 						size: 'L'
+// 					},
+// 				],
+// 				orderStatus: 'Processing',
+// 				dateCreated: new Date("2023-12-02")
+// 			},
+// 			{
+// 				orderId: 12,
+// 				cart: [
+// 					{
+// 						productId: 2,
+// 						quantity: 3,
+// 						size: 'M'
+// 					},
+// 					{
+// 						productId: 1,
+// 						quantity: 2,
+// 						size: 'S'
+// 					},
 
-				],
-				orderStatus: 'Processing',
-				dateCreated: new Date("2023-11-02")
-			}
-		]
-	},
-	{
-		cart: [],
-		orderList: [
-			{
-				orderID: 3,
-				cart: [
-					{
-						productID: 4,
-						quantity: 1,
-						size: 'L'
-					},
-					{
-						productID: 1,
-						quantity: 1,
-						size: 's'
-					},
-				],
-				orderStatus: 'Processing',
-				dateCreated: new Date("2023-12-05")
-			}
-		]
-	},
-	{
-		cart: [],
-		orderList: [
-			{
-				orderID: 4,
-				cart: [
-					{
-						productID: 3,
-						quantity: 1,
-						size: 'L'
-					},
-					{
-						productID: 4,
-						quantity: 1,
-						size: 'M'
-					},
-				],
-				orderStatus: 'Processing',
-				dateCreated: new Date("2023-12-10")
-			}
-		]
-	}
-]
+// 				],
+// 				orderStatus: 'Processing',
+// 				dateCreated: new Date("2023-11-02")
+// 			}
+// 		]
+// 	},
+// 	{
+// 		cart: [],
+// 		orderList: [
+// 			{
+// 				orderId: 3,
+// 				cart: [
+// 					{
+// 						productId: 4,
+// 						quantity: 1,
+// 						size: 'L'
+// 					},
+// 					{
+// 						productId: 1,
+// 						quantity: 1,
+// 						size: 's'
+// 					},
+// 				],
+// 				orderStatus: 'Processing',
+// 				dateCreated: new Date("2023-12-05")
+// 			}
+// 		]
+// 	},
+// 	{
+// 		cart: [],
+// 		orderList: [
+// 			{
+// 				orderId: 4,
+// 				cart: [
+// 					{
+// 						productId: 3,
+// 						quantity: 1,
+// 						size: 'L'
+// 					},
+// 					{
+// 						productId: 4,
+// 						quantity: 1,
+// 						size: 'M'
+// 					},
+// 				],
+// 				orderStatus: 'Processing',
+// 				dateCreated: new Date("2023-12-10")
+// 			}
+// 		]
+// 	}
+// ]
 
 export const merchants = [
 	{
@@ -183,7 +183,7 @@ try {
 
 export const products = [
 	{
-		productID: 1,
+		productId: 1,
 		name: 'Mens Corduroy Color Block Panel Stitching Casual Long Sleeve Shirts',
 		description: {
 			Type: 'Shirts',
@@ -206,8 +206,8 @@ export const products = [
 		numSold: 0,
 	},
 	{
-		productID: 2,
-		name: 'Mens Smile Face Embroidery Color Block Knit Short Sleeve Shirts',
+		productId: 2,
+		name: 'Mens Smile Face EmbroIdery Color Block Knit Short Sleeve Shirts',
 		description: {
 			Type: 'Shirts',
 			Occasion: 'Vacation',
@@ -219,7 +219,7 @@ export const products = [
 			Brand: 'KOYYE',
 			Thickness: 'Moderate',
 			Season: 'Summer',
-			DesignElement: 'Embroidered, Patchwork, Button',
+			DesignElement: 'EmbroIdered, Patchwork, Button',
 			FitType: 'Regular',
 			Collection: 'Newchic',
 		},
@@ -229,7 +229,7 @@ export const products = [
 		numSold: 0,
 	},
 	{
-		productID: 3,
+		productId: 3,
 		name: 'Mens Ethnic Geometric Print Stitching Crew Neck Short Sleeve T-Shirts',
 		description: {
 			Type: 'T-Shirts',
@@ -252,7 +252,7 @@ export const products = [
 		numSold: 0,
 	},
 	{
-		productID: 4,
+		productId: 4,
 		name: 'Mens Rose Japanese Print Patchwork Crew Neck Short Sleeve T-Shirts',
 		description: {
 			Type: 'T-Shirts',
@@ -274,7 +274,7 @@ export const products = [
 		imgURLs: imageFilenames[3],
 	},
 	{
-		productID: 5,
+		productId: 5,
 		name: 'Mens Logo Ribbon Letter Print Contrast Stitching Street Hoodies',
 		description: {
 			Type: 'Hoodies',
@@ -297,7 +297,7 @@ export const products = [
 		numSold: 0,
 	},
 	{
-		productID: 6,
+		productId: 6,
 		name: 'Mens Chinese Style Panda Print Loose Drawstring Hoodies Winter',
 		description: {
 			Type: 'Hoodies',
@@ -320,7 +320,7 @@ export const products = [
 		numSold: 0,
 	},
 	{
-		productID: 7,
+		productId: 7,
 		name: 'Mens Japanese Cat Print Crew Neck Loose Pullover Sweatshirts',
 		description: {
 			Type: 'Sweatshirts',
@@ -343,7 +343,7 @@ export const products = [
 		numSold: 0,
 	},
 	{
-		productID: 8,
+		productId: 8,
 		name: 'Mens Cartoon Panda Japanese Print Crew Neck Pullover Sweatshirts',
 		description: {
 			Type: 'Sweatshirts',
@@ -366,7 +366,7 @@ export const products = [
 		numSold: 0,
 	},
 	{
-		productID: 9,
+		productId: 9,
 		name: 'Mens Smile Ethnic Pattern Patchwork Drawstring Waist Loose Pants',
 		description: {
 			Type: 'Pants',
@@ -388,7 +388,7 @@ export const products = [
 		imgURLs: imageFilenames[8],
 	},
 	{
-		productID: 10,
+		productId: 10,
 		name: 'Mens Japanese Print Contrast Patchwork Loose Drawstring Waist Pants',
 		description: {
 			Type: 'Pants',
@@ -410,8 +410,8 @@ export const products = [
 		imgURLs: imageFilenames[9],
 	},
 	{
-		productID: 11,
-		name: 'Mens Coconut Tree Embroidered Patchwork Corduroy Hawaiian Vacation Shorts',
+		productId: 11,
+		name: 'Mens Coconut Tree EmbroIdered Patchwork Corduroy Hawaiian Vacation Shorts',
 		description: {
 			Type: 'Shorts',
 			Occasion: 'Vacation',
@@ -423,7 +423,7 @@ export const products = [
 			Brand: 'Mensclo',
 			Thickness: 'Moderate',
 			Season: 'Summer',
-			DesignElement: 'Embroidered, Pocket, Drawstring, Patchwork',
+			DesignElement: 'EmbroIdered, Pocket, Drawstring, Patchwork',
 			FitType: 'Regular',
 			Collection: 'Newchic',
 		},
@@ -432,7 +432,7 @@ export const products = [
 		imgURLs: imageFilenames[10],
 	},
 	{
-		productID: 12,
+		productId: 12,
 		name: 'Mens Ethnic Geometric Funny Face Pattern Patchwork Corduroy Shorts',
 		description: {
 			Type: 'Shorts',
@@ -454,13 +454,13 @@ export const products = [
 		imgURLs: imageFilenames[11],
 	},
 	{
-		productID: 13,
-		name: 'Mens Solid Double Pocket Lapel Corduroy Long Sleeve Shirts',
+		productId: 13,
+		name: 'Mens SolId Double Pocket Lapel Corduroy Long Sleeve Shirts',
 		description: {
 			Type: 'Shirts',
 			Occasion: 'Daily',
 			Color: 'Green',
-			Pattern: 'Solid',
+			Pattern: 'SolId',
 			Collar: 'Lapel Collar',
 			Material: 'Polyester',
 			Length: 'Long Sleeve',
@@ -476,7 +476,7 @@ export const products = [
 		imgURLs: imageFilenames[12],
 	},
 	{
-		productID: 14,
+		productId: 14,
 		name: 'Mens Letter Graphics Curved Hem Casual Short Sleeve T-Shirts',
 		description: {
 			Type: 'T-Shirts',
@@ -498,13 +498,13 @@ export const products = [
 		imgURLs: imageFilenames[13],
 	},
 	{
-		productID: 15,
+		productId: 15,
 		name: 'Mens 100% Cotton Striped Breathable Casual Everyday Pants',
 		description: {
 			Type: 'Pants',
 			Occasion: 'Daily',
 			Color: 'Black',
-			Pattern: 'Solid',
+			Pattern: 'SolId',
 			Collar: 'Lapel Collar',
 			Material: 'Cotton',
 			Length: 'Long',
@@ -520,8 +520,8 @@ export const products = [
 		imgURLs: imageFilenames[14],
 	},
 	{
-		productID: 16,
-		name: 'Mens All Over Pineapple Floral Print Holiday Drawstring Short',
+		productId: 16,
+		name: 'Mens All Over Pineapple Floral Print HolIday Drawstring Short',
 		description: {
 			Type: 'Shorts',
 			Occasion: 'Vacation',
