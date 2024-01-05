@@ -2,15 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyDNuzCNSi1lAILxNOhT-pZ9TS1OsYUpbQA',
-    authDomain: 'brutewardrobe.firebaseapp.com',
-    databaseURL:
-        'https://brutewardrobe-default-rtdb.asia-southeast1.firebasedatabase.app',
-    projectId: 'brutewardrobe',
-    storageBucket: 'brutewardrobe.appspot.com',
-    messagingSenderId: '444692912761',
-    appId: '1:444692912761:web:5b7518ef29c38f433ed2a8',
-    measurementId: 'G-YC8YRY457L',
+    apiKey: 'AIzaSyDG1Xh5BGTmet4Ok6fB4LqHyYwj5xb0kLg',
+    authDomain: 'brutewardrobe2.firebaseapp.com',
+    projectId: 'brutewardrobe2',
+    storageBucket: 'brutewardrobe2.appspot.com',
+    messagingSenderId: '90657381259',
+    appId: '1:90657381259:web:1d29e49ace57325e892d8e',
+    measurementId: 'G-K0T2B9275B',
 };
 
 const app = initializeApp(firebaseConfig);

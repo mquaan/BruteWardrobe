@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/Customer/OrderStatus.css';
 import { products } from '../../helpers/product_list';
 import { toast } from 'react-hot-toast';
-import axios from 'axios'
+import axios from 'axios';
 
 function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryInfo, setOrderedProducts, token }) {
 	const [isConfirmationVisible, setConfirmationVisible] = useState(false);
