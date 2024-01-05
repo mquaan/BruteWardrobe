@@ -134,6 +134,13 @@ export const customers = [
 // 	}
 // ]
 
+export const shoppings = [
+	{
+		cart: [],
+		orderList: [],
+	},
+]
+
 export const merchants = [
 	{
 		username: 'merchant',

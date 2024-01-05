@@ -10,19 +10,19 @@ function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo, setO
     const { name, value } = e.target;
     setDeliveryInfo((deliveryInfo) => ({ ...deliveryInfo, [name]: value }));
   };
-  
+
   const handlePlaceOrder = () => {
     if (
       deliveryInfo.fullName &&
       deliveryInfo.address &&
       deliveryInfo.phoneNumber &&
-      document.querySelector('input[name="paymentMethod"]:checked') 
+      document.querySelector('input[name="paymentMethod"]:checked')
     ) {
       // alert('Order placed successfully!');
       const orderedProducts = [...cartItems];
       navigate('/order-status');
       setOrderedProducts(cartItems);
-      setCartItems([]); 
+      setCartItems([]);
     } else {
       alert('Please fill in all required information.');
     }
@@ -103,26 +103,26 @@ function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo, setO
         <h2>Payment Method</h2>
         <div className="payment-options">
           <label htmlFor="paymentMethod">Cash on Delivery</label>
-          <input 
-                type="radio"
-                name="paymentMethod"
-                value="cash"
-                onChange={handleInputChange}
-                required
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="cash"
+            onChange={handleInputChange}
+            required
           />
           <label htmlFor="paymentMethod">Banking</label>
-          <input 
-                type="radio"
-                name="paymentMethod"
-                value="banking"
-                onChange={handleInputChange}
-                required
+          <input
+            type="radio"
+            name="paymentMethod"
+            value="banking"
+            onChange={handleInputChange}
+            required
           />
         </div>
       </section>
-        <button className="place-order-btn" onClick={handlePlaceOrder}>
-          Place Order
-        </button>
+      <button className="place-order-btn" onClick={handlePlaceOrder}>
+        Place Order
+      </button>
     </div>
   );
 }

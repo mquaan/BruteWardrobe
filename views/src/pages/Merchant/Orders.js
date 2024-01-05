@@ -77,7 +77,7 @@ function MerchantCart({ cart }) {
                                     {item.product.name}
                                 </TableCell>
                                 <TableCell component="th" align="center" style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <img src={item.product.imgURLs[0]} alt={`Product ${item.productID}`} style={{ maxWidth: '100px' }} />
+                                    <img src={item.product.imgURLs[0]} alt={`Product ${item.productId}`} style={{ maxWidth: '100px' }} />
                                 </TableCell>
                                 <TableCell component="th" align="center">{item.size}</TableCell>
                                 <TableCell component="th" align="center">{item.quantity}</TableCell>
@@ -147,7 +147,11 @@ function MerchantOrders({ open, handleOpen }) {
                 ord.cart.forEach((ell) => {
                     ell.product = products.find((pr) => pr.productId == ell.productId)
                 })
-            });
+                if (ord.dateCreated)
+                    ord.dateCreated = new Date(ord.dateCreated);
+                if (ord.dateShipped && ord.dateShipped != 'none')
+                    ord.dateShipped = new Date(ord.dateShipped);
+            })
             return { ...value, shopping: foundShopping };
         }).filter(Boolean);
 
@@ -193,17 +197,20 @@ function MerchantOrders({ open, handleOpen }) {
     const handleOpenModal = (custIndex, orderIndex) => {
         const newOpenModal = [...openModal];
         newOpenModal[custIndex][orderIndex] = !newOpenModal[custIndex][orderIndex];
-        setopenModal(newOpenModal);
+        setOpenModal(newOpenModal);
     };
     const handleCloseModal = (custIndex, orderIndex) => {
         const newOpenModal = [...openModal];
         newOpenModal[custIndex][orderIndex] = !newOpenModal[custIndex][orderIndex];
-        setopenModal(newOpenModal);
+        setOpenModal(newOpenModal);
     };
 
     // order
 
     const handleStatusChange = (event, order, custIndex, orderIndex) => {
+        if (event.target.value === order.orderStatus) {
+            return;
+        }
         const newStatus = [...statuses];
         const status = event.target.value; // Get the new status from the event object
 
@@ -211,22 +218,37 @@ function MerchantOrders({ open, handleOpen }) {
         setStatus(newStatus);
 
         order.orderStatus = status;
-        if (status === 'Delivered' && !order.dateShipped) {
-            order.dateShipped = new Date();
+        if (status === 'Delivered' || status === 'Completed') {
+            if (!order.dateShipped || order.dateShipped == 'none') {
+                order.dateShipped = new Date();
+            }
         }
-        handleOpen();
+        else {
+            if (order.dateShipped && order.dateShipped != 'none') {
+                order.dateShipped = 'none';
+            }
+        }
+
+        axios.post('http://localhost:4000/merchant/editorderstatus', {
+            shoppingId: updatedCustomers[custIndex].shoppingId,
+            orderId: order.orderId,
+            newStatus: order.orderStatus,
+            newdateShipped: order.dateShipped,
+        });
+
+        // handleOpen();
     };
 
     // cancel order
     const handleOpenDialog = (custIndex, orderIndex) => {
         const newDialog = [...openDialog];
         newDialog[custIndex][orderIndex] = !newDialog[custIndex][orderIndex];
-        setopenDialog(newDialog);
+        setOpenDialog(newDialog);
     };
     const handleCloseDialog = (custIndex, orderIndex) => {
         const newDialog = [...openDialog];
         newDialog[custIndex][orderIndex] = !newDialog[custIndex][orderIndex];
-        setopenDialog(newDialog);
+        setOpenDialog(newDialog);
     };
 
     // dialog
@@ -234,10 +256,10 @@ function MerchantOrders({ open, handleOpen }) {
         const newCanceled = [...canceled];
 
         newCanceled[custIndex][orderIndex] = true; // Update the specific status
-        setCancel(newCanceled);
+        setCanceled(newCanceled);
         handleCloseDialog(custIndex, orderIndex);
 
-        console.log(`The order: ${order.orderID} have been canceled. Because: ${reason}`); // the customer should see this
+        console.log(`The order: ${order.orderId} have been canceled. Because: ${reason}`); // the customer should see this
     };
     return (
         <div>
@@ -295,7 +317,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                             <ListItemIcon>
                                                                 <ShoppingCartIcon />
                                                             </ListItemIcon>
-                                                            <ListItemText primary={`Order ID: ${order.orderID}, Date:  ${order.dateCreated.toLocaleString('en-US', options)}, Status: ${order.orderStatus}`} />
+                                                            <ListItemText primary={`Order ID: ${order.orderId}, Date:  ${order.dateCreated.toLocaleString('en-US', options)}, Status: ${order.orderStatus}`} />
                                                             {open2s[custIndex][orderIndex] ? <ExpandLess size="small" /> : <ExpandMore size="small" />}
                                                         </ListItemButton>
                                                     </Grid>
@@ -337,7 +359,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                         p: 4,
                                                     }}>
                                                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                            {`Order ID: ${order.orderID}`}
+                                                            {`Order ID: ${order.orderId}`}
                                                         </Typography>
                                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                             {`Date Created: ${order.dateCreated.toLocaleString('en-US', options)}`}
@@ -361,7 +383,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                             {`Delivery Info: ${order.deliverInfo}`}
                                                         </Typography>
-                                                        {(order.orderStatus === 'Delivered' || order.orderStatus === 'Completed') && (
+                                                        {(order.dateShipped && order.dateShipped != 'none') && (
                                                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                                 {`Date shipped: ${order.dateShipped.toLocaleString('en-US', options)}`}
                                                             </Typography>
@@ -376,7 +398,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                     aria-describedby="alert-dialog-description"
                                                 >
                                                     <DialogTitle id="alert-dialog-title">
-                                                        {`Do you really want to cancel the order ${order.orderID} by ${customer.username}?`}
+                                                        {`Do you really want to cancel the order ${order.orderId} by ${customer.username}?`}
                                                     </DialogTitle>
                                                     <DialogContent>
                                                         <TextField
@@ -403,14 +425,14 @@ function MerchantOrders({ open, handleOpen }) {
                                                 </Dialog>
                                                 <Collapse in={open2s[custIndex][orderIndex]} timeout="auto" unmountOnExit>
                                                     {/* <List component="div" disablePadding>
-                                                {order.cart.productList.map((product, productID) => {
+                                                {order.cart.productList.map((product, productId) => {
                                                     return (
                                                         <>
                                                             <ListItemButton sx={{ pl: 8 }}>
                                                                 <ListItemIcon>
                                                                     <LocalMallIcon />
                                                                 </ListItemIcon>
-                                                                <ListItemText primary={`Product: ${order.cart.quantityList[productID]} * ${products[product].type} `} />
+                                                                <ListItemText primary={`Product: ${order.cart.quantityList[productId]} * ${products[product].type} `} />
                                                             </ListItemButton>
                                                         </>
                                                     );
