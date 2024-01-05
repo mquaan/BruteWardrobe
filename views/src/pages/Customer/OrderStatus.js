@@ -15,21 +15,21 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
 	);
 	const userId = JSON.parse(decodeToken).user.userId;
 
-	const [order, setOrder] = useState([]);
+	const [orderList, setOrderList] = useState([]);
 
-	// useEffect(() => {
-	// 	axios
-	// 		.post('http://localhost:4000/customer/getorderlist', { userId })
-	// 		.then((response) => {
-	// 			if (response.data.success) {
-	// 				console.log(response.data.order);
-	// 				setOrder(response.data.order);
-	// 			}
-	// 		})
-	// 		.catch((error) => {
-	// 			console.error('Error:', error);
-	// 		});
-	// }, []);
+	useEffect(() => {
+		axios
+			.post('http://localhost:4000/customer/getorderlist', { userId })
+			.then((response) => {
+				if (response.data.success) {
+					console.log(response.data.orderList);
+					setOrderList(response.data.orderList);
+				}
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	}, []);
 
 	const calculateTotalPrice = () => {
 		return orderedProducts.reduce((total, item) => total + item.price * item.quantity, 0);

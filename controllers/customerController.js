@@ -179,7 +179,7 @@ controller.addOrder = async (req, res) => {
 				let shopping = shoppingSnapshot.data();
 				shopping.orderList.push({
 					cart,
-					dateCreated: new Date(),
+					dateCreated: new Date().toISOString(),
 					dateShipped: null,
 					deliverInfo: deliveryInfo.fullName + ' - ' + deliveryInfo.address + ' - ' + deliveryInfo.phoneNumber,
 					orderStatus: 'Processing',
@@ -190,6 +190,29 @@ controller.addOrder = async (req, res) => {
 				await updateDoc(shoppingRef, { cart: [] });
 			}
 			await updateDoc(userRef, { shoppingId: shoppingId });
+		}
+	}
+};
+
+controller.getOrderList = async (req, res) => {
+	let { userId } = req.body;
+	let userSnapshot = await getDoc(doc(db, 'customers', userId));
+
+	if (!userSnapshot.exists) {
+		console.log('No user found!');
+	} else {
+		let user = userSnapshot.data();
+		let shoppingId = user.shoppingId;
+		if (!shoppingId) {
+			res.json({ succuss: false });
+		} else {
+			let shoppingSnapshot = await getDoc(doc(db, 'shoppings', shoppingId));
+			if (!shoppingSnapshot.exists) {
+				console.log('No shopping document found!');
+			} else {
+				let shopping = shoppingSnapshot.data();
+				res.json({ success: true, orderList: shopping.orderList });
+			}
 		}
 	}
 };
