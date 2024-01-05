@@ -32,7 +32,7 @@ function Product({ handleOpen, handleProductModal, product }) {
 	);
 }
 
-function MerchantProducts({ open, handleOpen, handleProductModal }) {
+function MerchantProducts({ open, handleOpen, handleProductModal}) {
 	const [products, setProducts] = useState([]);
 
 	useEffect(() => {

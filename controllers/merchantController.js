@@ -6,7 +6,8 @@ import { cloudinary } from '../cloudinary/index.js';
 const controller = {};
 
 controller.editProductList = async (req, res) => {
-    let { product } = req.body;
+    let { userId, product } = req.body;
+    product.last_updated_by = userId;
     if (product.productId) {
         let productRef = doc(db, 'products', product.productId);
         await updateDoc(productRef, product);
@@ -20,7 +21,7 @@ controller.editProductList = async (req, res) => {
 };
 
 controller.editOrderStatus = async (req, res) => {
-    let { shoppingId, orderId, newStatus, newdateShipped } = req.body;
+    let { userId, shoppingId, orderId, newStatus, newdateShipped } = req.body;
     
     let shoppingRef = doc(db, 'shoppings', shoppingId);
 
@@ -39,6 +40,7 @@ controller.editOrderStatus = async (req, res) => {
         let orderIndex = shoppingData.orderList.findIndex(order => order.orderId === orderId);
 
         if (orderIndex !== -1) {
+            shoppingData.orderList[orderIndex].last_updated_by = userId;
             shoppingData.orderList[orderIndex].orderStatus = newStatus;
             shoppingData.orderList[orderIndex].dateShipped = newdateShipped;
             await updateDoc(shoppingRef, { orderList: shoppingData.orderList });

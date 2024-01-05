@@ -93,7 +93,15 @@ function MerchantCart({ cart }) {
     );
 }
 
-function MerchantOrders({ open, handleOpen }) {
+function MerchantOrders({ open, handleOpen, token }) {
+    const decodeToken = decodeURIComponent(
+		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
+			.split('')
+			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+			.join('')
+	);
+	const userId = JSON.parse(decodeToken).user.userId;
+
     const [products, setProducts] = useState([]);
     const [shoppings, setShoppings] = useState([]);
     const [customers, setCustomers] = useState([]);
@@ -232,6 +240,7 @@ function MerchantOrders({ open, handleOpen }) {
         }
 
         axios.post('http://localhost:4000/merchant/editorderstatus', {
+            userId: userId,
             shoppingId: updatedCustomers[custIndex].shoppingId,
             orderId: order.orderId,
             newStatus: order.orderStatus,
