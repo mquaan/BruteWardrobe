@@ -43,13 +43,21 @@ function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo, setO
 			setOrderedProducts(cartItems);
 			setCartItems([]);
 
-      try {
-        const response = await axios.post('http://localhost:4000/customer/addorder', { userId, cart, deliveryInfo });
-        if (response.data.success) {
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
+			try {
+				const response = await axios.post('http://localhost:4000/customer/addorder', {
+					userId,
+					cart: cart.map((item) => ({
+						productId: item.productId,
+						quantity: item.quantity,
+						size: item.size,
+					})),
+					deliveryInfo,
+				});
+				if (response.data.success) {
+				}
+			} catch (error) {
+				console.error('Error:', error);
+			}
 		} else {
 			alert('Please fill in all required information.');
 		}
