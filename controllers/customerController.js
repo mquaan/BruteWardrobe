@@ -160,7 +160,7 @@ controller.addOrder = async (req, res) => {
 				orderList: [
 					{
 						cart,
-						dateCreated: new Date(),
+						dateCreated: new Date().toISOString(),
 						dateShipped: null,
 						deliverInfo: deliveryInfo.fullName + ' - ' + deliveryInfo.address + ' - ' + deliveryInfo.phoneNumber,
 						orderStatus: 'Processing',
