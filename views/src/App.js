@@ -183,7 +183,7 @@ function App() {
 											/>
 										}
 									/>
-									<Route path='/edit-profile' element={<EditProfile />} />
+									<Route path='/edit-profile' element={<EditProfile token={token} />} />
 									<Route
 										path='/order-status'
 										element={

@@ -95,12 +95,12 @@ function MerchantCart({ cart }) {
 
 function MerchantOrders({ open, handleOpen, token }) {
     const decodeToken = decodeURIComponent(
-		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
-			.split('')
-			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
-			.join('')
-	);
-	const userId = JSON.parse(decodeToken).user.userId;
+        atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
+            .split('')
+            .map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+            .join('')
+    );
+    const userId = JSON.parse(decodeToken).user.userId;
 
     const [products, setProducts] = useState([]);
     const [shoppings, setShoppings] = useState([]);
@@ -126,17 +126,33 @@ function MerchantOrders({ open, handleOpen, token }) {
                 const responseShoppings = await axios.get('http://localhost:4000/shoppings');
                 const responseCustomers = await axios.get('http://localhost:4000/customers');
 
-                if (responseProducts.data.success) {
-                    setProducts(responseProducts.data.products);
+                if (!responseProducts.data.success || !responseShoppings.data.success || !responseCustomers.data.success) {
+                    console.error("Fail to fetch data");
                 }
+                setProducts(responseProducts.data.products);
+                setShoppings(responseShoppings.data.shoppings);
+                setCustomers(responseCustomers.data.customers);
 
-                if (responseShoppings.data.success) {
-                    setShoppings(responseShoppings.data.shoppings);
-                }
 
-                if (responseCustomers.data.success) {
-                    setCustomers(responseCustomers.data.customers);
-                }
+                let filteredShoppings = shoppings.filter((value) => value.orderList && value.orderList.length !== 0);
+                // link to shopping
+                let with_shopping = customers.map((value) => {
+                    let foundShopping = filteredShoppings.find((sval) => value.shoppingId === sval.shoppingId);
+                    if (!foundShopping) return null;
+                    // link to product name
+                    foundShopping.orderList.forEach((ord) => {
+                        ord.cart.forEach((ell) => {
+                            ell.product = products.find((pr) => pr.productId == ell.productId)
+                        })
+                        if (ord.dateCreated)
+                            ord.dateCreated = new Date(ord.dateCreated);
+                        if (ord.dateShipped && ord.dateShipped != 'none')
+                            ord.dateShipped = new Date(ord.dateShipped);
+                    })
+                    return { ...value, shopping: foundShopping };
+                }).filter(Boolean);
+
+                setUpdatedCustomers(with_shopping);
             } catch (errors) {
                 console.error('Error:', errors);
             }
@@ -144,29 +160,6 @@ function MerchantOrders({ open, handleOpen, token }) {
 
         fetchData();
     }, [open]);
-
-    // Move the logic here, after shoppings and customers have been updated
-    useEffect(() => {
-        let filteredShoppings = shoppings.filter((value) => value.orderList && value.orderList.length !== 0);
-        // link to shopping
-        let with_shopping = customers.map((value) => {
-            let foundShopping = filteredShoppings.find((sval) => value.shoppingId === sval.shoppingId);
-            if (!foundShopping) return null;
-            // link to product name
-            foundShopping.orderList.forEach((ord) => {
-                ord.cart.forEach((ell) => {
-                    ell.product = products.find((pr) => pr.productId == ell.productId)
-                })
-                if (ord.dateCreated)
-                    ord.dateCreated = new Date(ord.dateCreated);
-                if (ord.dateShipped && ord.dateShipped != 'none')
-                    ord.dateShipped = new Date(ord.dateShipped);
-            })
-            return { ...value, shopping: foundShopping };
-        }).filter(Boolean);
-
-        setUpdatedCustomers(with_shopping);
-    }, [products, shoppings, customers]);
 
 
     useEffect(() => {

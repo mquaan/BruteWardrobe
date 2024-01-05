@@ -55,7 +55,9 @@ function Navbar({ token, setToken, cartItems }) {
 	return (
 		<div className={`navbar ${isNavHidden ? 'hidden' : ''}`}>
 			<div style={{ display: 'flex', alignItems: 'center', gap: '80px' }}>
-				<img src='../assets/Logo.png' className='logo' alt='' />
+				<NavLink className='link' activeclassname='active' to='/' onClick={() => goToTop()}>
+					<img src='../assets/Logo.png' className='logo' alt='' />
+				</NavLink>
 				<div className='search-bar1' onClick={() => setIsExpanded(true)} onBlur={handleBlur} tabIndex={0} ref={inputRef}>
 					<i className='fa-solid fa-magnifying-glass'></i>
 					<input type='text' className={`search-click1 ${isExpanded ? 'expanded' : ''}`} placeholder='Search here...' />
