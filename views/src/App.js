@@ -66,7 +66,7 @@ function ProtectedComponent({ children, token, role }) {
 }
 
 function App() {
-	const [orderStatus, setOrderStatus] = useState('Completed');
+	const [orderStatus, setOrderStatus] = useState('Delivered');
 
 	const [deliveryInfo, setDeliveryInfo] = useState({
 		fullName: '',

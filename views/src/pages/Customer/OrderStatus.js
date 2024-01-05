@@ -57,7 +57,7 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
         });
         setOrderedProducts([]);
         setConfirmationVisible(true);
-        toast.error("This didn't work.")
+        toast.error("Order confirmed")
     };
     
     return (
