@@ -7,7 +7,7 @@ class Product {
         this.rate = rate;
         this.numSold = numSold;
         this.productId = productId;
-        this.last_updated_by = null;
+        this.last_updated_by = last_updated_by;
     }
 }
 
@@ -20,7 +20,6 @@ const productConverter = {
             price: product.price,
             rate: product.rate,
             numSold: product.numSold,
-            last_modified: product.last_modified,
             productId: product.productId,
             last_updated_by: product.last_updated_by
 		};
@@ -34,7 +33,6 @@ const productConverter = {
             data.price, 
             data.rate, 
             data.numSold, 
-            data.last_modified, 
             data.productId,
             data.last_updated_by
 		);
