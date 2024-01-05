@@ -185,6 +185,7 @@ controller.addOrder = async (req, res) => {
 					paymentInfo: deliveryInfo.paymentMethod,
 				});
 				await updateDoc(shoppingRef, { orderList: shopping.orderList });
+				await updateDoc(shoppingRef, { cart: [] });
 			}
 			await updateDoc(userRef, { shoppingId: shoppingId });
 		}

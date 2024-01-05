@@ -7,6 +7,7 @@ class Order {
 
         // Processing, Confirmed, Shipping, Delivered, Completed
         this.orderStatus = 'Processing';
+        this.last_updated = null;
 
         this.dateCreated = new Date();
         this.dateShipped = null;

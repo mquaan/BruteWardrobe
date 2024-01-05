@@ -5,10 +5,10 @@ import { Customer, customerConverter } from '../models/customer.js';
 import { Merchant, merchantConverter } from '../models/merchant.js';
 import { Admin, adminConverter } from '../models/admin.js';
 import { Product, productConverter } from '../models/product.js';
-// import { Shopping, shoppingConverter } from '../models/shopping.js';
+import { Shopping, shoppingConverter } from '../models/shopping.js';
 
 
-import { customers, merchants, admins, products } from './data.js';
+import { customers, shoppings, merchants, admins, products } from './data.js';
 
 const collections = ['customers', 'shoppings', 'merchants', 'admins', 'products'];
 for (let collectionName of collections) {
@@ -37,20 +37,20 @@ for (let item of customers) {
     );
     const docRef = await addDoc(ref, customer);
     custIds.push(docRef.id);
-    await updateDoc(docRef, { userId: docRef.id, shoppingId: docRef.id });
+    await updateDoc(docRef, { userId: docRef.id });
 }
 
-// ref = collection(db, 'shoppings').withConverter(shoppingConverter);
-// for (let i = 0; i < shoppings.length; i++) {
-//     let item = shoppings[i];
-//     const shopping = new Shopping(
-//         item.orderList,
-// 		item.cart,
-// 		custIds[i],
-//     );
-//     const docRef = await addDoc(ref, shopping);
-//     // await updateDoc(docRef, { shoppingId: docRef.id });
-// }
+ref = collection(db, 'shoppings').withConverter(shoppingConverter);
+for (let i = 0; i < shoppings.length; i++) {
+    let item = shoppings[i];
+    const shopping = new Shopping(
+        item.orderList,
+		item.cart,
+		custIds[i],
+    );
+    const docRef = await addDoc(ref, shopping);
+    // await updateDoc(docRef, { shoppingId: docRef.id });
+}
 
 ref = collection(db, 'merchants').withConverter(merchantConverter);
 for (let item of merchants) {

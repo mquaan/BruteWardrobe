@@ -139,6 +139,14 @@ controller.shoppings = async (req, res) => {
 	let snapshot = await getDocs(query(collection(db, 'shoppings')));
 	if (!snapshot.empty) {
 		let shoppings = snapshot.docs.map((doc) => doc.data());
+		// shoppings.forEach((shopping) => {
+		// 	shopping.orderList.forEach((ord) => {
+		// 		if (ord.dateCreated)
+		// 			ord.dateCreated = new Date(ord.dateCreated);
+		// 		if (ord.dateShipped && ord.dateShipped != 'none')
+		// 			ord.dateShipped = new Date(ord.dateShipped);
+		// 	})
+		// })
 		res.json({ success: true, shoppings });
 	}
 };
@@ -148,6 +156,12 @@ controller.shopping = async (req, res) => {
 	let snapshot = await getDoc(doc(db, 'shoppings', shoppingId));
 	if (!snapshot.empty) {
 		let shopping = snapshot.data();
+		// shopping.orderList.forEach((ord) => {
+		// 	if (ord.dateCreated)
+		// 		ord.dateCreated = new Date(ord.dateCreated);
+		// 	if (ord.dateShipped && ord.dateShipped != 'none')
+		// 		ord.dateShipped = new Date(ord.dateShipped);
+		// })
 		res.json({ success: true, shopping });
 	}
 };
