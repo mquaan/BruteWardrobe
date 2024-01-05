@@ -165,6 +165,7 @@ controller.addOrder = async (req, res) => {
 						deliverInfo: deliveryInfo.fullName + ' - ' + deliveryInfo.address + ' - ' + deliveryInfo.phoneNumber,
 						orderStatus: 'Processing',
 						paymentInfo: deliveryInfo.paymentMethod,
+						orderId: 1,
 					},
 				],
 			});
@@ -183,6 +184,7 @@ controller.addOrder = async (req, res) => {
 					deliverInfo: deliveryInfo.fullName + ' - ' + deliveryInfo.address + ' - ' + deliveryInfo.phoneNumber,
 					orderStatus: 'Processing',
 					paymentInfo: deliveryInfo.paymentMethod,
+					orderId: shopping.orderList.length,
 				});
 				await updateDoc(shoppingRef, { orderList: shopping.orderList });
 				await updateDoc(shoppingRef, { cart: [] });

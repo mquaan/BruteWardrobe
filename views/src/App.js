@@ -193,6 +193,7 @@ function App() {
 												orderStatus={orderStatus}
 												setDeliveryInfo={setDeliveryInfo}
 												setOrderedProducts={setOrderedProducts}
+												token={token}
 											/>
 										}
 									/>
