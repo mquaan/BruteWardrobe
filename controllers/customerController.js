@@ -140,8 +140,56 @@ controller.updateCartQuantity = async (req, res) => {
 	}
 };
 
-controller.makeOrder = async (req, res) => {
-	
-}
+controller.addOrder = async (req, res) => {
+	let { userId, cart, deliveryInfo } = req.body;
+	console.log(req.body);
+	let userRef = doc(db, 'customers', userId);
+	let userSnapshot = await getDoc(doc(db, 'customers', userId));
+
+	if (!userSnapshot.exists) {
+		console.log('No user found!');
+	} else {
+		let user = userSnapshot.data();
+		let shoppingId = user.shoppingId;
+		if (!shoppingId) {
+			let ref = collection(db, 'shoppings').withConverter(shoppingConverter);
+			let shopping = new Shopping();
+			const docRef = await addDoc(ref, shopping);
+			await updateDoc(docRef, {
+				shoppingId: docRef.id,
+				orderList: [
+					{
+						cart,
+						dateCreated: new Date(),
+						dateShipped: null,
+						deliverInfo: deliveryInfo.fullName + ' - ' + deliveryInfo.address + ' - ' + deliveryInfo.phoneNumber,
+						orderStatus: 'Processing',
+						paymentInfo: deliveryInfo.paymentMethod,
+					},
+				],
+			});
+			shoppingId = docRef.id;
+		} else {
+			let shoppingSnapshot = await getDoc(doc(db, 'shoppings', shoppingId));
+			if (!shoppingSnapshot.exists) {
+				console.log('No shopping document found!');
+			} else {
+				let shoppingRef = doc(db, 'shoppings', shoppingId);
+				let shopping = shoppingSnapshot.data();
+				shopping.orderList.push({
+					cart,
+					dateCreated: new Date(),
+					dateShipped: null,
+					deliverInfo: deliveryInfo.fullName + ' - ' + deliveryInfo.address + ' - ' + deliveryInfo.phoneNumber,
+					orderStatus: 'Processing',
+					paymentInfo: deliveryInfo.paymentMethod,
+				});
+				await updateDoc(shoppingRef, { orderList: shopping.orderList });
+				await updateDoc(shoppingRef, { cart: [] });
+			}
+			await updateDoc(userRef, { shoppingId: shoppingId });
+		}
+	}
+};
 
 export default controller;

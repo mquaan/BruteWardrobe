@@ -42,8 +42,11 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+const dateOnlyFormat = {
+    year: 'numeric', month: 'numeric', day: 'numeric',
+}
 
-const options = {
+const dateFormat = {
     year: 'numeric', month: 'long', day: 'numeric',
     hour: 'numeric', minute: 'numeric', second: 'numeric'
 };
@@ -98,7 +101,7 @@ function MerchantOrders({ open, handleOpen }) {
     const [updatedCustomers, setUpdatedCustomers] = useState([]);
 
 
-    const [reason, setReason] = useState('');
+    const [cancelReason, setReason] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [open1s, setOpen1s] = useState([]);
     const [open2s, setOpen2s] = useState([]);
@@ -259,7 +262,11 @@ function MerchantOrders({ open, handleOpen }) {
         setCanceled(newCanceled);
         handleCloseDialog(custIndex, orderIndex);
 
-        console.log(`The order: ${order.orderId} have been canceled. Because: ${reason}`); // the customer should see this
+        axios.post('http://localhost:4000/merchant/cancelorder', {
+            shoppingId: updatedCustomers[custIndex].shoppingId,
+            orderId: order.orderId,
+            reason: cancelReason,
+        });
     };
     return (
         <div>
@@ -317,7 +324,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                             <ListItemIcon>
                                                                 <ShoppingCartIcon />
                                                             </ListItemIcon>
-                                                            <ListItemText primary={`Order ID: ${order.orderId}, Date:  ${order.dateCreated.toLocaleString('en-US', options)}, Status: ${order.orderStatus}`} />
+                                                            <ListItemText primary={`Order ID: ${order.orderId} | Date:  ${order.dateCreated.toLocaleString('en-US', dateOnlyFormat)} | Status: ${order.orderStatus}`} />
                                                             {open2s[custIndex][orderIndex] ? <ExpandLess size="small" /> : <ExpandMore size="small" />}
                                                         </ListItemButton>
                                                     </Grid>
@@ -362,7 +369,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                             {`Order ID: ${order.orderId}`}
                                                         </Typography>
                                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                            {`Date Created: ${order.dateCreated.toLocaleString('en-US', options)}`}
+                                                            {`Date Created: ${order.dateCreated.toLocaleString('en-US', dateFormat)}`}
                                                         </Typography>
                                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                             Order Status:
@@ -385,7 +392,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                         </Typography>
                                                         {(order.dateShipped && order.dateShipped != 'none') && (
                                                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                                {`Date shipped: ${order.dateShipped.toLocaleString('en-US', options)}`}
+                                                                {`Date shipped: ${order.dateShipped.toLocaleString('en-US', dateFormat)}`}
                                                             </Typography>
                                                         )}
 
@@ -405,7 +412,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                             id="standard-basic"
                                                             label="Reason"
                                                             variant="standard"
-                                                            value={reason}
+                                                            value={cancelReason}
                                                             fullWidth
                                                             onChange={(e) => setReason(e.target.value)}
                                                             required

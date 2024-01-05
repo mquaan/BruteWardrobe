@@ -35,13 +35,20 @@
 .custom-dialog button {
 	background-color: #f8ded1;
 	color: #000000;
-	padding: 10px 45px;
+	padding: 10px 20px;
 	border: 1px solid transparent;
 	border-radius: 8px;
 	font-weight: 600;
 	letter-spacing: 0.5px;
 	margin-top: 10px;
 	cursor: pointer;
+	width: 120px;
+}
+
+.custom-dialog .remove-btn {
+	background-color: #f29b9b;
+	margin-left: 16px;
+
 }
 
 #form__file {
