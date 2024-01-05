@@ -1,8 +1,7 @@
 import Payment from './payment.js';
 
-
 class Order {
-    constructor(orderId, cart, dateCreated, paymentInfo, deliverInfo) {
+    constructor(orderId, cart, paymentInfo, deliverInfo) {
         this.orderId = orderId;
         this.cart = cart;
 
@@ -10,7 +9,7 @@ class Order {
         this.orderStatus = 'Processing';
         this.last_updated = null;
 
-        this.dateCreated = dateCreated;
+        this.dateCreated = new Date();
         this.dateShipped = null;
         this.paymentInfo = paymentInfo;
         this.deliverInfo = deliverInfo;

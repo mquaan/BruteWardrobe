@@ -6,5 +6,6 @@ router.post('/editproductlist', controller.editProductList);
 router.post('/editorderstatus', controller.editOrderStatus);
 router.post('/cancelorder', controller.cancelOrder);
 
+router.post('/removeproduct', controller.removeProduct);
 
 export default router;

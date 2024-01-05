@@ -158,7 +158,7 @@ function App() {
 										path='/cart'
 										element={
 											// cartItems.length > 0 ? (
-												<Cart cartItems={cartItems} setCartItems={setCartItems} token={token} />
+											<Cart cartItems={cartItems} setCartItems={setCartItems} token={token} />
 											// ) : (
 											// 	<section className='cart-header'>
 											// 		<h2>Your cart is empty!</h2>
@@ -179,13 +179,23 @@ function App() {
 												deliveryInfo={deliveryInfo}
 												setDeliveryInfo={setDeliveryInfo}
 												setOrderedProducts={setOrderedProducts}
+												token={token}
 											/>
 										}
 									/>
 									<Route path='/edit-profile' element={<EditProfile />} />
 									<Route
 										path='/order-status'
-										element={<OrderStatus deliveryInfo={deliveryInfo} orderedProducts={orderedProducts} orderStatus={orderStatus} setDeliveryInfo={setDeliveryInfo} setOrderedProducts={setOrderedProducts} />}
+										element={
+											<OrderStatus
+												deliveryInfo={deliveryInfo}
+												orderedProducts={orderedProducts}
+												orderStatus={orderStatus}
+												setDeliveryInfo={setDeliveryInfo}
+												setOrderedProducts={setOrderedProducts}
+												token={token}
+											/>
+										}
 									/>
 								</Routes>
 								<Footer />
@@ -194,10 +204,7 @@ function App() {
 					/>
 				</Routes>
 			</Router>
-			<Toaster
-				position="bottom-right"
-				reverseOrder={false}
-			/>
+			<Toaster position='bottom-right' reverseOrder={false} />
 		</div>
 	);
 }
