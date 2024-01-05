@@ -71,7 +71,9 @@ controller.cancelOrder = async (req, res) => {
         let orderIndex = shoppingData.orderList.findIndex(order => order.orderId === orderId);
 
         if (orderIndex !== -1) {
-            shoppingData.orderList[orderIndex] = {orderStatus: 'Removed', reason: reason};
+            shoppingData.orderList[orderIndex].orderStatus = 'Removed';
+            shoppingData.orderList[orderIndex].reason = reason;
+
             await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
         } else {
             // Handle the error
