@@ -20,36 +20,66 @@ controller.editProductList = async (req, res) => {
 
 controller.editOrderStatus = async (req, res) => {
     let { shoppingId, orderId, newStatus, newdateShipped } = req.body;
-    if (shoppingId) {
-        let shoppingRef = doc(db, 'shoppings', shoppingId);
+    
+    let shoppingRef = doc(db, 'shoppings', shoppingId);
 
-        // Get the shopping document
-        let shoppingSnap = await getDoc(shoppingRef);
-        if (!shoppingSnap.exists()) {
-            // Handle the error
-            console.error('No such document!');
-            res.json({ success: false });
-            return;
+    // Get the shopping document
+    let shoppingSnap = await getDoc(shoppingRef);
+    if (!shoppingSnap.exists()) {
+        // Handle the error
+        console.error('No such document!');
+        res.json({ success: false });
+        return;
+    } else {
+        // Get the shopping data
+        let shoppingData = shoppingSnap.data();
+
+        // Find the index of the order with the given orderId
+        let orderIndex = shoppingData.orderList.findIndex(order => order.orderId === orderId);
+
+        if (orderIndex !== -1) {
+            shoppingData.orderList[orderIndex].orderStatus = newStatus;
+            shoppingData.orderList[orderIndex].dateShipped = newdateShipped;
+            await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
         } else {
-            // Get the shopping data
-            let shoppingData = shoppingSnap.data();
-
-            // Find the index of the order with the given orderId
-            let orderIndex = shoppingData.orderList.findIndex(order => order.orderId === orderId);
-
-            if (orderIndex !== -1) {
-                shoppingData.orderList[orderIndex].orderStatus = newStatus;
-                shoppingData.orderList[orderIndex].dateShipped = newdateShipped;
-                await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
-            } else {
-                // Handle the error
-                res.json({ success: false });
-                console.error('No such order!');
-            }
-            res.json({ success: true });
+            // Handle the error
+            res.json({ success: false });
+            console.error('No such order!');
         }
+        res.json({ success: true });
     }
+
 }
 
+controller.cancelOrder = async (req, res) => {
+    let { shoppingId, orderId, reason} = req.body;
+
+    let shoppingRef = doc(db, 'shoppings', shoppingId);
+
+    // Get the shopping document
+    let shoppingSnap = await getDoc(shoppingRef);
+    if (!shoppingSnap.exists()) {
+        // Handle the error
+        console.error('No such document!');
+        res.json({ success: false });
+        return;
+    } else {
+        // Get the shopping data
+        let shoppingData = shoppingSnap.data();
+
+        // Find the index of the order with the given orderId
+        let orderIndex = shoppingData.orderList.findIndex(order => order.orderId === orderId);
+
+        if (orderIndex !== -1) {
+            shoppingData.orderList[orderIndex] = {orderStatus: 'Removed', reason: reason};
+            await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
+        } else {
+            // Handle the error
+            res.json({ success: false });
+            console.error('No such order!');
+        }
+        res.json({ success: true });
+    }
+}
 
 export default controller;

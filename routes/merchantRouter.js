@@ -4,5 +4,7 @@ const router = express.Router();
 
 router.post('/editproductlist', controller.editProductList);
 router.post('/editorderstatus', controller.editOrderStatus);
+router.post('/cancelorder', controller.cancelOrder);
+
 
 export default router;
