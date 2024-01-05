@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Dialog, Card, CardBody, CardFooter, Typography, Input } from '@material-tailwind/react';
 import '../styles/Merchant/Modal.css';
 import axios from 'axios';
-import { Image } from 'cloudinary-react';
 
 export default function Modal({ open, handleOpen, product }) {
 	const [values, setValues] = useState(product);
@@ -85,6 +84,11 @@ export default function Modal({ open, handleOpen, product }) {
 		}
 		axios.post('http://localhost:4000/merchant/editproductlist', { product: values });
 	};
+
+	const handleRemove = async () => {
+		axios.post('http://localhost:4000/merchant/removeproduct', { product: values });
+	};
+
 	return (
 		<>
 			<Dialog size='lg' open={open} handler={handleOpen} className='bg-transparent shadow-none'>
@@ -143,9 +147,20 @@ export default function Modal({ open, handleOpen, product }) {
 							</div>
 						</CardBody>
 						<CardFooter className='pt-0 flex justify-center'>
-							<button variant='gradient' onClick={handleSubmit}>
-								{values.productId ? 'Edit' : 'Add'}
-							</button>
+							{values.productId ? (
+								<>
+									<button variant='gradient' onClick={handleSubmit}>
+										Edit
+									</button>
+									<button variant='gradient' className='remove-btn' onClick={handleRemove}>
+										Remove
+									</button>
+								</>
+							) : (
+								<button variant='gradient' onClick={handleSubmit}>
+									Add
+								</button>
+							)}
 						</CardFooter>
 					</div>
 				</Card>

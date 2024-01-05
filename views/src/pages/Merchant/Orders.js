@@ -193,12 +193,12 @@ function MerchantOrders({ open, handleOpen }) {
     const handleOpenModal = (custIndex, orderIndex) => {
         const newOpenModal = [...openModal];
         newOpenModal[custIndex][orderIndex] = !newOpenModal[custIndex][orderIndex];
-        setopenModal(newOpenModal);
+        setOpenModal(newOpenModal);
     };
     const handleCloseModal = (custIndex, orderIndex) => {
         const newOpenModal = [...openModal];
         newOpenModal[custIndex][orderIndex] = !newOpenModal[custIndex][orderIndex];
-        setopenModal(newOpenModal);
+        setOpenModal(newOpenModal);
     };
 
     // order
@@ -221,12 +221,12 @@ function MerchantOrders({ open, handleOpen }) {
     const handleOpenDialog = (custIndex, orderIndex) => {
         const newDialog = [...openDialog];
         newDialog[custIndex][orderIndex] = !newDialog[custIndex][orderIndex];
-        setopenDialog(newDialog);
+        setOpenDialog(newDialog);
     };
     const handleCloseDialog = (custIndex, orderIndex) => {
         const newDialog = [...openDialog];
         newDialog[custIndex][orderIndex] = !newDialog[custIndex][orderIndex];
-        setopenDialog(newDialog);
+        setOpenDialog(newDialog);
     };
 
     // dialog
@@ -234,7 +234,7 @@ function MerchantOrders({ open, handleOpen }) {
         const newCanceled = [...canceled];
 
         newCanceled[custIndex][orderIndex] = true; // Update the specific status
-        setCancel(newCanceled);
+        setCanceled(newCanceled);
         handleCloseDialog(custIndex, orderIndex);
 
         console.log(`The order: ${order.orderID} have been canceled. Because: ${reason}`); // the customer should see this
