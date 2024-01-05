@@ -52,7 +52,7 @@ controller.editOrderStatus = async (req, res) => {
 }
 
 controller.cancelOrder = async (req, res) => {
-    let { shoppingId, orderId, reason} = req.body;
+    let { shoppingId, orderId } = req.body;
 
     let shoppingRef = doc(db, 'shoppings', shoppingId);
 
@@ -71,9 +71,10 @@ controller.cancelOrder = async (req, res) => {
         let orderIndex = shoppingData.orderList.findIndex(order => order.orderId === orderId);
 
         if (orderIndex !== -1) {
-            shoppingData.orderList[orderIndex].orderStatus = 'Removed';
-            shoppingData.orderList[orderIndex].reason = reason;
-
+            // update order ID
+            shoppingData.orderList.splice(orderIndex, 1);
+            // reorder orderId
+            shoppingData.orderList.forEach((ord, ind) => {ord.orderId = ind + 1})
             await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
         } else {
             // Handle the error

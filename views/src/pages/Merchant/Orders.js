@@ -28,7 +28,6 @@ import {
     TableHead,
     TableRow,
     Paper,
-    TextField,
 } from '@mui/material';
 
 
@@ -101,7 +100,7 @@ function MerchantOrders({ open, handleOpen }) {
     const [updatedCustomers, setUpdatedCustomers] = useState([]);
 
 
-    const [cancelReason, setReason] = useState('');
+    // const [cancelReason, setReason] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [open1s, setOpen1s] = useState([]);
     const [open2s, setOpen2s] = useState([]);
@@ -264,9 +263,9 @@ function MerchantOrders({ open, handleOpen }) {
 
         axios.post('http://localhost:4000/merchant/cancelorder', {
             shoppingId: updatedCustomers[custIndex].shoppingId,
-            orderId: order.orderId,
-            reason: cancelReason,
+            orderId: order.orderId
         });
+        // handleOpen();
     };
     return (
         <div>
@@ -408,7 +407,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                         {`Do you really want to cancel the order ${order.orderId} by ${customer.username}?`}
                                                     </DialogTitle>
                                                     <DialogContent>
-                                                        <TextField
+                                                        {/* <TextField
                                                             id="standard-basic"
                                                             label="Reason"
                                                             variant="standard"
@@ -417,7 +416,7 @@ function MerchantOrders({ open, handleOpen }) {
                                                             onChange={(e) => setReason(e.target.value)}
                                                             required
                                                         />
-                                                        <div style={{ marginBottom: '16px' }} />
+                                                        <div style={{ marginBottom: '16px' }} /> */}
 
                                                         <DialogContentText id="alert-dialog-description">
                                                             This action will remove the customer's order. Please confirm your action and note that this process is irreversible.

@@ -2,8 +2,8 @@ import Payment from './payment.js';
 
 
 class Order {
-    constructor(orderID, cart, dateCreated, paymentInfo, deliverInfo) {
-        this.orderID = orderID;
+    constructor(orderId, cart, dateCreated, paymentInfo, deliverInfo) {
+        this.orderId = orderId;
         this.cart = cart;
 
         // Processing, Confirmed, Shipping, Delivered, Completed
