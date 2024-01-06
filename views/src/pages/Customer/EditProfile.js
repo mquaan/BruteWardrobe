@@ -76,6 +76,7 @@ function EditProfile({ token }) {
                     udpatedCustomer[key] = userInfo[key];
                 }
             });
+            setUserInfo(udpatedCustomer);
 
             const response = axios.post('http://localhost:4000/customer/updateinfo', {
                 userId: userId,
@@ -84,7 +85,6 @@ function EditProfile({ token }) {
 
             if (response && response.data && response.data.success) {
                 console.alert('User info updated successfully');
-                setUserInfo(udpatedCustomer);
             } else {
                 console.error('Failed to update user info');
             }
@@ -148,14 +148,14 @@ function EditProfile({ token }) {
                                 </form>
                                 <form className='birth'>
                                     <p>Date of birth</p>
-                                    <input name="dob" type="text" defaultValue={userInfo.dob} />
+                                    <input name="dob" type="date" defaultValue={userInfo.dob} />
                                 </form>
                             </div>
 
                             <div className='email-phone'>
                                 <form className='email'>
                                     <p>Email</p>
-                                    <input name="email" type="test" defaultValue={userInfo.email} />
+                                    <input name="email" type="email" defaultValue={userInfo.email} />
                                 </form>
                                 <form className='phone'>
                                     <p>Phone number</p>

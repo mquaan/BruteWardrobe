@@ -21,7 +21,6 @@ controller.updateInfo = async (req, res) => {
 
         // Update the user info in the Firestore database
         await updateDoc(userRef, userInfo);
-
         res.json({ success: true });
     } catch (error) {
         console.error('Error:', error);
