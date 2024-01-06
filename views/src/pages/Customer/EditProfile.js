@@ -1,36 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 import '../../styles/Customer/EditProfile.css'
 
-
-function EditProfile({ token }) {
+function getUserId(token) {
     const decodeToken = decodeURIComponent(
         atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
             .split('')
             .map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
             .join('')
     );
-    const userId = JSON.parse(decodeToken).user.userId;
+    return JSON.parse(decodeToken).user.userId;
+}
 
+function compareObjects(obj1, obj2) {
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+    for (let key of keys1) {
+        if (obj1[key] !== obj2[key]) {
+            return false;
+        }
+    }
+    return true;
+}
 
-    const [customers, setCustomers] = useState([]);
-    const [userInfo, setUserInfo] = useState({});
+function EditProfile({ token }) {
+    const userId = getUserId(token);
+    const initobj = {
+        gender: null,
+        dob: null,
+        firstname: null,
+        lastname: null,
+        address: null,
+        phoneNumber: null,
+        email: null,
+    }
+
+    const [userInfo, setUserInfo] = useState(initobj);
+    const [openSnackbar, setSnackbar] = useState(false);
+    const [severity, setSeverity] = useState('error');
+    const [message, setMessage] = useState('');
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const responseCustomers = await axios.get('http://localhost:4000/customers');
-                if (responseCustomers.data.success) {
-                    setCustomers(responseCustomers.data.customers);
+                const responseCustomer = await axios.get('http://localhost:4000/customer/getcustomer', {
+                    params: { userId: userId }
+                });
 
-                    let foundCustomer = customers.find((uval) => userId === uval.userId);
-
-                    if (!foundCustomer) {
-                        console.error('Error:', 'customer not found');
-                    }
-                    else {
-                        setUserInfo(foundCustomer);
-                    }
+                if (responseCustomer.data.success) {
+                    setUserInfo(responseCustomer.data.customer);
                 }
             } catch (errors) {
                 console.error('Error:', errors);
@@ -38,12 +64,64 @@ function EditProfile({ token }) {
         };
 
         fetchData();
-    })
+    }, [userId]);
 
 
     const handleUpdateInfo = () => {
-        console.log('sd')
+        let updatedUserInfo = {};
+        document.querySelectorAll('.personal-details input').forEach((input) => {
+            updatedUserInfo[input.name] = input.value === '' ? null : input.value;
+        });
+
+        // extract properties
+        let extractedProperties = {};
+        Object.keys(initobj).forEach((key) => {
+            if (userInfo.hasOwnProperty(key)) {
+                extractedProperties[key] = userInfo[key];
+            }
+            else {
+                extractedProperties[key] = initobj[key];
+            }
+        });
+
+        // if there's new update
+        if (!compareObjects(updatedUserInfo, extractedProperties)) {
+            let udpatedCustomer = {};
+            Object.keys(userInfo).forEach((key) => {
+                if (updatedUserInfo.hasOwnProperty(key)) {
+                    udpatedCustomer[key] = updatedUserInfo[key];
+                }
+                else {
+                    udpatedCustomer[key] = userInfo[key];
+                }
+            });
+            setUserInfo(udpatedCustomer);
+
+            const response = axios.post('http://localhost:4000/customer/updateinfo', {
+                userId: userId,
+                userInfo: updatedUserInfo
+            });
+            console.log(response)
+            if (response && response.data && response.data.success) {
+                setMessage('Your information have been updated successfully.')
+                setSeverity('success')
+            } else {
+                setMessage('Failed to update your info! Please try again later.')
+                setSeverity('error')
+            }
+        }
+        else {
+            setMessage("You haven't made any changes.")
+            setSeverity('warning')
+        }
     }
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSnackbar(false);
+    };
 
     return (
         <div className='body-editprofile'>
@@ -61,13 +139,13 @@ function EditProfile({ token }) {
                         <div className='option'>
                             <div className='personal-info'
                                 onClick={() => { document.getElementById('details').classList.remove("active") }}>
-                                <i class="fa-solid fa-user-tie"></i>
+                                <i className="fa-solid fa-user-tie"></i>
                                 <p>Personal Info</p>
                             </div>
 
                             <div className='change-password'
                                 onClick={() => { document.getElementById('details').classList.add("active") }}>
-                                <i class="fa-solid fa-lock"></i>
+                                <i className="fa-solid fa-lock"></i>
                                 <p>Change Password</p>
                             </div>
                         </div>
@@ -82,52 +160,66 @@ function EditProfile({ token }) {
                             <div className='fullname'>
                                 <form className='firstname'>
                                     <p>First name</p>
-                                    <input name="firstname" type="text" value={userInfo.firstname} />
+                                    <input name="firstname" type="text" defaultValue={userInfo.firstname} />
                                 </form>
                                 <form className='lastname'>
                                     <p>Last name</p>
-                                    <input name="lastname" type="text" value={userInfo.lastname} />
+                                    <input name="lastname" type="text" defaultValue={userInfo.lastname} />
                                 </form>
                             </div>
 
                             <div className='gender-birth'>
                                 <form className='gender'>
                                     <p>Gender</p>
-                                    <input name="gender" type="text" value={userInfo.gender} />
+                                    <input name="gender" type="text" defaultValue={userInfo.gender} />
                                 </form>
                                 <form className='birth'>
                                     <p>Date of birth</p>
-                                    <input name="birth" type="text" value={userInfo.dob} />
+                                    <input name="dob" type="date" defaultValue={userInfo.dob} />
                                 </form>
                             </div>
 
                             <div className='email-phone'>
                                 <form className='email'>
                                     <p>Email</p>
-                                    <input name="email" type="test" value={userInfo.email} />
+                                    <input name="email" type="email" defaultValue={userInfo.email} />
                                 </form>
                                 <form className='phone'>
                                     <p>Phone number</p>
-                                    <input name="phone" type="text" value={userInfo.phoneNumber} />
+                                    <input name="phoneNumber" type="text" defaultValue={userInfo.phoneNumber} />
                                 </form>
                             </div>
                             <div className='address'>
                                 <form>
                                     <p>Address</p>
-                                    <input name="address" type="text" value={userInfo.address} />
+                                    <input name="address" type="text" defaultValue={userInfo.address} />
                                 </form>
                             </div>
+
 
                             <div className='button-confirm-personalInfo'>
                                 <button
                                     className='update_btn'
                                     onClick={() => {
-                                        handleUpdateInfo()
+                                        handleUpdateInfo();
+                                        setSnackbar(true);
                                     }}
                                 >
                                     Update
                                 </button>
                             </div>
+                            <Snackbar
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                                open={openSnackbar}
+                                onClose={handleSnackbarClose}
+                                autoHideDuration={5000}
+                            >
+                                <Alert severity={severity} onClose={handleSnackbarClose} sx={{ width: '100%' }}>
+                                    {message}
+                                </Alert>
+                            </Snackbar>
+
+
 
                         </div>
 

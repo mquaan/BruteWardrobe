@@ -3,6 +3,8 @@ import controller from '../controllers/customerController.js';
 
 const router = express.Router();
 
+router.get('/getcustomer', controller.getCustomer);
+router.post('/updateinfo', controller.updateInfo);
 router.post('/addtocart', controller.addToCart);
 router.post('/getcart', controller.getCart);
 router.post('/removefromcart', controller.removeFromCart);
