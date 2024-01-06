@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 import '../../styles/Customer/EditProfile.css'
 
 function getUserId(token) {
@@ -11,6 +14,20 @@ function getUserId(token) {
             .join('')
     );
     return JSON.parse(decodeToken).user.userId;
+}
+
+function compareObjects(obj1, obj2) {
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+    for (let key of keys1) {
+        if (obj1[key] !== obj2[key]) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function EditProfile({ token }) {
@@ -26,6 +43,10 @@ function EditProfile({ token }) {
     }
 
     const [userInfo, setUserInfo] = useState(initobj);
+    const [openSnackbar, setSnackbar] = useState(false);
+    const [severity, setSeverity] = useState('error');
+    const [message, setMessage] = useState('');
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -64,9 +85,7 @@ function EditProfile({ token }) {
         });
 
         // if there's new update
-        if (JSON.stringify(updatedUserInfo) !== JSON.stringify(extractedProperties)) {
-            console.log(updatedUserInfo)
-            console.log(extractedProperties)
+        if (!compareObjects(updatedUserInfo, extractedProperties)) {
             let udpatedCustomer = {};
             Object.keys(userInfo).forEach((key) => {
                 if (updatedUserInfo.hasOwnProperty(key)) {
@@ -82,19 +101,27 @@ function EditProfile({ token }) {
                 userId: userId,
                 userInfo: updatedUserInfo
             });
-
+            console.log(response)
             if (response && response.data && response.data.success) {
-                console.alert('User info updated successfully');
+                setMessage('Your information have been updated successfully.')
+                setSeverity('success')
             } else {
-                console.error('Failed to update user info');
+                setMessage('Failed to update your info! Please try again later.')
+                setSeverity('error')
             }
         }
         else {
-            console.alert("Nothing's changed")
+            setMessage("You haven't made any changes.")
+            setSeverity('warning')
         }
     }
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
 
-
+        setSnackbar(false);
+    };
 
     return (
         <div className='body-editprofile'>
@@ -169,14 +196,30 @@ function EditProfile({ token }) {
                                 </form>
                             </div>
 
+
                             <div className='button-confirm-personalInfo'>
                                 <button
                                     className='update_btn'
-                                    onClick={() => handleUpdateInfo()}
+                                    onClick={() => {
+                                        handleUpdateInfo();
+                                        setSnackbar(true);
+                                    }}
                                 >
                                     Update
                                 </button>
                             </div>
+                            <Snackbar
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                                open={openSnackbar}
+                                onClose={handleSnackbarClose}
+                                autoHideDuration={5000}
+                            >
+                                <Alert severity={severity} onClose={handleSnackbarClose} sx={{ width: '100%' }}>
+                                    {message}
+                                </Alert>
+                            </Snackbar>
+
+
 
                         </div>
 
