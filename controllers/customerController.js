@@ -5,6 +5,31 @@ import { collection, addDoc, getDoc, getDocs, query, where, doc, updateDoc } fro
 
 const controller = {};
 
+controller.getCustomer = async (req, res) => {
+	let { userId } = req.query;
+	let snapshot = await getDoc(doc(db, 'customers', userId));
+	if (!snapshot.empty) {
+		let customer = snapshot.data();
+		res.json({ success: true, customer });
+	}
+};
+
+controller.updateInfo = async (req, res) => {
+    try {
+        const { userId, userInfo } = req.body;
+        const userRef = doc(db, 'customers', userId);
+
+        // Update the user info in the Firestore database
+        await updateDoc(userRef, userInfo);
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error:', error);
+        res.json({ success: false });
+    }
+};
+
+
 controller.addToCart = async (req, res) => {
 	let { userId, productId, quantity, size } = req.body;
 	let userRef = doc(db, 'customers', userId);

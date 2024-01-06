@@ -18,7 +18,6 @@ router.get('/auth/google/callback', controller.loginGG);
 router.get('/token', controller.token);
 
 router.get('/customers', controller.customers);
-router.post('/customer', controller.customer);
 
 router.get('/products', controller.products);
 router.post('/product', controller.product);

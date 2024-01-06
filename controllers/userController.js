@@ -118,16 +118,6 @@ controller.customers = async (req, res) => {
 	}
 };
 
-controller.customer = async (req, res) => {
-	let { customerId } = req.body;
-	let snapshot = await getDoc(doc(db, 'customers', customerId));
-	if (!snapshot.empty) {
-		let customer = snapshot.data();
-		res.json({ success: true, customer });
-	}
-};
-
-
 controller.products = async (req, res) => {
 	let snapshot = await getDocs(query(collection(db, 'products')));
 	if (!snapshot.empty) {
