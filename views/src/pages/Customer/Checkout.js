@@ -44,6 +44,15 @@ function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo, setO
 			setCartItems([]);
 
 			try {
+				const response = await axios.post('http://localhost:4000/customer/payment', { userId });
+				if (response.data.success) {
+					window.location.href = response.data.payUrl;
+				}
+			} catch (error) {
+				console.error('Error:', error);
+			}
+
+			try {
 				const response = await axios.post('http://localhost:4000/customer/addorder', {
 					userId,
 					cart: cart.map((item) => ({
