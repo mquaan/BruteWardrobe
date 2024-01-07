@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
 import {
     ListSubheader,
     List,
@@ -41,7 +40,10 @@ import {
 
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
-import RefreshIcon from '@mui/icons-material/Refresh'
+import RefreshIcon from '@mui/icons-material/Refresh';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 
 const dateOnlyFormat = {
     year: 'numeric', month: 'numeric', day: 'numeric',
@@ -142,6 +144,14 @@ function MerchantOrders({ open, handleOpen, token }) {
         fetchData();
     }, [open]);
 
+    function initStates() {
+        setOpen1s(Array(updatedCustomers.length).fill(false));
+        setOpen2s(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
+        setOpenModal(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
+        setStatus(updatedCustomers.map((customer) => customer.shopping.orderList.map((order) => order.orderStatus)));
+        setOpenDialog(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
+        setCanceled(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
+    }
 
     useEffect(() => {
         let filteredShoppings = shoppings.filter((value) => value.orderList && value.orderList.length !== 0);
@@ -163,17 +173,12 @@ function MerchantOrders({ open, handleOpen, token }) {
         }).filter(Boolean);
 
         setUpdatedCustomers(with_shopping);
+        initStates();
     }, [customers, products, shoppings])
 
-    useEffect(() => {
-        setCurrentPage(1);
-        setOpen1s(Array(updatedCustomers.length).fill(false));
-        setOpen2s(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
-        setOpenModal(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
-        setStatus(updatedCustomers.map((customer) => customer.shopping.orderList.map((order) => order.orderStatus)));
-        setOpenDialog(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
-        setCanceled(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
-    }, [updatedCustomers]);
+    // useEffect(() => {
+    //     initStates();
+    // }, [currentPage]);
 
 
     const startIndex = (currentPage - 1) * customerPerPage;
@@ -211,9 +216,8 @@ function MerchantOrders({ open, handleOpen, token }) {
         setOpenModal(newOpenModal);
     };
 
-    // order
-
-    const handleStatusChange = (event, order, custIndex, orderIndex) => {
+    // order status change
+    const handleStatusChange = async (event, order, custIndex, orderIndex) => {
         if (event.target.value === order.orderStatus) {
             return;
         }
@@ -235,15 +239,16 @@ function MerchantOrders({ open, handleOpen, token }) {
             }
         }
 
-        axios.post('http://localhost:4000/merchant/editorderstatus', {
+        const respone = await axios.post('http://localhost:4000/merchant/editorderstatus', {
             userId: userId,
             shoppingId: updatedCustomers[custIndex].shoppingId,
             orderId: order.orderId,
             newStatus: order.orderStatus,
             newdateShipped: order.dateShipped,
         });
-
-        // handleOpen();
+        if (!respone.data.success) {
+            console.log('Failed to update order status! Please try again later.')
+        }
     };
 
     // cancel order
@@ -259,23 +264,40 @@ function MerchantOrders({ open, handleOpen, token }) {
     };
 
     // dialog
-    const handleCancelOrder = (order, custIndex, orderIndex) => {
+    const handleCancelOrder = async (order, custIndex, orderIndex) => {
         const newCanceled = [...canceled];
 
         newCanceled[custIndex][orderIndex] = true; // Update the specific status
         setCanceled(newCanceled);
         handleCloseDialog(custIndex, orderIndex);
 
-        axios.post('http://localhost:4000/merchant/cancelorder', {
+        const respone = await axios.post('http://localhost:4000/merchant/cancelorder', {
             shoppingId: updatedCustomers[custIndex].shoppingId,
             orderId: order.orderId
         });
-        // handleOpen();
+        if (respone.data.success) {
+            // reorder order's index
+            if (orderIndex != updatedCustomers[custIndex].shopping.orderList.length - 1) { // if not last
+                let newUpdatedCustomers = [...updatedCustomers]
+                // mark instead of delete to prevent reload page (use state change)
+                newUpdatedCustomers[custIndex].shopping.orderList[orderIndex].orderId = -1;
+                let indexCount = 0;
+                newUpdatedCustomers[custIndex].shopping.orderList.forEach((oord) => {
+                    if (oord.orderId != -1) {
+                        oord.orderId = indexCount;
+                        indexCount += 1;
+                    }
+                });
+                setUpdatedCustomers(newUpdatedCustomers)
+            }
+        }
+        else {
+            console.log('Failed to cancel the order! Please try again later.')
+        }
     };
 
     return (
         <div>
-
             <List
                 sx={{
                     width: '100%',
@@ -288,21 +310,43 @@ function MerchantOrders({ open, handleOpen, token }) {
                         container
                         direction="row"
                         alignItems="center"
+                        justifyContent="flex-start"
                         columns={18}
                     >
                         <Grid item xs justifyContent="flex-start">
                             <ListSubheader component="div" id="nested-list-subheader">
-                                Customers' orders
+                                Manage customers' orders
                             </ListSubheader>
                         </Grid>
-                        <Grid item xs={1} justifyContent="flex-start">
-                            <Tooltip title="Refresh & Collapse All">
+                        <Grid item xs={2}>
+                            <Tooltip title="Go to previous page">
                                 <IconButton
                                     onClick={() => {
-                                        handleOpen();
-                                        setOpen2s(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
-                                        setOpen1s(Array(updatedCustomers.length).fill(false));
+                                        if (currentPage != 1)
+                                            goToPage(currentPage - 1)
                                     }}
+                                >
+                                    <ArrowBackIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Go to next page">
+                                <IconButton
+                                    onClick={() => {
+                                        if (currentPage != totalPages)
+                                            goToPage(currentPage + 1)
+                                    }}
+                                >
+                                    <ArrowForwardIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <Tooltip title="Refresh & Collapse All">
+                                <IconButton
+                                    onClick={() => handleOpen()}
+
+                                // setOpen2s(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
+                                // setOpen1s(Array(updatedCustomers.length).fill(false));
                                 >
                                     <RefreshIcon />
                                 </IconButton>
@@ -311,138 +355,139 @@ function MerchantOrders({ open, handleOpen, token }) {
                     </Grid>
                 }
             >
-                {
-                    displayedCustomers.map((customer, custIndex) => {
-                        if (!canceled[custIndex] || canceled[custIndex].every((ord) => ord)) {
-                            return (<></>);
-                        }
-                        return (
-                            <Box sx={{
-                                border: '1px solid #3f51b5',
-                                borderRadius: '10px',
-                                marginBottom: '10px',
-                                marginLeft: '20px',
-                                marginRight: '20px'
-                            }}>
-                                <ListItemButton onClick={() => handleClick1(custIndex)}>
-                                    <ListItemIcon>
-                                        <PersonIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={`Username: ${customer.username}`} />
-                                    {open1s[custIndex] ? <ExpandLess size="small" /> : <ExpandMore size="small" />}
-                                </ListItemButton>
-                                <Collapse in={open1s[custIndex]} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-                                        {customer.shopping.orderList.map((order, orderIndex) => {
-                                            if (canceled[custIndex][orderIndex]) {
-                                                return (<></>);
-                                            }
-                                            return (
-                                                <>
-                                                    <Grid
-                                                        container
-                                                        direction="row"
-                                                        alignItems="center"
-                                                        justifyContent="center"
-                                                        columns={28}
-                                                        sx={{ pr: 4 }}
-                                                    >
-                                                        <Grid item xs>
-                                                            <ListItemButton sx={{ pl: 4 }} onClick={() => handleClick2(custIndex, orderIndex)}>
-                                                                <ListItemIcon>
-                                                                    <ShoppingCartIcon />
-                                                                </ListItemIcon>
-                                                                <ListItemText primary={`Order ID: ${order.orderId} | Date:  ${order.dateCreated.toLocaleString('en-US', dateOnlyFormat)} | Status: ${order.orderStatus}`} />
-                                                                {open2s[custIndex][orderIndex] ? <ExpandLess size="small" /> : <ExpandMore size="small" />}
-                                                            </ListItemButton>
-                                                        </Grid>
-                                                        <Grid item xs={1}>
-                                                            <Tooltip title="Edit">
-                                                                <IconButton
-                                                                    color="success"
-                                                                    size="small"
-                                                                    aria-label="Edit"
-                                                                    onClick={() => handleOpenModal(custIndex, orderIndex)}
-                                                                >
-                                                                    <EditIcon />
-                                                                </IconButton>
-                                                            </Tooltip>
-
-                                                        </Grid>
-                                                        <Grid item xs={1}>
-                                                            <Tooltip title="Cancel">
-                                                                <IconButton
-                                                                    color="error"
-                                                                    size="small"
-                                                                    aria-label="Cancel"
-                                                                    onClick={() => handleOpenDialog(custIndex, orderIndex)}
-                                                                >
-                                                                    <CancelIcon />
-                                                                </IconButton>
-                                                            </Tooltip>
-
-                                                        </Grid>
+                {displayedCustomers.map((customer, custIndex) => {
+                    custIndex += (currentPage - 1) * customerPerPage;
+                    console.log("custIndex", custIndex);
+                    if (!canceled[custIndex] || canceled[custIndex].every((ord) => ord)) {
+                        return (<></>);
+                    }
+                    return (
+                        <Box sx={{
+                            border: '1px solid #3f51b5',
+                            borderRadius: '10px',
+                            marginBottom: '10px',
+                            marginLeft: '20px',
+                            marginRight: '20px'
+                        }}>
+                            <ListItemButton onClick={() => handleClick1(custIndex)}>
+                                <ListItemIcon>
+                                    <PersonIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={`Username: ${customer.username}`} />
+                                {open1s[custIndex] ? <ExpandLess size="small" /> : <ExpandMore size="small" />}
+                            </ListItemButton>
+                            <Collapse in={open1s[custIndex]} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    {customer.shopping.orderList.map((order, orderIndex) => {
+                                        if (canceled[custIndex][orderIndex]) {
+                                            return (<></>);
+                                        }
+                                        return (
+                                            <>
+                                                <Grid
+                                                    container
+                                                    direction="row"
+                                                    alignItems="center"
+                                                    justifyContent="center"
+                                                    columns={28}
+                                                    sx={{ pr: 4 }}
+                                                >
+                                                    <Grid item xs>
+                                                        <ListItemButton sx={{ pl: 4 }} onClick={() => handleClick2(custIndex, orderIndex)}>
+                                                            <ListItemIcon>
+                                                                <ShoppingCartIcon />
+                                                            </ListItemIcon>
+                                                            <ListItemText primary={`Order ID: ${order.orderId} | Date:  ${order.dateCreated ? order.dateCreated.toLocaleString('en-US', dateOnlyFormat) : "Undefined"} | Status: ${order.orderStatus}`} />
+                                                            {open2s[custIndex][orderIndex] ? <ExpandLess size="small" /> : <ExpandMore size="small" />}
+                                                        </ListItemButton>
                                                     </Grid>
-                                                    <Modal
-                                                        open={openModal[custIndex][orderIndex]}
-                                                        onClose={() => handleCloseModal(custIndex, orderIndex)}
-                                                        aria-labelledby="modal-modal-title"
-                                                        aria-describedby="modal-modal-description"
-                                                    >
-                                                        <Box sx={{
-                                                            position: 'absolute',
-                                                            top: '50%',
-                                                            left: '50%',
-                                                            transform: 'translate(-50%, -50%)',
-                                                            bgcolor: 'background.paper',
-                                                            border: '2px solid #000',
-                                                            boxShadow: 24,
-                                                            p: 4,
-                                                        }}>
-                                                            <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                                {`Order ID: ${order.orderId}`}
-                                                            </Typography>
-                                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                                {`Date Created: ${order.dateCreated.toLocaleString('en-US', dateFormat)}`}
-                                                            </Typography>
-                                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                                Order Status:
-                                                                <Select
-                                                                    value={statuses[custIndex][orderIndex]}
-                                                                    onChange={(e) => handleStatusChange(e, order, custIndex, orderIndex)}
-                                                                >
-                                                                    <MenuItem value="Processing">Processing</MenuItem>
-                                                                    <MenuItem value="Confirmed">Confirmed</MenuItem>
-                                                                    <MenuItem value="Shipping">Shipping</MenuItem>
-                                                                    <MenuItem value="Delivered">Delivered</MenuItem>
-                                                                    <MenuItem value="Completed">Completed</MenuItem>
-                                                                </Select>
-                                                            </Typography>
-                                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                                {`Payment Info: ${order.paymentInfo}`}
-                                                            </Typography>
-                                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                                {`Delivery Info: ${order.deliverInfo}`}
-                                                            </Typography>
-                                                            {(order.dateShipped && order.dateShipped != 'none') && (
-                                                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                                    {`Date shipped: ${order.dateShipped.toLocaleString('en-US', dateFormat)}`}
-                                                                </Typography>
-                                                            )}
+                                                    <Grid item xs={1}>
+                                                        <Tooltip title="Edit">
+                                                            <IconButton
+                                                                color="success"
+                                                                size="small"
+                                                                aria-label="Edit"
+                                                                onClick={() => handleOpenModal(custIndex, orderIndex)}
+                                                            >
+                                                                <EditIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
 
-                                                        </Box>
-                                                    </Modal>
-                                                    <Dialog
-                                                        open={openDialog[custIndex][orderIndex]}
-                                                        onClose={() => handleCloseDialog(custIndex, orderIndex)}
-                                                        aria-labelledby="alert-dialog-title"
-                                                        aria-describedby="alert-dialog-description"
-                                                    >
-                                                        <DialogTitle id="alert-dialog-title">
-                                                            {`Do you really want to cancel the order ${order.orderId} by ${customer.username}?`}
-                                                        </DialogTitle>
-                                                        <DialogContent>
-                                                            {/* <TextField
+                                                    </Grid>
+                                                    <Grid item xs={1}>
+                                                        <Tooltip title="Cancel">
+                                                            <IconButton
+                                                                color="error"
+                                                                size="small"
+                                                                aria-label="Cancel"
+                                                                onClick={() => handleOpenDialog(custIndex, orderIndex)}
+                                                            >
+                                                                <CancelIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
+
+                                                    </Grid>
+                                                </Grid>
+                                                <Modal
+                                                    open={openModal[custIndex][orderIndex]}
+                                                    onClose={() => handleCloseModal(custIndex, orderIndex)}
+                                                    aria-labelledby="modal-modal-title"
+                                                    aria-describedby="modal-modal-description"
+                                                >
+                                                    <Box sx={{
+                                                        position: 'absolute',
+                                                        top: '50%',
+                                                        left: '50%',
+                                                        transform: 'translate(-50%, -50%)',
+                                                        bgcolor: 'background.paper',
+                                                        border: '2px solid #000',
+                                                        boxShadow: 24,
+                                                        p: 4,
+                                                    }}>
+                                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                            {`Order ID: ${order.orderId} by Customer: ${customer.username}`}
+                                                        </Typography>
+                                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                            {`Date Created: ${order.dateCreated ? order.dateCreated.toLocaleString('en-US', dateFormat) : "Undefined"}`}
+                                                        </Typography>
+                                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                            Order Status:
+                                                            <Select
+                                                                value={statuses[custIndex][orderIndex]}
+                                                                onChange={(e) => handleStatusChange(e, order, custIndex, orderIndex)}
+                                                            >
+                                                                <MenuItem value="Processing">Processing</MenuItem>
+                                                                <MenuItem value="Confirmed">Confirmed</MenuItem>
+                                                                <MenuItem value="Shipping">Shipping</MenuItem>
+                                                                <MenuItem value="Delivered">Delivered</MenuItem>
+                                                                <MenuItem value="Completed">Completed</MenuItem>
+                                                            </Select>
+                                                        </Typography>
+                                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                            {`Payment Info: ${order.paymentInfo}`}
+                                                        </Typography>
+                                                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                            {`Delivery Info: ${order.deliverInfo}`}
+                                                        </Typography>
+                                                        {(order.dateShipped && order.dateShipped != 'none') && (
+                                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                                {`Date shipped: ${order.dateShipped.toLocaleString('en-US', dateFormat)}`}
+                                                            </Typography>
+                                                        )}
+
+                                                    </Box>
+                                                </Modal>
+                                                <Dialog
+                                                    open={openDialog[custIndex][orderIndex]}
+                                                    onClose={() => handleCloseDialog(custIndex, orderIndex)}
+                                                    aria-labelledby="alert-dialog-title"
+                                                    aria-describedby="alert-dialog-description"
+                                                >
+                                                    <DialogTitle id="alert-dialog-title">
+                                                        {`Do you really want to cancel the order ${order.orderId} by ${customer.username}?`}
+                                                    </DialogTitle>
+                                                    <DialogContent>
+                                                        {/* <TextField
                                                             id="standard-basic"
                                                             label="Reason"
                                                             variant="standard"
@@ -453,19 +498,19 @@ function MerchantOrders({ open, handleOpen, token }) {
                                                         />
                                                         <div style={{ marginBottom: '16px' }} /> */}
 
-                                                            <DialogContentText id="alert-dialog-description">
-                                                                This action will remove the customer's order. Please confirm your action and note that this process is irreversible.
-                                                            </DialogContentText>
-                                                        </DialogContent>
-                                                        <DialogActions>
-                                                            <Button onClick={() => handleCloseDialog(custIndex, orderIndex)} autoFocus>No</Button>
-                                                            <Button onClick={() => handleCancelOrder(order, custIndex, orderIndex)}>
-                                                                Yes
-                                                            </Button>
-                                                        </DialogActions>
-                                                    </Dialog>
-                                                    <Collapse in={open2s[custIndex][orderIndex]} timeout="auto" unmountOnExit>
-                                                        {/* <List component="div" disablePadding>
+                                                        <DialogContentText id="alert-dialog-description">
+                                                            This action will remove the customer's order. Please confirm your action and note that this process is irreversible.
+                                                        </DialogContentText>
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <Button onClick={() => handleCloseDialog(custIndex, orderIndex)} autoFocus>No</Button>
+                                                        <Button onClick={() => handleCancelOrder(order, custIndex, orderIndex)}>
+                                                            Yes
+                                                        </Button>
+                                                    </DialogActions>
+                                                </Dialog>
+                                                <Collapse in={open2s[custIndex][orderIndex]} timeout="auto" unmountOnExit>
+                                                    {/* <List component="div" disablePadding>
                                                 {order.cart.productList.map((product, productId) => {
                                                     return (
                                                         <>
@@ -479,25 +524,24 @@ function MerchantOrders({ open, handleOpen, token }) {
                                                     );
                                                 })}
                                             </List> */}
-                                                        <Box sx={{
-                                                            marginTop: '5px',
-                                                            marginBottom: '20px',
-                                                            marginRight: '20px',
-                                                            pl: 8
-                                                        }}>
-                                                            {<MerchantCart cart={order.cart} />}
-                                                        </Box>
-                                                    </Collapse>
+                                                    <Box sx={{
+                                                        marginTop: '5px',
+                                                        marginBottom: '20px',
+                                                        marginRight: '20px',
+                                                        pl: 8
+                                                    }}>
+                                                        {<MerchantCart cart={order.cart} />}
+                                                    </Box>
+                                                </Collapse>
 
-                                                </>
-                                            );
-                                        })}
-                                    </List>
-                                </Collapse>
-                            </Box>
-                        );
-                    })
-                }
+                                            </>
+                                        );
+                                    })}
+                                </List>
+                            </Collapse>
+                        </Box>
+                    );
+                })}
             </List >
 
             <section id='pagination' className='section-p1'>
