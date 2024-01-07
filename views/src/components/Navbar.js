@@ -5,6 +5,34 @@ import '../styles/Customer/Navbar.css';
 import axios from 'axios';
 
 function Navbar({ token, setToken, cartItems }) {
+	const decodeToken = decodeURIComponent(
+		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
+			.split('')
+			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+			.join('')
+	);
+	const userId = JSON.parse(decodeToken).user.userId;
+
+	const [username, setUsername] = useState();
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const responseCustomer = await axios.get('http://localhost:4000/customer/getcustomer', {
+					params: { userId: userId },
+				});
+
+				if (responseCustomer.data.success) {
+					setUsername(responseCustomer.data.customer.username);
+				}
+			} catch (errors) {
+				console.error('Error:', errors);
+			}
+		};
+
+		fetchData();
+	}, [userId]);
+
 	const goToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'auto' });
 	};
@@ -34,8 +62,8 @@ function Navbar({ token, setToken, cartItems }) {
 				if (response.data.success) {
 					localStorage.removeItem('token');
 					setToken(null);
-					ToggleMenu(document.getElementById('subMenu'));
-					window.location.href = '/login'
+					// ToggleMenu(document.getElementById('subMenu'));
+					window.location.href = '/login';
 				} else {
 				}
 			})
@@ -106,7 +134,7 @@ function Navbar({ token, setToken, cartItems }) {
 				<div className='sub-menu'>
 					<div className='user-info'>
 						<img src='../assets/features/avatar_cus.png' alt='' />
-						<h3>Phạm Sĩ Phú</h3>
+						<h3>{username}</h3>
 					</div>
 					<hr />
 					<Link to='/edit-profile' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>

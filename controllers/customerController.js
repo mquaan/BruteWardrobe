@@ -4,6 +4,7 @@ import { Customer, customerConverter } from '../models/customer.js';
 import { collection, addDoc, getDoc, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
 import crypto from 'crypto';
 import https from 'https';
+import bcrypt from 'bcrypt';
 
 async function totalCart(userId) {
 	let total = 0;
@@ -51,6 +52,29 @@ controller.updateInfo = async (req, res) => {
 		// Update the user info in the Firestore database
 		await updateDoc(userRef, userInfo);
 		res.json({ success: true });
+	} catch (error) {
+		console.error('Error:', error);
+		res.json({ success: false });
+	}
+};
+
+controller.updatePassword = async (req, res) => {
+	try {
+		const { userId, currentPassword, newPassword } = req.body;
+		const userRef = doc(db, 'customers', userId);
+		let user = await getDoc(doc(db, 'customers', userId));
+
+		const passwordMatch = await bcrypt.compare(currentPassword, user.data().password);
+
+		if (!passwordMatch) {
+			console.log('Incorrect password.');
+			res.json({ success: false, message: 'Incorrect password!' });
+		} else {
+			const saltRounds = 10;
+			const salt = bcrypt.genSaltSync(saltRounds);
+			await updateDoc(userRef, { password: bcrypt.hashSync(newPassword, salt) });
+			res.json({ success: true });
+		}
 	} catch (error) {
 		console.error('Error:', error);
 		res.json({ success: false });
