@@ -132,6 +132,7 @@ controller.merchants = async (req, res) => {
 	}
 };
 
+
 controller.products = async (req, res) => {
 	let snapshot = await getDocs(query(collection(db, 'products')));
 	if (!snapshot.empty) {

@@ -68,7 +68,7 @@ function Users({ open }) {
             name: 'Manage',
             cell: (row) => (
                 <IconButton
-                    onClick={() => handleMangeUser(row.id)}
+                    // onClick={() => handleMangeUser(row.id)}
                 >
                     <EditIcon color="success" />
                 </IconButton>

@@ -42,21 +42,35 @@ function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo, setO
 			setOrderedProducts(cartItems);
 			setCartItems([]);
 
-			try {
-				const response = await axios.post('http://localhost:4000/customer/payment', {
-					userId,
-					cart: cart.map((item) => ({
-						productId: item.productId,
-						quantity: item.quantity,
-						size: item.size,
-					})),
-					deliveryInfo,
-				});
-				if (response.data.success) {
-					window.location.href = response.data.payUrl;
+			if (deliveryInfo.paymentMethod === 'cash') {
+				try {
+					const response = await axios.post('http://localhost:4000/customer/addorder', {
+						userId,
+						cart: cart.map((item) => ({
+							productId: item.productId,
+							quantity: item.quantity,
+							size: item.size,
+						})),
+						deliveryInfo,
+					});
+					if (response.data.success) {
+						navigate('/order-status');
+					}
+				} catch (error) {
+					console.error('Error:', error);
 				}
-			} catch (error) {
-				console.error('Error:', error);
+			} else {
+				try {
+					const response = await axios.post('http://localhost:4000/customer/payment', {
+						userId,
+						deliveryInfo,
+					});
+					if (response.data.success) {
+						window.location.href = response.data.payUrl;
+					}
+				} catch (error) {
+					console.error('Error:', error);
+				}
 			}
 		} else {
 			alert('Please fill in all required information.');
