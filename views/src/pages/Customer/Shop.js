@@ -223,7 +223,7 @@ function Shop() {
 					</div>
 				</div>
 				<div className='pro-container'>
-					{displayedProducts.map((product, index) => (
+					{displayedProducts.map((product) => (
 						<Product id={product.productId} image={product.imgURLs[0]} type={product.description.Type} price={product.price} />
 					))}
 				</div>
