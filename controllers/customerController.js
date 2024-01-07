@@ -39,8 +39,11 @@ controller.getCustomer = async (req, res) => {
 	let snapshot = await getDoc(doc(db, 'customers', userId));
 	if (!snapshot.empty) {
 		let customer = snapshot.data();
-		res.json({ success: true, customer });
+		res.json({ success: true, customer: customer });
 	}
+	else {
+        res.json({success: false})
+    }
 };
 
 controller.updateInfo = async (req, res) => {

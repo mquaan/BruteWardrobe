@@ -3,7 +3,7 @@ import controller from '../controllers/customerController.js';
 
 const router = express.Router();
 
-router.get('/getcustomer', controller.getCustomer);
+router.get('/getinfo', controller.getCustomer);
 router.post('/changepassword', controller.changePassword);
 router.post('/updateinfo', controller.updateInfo);
 router.post('/addtocart', controller.addToCart);

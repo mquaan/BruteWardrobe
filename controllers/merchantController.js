@@ -5,6 +5,32 @@ import { cloudinary } from '../cloudinary/index.js';
 
 const controller = {};
 
+controller.getMerchant = async (req, res) => {
+	let { userId } = req.query;
+	let snapshot = await getDoc(doc(db, 'merchants', userId));
+	if (!snapshot.empty) {
+		let merchant = snapshot.data();
+		res.json({ success: true, merchant: merchant });
+	}
+    else {
+        res.json({success: false})
+    }
+};
+
+controller.updateInfo = async (req, res) => {
+	try {
+		const { userId, userInfo } = req.body;
+		const userRef = doc(db, 'merchants', userId);
+
+		// Update the user info in the Firestore database
+		await updateDoc(userRef, userInfo);
+		res.json({ success: true });
+	} catch (error) {
+		console.error('Error:', error);
+		res.json({ success: false });
+	}
+};
+
 controller.editProductList = async (req, res) => {
     let { userId, product } = req.body;
     product.last_updated_by = userId;

@@ -16,8 +16,7 @@ function getUserId(token) {
 }
 
 function Navbar({ token, setToken, cartItems }) {
-	const [userId, setUserId] = useState(null);
-    const [userInfo, setUserInfo] = useState({});
+    const [userInfo, setUserInfo] = useState({username: 'loading...'});
 
 	const goToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'auto' });
@@ -41,9 +40,7 @@ function Navbar({ token, setToken, cartItems }) {
         const fetchData = async (temp_token) => {
             try {
 				let uid = await getUserId(temp_token);
-				setUserId(uid);
-				console.log(uid);
-                const responseCustomer = await axios.get('http://localhost:4000/customer/getcustomer', {
+                const responseCustomer = await axios.get('http://localhost:4000/customer/getinfo', {
                     params: { userId: uid }
                 });
 

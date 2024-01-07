@@ -31,8 +31,8 @@ function compareObjects(obj1, obj2) {
 }
 
 function EditProfile({ token }) {
-    const userId = getUserId(token);
     const initobj = {
+        username: null,
         gender: null,
         dob: null,
         firstname: null,
@@ -42,6 +42,7 @@ function EditProfile({ token }) {
         email: null,
     }
 
+    const [userId, setUserId] = useState('');
     const [userInfo, setUserInfo] = useState(initobj);
     const [openSnackbar, setSnackbar] = useState(false);
     const [severity, setSeverity] = useState('error');
@@ -51,8 +52,10 @@ function EditProfile({ token }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const responseCustomer = await axios.get('http://localhost:4000/customer/getcustomer', {
-                    params: { userId: userId }
+                let uid = await getUserId(token);
+                setUserId(uid);
+                const responseCustomer = await axios.get('http://localhost:4000/customer/getinfo', {
+                    params: { userId: uid }
                 });
 
                 if (responseCustomer.data.success) {
@@ -64,7 +67,7 @@ function EditProfile({ token }) {
         };
 
         fetchData();
-    }, [userId]);
+    }, [token]);
 
 
     const handleUpdateInfo = async () => {
@@ -75,7 +78,7 @@ function EditProfile({ token }) {
 
         // extract properties
         let extractedProperties = {};
-        Object.keys(initobj).forEach((key) => {
+        Object.keys(updatedUserInfo).forEach((key) => {
             if (userInfo.hasOwnProperty(key)) {
                 extractedProperties[key] = userInfo[key];
             }
@@ -101,7 +104,6 @@ function EditProfile({ token }) {
                 userId: userId,
                 userInfo: updatedUserInfo
             });
-            console.log(response)
             if (response && response.data && response.data.success) {
                 setMessage('Your information have been updated successfully.')
                 setSeverity('success')
