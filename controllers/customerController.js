@@ -37,12 +37,12 @@ const controller = {};
 controller.getCustomer = async (req, res) => {
 	let { userId } = req.query;
 	let snapshot = await getDoc(doc(db, 'customers', userId));
-	if (!snapshot.empty) {
-		let customer = snapshot.data();
+	let customer = snapshot.data();
+	if (!snapshot.empty && customer) {
 		res.json({ success: true, customer: customer });
 	}
 	else {
-        res.json({success: false})
+        res.json({ success: false })
     }
 };
 

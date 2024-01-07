@@ -16,7 +16,7 @@ function getUserId(token) {
 }
 
 function Navbar({ token, setToken, cartItems }) {
-    const [userInfo, setUserInfo] = useState({username: 'loading...'});
+    const [userInfo, setUserInfo] = useState({username: 'Loading...'});
 
 	const goToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'auto' });
