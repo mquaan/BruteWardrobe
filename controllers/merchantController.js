@@ -103,7 +103,7 @@ controller.cancelOrder = async (req, res) => {
             // update order ID
             shoppingData.orderList.splice(orderIndex, 1);
             // reorder orderId
-            shoppingData.orderList.forEach((ord, ind) => {ord.orderId = ind + 1})
+            shoppingData.orderList.forEach((ord, ind) => {ord.orderId = ind})
             await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
         } else {
             // Handle the error
