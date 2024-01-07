@@ -20,7 +20,7 @@ function Product(props) {
 						<i className='fas fa-star'></i>
 						<i className='fas fa-star'></i>
 					</div>
-					<h4>${props.price}</h4>
+					<h4>{Intl.NumberFormat('en-DE').format(props.price)} VND</h4>
 				</div>
 			</Link>
 			<div>
