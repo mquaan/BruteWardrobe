@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/Customer/OrderStatus.css';
 import { products } from '../../helpers/product_list';
 import { toast } from 'react-hot-toast';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios'
 
 function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryInfo, setOrderedProducts, token }) {
 	const [isConfirmationVisible, setConfirmationVisible] = useState(false);
-
+	const { orderIndex } = useParams();
 	const decodeToken = decodeURIComponent(
 		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
 			.split('')
@@ -19,7 +20,7 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
 
 	useEffect(() => {
 		axios
-			.post('http://localhost:4000/customer/getorderlist', { userId })
+			.post('http://localhost:4000/customer/getorderlist', { userId, orderIndex })
 			.then((response) => {
 				if (response.data.success) {
 					console.log(response.data.orderList);

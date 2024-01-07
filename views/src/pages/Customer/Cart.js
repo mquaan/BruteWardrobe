@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
-function Cart({ cartItems, setCartItems, token }) {
+function Cart({ token }) {
 	const decodeToken = decodeURIComponent(
 		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
 			.split('')
@@ -83,7 +83,7 @@ function Cart({ cartItems, setCartItems, token }) {
 					</thead>
 					<tbody>
 						{cart &&
-							cart.map((item, index) => (
+							cart.map((item) => (
 								<tr>
 									<td>{item.name}</td>
 									<td>
