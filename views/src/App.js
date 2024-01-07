@@ -121,12 +121,12 @@ function App() {
 										<Routes>
 											<Route path='/' element={<MerchantProducts open={open} handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
 											<Route path='/products' element={<MerchantProducts handleOpen={handleOpen} handleProductModal={handleProductModal} />} />
-											<Route path='/orders' element={<MerchantOrders open={openOrder} handleOpen={handleOpenOrder} />} />
-											<Route path='/profile' element={<MerchantProfile />} />
+											<Route path='/orders' element={<MerchantOrders open={openOrder} handleOpen={handleOpenOrder} token={token} />} />
+											<Route path='/profile' element={<MerchantProfile token={token} />} />
 											<Route path='/logout' element={<Login />} />
 										</Routes>
 									</div>
-									<Modal open={open} handleOpen={handleOpen} product={productModal} />
+									<Modal open={open} handleOpen={handleOpen} product={productModal} token={token} />
 								</div>
 							</ProtectedComponent>
 						}
@@ -179,7 +179,7 @@ function App() {
 											/>
 										}
 									/>
-									<Route path='/edit-profile' element={<EditProfile />} />
+									<Route path='/edit-profile' element={<EditProfile token={token} />} />
 									<Route
 										path='/order-status/:orderIndex'
 										element={

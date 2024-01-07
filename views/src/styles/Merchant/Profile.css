@@ -12,7 +12,7 @@
 .sub-profile-wrap {
     display: flex;
     width: 100%;
-    height: 85%;
+    height: 90%;
     justify-content: center;
 }
 
@@ -131,7 +131,7 @@
     font-weight: 600;
 }
 
-.fullname, .gender-birth, .email-phone, .current-password, .new-confirm-password {
+.fullname, .gender-birth, .email-phone, .experience-salary, .current-password, .new-confirm-password {
     display: flex;
     width: 100%;
     flex-direction: row;
@@ -147,17 +147,34 @@
     outline: none;
 }
 
-.firstname, .gender, .email, .address, .current-password, .new-password {
+.option .personal-info, .option .change-password{
+    padding-bottom: 10px;   
+}
+
+.option i{
+    margin-bottom:  10px;
+}
+
+.option p{
+    margin-top: 15px ;
+}
+
+.details input{
+    margin-bottom: 10px;
+}
+
+.details p{
+    margin-top: 10px;
+}
+
+.firstname, .gender, .email, .experience, .current-password, .new-password {
     margin-left: 20px;
 }
 
-.lastname, .birth, .phone, .confirm-password {
+.lastname, .birth, .phone, .salary, .confirm-password {
     margin-left: 80px;
 }
 
-.address{
-    width: 82%;
-}
 
 .button-confirm-personalInfo {
     display: flex;

@@ -116,7 +116,7 @@ function Cart({ token }) {
 											</button>
 										</div>
 									</td>
-									<td>${item.price * item.quantity}</td>
+									<td>{Intl.NumberFormat('en-DE').format(item.price)} VND</td>
 									<td>
 										<button className='remove' onClick={() => handleRemove(item.productId, item.size)}>
 											<i className='far fa-times-circle'></i>
@@ -136,7 +136,7 @@ function Cart({ token }) {
 								<strong>Total</strong>
 							</td>
 							<td>
-								<strong>${calculateTotalPrice()}</strong>
+								<strong>{Intl.NumberFormat('en-DE').format(calculateTotalPrice())} VND</strong>
 							</td>
 						</tr>
 					</table>

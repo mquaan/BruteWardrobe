@@ -4,7 +4,20 @@ import { useState, useEffect, useRef } from 'react';
 import '../styles/Customer/Navbar.css';
 import axios from 'axios';
 
+
+function getUserId(token) {
+    const decodeToken = decodeURIComponent(
+        atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
+            .split('')
+            .map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+            .join('')
+    );
+    return JSON.parse(decodeToken).user.userId;
+}
+
 function Navbar({ token, setToken, cartItems }) {
+    const [userInfo, setUserInfo] = useState({username: 'loading...'});
+
 	const goToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'auto' });
 	};
@@ -22,6 +35,25 @@ function Navbar({ token, setToken, cartItems }) {
 			window.removeEventListener('scroll', handleScroll);
 		};
 	}, []);
+
+	useEffect(() => {
+        const fetchData = async (temp_token) => {
+            try {
+				let uid = await getUserId(temp_token);
+                const responseCustomer = await axios.get('http://localhost:4000/customer/getinfo', {
+                    params: { userId: uid }
+                });
+
+                if (responseCustomer.data.success) {
+                    setUserInfo(responseCustomer.data.customer);
+                }
+            } catch (errors) {
+                console.error('Error:', errors);
+            }
+        };
+		if (token)
+        	fetchData(token);
+    }, [token]);
 
 	function ToggleMenu(subMenu) {
 		subMenu.classList.toggle('open-menu');
@@ -55,7 +87,9 @@ function Navbar({ token, setToken, cartItems }) {
 	return (
 		<div className={`navbar ${isNavHidden ? 'hidden' : ''}`}>
 			<div style={{ display: 'flex', alignItems: 'center', gap: '80px' }}>
-				<img src='../assets/Logo.png' className='logo' alt='' />
+				<NavLink className='link' activeclassname='active' to='/' onClick={() => goToTop()}>
+					<img src='../assets/Logo.png' className='logo' alt='' />
+				</NavLink>
 				<div className='search-bar1' onClick={() => setIsExpanded(true)} onBlur={handleBlur} tabIndex={0} ref={inputRef}>
 					<i className='fa-solid fa-magnifying-glass'></i>
 					<input type='text' className={`search-click1 ${isExpanded ? 'expanded' : ''}`} placeholder='Search here...' />
@@ -104,7 +138,7 @@ function Navbar({ token, setToken, cartItems }) {
 				<div className='sub-menu'>
 					<div className='user-info'>
 						<img src='../assets/features/avatar_cus.png' alt='' />
-						<h3>Phạm Sĩ Phú</h3>
+						<h3>{userInfo.username}</h3>
 					</div>
 					<hr />
 					<Link to='/edit-profile' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>

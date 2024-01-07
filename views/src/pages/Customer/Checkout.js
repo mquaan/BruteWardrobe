@@ -48,7 +48,7 @@ function Checkout({ token }) {
 			navigate('/order-status');
 
 			try {
-				const response = await axios.post('http://localhost:4000/customer/addorder', {
+				const response = await axios.post('http://localhost:4000/customer/payment', {
 					userId,
 					cart: cart.map((item) => ({
 						productId: item.productId,
@@ -58,6 +58,7 @@ function Checkout({ token }) {
 					deliveryInfo,
 				});
 				if (response.data.success) {
+					window.location.href = response.data.payUrl;
 				}
 			} catch (error) {
 				console.error('Error:', error);
@@ -110,13 +111,13 @@ function Checkout({ token }) {
 									<img src={item.imgURLs[0]} alt={`Product ${item.productID}`} />
 								</td>
 								<td>{item.quantity}</td>
-								<td>${item.price * item.quantity}</td> 
+								<td>{Intl.NumberFormat('en-DE').format(item.price * item.quantity)} VND</td>
 							</tr>
 						))}
 					</tbody>
 				</table>
 				<div className='total-price'>
-					<strong>Total:</strong> ${calculateTotalPrice()}
+					<strong>Total:</strong> {Intl.NumberFormat('en-DE').format(calculateTotalPrice())} VND
 				</div>
 			</section>
 

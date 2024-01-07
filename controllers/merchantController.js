@@ -5,8 +5,35 @@ import { cloudinary } from '../cloudinary/index.js';
 
 const controller = {};
 
+controller.getMerchant = async (req, res) => {
+	let { userId } = req.query;
+	let snapshot = await getDoc(doc(db, 'merchants', userId));
+	if (!snapshot.empty) {
+		let merchant = snapshot.data();
+		res.json({ success: true, merchant: merchant });
+	}
+    else {
+        res.json({success: false})
+    }
+};
+
+controller.updateInfo = async (req, res) => {
+	try {
+		const { userId, userInfo } = req.body;
+		const userRef = doc(db, 'merchants', userId);
+
+		// Update the user info in the Firestore database
+		await updateDoc(userRef, userInfo);
+		res.json({ success: true });
+	} catch (error) {
+		console.error('Error:', error);
+		res.json({ success: false });
+	}
+};
+
 controller.editProductList = async (req, res) => {
-    let { product } = req.body;
+    let { userId, product } = req.body;
+    product.last_updated_by = userId;
     if (product.productId) {
         let productRef = doc(db, 'products', product.productId);
         await updateDoc(productRef, product);
@@ -20,7 +47,7 @@ controller.editProductList = async (req, res) => {
 };
 
 controller.editOrderStatus = async (req, res) => {
-    let { shoppingId, orderId, newStatus, newdateShipped } = req.body;
+    let { userId, shoppingId, orderId, newStatus, newdateShipped } = req.body;
     
     let shoppingRef = doc(db, 'shoppings', shoppingId);
 
@@ -39,6 +66,7 @@ controller.editOrderStatus = async (req, res) => {
         let orderIndex = shoppingData.orderList.findIndex(order => order.orderId === orderId);
 
         if (orderIndex !== -1) {
+            shoppingData.orderList[orderIndex].last_updated_by = userId;
             shoppingData.orderList[orderIndex].orderStatus = newStatus;
             shoppingData.orderList[orderIndex].dateShipped = newdateShipped;
             await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
@@ -53,7 +81,7 @@ controller.editOrderStatus = async (req, res) => {
 }
 
 controller.cancelOrder = async (req, res) => {
-    let { shoppingId, orderId, reason} = req.body;
+    let { shoppingId, orderId } = req.body;
 
     let shoppingRef = doc(db, 'shoppings', shoppingId);
 
@@ -72,9 +100,10 @@ controller.cancelOrder = async (req, res) => {
         let orderIndex = shoppingData.orderList.findIndex(order => order.orderId === orderId);
 
         if (orderIndex !== -1) {
-            shoppingData.orderList[orderIndex].orderStatus = 'Removed';
-            shoppingData.orderList[orderIndex].reason = reason;
-
+            // update order ID
+            shoppingData.orderList.splice(orderIndex, 1);
+            // reorder orderId
+            shoppingData.orderList.forEach((ord, ind) => {ord.orderId = ind})
             await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
         } else {
             // Handle the error

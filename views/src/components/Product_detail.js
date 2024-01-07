@@ -95,7 +95,7 @@ function Description({ token, productId }) {
 	return (
 		<div className='single-pro-details'>
 			<h4>{pro.name}</h4>
-			<h2>${pro.price}</h2>
+			<h2>{Intl.NumberFormat('en-DE').format(pro.price)} VND</h2>
 			<select value={selectedSize} onChange={handleSizeChange}>
 				<option>Select Size</option>
 				<option>S</option>

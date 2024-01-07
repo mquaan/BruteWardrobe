@@ -1,7 +1,11 @@
+import bcrypt from 'bcrypt';
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
+
 class Admin {
     constructor(username, password, userId=null) {
         this.username = username;
-        this.password = password;
+        this.password = password ? bcrypt.hashSync(password, salt) : null;
         this.userId = userId;
     }
 }

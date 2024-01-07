@@ -3,7 +3,7 @@ const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
 
 class User {
-	constructor(username, password, email, facebookId = null, userId = null, address = null, phoneNumber = null, loginStatus = false, gender = 'male', dob = null) {
+	constructor(username, password, email, facebookId = null, userId = null, address = null, phoneNumber = null, loginStatus = false, gender = 'Male', dob = null) {
 		this.username = username;
 		this.userId = userId;
 		this.password = password ? bcrypt.hashSync(password, salt) : null;

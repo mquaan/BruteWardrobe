@@ -1,10 +1,12 @@
 import User from './user.js';
 
 class Merchant extends User {
-    constructor(username, password, email, userId = null, address = null, phoneNumber = null, loginStatus = false, gender = 'male', dob=null, experience = 0, salary = 0) {
-        super(username, password, email, userId, address, phoneNumber, loginStatus, gender, dob);
-        this.experience = experience;
+    constructor(username, password, email, facebookId = null, userId = null, 
+        address = null, phoneNumber = null, loginStatus = false, gender = 'Male', dob = null, 
+        salary = 0, dateCreated = new Date()) {
+        super(username, password, email, facebookId, userId, address, phoneNumber, loginStatus, gender, dob);
         this.salary = salary;
+        this.dateCreated = dateCreated;
     }
 }
 
@@ -20,16 +22,16 @@ const merchantConverter = {
             loginStatus: merchant.loginStatus,
             gender: merchant.gender,
             dob: merchant.dob,
-            experience: merchant.experience,
             salary: merchant.salary,
+            dateCreated: merchant.dateCreated,
         };
     },
     fromFirestore: (snapshot, options) => {
         const data = snapshot.data(options);
         return new Merchant(data.username, data.password, data.email,
-             data.userId, data.address, data.phoneNumber, data.loginStatus,
-             data.gender, data.dob,
-             data.experience, data.salary);
+            data.facebookId, data.userId, data.address, data.phoneNumber,
+            data.loginStatus, data.gender, data.dob,
+            data.salary, data.dateCreated);
     },
 };
 

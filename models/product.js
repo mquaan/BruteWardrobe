@@ -1,13 +1,13 @@
 class Product {
-    constructor(name, description, imgURLs, price, rate, numSold=0, last_modified=null, productId=null) {
+    constructor(name, description, imgURLs, price, rate, numSold=0, productId=null, last_updated_by=null) {
         this.name = name;
         this.description = description;
         this.imgURLs = imgURLs;
         this.price = price;
         this.rate = rate;
         this.numSold = numSold;
-        this.last_modified = last_modified;
         this.productId = productId;
+        this.last_updated_by = last_updated_by;
     }
 }
 
@@ -20,8 +20,8 @@ const productConverter = {
             price: product.price,
             rate: product.rate,
             numSold: product.numSold,
-            last_modified: product.last_modified,
             productId: product.productId,
+            last_updated_by: product.last_updated_by
 		};
 	},
 	fromFirestore: (snapshot, options) => {
@@ -33,8 +33,8 @@ const productConverter = {
             data.price, 
             data.rate, 
             data.numSold, 
-            data.last_modified, 
-            data.productId
+            data.productId,
+            data.last_updated_by
 		);
 	},
 };

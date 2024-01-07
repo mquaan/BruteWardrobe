@@ -3,7 +3,15 @@ import { Dialog, Card, CardBody, CardFooter, Typography, Input } from '@material
 import '../styles/Merchant/Modal.css';
 import axios from 'axios';
 
-export default function Modal({ open, handleOpen, product }) {
+export default function Modal({ open, handleOpen, product, token }) {
+	const decodeToken = decodeURIComponent(
+		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
+			.split('')
+			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+			.join('')
+	);
+	const userId = JSON.parse(decodeToken).user.userId;
+
 	const [values, setValues] = useState(product);
 	useEffect(() => {
 		setValues(product);
@@ -82,7 +90,7 @@ export default function Modal({ open, handleOpen, product }) {
 				values.imgURLs[i] = res.data.url;
 			}
 		}
-		axios.post('http://localhost:4000/merchant/editproductlist', { product: values });
+		axios.post('http://localhost:4000/merchant/editproductlist', { userId: userId, product: values });
 	};
 
 	const handleRemove = async () => {
