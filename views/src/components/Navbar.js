@@ -5,18 +5,18 @@ import '../styles/Customer/Navbar.css';
 import axios from 'axios';
 
 
-function getUserId(token) {
-    const decodeToken = decodeURIComponent(
-        atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
-            .split('')
-            .map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
-            .join('')
-    );
-    return JSON.parse(decodeToken).user.userId;
+function getUserId_Role(token) {
+	const decodeToken = decodeURIComponent(
+		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
+			.split('')
+			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+			.join('')
+	);
+	return JSON.parse(decodeToken).user;
 }
 
 function Navbar({ token, setToken, cartItems }) {
-    const [userInfo, setUserInfo] = useState({username: 'Loading...'});
+	const [userInfo, setUserInfo] = useState({ username: 'Loading...' });
 
 	const goToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'auto' });
@@ -37,23 +37,31 @@ function Navbar({ token, setToken, cartItems }) {
 	}, []);
 
 	useEffect(() => {
-        const fetchData = async (temp_token) => {
-            try {
-				let uid = await getUserId(temp_token);
-                const responseCustomer = await axios.get('http://localhost:4000/customer/getinfo', {
-                    params: { userId: uid }
-                });
+		const fetchData = async (temp_token) => {
+			try {
+				
+				let id_role = await getUserId_Role(temp_token);
 
-                if (responseCustomer.data.success) {
-                    setUserInfo(responseCustomer.data.customer);
-                }
-            } catch (errors) {
-                console.error('Error:', errors);
-            }
-        };
+				if (id_role.role != 'customer') {
+					localStorage.removeItem('token');
+					setToken(null);
+				}
+				else {
+					const responseCustomer = await axios.get('http://localhost:4000/customer/getinfo', {
+						params: { userId: id_role.userId }
+					});
+					if (responseCustomer.data.success) {
+						setUserInfo(responseCustomer.data.customer);
+					}
+				}
+
+			} catch (errors) {
+				console.error('Error:', errors);
+			}
+		};
 		if (token)
-        	fetchData(token);
-    }, [token]);
+			fetchData(token);
+	}, [token]);
 
 	function ToggleMenu(subMenu) {
 		subMenu.classList.toggle('open-menu');
