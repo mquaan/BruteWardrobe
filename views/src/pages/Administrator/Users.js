@@ -31,7 +31,7 @@ function CheckSignUpUsername(username, errorSignUpUsername) {
     }
 }
 
-function Users({ open }) {
+function Users() {
     const columns = [
         {
             name: 'Username',
@@ -68,7 +68,7 @@ function Users({ open }) {
             name: 'Manage',
             cell: (row) => (
                 <IconButton
-                    // onClick={() => handleMangeUser(row.id)}
+                // onClick={() => handleMangeUser(row.id)}
                 >
                     <EditIcon color="success" />
                 </IconButton>
@@ -109,15 +109,17 @@ function Users({ open }) {
         }
     };
 
+    const [open, setOpen] = useState(true);
+
     const [data, setData] = useState([])
     const [records, setRecords] = useState([]);
 
     const [openModel, setOpenModel] = useState(false);
 
     const [username, setUsername] = useState('');
+    const [startingSalary, setStartingSalary] = useState(0);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [startingSalary, setStartingSalary] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -175,6 +177,10 @@ function Users({ open }) {
         setRecords(data)
     }, [data])
 
+    const handleOpen = () => {
+        setOpen(!open);
+    }
+
     const handleRemoveRow = (userId) => {
         setData((prevData) => prevData.filter((row) => row.userId !== userId));
     };
@@ -186,9 +192,23 @@ function Users({ open }) {
         setRecords(newData)
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event, msg) => {
         event.preventDefault();
-        // Handle your form submission logic here
+        await axios
+            .post('http://localhost:4000/admin/signupmerchant', { username, salary, password })
+            .then((response) => {
+                if (response.data.success) {
+
+                    handleOpen();
+                } else {
+                    msg.textContent = response.data.message;
+                    msg.style.display = 'inline';
+                    console.log(response.data.message);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return (
@@ -222,7 +242,7 @@ function Users({ open }) {
                                     borderRadius: '20px'
                                 },
                             }}>
-                            <form className='form-create-merchant' onSubmit={handleSubmit}>
+                            <form className='form-create-merchant' onSubmit={(event) => handleSubmit(event, document.getElementById('errorSignIn'))}>
                                 <h2>Create Merchant</h2>
                                 <input name='merchant-username'
                                     type="text"
@@ -233,7 +253,10 @@ function Users({ open }) {
                                         CheckSignUpUsername(e.target.value, document.getElementById('errorSignUpUsername'))
                                     }}
                                 />
-								<span id='errorSignUpUsername' className='signUp-error-message'></span>
+                                <span id='errorSignUpUsername' className='signUp-error-message'></span>
+
+                                <input type='number' placeholder='Starting salary' required min="0" step="100" onChange={(e) => setStartingSalary(e.target.value)} />
+
                                 <input
                                     type='password'
                                     placeholder='Password'
@@ -242,6 +265,7 @@ function Users({ open }) {
                                         CheckPassword(e.target.value, confirmPassword, document.getElementById('wrongPassword'))
                                     }}
                                 />
+
                                 <input
                                     type='password'
                                     placeholder='Confirm password'
@@ -251,9 +275,11 @@ function Users({ open }) {
                                         CheckPassword(password, e.target.value, document.getElementById('wrongPassword'))
                                     }}
                                 />
-                                <input type='number' placeholder='Starting salary' required min="0" step="100" onChange={(e) => setStartingSalary(e.target.value)} />
+
                                 <span id='wrongPassword' className='wrongPassword-message'></span>
+
                                 <span id='errorSignUp' className='signUp-error-message'></span>
+
                                 <button type="submit" className='btn-add-merchant-popup'>Create</button>
                             </form>
                         </Modal>
