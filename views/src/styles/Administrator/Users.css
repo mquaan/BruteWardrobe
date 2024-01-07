@@ -1,4 +1,4 @@
-.ad_Users_Tab{
+.ad_Users_Tab {
     display: flex;
     position: relative;
     width: 100%;
@@ -7,12 +7,12 @@
     flex-direction: column;
 }
 
-.introduction-users-tabs h1{
+.introduction-users-tabs h1 {
     font-size: 28px;
     padding: 20px 0 10px 540px;
 }
 
-.Users_Tab{
+.Users_Tab {
     display: flex;
     flex-direction: column;
     margin-left: 180px;
@@ -23,7 +23,7 @@
     background-color: #ebebff;
 }
 
-.box-user-manage{
+.box-user-manage {
     display: flex;
     flex-direction: column;
     background-color: #fff;
@@ -34,7 +34,7 @@
     width: 1260px;
 }
 
-.box-input{
+.box-input {
     height: 30px;
     display: flex;
     cursor: pointer;
@@ -45,11 +45,11 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
-.box-input:hover input{
+.box-input:hover input {
     width: 150px;
 }
 
-.box-input input{
+.box-input input {
     width: 0;
     outline: none;
     border: none;
@@ -60,13 +60,13 @@
 
 }
 
-.box-input .fas{
+.box-input .fas {
     color: #5250e8;
 
-    
+
 }
 
-.user-manage-elements{
+.user-manage-elements {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -75,27 +75,27 @@
 }
 
 
-.user-management-table{
+.user-management-table {
     margin-top: 30px;
 }
 
-.users-table{
+.users-table {
     height: 400px;
 }
 
-.h2-user-list{
+.h2-user-list {
     font-size: 20px;
     margin-left: 20px;
     margin-top: 20px;
 }
 
-.box-input{
+.box-input {
     margin-top: 20px;
     margin-left: 20px;
 
 }
 
-.btn-add-merchant{
+.btn-add-merchant {
     margin-top: 20px;
     position: absolute;
     right: 25px;
@@ -107,16 +107,16 @@
     cursor: pointer;
 }
 
-.btn-add-merchant .fa-solid{
+.btn-add-merchant .fa-solid {
     margin-left: 10px;
 }
 
-.btn-add-merchant:hover{
+.btn-add-merchant:hover {
     box-shadow: 0 10px 10px rgb(252, 108, 56);
 }
 
 
-.form-create-merchant{
+.form-create-merchant {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -124,14 +124,14 @@
 
 }
 
-.form-create-merchant h2{
+.form-create-merchant h2 {
     font-size: 30px;
     color: rgb(252, 108, 56);
     font-weight: 700;
     margin-bottom: 20px;
 }
 
-.form-create-merchant input{
+.form-create-merchant input {
     background-color: #eee;
     border: none;
     padding: 10px 15px;
@@ -142,13 +142,13 @@
     margin-bottom: 20px;
 }
 
-.div-gender{
+.div-gender {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-.div-gender input{
+.div-gender input {
     margin-left: 15px;
     margin-top: 3px;
 

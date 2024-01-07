@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
 import {
     ListSubheader,
     List,
@@ -28,6 +27,7 @@ import {
     TableHead,
     TableRow,
     Paper,
+    Tooltip
 } from '@mui/material';
 
 
@@ -35,11 +35,15 @@ import {
     Person as PersonIcon,
     ShoppingCart as ShoppingCartIcon,
     ExpandLess,
-    ExpandMore,
+    ExpandMore
 } from '@mui/icons-material';
 
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 
 const dateOnlyFormat = {
     year: 'numeric', month: 'numeric', day: 'numeric',
@@ -132,27 +136,6 @@ function MerchantOrders({ open, handleOpen, token }) {
                 setProducts(responseProducts.data.products);
                 setShoppings(responseShoppings.data.shoppings);
                 setCustomers(responseCustomers.data.customers);
-
-
-                let filteredShoppings = shoppings.filter((value) => value.orderList && value.orderList.length !== 0);
-                // link to shopping
-                let with_shopping = customers.map((value) => {
-                    let foundShopping = filteredShoppings.find((sval) => value.shoppingId === sval.shoppingId);
-                    if (!foundShopping) return null;
-                    // link to product name
-                    foundShopping.orderList.forEach((ord) => {
-                        ord.cart.forEach((ell) => {
-                            ell.product = products.find((pr) => pr.productId == ell.productId)
-                        })
-                        if (ord.dateCreated)
-                            ord.dateCreated = new Date(ord.dateCreated);
-                        if (ord.dateShipped && ord.dateShipped != 'none')
-                            ord.dateShipped = new Date(ord.dateShipped);
-                    })
-                    return { ...value, shopping: foundShopping };
-                }).filter(Boolean);
-
-                setUpdatedCustomers(with_shopping);
             } catch (errors) {
                 console.error('Error:', errors);
             }
@@ -161,16 +144,41 @@ function MerchantOrders({ open, handleOpen, token }) {
         fetchData();
     }, [open]);
 
-
-    useEffect(() => {
-        setCurrentPage(1);
+    function initStates() {
         setOpen1s(Array(updatedCustomers.length).fill(false));
         setOpen2s(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
         setOpenModal(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
         setStatus(updatedCustomers.map((customer) => customer.shopping.orderList.map((order) => order.orderStatus)));
         setOpenDialog(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
         setCanceled(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
-    }, [updatedCustomers]);
+    }
+
+    useEffect(() => {
+        let filteredShoppings = shoppings.filter((value) => value.orderList && value.orderList.length !== 0);
+        // link to shopping
+        let with_shopping = customers.map((value) => {
+            let foundShopping = filteredShoppings.find((sval) => value.shoppingId === sval.shoppingId);
+            if (!foundShopping) return null;
+            // link to product name
+            foundShopping.orderList.forEach((ord) => {
+                ord.cart.forEach((ell) => {
+                    ell.product = products.find((pr) => pr.productId == ell.productId)
+                })
+                if (ord.dateCreated)
+                    ord.dateCreated = new Date(ord.dateCreated);
+                if (ord.dateShipped && ord.dateShipped != 'none')
+                    ord.dateShipped = new Date(ord.dateShipped);
+            })
+            return { ...value, shopping: foundShopping };
+        }).filter(Boolean);
+
+        setUpdatedCustomers(with_shopping);
+        initStates();
+    }, [customers, products, shoppings])
+
+    // useEffect(() => {
+    //     initStates();
+    // }, [currentPage]);
 
 
     const startIndex = (currentPage - 1) * customerPerPage;
@@ -199,18 +207,17 @@ function MerchantOrders({ open, handleOpen, token }) {
     // edit button
     const handleOpenModal = (custIndex, orderIndex) => {
         const newOpenModal = [...openModal];
-        newOpenModal[custIndex][orderIndex] = !newOpenModal[custIndex][orderIndex];
+        newOpenModal[custIndex][orderIndex] = true;
         setOpenModal(newOpenModal);
     };
     const handleCloseModal = (custIndex, orderIndex) => {
         const newOpenModal = [...openModal];
-        newOpenModal[custIndex][orderIndex] = !newOpenModal[custIndex][orderIndex];
+        newOpenModal[custIndex][orderIndex] = false;
         setOpenModal(newOpenModal);
     };
 
-    // order
-
-    const handleStatusChange = (event, order, custIndex, orderIndex) => {
+    // order status change
+    const handleStatusChange = async (event, order, custIndex, orderIndex) => {
         if (event.target.value === order.orderStatus) {
             return;
         }
@@ -232,61 +239,125 @@ function MerchantOrders({ open, handleOpen, token }) {
             }
         }
 
-        axios.post('http://localhost:4000/merchant/editorderstatus', {
+        const respone = await axios.post('http://localhost:4000/merchant/editorderstatus', {
             userId: userId,
             shoppingId: updatedCustomers[custIndex].shoppingId,
             orderId: order.orderId,
             newStatus: order.orderStatus,
             newdateShipped: order.dateShipped,
         });
-
-        // handleOpen();
+        if (!respone.data.success) {
+            console.log('Failed to update order status! Please try again later.')
+        }
     };
 
     // cancel order
     const handleOpenDialog = (custIndex, orderIndex) => {
         const newDialog = [...openDialog];
-        newDialog[custIndex][orderIndex] = !newDialog[custIndex][orderIndex];
+        newDialog[custIndex][orderIndex] = true;
         setOpenDialog(newDialog);
     };
     const handleCloseDialog = (custIndex, orderIndex) => {
         const newDialog = [...openDialog];
-        newDialog[custIndex][orderIndex] = !newDialog[custIndex][orderIndex];
+        newDialog[custIndex][orderIndex] = false;
         setOpenDialog(newDialog);
     };
 
     // dialog
-    const handleCancelOrder = (order, custIndex, orderIndex) => {
+    const handleCancelOrder = async (order, custIndex, orderIndex) => {
         const newCanceled = [...canceled];
 
         newCanceled[custIndex][orderIndex] = true; // Update the specific status
         setCanceled(newCanceled);
         handleCloseDialog(custIndex, orderIndex);
 
-        axios.post('http://localhost:4000/merchant/cancelorder', {
+        const respone = await axios.post('http://localhost:4000/merchant/cancelorder', {
             shoppingId: updatedCustomers[custIndex].shoppingId,
             orderId: order.orderId
         });
-        // handleOpen();
+        if (respone.data.success) {
+            // reorder order's index
+            if (orderIndex != updatedCustomers[custIndex].shopping.orderList.length - 1) { // if not last
+                let newUpdatedCustomers = [...updatedCustomers]
+                // mark instead of delete to prevent reload page (use state change)
+                newUpdatedCustomers[custIndex].shopping.orderList[orderIndex].orderId = -1;
+                let indexCount = 0;
+                newUpdatedCustomers[custIndex].shopping.orderList.forEach((oord) => {
+                    if (oord.orderId != -1) {
+                        oord.orderId = indexCount;
+                        indexCount += 1;
+                    }
+                });
+                setUpdatedCustomers(newUpdatedCustomers)
+            }
+        }
+        else {
+            console.log('Failed to cancel the order! Please try again later.')
+        }
     };
+
     return (
         <div>
-
             <List
                 sx={{
                     width: '100%',
-                    bgcolor: 'background.paper',
-
+                    bgcolor: 'background.paper'
                 }}
                 component="nav"
                 aria-labelledby="nested-list-subheader"
                 subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">
-                        Customers' orders
-                    </ListSubheader>
+                    <Grid
+                        container
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="flex-start"
+                        columns={18}
+                    >
+                        <Grid item xs justifyContent="flex-start">
+                            <ListSubheader component="div" id="nested-list-subheader">
+                                Manage customers' orders
+                            </ListSubheader>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Tooltip title="Go to previous page">
+                                <IconButton
+                                    onClick={() => {
+                                        if (currentPage != 1)
+                                            goToPage(currentPage - 1)
+                                    }}
+                                >
+                                    <ArrowBackIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Go to next page">
+                                <IconButton
+                                    onClick={() => {
+                                        if (currentPage != totalPages)
+                                            goToPage(currentPage + 1)
+                                    }}
+                                >
+                                    <ArrowForwardIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <Tooltip title="Refresh & Collapse All">
+                                <IconButton
+                                    onClick={() => handleOpen()}
+
+                                // setOpen2s(updatedCustomers.map((customer) => Array(customer.shopping.orderList.length).fill(false)));
+                                // setOpen1s(Array(updatedCustomers.length).fill(false));
+                                >
+                                    <RefreshIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Grid>
+                    </Grid>
                 }
             >
                 {displayedCustomers.map((customer, custIndex) => {
+                    custIndex += (currentPage - 1) * customerPerPage;
+                    console.log("custIndex", custIndex);
                     if (!canceled[custIndex] || canceled[custIndex].every((ord) => ord)) {
                         return (<></>);
                     }
@@ -295,6 +366,7 @@ function MerchantOrders({ open, handleOpen, token }) {
                             border: '1px solid #3f51b5',
                             borderRadius: '10px',
                             marginBottom: '10px',
+                            marginLeft: '20px',
                             marginRight: '20px'
                         }}>
                             <ListItemButton onClick={() => handleClick1(custIndex)}>
@@ -325,29 +397,35 @@ function MerchantOrders({ open, handleOpen, token }) {
                                                             <ListItemIcon>
                                                                 <ShoppingCartIcon />
                                                             </ListItemIcon>
-                                                            <ListItemText primary={`Order ID: ${order.orderId} | Date:  ${order.dateCreated.toLocaleString('en-US', dateOnlyFormat)} | Status: ${order.orderStatus}`} />
+                                                            <ListItemText primary={`Order ID: ${order.orderId} | Date:  ${order.dateCreated ? order.dateCreated.toLocaleString('en-US', dateOnlyFormat) : "Undefined"} | Status: ${order.orderStatus}`} />
                                                             {open2s[custIndex][orderIndex] ? <ExpandLess size="small" /> : <ExpandMore size="small" />}
                                                         </ListItemButton>
                                                     </Grid>
                                                     <Grid item xs={1}>
-                                                        <IconButton
-                                                            color="success"
-                                                            size="small"
-                                                            aria-label="Edit"
-                                                            onClick={() => handleOpenModal(custIndex, orderIndex)}
-                                                        >
-                                                            <EditIcon />
-                                                        </IconButton>
+                                                        <Tooltip title="Edit">
+                                                            <IconButton
+                                                                color="success"
+                                                                size="small"
+                                                                aria-label="Edit"
+                                                                onClick={() => handleOpenModal(custIndex, orderIndex)}
+                                                            >
+                                                                <EditIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
+
                                                     </Grid>
                                                     <Grid item xs={1}>
-                                                        <IconButton
-                                                            color="error"
-                                                            size="small"
-                                                            aria-label="Cancel"
-                                                            onClick={() => handleOpenDialog(custIndex, orderIndex)}
-                                                        >
-                                                            <CancelIcon />
-                                                        </IconButton>
+                                                        <Tooltip title="Cancel">
+                                                            <IconButton
+                                                                color="error"
+                                                                size="small"
+                                                                aria-label="Cancel"
+                                                                onClick={() => handleOpenDialog(custIndex, orderIndex)}
+                                                            >
+                                                                <CancelIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
+
                                                     </Grid>
                                                 </Grid>
                                                 <Modal
@@ -367,10 +445,10 @@ function MerchantOrders({ open, handleOpen, token }) {
                                                         p: 4,
                                                     }}>
                                                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                            {`Order ID: ${order.orderId}`}
+                                                            {`Order ID: ${order.orderId} by Customer: ${customer.username}`}
                                                         </Typography>
                                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                            {`Date Created: ${order.dateCreated.toLocaleString('en-US', dateFormat)}`}
+                                                            {`Date Created: ${order.dateCreated ? order.dateCreated.toLocaleString('en-US', dateFormat) : "Undefined"}`}
                                                         </Typography>
                                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                             Order Status:
@@ -464,7 +542,7 @@ function MerchantOrders({ open, handleOpen, token }) {
                         </Box>
                     );
                 })}
-            </List>
+            </List >
 
             <section id='pagination' className='section-p1'>
                 {/* Previous button */}
@@ -489,7 +567,7 @@ function MerchantOrders({ open, handleOpen, token }) {
                 )}
             </section>
 
-        </div>
+        </div >
     );
 
 }

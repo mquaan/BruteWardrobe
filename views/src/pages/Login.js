@@ -152,12 +152,12 @@ function Login({ token, setToken }) {
 							<form onSubmit={(event) => handleSignUp(event, document.getElementById('errorSignUp'))}>
 								<h1>Create Account</h1>
 								<div className='social-icons'>
-									<div className='a icon'>
-										<i id='google-icon' className='fa-brands fa-google'></i>
-									</div>
-									<div className='a icon'>
-										<i id='facebook-icon' className='fa-brands fa-facebook'></i>
-									</div>
+									<a className='a icon' href={'http://localhost:4000/login/google'}>
+										<i className='fa-brands fa-google'></i>
+									</a>
+									<a className='a icon' href={'http://localhost:4000/login/facebook'}>
+										<i className='fa-brands fa-facebook'></i>
+									</a>
 								</div>
 								<span>or use your email for registeration</span>
 								<input

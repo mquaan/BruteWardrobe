@@ -4,34 +4,19 @@ import { useState, useEffect, useRef } from 'react';
 import '../styles/Customer/Navbar.css';
 import axios from 'axios';
 
-function Navbar({ token, setToken, cartItems }) {
+
+function getUserId_Role(token) {
 	const decodeToken = decodeURIComponent(
 		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
 			.split('')
 			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
 			.join('')
 	);
-	const userId = JSON.parse(decodeToken).user.userId;
+	return JSON.parse(decodeToken).user;
+}
 
-	const [username, setUsername] = useState();
-
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const responseCustomer = await axios.get('http://localhost:4000/customer/getcustomer', {
-					params: { userId: userId },
-				});
-
-				if (responseCustomer.data.success) {
-					setUsername(responseCustomer.data.customer.username);
-				}
-			} catch (errors) {
-				console.error('Error:', errors);
-			}
-		};
-
-		fetchData();
-	}, [userId]);
+function Navbar({ token, setToken, cartItems }) {
+	const [userInfo, setUserInfo] = useState({ username: 'Loading...' });
 
 	const goToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'auto' });
@@ -50,6 +35,33 @@ function Navbar({ token, setToken, cartItems }) {
 			window.removeEventListener('scroll', handleScroll);
 		};
 	}, []);
+
+	useEffect(() => {
+		const fetchData = async (temp_token) => {
+			try {
+				
+				let id_role = await getUserId_Role(temp_token);
+
+				if (id_role.role != 'customer') {
+					localStorage.removeItem('token');
+					setToken(null);
+				}
+				else {
+					const responseCustomer = await axios.get('http://localhost:4000/customer/getinfo', {
+						params: { userId: id_role.userId }
+					});
+					if (responseCustomer.data.success) {
+						setUserInfo(responseCustomer.data.customer);
+					}
+				}
+
+			} catch (errors) {
+				console.error('Error:', errors);
+			}
+		};
+		if (token)
+			fetchData(token);
+	}, [token]);
 
 	function ToggleMenu(subMenu) {
 		subMenu.classList.toggle('open-menu');
@@ -134,7 +146,7 @@ function Navbar({ token, setToken, cartItems }) {
 				<div className='sub-menu'>
 					<div className='user-info'>
 						<img src='../assets/features/avatar_cus.png' alt='' />
-						<h3>{username}</h3>
+						<h3>{userInfo.username}</h3>
 					</div>
 					<hr />
 					<Link to='/edit-profile' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>

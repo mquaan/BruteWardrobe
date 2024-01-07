@@ -31,33 +31,36 @@ function compareObjects(obj1, obj2) {
 }
 
 function EditProfile({ token }) {
-	const userId = getUserId(token);
-	const initobj = {
-		gender: null,
-		dob: null,
-		firstname: null,
-		lastname: null,
-		address: null,
-		phoneNumber: null,
-		email: null,
-	};
+    const initobj = {
+        username: null,
+        gender: null,
+        dob: null,
+        firstname: null,
+        lastname: null,
+        address: null,
+        phoneNumber: null,
+        email: null,
+    }
 
-	const [userInfo, setUserInfo] = useState(initobj);
-	const [openSnackbar, setSnackbar] = useState(false);
-	const [severity, setSeverity] = useState('error');
-	const [message, setMessage] = useState('');
+    const [userId, setUserId] = useState('');
+    const [userInfo, setUserInfo] = useState(initobj);
+    const [openSnackbar, setSnackbar] = useState(false);
+    const [severity, setSeverity] = useState('error');
+    const [message, setMessage] = useState('');
 
 	const genderOptions = [
 		{ value: 'male', label: 'Male' },
 		{ value: 'female', label: 'Female' },
 	];
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const responseCustomer = await axios.get('http://localhost:4000/customer/getcustomer', {
-					params: { userId: userId },
-				});
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let uid = await getUserId(token);
+                setUserId(uid);
+                const responseCustomer = await axios.get('http://localhost:4000/customer/getinfo', {
+                    params: { userId: uid }
+                });
 
 				if (responseCustomer.data.success) {
 					setUserInfo(responseCustomer.data.customer);
@@ -67,8 +70,8 @@ function EditProfile({ token }) {
 			}
 		};
 
-		fetchData();
-	}, [userId]);
+        fetchData();
+    }, [token]);
 
 	const [genderOption, setGenderOption] = useState(userInfo.gender === 'male' ? genderOptions[0].label : genderOptions[1].label);
 
@@ -84,15 +87,16 @@ function EditProfile({ token }) {
 
 		updatedUserInfo.gender = genderOption;
 
-		// extract properties
-		let extractedProperties = {};
-		Object.keys(initobj).forEach((key) => {
-			if (userInfo.hasOwnProperty(key)) {
-				extractedProperties[key] = userInfo[key];
-			} else {
-				extractedProperties[key] = initobj[key];
-			}
-		});
+        // extract properties
+        let extractedProperties = {};
+        Object.keys(updatedUserInfo).forEach((key) => {
+            if (userInfo.hasOwnProperty(key)) {
+                extractedProperties[key] = userInfo[key];
+            }
+            else {
+                extractedProperties[key] = initobj[key];
+            }
+        });
 
 		// if there's new update
 		if (!compareObjects(updatedUserInfo, extractedProperties)) {

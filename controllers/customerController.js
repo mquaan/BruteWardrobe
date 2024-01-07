@@ -38,9 +38,11 @@ const controller = {};
 controller.getCustomer = async (req, res) => {
 	let { userId } = req.query;
 	let snapshot = await getDoc(doc(db, 'customers', userId));
-	if (!snapshot.empty) {
-		let customer = snapshot.data();
-		res.json({ success: true, customer });
+	let customer = snapshot.data();
+	if (!snapshot.empty && customer) {
+		res.json({ success: true, customer: customer });
+	} else {
+		res.json({ success: false });
 	}
 };
 
@@ -267,6 +269,7 @@ controller.addOrder = async (req, res) => {
 			}
 			await updateDoc(userRef, { shoppingId: shoppingId });
 		}
+		res.json({ success: true });
 	}
 };
 
