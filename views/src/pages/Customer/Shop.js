@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/Customer/Shop.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 function Product(props) {
@@ -37,7 +37,7 @@ function Shop() {
 		setCurrentPage(page);
 		window.scrollTo({ top: 0, behavior: 'auto' });
 	};
-
+	
 	const [filterPanelVisible, setFilterPanelVisible] = useState(false);
 	const [filterOptions, setFilterOptions] = useState({
 		type: '',
@@ -46,16 +46,16 @@ function Shop() {
 		brand: '',
 		season: '',
 	});
-
+	
 	const sortOptions = [
 		{ value: '', label: 'None' },
 		{ value: 'priceHighToLow', label: 'Price High to Low' },
 		{ value: 'priceLowToHigh', label: 'Price Low to High' },
 		{ value: 'mostPopular', label: 'Most Popular' },
 	];
-
+	
 	const [sortOption, setSortOption] = useState(sortOptions[0].value);
-
+	
 	const handleFilterChange = (event) => {
 		const { name, value } = event.target;
 		setFilterOptions((prevOptions) => ({
@@ -64,11 +64,11 @@ function Shop() {
 		}));
 		setCurrentPage(1);
 	};
-
+	
 	const handleSortChange = (event) => {
 		setSortOption(event.target.value);
 	};
-
+	
 	const filterAndSortProducts = (originalProducts, filterOptions, sortOption) => {
 		const filteredProducts = originalProducts.filter((product) => {
 			return (
@@ -77,42 +77,69 @@ function Shop() {
 				(filterOptions.color ? product.description.Color === filterOptions.color : true) &&
 				(filterOptions.brand ? product.description.Brand === filterOptions.brand : true) &&
 				(filterOptions.season ? product.description.Season === filterOptions.season : true)
-			);
-		});
-
-		switch (sortOption) {
-			case 'priceHighToLow':
-				return filteredProducts.slice().sort((a, b) => b.price - a.price);
-			case 'priceLowToHigh':
-				return filteredProducts.slice().sort((a, b) => a.price - b.price);
-			case 'mostPopular':
-				return filteredProducts.slice().sort((a, b) => b.numSold - a.numSold);
-			default:
+				);
+			});
+			
+			switch (sortOption) {
+				case 'priceHighToLow':
+					return filteredProducts.slice().sort((a, b) => b.price - a.price);
+					case 'priceLowToHigh':
+						return filteredProducts.slice().sort((a, b) => a.price - b.price);
+						case 'mostPopular':
+							return filteredProducts.slice().sort((a, b) => b.numSold - a.numSold);
+							default:
 				return filteredProducts;
 		}
 	};
-
+	
 	const [products, setProducts] = useState([]);
-
+	
 	useEffect(() => {
 		axios
-			.get('http://localhost:4000/products')
-			.then((response) => {
-				if (response.data.success) {
-					setProducts(response.data.products);
-				}
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
+		.get('http://localhost:4000/products')
+		.then((response) => {
+			if (response.data.success) {
+				setProducts(response.data.products);
+			}
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
 	}, []);
 
-	const sortedAndFilteredProducts = filterAndSortProducts(products, filterOptions, sortOption);
-
+	const location = useLocation();
+  	const searchParams = new URLSearchParams(location.search);
+  	let searchQuery = searchParams.get('search');
+	let matchingProducts = []
+	if (searchQuery !== null) {
+		matchingProducts = products.filter((product) =>
+			product.name.toLowerCase().includes(searchQuery.toLowerCase())
+		);
+	}
+	else {
+		matchingProducts = products;
+	}
+	if (matchingProducts.length === 0){
+		return (
+			<div>
+				<section className='page-header'>
+					<h2>#stayfashionable</h2>
+					<h3>Discover your style</h3>
+				</section>
+				<section className='section-p1'>
+					<div className='no-results'>
+						<div>Sorry, nothing matches "<strong>{searchQuery}</strong>". Check out other items in our store.</div>
+					</div>
+				</section>
+			</div>
+		);
+	}
+	const sortedAndFilteredProducts = filterAndSortProducts(matchingProducts, filterOptions, sortOption);
+	
 	const startIndex = (currentPage - 1) * productsPerPage;
 	const endIndex = startIndex + productsPerPage;
 	const totalPages = Math.ceil(sortedAndFilteredProducts.length / productsPerPage);
-
+	
 	const displayedProducts = sortedAndFilteredProducts.slice(startIndex, endIndex);
 
 	const toggleFilterPanel = () => {
