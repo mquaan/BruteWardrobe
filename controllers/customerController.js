@@ -28,6 +28,23 @@ controller.updateInfo = async (req, res) => {
     }
 };
 
+controller.changePassword = async (req, res) => {
+	try {
+        const { userId, oldPassword, newPassword } = req.body;
+        const userRef = doc(db, 'customers', userId);
+		let userSnapshot = await getDoc(doc(db, 'customers', userId));
+		if (!userSnapshot.exists) {
+			console.log('No user found!');
+		}
+		else {
+			await updateDoc(userRef, userInfo);
+			res.json({ success: true });
+		}
+    } catch (error) {
+        console.error('Error:', error);
+        res.json({ success: false });
+    }
+}
 
 controller.addToCart = async (req, res) => {
 	let { userId, productId, quantity, size } = req.body;

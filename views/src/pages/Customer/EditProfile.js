@@ -67,7 +67,7 @@ function EditProfile({ token }) {
     }, [userId]);
 
 
-    const handleUpdateInfo = () => {
+    const handleUpdateInfo = async () => {
         let updatedUserInfo = {};
         document.querySelectorAll('.personal-details input').forEach((input) => {
             updatedUserInfo[input.name] = input.value === '' ? null : input.value;
@@ -97,7 +97,7 @@ function EditProfile({ token }) {
             });
             setUserInfo(udpatedCustomer);
 
-            const response = axios.post('http://localhost:4000/customer/updateinfo', {
+            const response = await axios.post('http://localhost:4000/customer/updateinfo', {
                 userId: userId,
                 userInfo: updatedUserInfo
             });
