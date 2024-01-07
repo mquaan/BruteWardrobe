@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/Login.css';
 import { toast } from 'react-hot-toast';
@@ -19,7 +19,6 @@ function Login({ token, setToken }) {
 	const [pass, setPass] = useState('');
 	const [cfpass, setCfPass] = useState('');
 	const [email, setEmail] = useState('');
-	const isSubmitDisabled = !username || !pass || !cfpass;
 
 	function CheckSignUpUsername(username, errorSignUpUsername) {
 		setUsername(username);
@@ -199,7 +198,7 @@ function Login({ token, setToken }) {
 								/>
 								<span id='wrongPassword' className='wrongPassword-message'></span>
 								<span id='errorSignUp' className='signUp-error-message'></span>
-								<button id='signUp_btn' disabled={isSubmitDisabled}>
+								<button id='signUp_btn' disabled={!username || !pass || !cfpass}>
 									Sign Up
 								</button>
 							</form>

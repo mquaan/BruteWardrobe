@@ -1,16 +1,35 @@
 import { useState, useEffect } from 'react'
+import axios from 'axios';
 import '../../styles/Administrator/Users.css';
 import DataTable from 'react-data-table-component';
 import { Space, Switch } from 'antd';
-import Model from 'react-modal';
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
 
-import axios from 'axios';
 import {
     IconButton
 } from '@mui/material';
-
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
+
+function CheckPassword(password, cf_password, wrongPassword) {
+    if (cf_password !== password && cf_password) {
+        wrongPassword.textContent = '(*) Wrong password confirmation';
+        wrongPassword.style.display = 'inline';
+    } else {
+        wrongPassword.style.display = 'none';
+    }
+}
+
+function CheckSignUpUsername(username, errorSignUpUsername) {
+    const regex = /[!@#$%^&*(),.?":{}|<>+=;']/;
+    if (regex.test(username)) {
+        errorSignUpUsername.textContent = "(*) Username mustn't consist special character: /[!@#$%^&*(),.?:{}|<>]/";
+        errorSignUpUsername.style.display = 'inline';
+    } else {
+        errorSignUpUsername.style.display = 'none';
+    }
+}
 
 function Users({ open }) {
     const columns = [
@@ -37,15 +56,13 @@ function Users({ open }) {
             name: 'Status',
             selector: row => row.status,
             sortable: true,
-            center:true
-
+            center: true
         },
         {
             name: 'Role',
             selector: row => row.role,
             sortable: true,
-            center:true
-
+            center: true
         },
         {
             name: 'Manage',
@@ -56,8 +73,7 @@ function Users({ open }) {
                     <EditIcon color="success" />
                 </IconButton>
             ),
-            center:true
-
+            center: true
         },
         {
             name: 'Remove',
@@ -68,207 +84,9 @@ function Users({ open }) {
                     <CancelIcon color="error" />
                 </IconButton>
             ),
-            center:true
+            center: true
         }
     ];
-
-    // const data = [
-    //     {
-    //         userid: 1,
-    //         username: 'datne',
-    //         email: 'datne@gmailcom',
-    //         purchases: 30,
-    //         status: <Switch
-    //             defaultChecked={true}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Merchant'
-    //     },
-    //     {
-    //         id: 2,
-    //         username: 'siphu',
-    //         email: 'siphu@gmailcom',
-    //         purchases: 28,
-    //         status: <Switch
-    //             defaultChecked={true}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Customer'
-    //     },
-    //     {
-    //         id: 3,
-    //         username: 'tuliwin',
-    //         email: 'liwin@gmailcom',
-    //         purchases: 25,
-    //         status: <Switch
-    //             defaultChecked={false}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Merchant'
-    //     },
-    //     {
-    //         id: 4,
-    //         username: 'hphat',
-    //         email: 'hphat@gmailcom',
-    //         purchases: 20,
-    //         status: <Switch
-    //             defaultChecked={true}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Merchant'
-    //     },
-    //     {
-    //         id: 5,
-    //         username: 'minhquaan',
-    //         email: 'mtotheq@gmailcom',
-    //         purchases: 17,
-    //         status: <Switch
-    //             defaultChecked={true}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Customer'
-    //     },
-    //     {
-    //         id: 6,
-    //         username: 'tdphong',
-    //         email: 'tdphong@gmailcom',
-    //         purchases: 29,
-    //         status: <Switch
-    //             defaultChecked={false}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Customer'
-    //     },
-    //     {
-    //         id: 7,
-    //         username: 'aaasd',
-    //         email: 'adds@gmailcom',
-    //         purchases: 30,
-    //         status: <Switch
-    //             defaultChecked={true}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Merchant'
-    //     },
-    //     {
-    //         id: 8,
-    //         username: 'ghughu122',
-    //         email: 'ghughu122@gmailcom',
-    //         purchases: 28,
-    //         status: <Switch
-    //             defaultChecked={true}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Customer'
-    //     },
-    //     {
-    //         id: 9,
-    //         username: 'tassajds',
-    //         email: 'tassajds@gmailcom',
-    //         purchases: 25,
-    //         status: <Switch
-    //             defaultChecked={false}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Merchant'
-    //     },
-    //     {
-    //         id: 10,
-    //         username: 'ppoias123',
-    //         email: 'ppoias123@gmailcom',
-    //         purchases: 20,
-    //         status: <Switch
-    //             defaultChecked={true}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Merchant'
-    //     },
-    //     {
-    //         id: 11,
-    //         username: 'minhquaan323344',
-    //         email: 'minhquaan323344@gmailcom',
-    //         purchases: 17,
-    //         status: <Switch
-    //             defaultChecked={true}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Customer'
-    //     },
-    //     {
-    //         id: 12,
-    //         username: 'tdphong12323',
-    //         email: 'tdphong12323@gmailcom',
-    //         purchases: 29,
-    //         status: <Switch
-    //             defaultChecked={false}
-    //             checkedChildren="Online"
-    //             unCheckedChildren="Offline" />,
-    //         role: 'Customer'
-    //     }
-    // ];
-
-    const [customers, setCustomers] = useState([])
-    const [merchants, setMerchants] = useState([])
-    const [data, setData] = useState([])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const responseCustomers = await axios.get('http://localhost:4000/customers');
-                const responseMerchants = await axios.get('http://localhost:4000/merchants');
-
-
-                if (!responseCustomers.data.success || !responseMerchants.data.success) {
-                    console.error("Fail to fetch data");
-                }
-                setCustomers(responseCustomers.data.customers);
-                setMerchants(responseMerchants.data.merchants);
-
-            } catch (errors) {
-                console.error('Error:', errors);
-            }
-        };
-
-        fetchData();
-    }, [open]);
-
-    useEffect(() => {
-        customers.forEach((cust) => {
-            if (!cust.banned) {
-                cust.banned = false;
-            }
-            cust.status = <Switch
-                defaultChecked={cust.banned}
-                checkedChildren="Active"
-                unCheckedChildren="Banned" 
-            />
-            cust.role = 'Customer'
-        })
-        merchants.forEach((merch) => {
-            if (!merch.banned) {
-                merch.banned = false;
-            }
-            merch.status = <Switch
-                defaultChecked={merch.banned}
-                checkedChildren="Active"
-                unCheckedChildren="Banned" 
-            />
-            merch.role = 'Merchant'
-        })
-    }, [customers, merchants])
-
-    const handleRemoveRow = (id) => {
-        // setTableData((prevData) => prevData.filter((row) => row.id !== id));
-    };
-
-    const [records, setRecords] = useState(data);
-
-    function handleFilter(event) {
-        const newData = data.filter(row => {
-            return row.username.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        setRecords(newData)
-    }
 
     const customStyles = {
         headCells: {
@@ -291,7 +109,87 @@ function Users({ open }) {
         }
     };
 
-    const [visible, setvisible] = useState(false)
+    const [data, setData] = useState([])
+    const [records, setRecords] = useState([]);
+
+    const [openModel, setOpenModel] = useState(false);
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [startingSalary, setStartingSalary] = useState(0);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let responseCustomers = await axios.get('http://localhost:4000/customers');
+                let responseMerchants = await axios.get('http://localhost:4000/merchants');
+
+                if (!responseCustomers.data.success || !responseMerchants.data.success) {
+                    console.error("Fail to fetch data");
+                }
+                let customers = responseCustomers.data.customers;
+                let merchants = responseMerchants.data.merchants;
+                customers.forEach((cust) => {
+                    cust.role = 'Customer'
+                    if (!cust.purchases) {
+                        cust.purchases = 0;
+                    }
+                    cust.salary = 0;
+                    if (!cust.active) {
+                        cust.active = true;
+                    }
+                    cust.status = <Switch
+                        defaultChecked={cust.active}
+                        checkedChildren="Active"
+                        unCheckedChildren="Banned"
+                    />
+                })
+                merchants.forEach((merch) => {
+                    merch.role = 'Merchant'
+                    if (!merch.salary) {
+                        merch.salary = 0;
+                    }
+                    merch.purchases = 0;
+                    if (!merch.active) {
+                        merch.active = true;
+                    }
+                    merch.status = <Switch
+                        defaultChecked={merch.active}
+                        checkedChildren="Active"
+                        unCheckedChildren="Banned"
+                    />
+                })
+
+                setData(customers.concat(merchants));
+
+            } catch (errors) {
+                console.error('Error:', errors);
+            }
+        };
+
+        fetchData();
+    }, [open]);
+
+    useEffect(() => {
+        setRecords(data)
+    }, [data])
+
+    const handleRemoveRow = (userId) => {
+        setData((prevData) => prevData.filter((row) => row.userId !== userId));
+    };
+
+    const handleFilter = (event) => {
+        const newData = data.filter(row => {
+            return row.username.toLowerCase().includes(event.target.value.toLowerCase())
+        })
+        setRecords(newData)
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Handle your form submission logic here
+    };
 
     return (
         <div className='ad_Users_Tab'>
@@ -311,28 +209,54 @@ function Users({ open }) {
                             ></input>
                             <i className='fas fa-search'></i>
                         </div>
-                        <button className='btn-add-merchant' onClick={() => setvisible(true)}>Create Merchant<i class="fa-solid fa-plus"></i></button>
-                        <Model isOpen={visible} on onRequestClose={() => setvisible(false)}
+                        <button className='btn-add-merchant' onClick={() => setOpenModel(true)}>Create Merchant<i class="fa-solid fa-plus"></i></button>
+                        <Modal isOpen={openModel} on onRequestClose={() => setOpenModel(false)}
                             style={{
                                 overlay: {
                                     backgroundColor: 'rgba(0, 0, 0, 0.5)', // background overlay color
                                 },
                                 content: {
-                                    width: '30%', // adjust the width as needed
-                                    height: '45%', // adjust the height as needed
+                                    width: '50%',
+                                    height: '70%',
                                     margin: 'auto', // center the modal
                                     borderRadius: '20px'
-
                                 },
                             }}>
-                            <form className='form-create-merchant'>
+                            <form className='form-create-merchant' onSubmit={handleSubmit}>
                                 <h2>Create Merchant</h2>
-                                <input name='merchant-username' type="text" placeholder='Username' required />
-                                <input type='password' placeholder='Password' required />
-                                <input type='email' placeholder='Email' required />
+                                <input name='merchant-username'
+                                    type="text"
+                                    placeholder='Username'
+                                    required
+                                    onChange={(e) => {
+                                        setUsername(e.target.value);
+                                        CheckSignUpUsername(e.target.value, document.getElementById('errorSignUpUsername'))
+                                    }}
+                                />
+								<span id='errorSignUpUsername' className='signUp-error-message'></span>
+                                <input
+                                    type='password'
+                                    placeholder='Password'
+                                    required onChange={(e) => {
+                                        setPassword(e.target.value)
+                                        CheckPassword(e.target.value, confirmPassword, document.getElementById('wrongPassword'))
+                                    }}
+                                />
+                                <input
+                                    type='password'
+                                    placeholder='Confirm password'
+                                    required
+                                    onChange={(e) => {
+                                        setConfirmPassword(e.target.value)
+                                        CheckPassword(password, e.target.value, document.getElementById('wrongPassword'))
+                                    }}
+                                />
+                                <input type='number' placeholder='Starting salary' required min="0" step="100" onChange={(e) => setStartingSalary(e.target.value)} />
+                                <span id='wrongPassword' className='wrongPassword-message'></span>
+                                <span id='errorSignUp' className='signUp-error-message'></span>
                                 <button type="submit" className='btn-add-merchant-popup'>Create</button>
                             </form>
-                        </Model>
+                        </Modal>
 
                     </div>
 
