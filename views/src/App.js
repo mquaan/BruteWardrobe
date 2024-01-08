@@ -126,7 +126,7 @@ function App() {
 											<Route path='/logout' element={<Login />} />
 										</Routes>
 									</div>
-									<Modal open={open} handleOpen={handleOpen} product={productModal} token={token} />
+									<Modal open={open} setOpen={setOpen} handleOpen={handleOpen} product={productModal} token={token} />
 								</div>
 							</ProtectedComponent>
 						}
