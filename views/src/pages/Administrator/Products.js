@@ -15,12 +15,18 @@ function Products() {
             try {
                 let responseProducts = await axios.get('http://localhost:4000/products');
                 let responseMerchants = await axios.get('http://localhost:4000/merchants');
+                let responseSales = await axios.get('http://localhost:4000/admin/getsales');
 
-                if (!responseProducts.data.success || !responseMerchants.data.success) {
+                if (!responseProducts.data.success 
+                    || !responseMerchants.data.success 
+                    || !responseSales.data.success
+                ) {
                     console.error("Fail to fetch data");
                 }
+                
                 let products = responseProducts.data.products;
                 let merchants = responseMerchants.data.merchants;
+                let sales = responseSales.data.sales;
 
                 products.forEach((prod) => {
                     if (prod.last_updated_by) {

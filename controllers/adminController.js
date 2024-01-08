@@ -76,6 +76,18 @@ controller.ban_unban_User = async (req, res) => {
 	return res;
 }
 
+controller.getSales = async (req, res) => {
+	let snapshot = await getDocs(query(collection(db, 'sales')));
+	if (!snapshot.empty) {
+		let sales = snapshot.docs.map((doc) => doc.data());
+		res.json({ success: true, sales });
+	}
+	else {
+		res.json({ success: false })
+	}
+	return res;
+}
+
 controller.addSale = async (req, res) => {
 	let { userId, cart, money, time } = req.body;
 	console.log(req.body);
