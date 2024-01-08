@@ -46,7 +46,7 @@ function Navbar({ token, setToken, cartItems }) {
 				
 				let id_role = await getUserId_Role(temp_token);
 
-				if (id_role.role != 'customer') {
+				if (id_role.role !== 'customer') {
 					localStorage.removeItem('token');
 					setToken(null);
 				}
@@ -221,14 +221,14 @@ function Navbar({ token, setToken, cartItems }) {
 						</div>
 					</Link>
 
-					{/* <Link to='/order-history' style={{ textDecoration: 'none' }} 
+					<Link to='/order-history' style={{ textDecoration: 'none' }} 
 						onClick={ToggleMenu}>
 						<div className='sub-menu-link'>
 							<img src='../assets/features/order-hist.png' alt='' />
 							<p>Order History</p>
 							<span>{'>'}</span>
 						</div>
-					</Link> */}
+					</Link>
 
 					<Link style={{ textDecoration: 'none' }}>
 						<div className='sub-menu-link' onClick={handleLogout}>

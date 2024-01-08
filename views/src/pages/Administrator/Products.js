@@ -26,11 +26,11 @@ function Products() {
                 
                 let products = responseProducts.data.products;
                 let merchants = responseMerchants.data.merchants;
-                let sales = responseSales.data.sales;
+                // let sales = responseSales.data.sales;
 
                 products.forEach((prod) => {
                     if (prod.last_updated_by) {
-                        prod.last_updated_by = merchants.find((mer) => prod.last_updated_by == mer.userId);
+                        prod.last_updated_by = merchants.find((mer) => prod.last_updated_by === mer.userId);
                         if (prod.last_updated_by)
                             prod.last_updated_by = prod.last_updated_by.username;
                         else
@@ -62,9 +62,9 @@ function Products() {
         fetchData();
     }, [open]);
 
-    const handleOpen = () => {
-        setOpen(!open);
-    }
+    // const handleOpen = () => {
+    //     setOpen(!open);
+    // }
 
     const handleFilter = (event) => {
         const newData = data.filter(row => {

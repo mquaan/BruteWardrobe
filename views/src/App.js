@@ -27,7 +27,7 @@ import Users from './pages/Administrator/Users.js';
 import Products from './pages/Administrator/Products.js';
 
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { products } from './helpers/product_list';
 import axios from 'axios';
 import { Toaster } from 'react-hot-toast';

@@ -196,7 +196,7 @@ function EditProfile({ token }) {
 					{/* TRÁI */}
 					<div className='option-wrap'>
 						<div className='personal-pic'>
-							<img src='../assets/features/avatar_cus.png'></img>
+							<img src='../assets/features/avatar_cus.png' alt=""></img>
 							<p>{userInfo.username}</p>
 						</div>
 

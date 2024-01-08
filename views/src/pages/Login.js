@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/Login.css';
-import { toast } from 'react-hot-toast';
+// import { toast } from 'react-hot-toast';
 
 function Login({ token, setToken }) {
 	axios
