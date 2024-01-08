@@ -1,6 +1,7 @@
 import db from '../config/firebase.js';
 import { collection, addDoc, getDoc, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
 import { Merchant, merchantConverter } from '../models/merchant.js';
+import { Sale, saleConverter } from '../models/sale.js';
 
 const controller = {};
 
@@ -22,6 +23,19 @@ controller.signupMerchant = async (req, res) => {
 	} catch (error) {
 		console.log(error);
 		return res.status(500).json({ success: false, message: error.message });
+	}
+};
+
+controller.addSale = async (req, res) => {
+	let { userId, cart, money, time } = req.body;
+	console.log(req.body);
+	try {
+		const ref = collection(db, 'sales').withConverter(saleConverter);
+		const sale = new Sale(userId, cart, money, time);
+		const docRef = await addDoc(ref, sale);
+		res.json({ success: true });
+	} catch (error) {
+		console.log(error);
 	}
 };
 

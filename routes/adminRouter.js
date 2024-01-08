@@ -4,5 +4,6 @@ import controller from '../controllers/adminController.js';
 const router = express.Router();
 
 router.post('/signupmerchant', controller.signupMerchant);
+router.post('/addsale', controller.addSale);
 
 export default router;

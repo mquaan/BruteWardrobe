@@ -45,8 +45,6 @@ function Checkout({ token }) {
 	const handlePlaceOrder = async () => {
 		if (deliveryInfo.fullName && deliveryInfo.address && deliveryInfo.phoneNumber && document.querySelector('input[name="paymentMethod"]:checked')) {
 			// alert('Order placed successfully!');
-			navigate('/order-status');
-
 			if (deliveryInfo.paymentMethod === 'cash') {
 				try {
 					const response = await axios.post('http://localhost:4000/customer/addorder', {
@@ -59,7 +57,7 @@ function Checkout({ token }) {
 						deliveryInfo,
 					});
 					if (response.data.success) {
-						navigate('/order-status');
+						navigate('/order-list');
 					}
 				} catch (error) {
 					console.error('Error:', error);
