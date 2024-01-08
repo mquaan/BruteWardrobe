@@ -1,6 +1,3 @@
-import { CartItem } from './cartItem.js';
-import Order from './order.js';
-
 class Shopping {
 	constructor(orderList = [], cart = [], shoppingId=null) {
 		this.orderList = orderList;

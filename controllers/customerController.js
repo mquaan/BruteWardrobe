@@ -502,7 +502,7 @@ controller.confirmOrder = async (req, res) => {
 				console.log('No shopping document found!');
 			} else {
 				let shopping = shoppingSnapshot.data();
-				shopping.orderList[orderIndex].isConfirmed = true;
+				shopping.orderList[orderIndex].orderStatus = 'Completed';
 				await updateDoc(shoppingRef, shopping);
 				res.json({ success: true });
 			}
