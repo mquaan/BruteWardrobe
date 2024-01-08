@@ -6,6 +6,7 @@ const router = express.Router();
 router.post('/signupmerchant', controller.signupMerchant);
 router.post('/removeuser', controller.removeUser);
 router.post('/banunbanuser', controller.ban_unban_User);
+router.get('/getsales', controller.getSales);
 router.post('/addsale', controller.addSale);
 router.get('/getaccountnumber', controller.getAccountNumber);
 router.get('/gettotalrevenue', controller.getTotalRevenue);

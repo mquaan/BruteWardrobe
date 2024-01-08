@@ -113,7 +113,7 @@ function OrderStatus({ token }) {
 			await axios.post('http://localhost:4000/admin/addsale', { userId, cart,  money: calculateTotalPrice(), time: new Date().toISOString() });
 		}
 		setConfirmationVisible(true);
-		// navigate('/order-list');
+		navigate('/order-list');
 		toast.success("Order confirmed");
 	};
 
@@ -138,7 +138,7 @@ function OrderStatus({ token }) {
 								<tr>
 									<td>{item.name}</td>
 									<td>
-										<img src={item.imgURLs[0]} alt={`Product ${item.productId}`} />
+										<img src={item.imgURLs[0]} alt="" />
 									</td>
 									<td>{item.quantity}</td>
 									<td>{Intl.NumberFormat('en-DE').format(item.price * item.quantity)} VND</td>

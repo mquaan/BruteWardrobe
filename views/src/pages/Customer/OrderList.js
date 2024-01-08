@@ -71,10 +71,10 @@ function OrderList({ token }) {
 							{order.cart.map((item, itemIndex) => (
 								<tr key={itemIndex}>
 									<td>{item.name}</td>
-									<img src={item.image} alt={`Product ${item.productId}`} />
+									<td><img src={item.image} alt="" /></td>
 									<td>{item.size}</td>
 									<td>{item.quantity}</td>
-									<td>{item.price}</td>
+									<td>{Intl.NumberFormat('en-DE').format(item.price * item.quantity)} VND</td>
 									<td>{order.orderStatus}</td>
 									<td>
 										<Link to={`/order-status/${order.orderId}`}>View</Link>

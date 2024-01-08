@@ -329,6 +329,7 @@ controller.getOrderList = async (req, res) => {
 							const productData = productSnapshot.data();
 							products.push({
 								name: productData.name,
+								productId: product.productId,  
 								image: productData.imgURLs[0],
 								price: productData.price,
 								quantity: product.quantity,

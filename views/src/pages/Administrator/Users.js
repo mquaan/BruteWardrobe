@@ -44,11 +44,10 @@ function Users() {
     const [data, setData] = useState([])
     const [records, setRecords] = useState([]);
 
-    const [openModel, setOpenModel] = useState(false);
-    const [confirmed, setConfirmed] = useState(false);
     const [selectedUser, setSelectedUser] = useState([]);
+    const [confirmed, setConfirmed] = useState(false);
+    const [openModel, setOpenModel] = useState(false);
     const [openConfirmDialog, setConfirmDialog] = useState(false);
-
 
 
     const [username, setUsername] = useState('');
@@ -73,7 +72,7 @@ function Users() {
                     if (!cust.purchases) {
                         cust.purchases = 0;
                     }
-                    cust.salary = 0;
+                    cust.salary = "none";
                     if (!cust.banned) {
                         cust.banned = false;
                     }
@@ -83,13 +82,14 @@ function Users() {
                     if (!merch.salary) {
                         merch.salary = 0;
                     }
-                    merch.purchases = 0;
+                    merch.purchases = "none";
                     if (!merch.banned) {
                         merch.banned = false;
                     }
                 })
-
-                setData(merchants.concat(customers));
+                let initial_data = merchants.concat(customers)
+                setData(initial_data);
+                setRecords(initial_data)
 
             } catch (errors) {
                 console.error('Error:', errors);
@@ -99,9 +99,6 @@ function Users() {
         fetchData();
     }, [open]);
 
-    useEffect(() => {
-        setRecords(data)
-    }, [data])
 
     const handleOpen = () => {
         setOpen(!open);
@@ -131,13 +128,18 @@ function Users() {
             handleRemoveRow(selectedUser[0], selectedUser[1]);
         }
     }, [openConfirmDialog, confirmed, selectedUser]);
-    
+
 
     const handleRemoveClick = async (userId, role) => {
         setSelectedUser([userId, role]);
         setConfirmed(false);
         setConfirmDialog(true);
     }
+
+    // const handleMangeUser = async (userId, role) => {
+    //     setSelectedUser([userId, role]);
+    //     setConfirmDialog(true);
+    // }
 
     const handleFilter = (event) => {
         const newData = data.filter(row => {
@@ -173,42 +175,54 @@ function Users() {
 
     const handleSwitch = async (userId, role) => {
         await axios
-        .post('http://localhost:4000/admin/banunbanuser', {
-            userId: userId,
-            role: role
-        })
-        .then((response) => {
-            // if (response.data.success) {
-            //     handleOpen();
-            // } 
-            if (!response.data.success) {
-                toast.error(response.data.message);
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+            .post('http://localhost:4000/admin/banunbanuser', {
+                userId: userId,
+                role: role
+            })
+            .then((response) => {
+                // if (response.data.success) {
+                //     handleOpen();
+                // } 
+                if (!response.data.success) {
+                    toast.error(response.data.message);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     const columns = [
         {
             name: 'Username',
             selector: row => row.username,
-            sortable: true
+            sortable: true,
+            width: '14%',
         },
         {
             name: 'Email',
             selector: row => row.email,
+            sortable: true,
+            width: '22%',
         },
         {
             name: 'Purchases',
             selector: row => row.purchases,
-            sortable: true
+            sortable: true,
+            width: '14%'
         },
         {
             name: 'Salary',
             selector: row => row.salary,
             sortable: true,
+            width: '14%'
+        },
+        {
+            name: 'Role',
+            selector: row => row.role,
+            sortable: true,
+            center: true,
+            width: '10%'
         },
         {
             name: 'Status',
@@ -220,26 +234,21 @@ function Users() {
                     onChange={() => handleSwitch(row.userId, row.role)}
                 />
             ),
-            sortable: true,
-            center: true
+            center: true,
+            width: '12%'
         },
-        {
-            name: 'Role',
-            selector: row => row.role,
-            sortable: true,
-            center: true
-        },
-        {
-            name: 'Manage',
-            cell: (row) => (
-                <IconButton
-                // onClick={() => handleMangeUser(row.id)}
-                >
-                    <EditIcon color="success" />
-                </IconButton>
-            ),
-            center: true
-        },
+        // {
+        //     name: 'Details',
+        //     cell: (row) => (
+        //         <IconButton
+        //             onClick={() => handleMangeUser(row.id)}
+        //         >
+        //             <EditIcon color="success" />
+        //         </IconButton>
+        //     ),
+        //     center: true,
+        //     width: '8%'
+        // },
         {
             name: 'Remove',
             cell: (row) => (
@@ -249,14 +258,15 @@ function Users() {
                     <CancelIcon color="error" />
                 </IconButton>
             ),
-            center: true
+            center: true,
+            width: '9%'
         }
     ];
 
     const customStyles = {
         headCells: {
             style: {
-                fontSize: '19px', // Adjust the font size as needed
+                fontSize: '17px', // Adjust the font size as needed
                 fontWeight: 'bold'
             },
         },
