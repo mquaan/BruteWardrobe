@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/Login.css';
 import { toast } from 'react-hot-toast';
@@ -58,6 +58,7 @@ function Login({ token, setToken }) {
 							.join('')
 					);
 					const role = JSON.parse(decodeToken).user.role;
+					// toast.success("Login successfull!")
 					if (role === 'customer') {
 						window.location.href = '/';
 					} else if (role === 'merchant') {
@@ -84,6 +85,7 @@ function Login({ token, setToken }) {
 			.then((response) => {
 				if (response.data.success) {
 					localStorage.setItem('token', JSON.stringify(response.data.token));
+					// toast.success("Account created!")
 					window.location.href = '/';
 				} else {
 					msg.textContent = response.data.message;
