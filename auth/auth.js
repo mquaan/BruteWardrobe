@@ -71,6 +71,10 @@ passport.use(
 					console.log('Incorrect password.');
 					return cb(null, false, { message: '(*) Incorrect password!' });
 				}
+				if (user.banned) {
+					console.log('User was banned.');
+					return cb(null, false, { message: '(*) Your account have been banned! Contact abc@gmail.com for more information.' });
+				}
 
 				console.log('Validation passed');
 				user.role = role;

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios';
 import '../../styles/Administrator/Users.css';
 import DataTable from 'react-data-table-component';
-import { Space, Switch } from 'antd';
+import { Switch } from 'antd';
 import Model from 'react-modal';
 // Model.setAppElement('#root');
 import { toast } from 'react-hot-toast';
@@ -56,6 +56,7 @@ function Users() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -68,34 +69,24 @@ function Users() {
                 let customers = responseCustomers.data.customers;
                 let merchants = responseMerchants.data.merchants;
                 customers.forEach((cust) => {
-                    cust.role = 'Customer'
+                    cust.role = 'customer'
                     if (!cust.purchases) {
                         cust.purchases = 0;
                     }
                     cust.salary = 0;
-                    if (!cust.active) {
-                        cust.active = true;
+                    if (!cust.banned) {
+                        cust.banned = false;
                     }
-                    cust.status = <Switch
-                        defaultChecked={cust.active}
-                        checkedChildren="Active"
-                        unCheckedChildren="Banned"
-                    />
                 })
                 merchants.forEach((merch) => {
-                    merch.role = 'Merchant'
+                    merch.role = 'merchant'
                     if (!merch.salary) {
                         merch.salary = 0;
                     }
                     merch.purchases = 0;
-                    if (!merch.active) {
-                        merch.active = true;
+                    if (!merch.banned) {
+                        merch.banned = false;
                     }
-                    merch.status = <Switch
-                        defaultChecked={merch.active}
-                        checkedChildren="Active"
-                        unCheckedChildren="Banned"
-                    />
                 })
 
                 setData(merchants.concat(customers));
@@ -143,9 +134,9 @@ function Users() {
     
 
     const handleRemoveClick = async (userId, role) => {
+        setSelectedUser([userId, role]);
         setConfirmed(false);
         setConfirmDialog(true);
-        setSelectedUser([userId, role]);
     }
 
     const handleFilter = (event) => {
@@ -180,6 +171,25 @@ function Users() {
             });
     };
 
+    const handleSwitch = async (userId, role) => {
+        await axios
+        .post('http://localhost:4000/admin/banunbanuser', {
+            userId: userId,
+            role: role
+        })
+        .then((response) => {
+            // if (response.data.success) {
+            //     handleOpen();
+            // } 
+            if (!response.data.success) {
+                toast.error(response.data.message);
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+
     const columns = [
         {
             name: 'Username',
@@ -198,11 +208,18 @@ function Users() {
         {
             name: 'Salary',
             selector: row => row.salary,
-            sortable: true
+            sortable: true,
         },
         {
             name: 'Status',
-            selector: row => row.status,
+            cell: (row) => (
+                <Switch
+                    defaultChecked={!row.banned}
+                    checkedChildren="Active"
+                    unCheckedChildren="Banned"
+                    onChange={() => handleSwitch(row.userId, row.role)}
+                />
+            ),
             sortable: true,
             center: true
         },

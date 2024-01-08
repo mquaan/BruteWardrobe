@@ -48,6 +48,34 @@ controller.removeUser = async (req, res) => {
 	return res;
 }
 
+controller.ban_unban_User = async (req, res) => {
+	let { userId, role } = req.body;
+	let userRef;
+	if (role == 'customer') {
+		userRef = doc(db, 'customers', userId);
+	}
+	else {
+		userRef = doc(db, 'merchants', userId);
+	}
+	let snapshot = await getDoc(userRef);
+	if (snapshot.exists) {
+		let t_user = snapshot.data();
+		if (typeof myVariable === 'undefined') {
+			t_user.banned = true;
+		}
+		else {
+			t_user.banned = !t_user.banned;
+		}
+		await updateDoc(userRef, t_user);
+
+		res.json({ success: true });
+	}
+	else {
+		res.json({ success: false, message: 'Not existed userId' });
+	}
+	return res;
+}
+
 controller.addSale = async (req, res) => {
 	let { userId, cart, money, time } = req.body;
 	console.log(req.body);
