@@ -139,7 +139,7 @@ function App() {
 									<Admin_Sidebar setToken={setToken} />
 									<Routes>
 										<Route path='/' element={<Dashboard />} />
-										{/* <Route path='/users' element={<Users />} /> */}
+										<Route path='/users' element={<Users />} />
 										<Route path='/products' element={<Products />} />
 									</Routes>
 								</div>
