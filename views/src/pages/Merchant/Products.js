@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../../styles/Merchant/Products.css';
 import axios from 'axios';
-import Modal from '../../components/Modal';
-import { Select, Option } from '@material-tailwind/react';
 
 function Product({ handleOpen, handleProductModal, product }) {
 	return (
@@ -34,6 +32,7 @@ function Product({ handleOpen, handleProductModal, product }) {
 
 function MerchantProducts({ open, handleOpen, handleProductModal}) {
 	const [products, setProducts] = useState([]);
+	const [searchQuery, setSearchQuery] = useState('');
 
 	useEffect(() => {
 		axios
@@ -81,6 +80,16 @@ function MerchantProducts({ open, handleOpen, handleProductModal}) {
         setSortOption(event.target.value);
     };
 
+	let matchingProducts = []
+	if (searchQuery !== null) {
+		matchingProducts = products.filter((product) =>
+			product.name.toLowerCase().includes(searchQuery.toLowerCase())
+		);
+	}
+	else {
+		matchingProducts = products;
+	}
+
     const filterAndSortProducts = (originalProducts, filterOptions, sortOption) => {
         const filteredProducts = originalProducts.filter((product) => {
             return (
@@ -104,7 +113,7 @@ function MerchantProducts({ open, handleOpen, handleProductModal}) {
         }
     };
 
-    const sortedAndFilteredProducts = filterAndSortProducts(products, filterOptions, sortOption);
+    const sortedAndFilteredProducts = filterAndSortProducts(matchingProducts, filterOptions, sortOption);
 	const goToPage = (page) => {
 		setCurrentPage(page);
 		window.scrollTo({ top: 0, behavior: 'auto' });
@@ -117,6 +126,19 @@ function MerchantProducts({ open, handleOpen, handleProductModal}) {
     const displayedProducts = sortedAndFilteredProducts.slice(startIndex, endIndex);
 	const [isExpanded, setIsExpanded] = useState(false);
 	const inputRef = useRef();
+
+	const handleInputChange = (event) => {
+		setSearchQuery(event.target.value);
+	};
+	const handleClear = () => {
+		setSearchQuery('');
+		inputRef.current.focus(); // Keep the focus on the input after clearing
+	};
+	const handleKeyDown = (event) => {
+		if (event.key === 'Enter') {
+			setIsExpanded(false);
+		}
+	};
 
 	const handleBlur = (event) => {
 		if (!inputRef.current.contains(event.relatedTarget)) {
@@ -217,7 +239,18 @@ function MerchantProducts({ open, handleOpen, handleProductModal}) {
                     )}
 						<div className='search-bar' onClick={() => setIsExpanded(true)} onBlur={handleBlur} tabIndex={0} ref={inputRef}>
 							<i className='fa-solid fa-magnifying-glass'></i>
-							<input type='text' className={`search-click ${isExpanded ? 'expanded' : ''}`} placeholder='search here...' />
+							<input type='text'
+								className={`search-click ${isExpanded ? 'expanded' : ''}`}
+								placeholder='search here...' 
+								value={searchQuery}
+								onChange={handleInputChange}
+								onKeyDown={handleKeyDown}
+							/>
+							{searchQuery && (
+								<button className={`clear-button1 ${isExpanded ? 'expanded' : ''}`} onClick={handleClear}>
+									<i class="fa-light fa-circle-xmark"></i>
+								</button>
+							)}
 						</div>
 					</div>
 				<div className='sort-part'>
@@ -235,7 +268,7 @@ function MerchantProducts({ open, handleOpen, handleProductModal}) {
 				</div>
 
 				<div className='pro-container'>
-					{displayedProducts.map((product, index) => (
+					{displayedProducts.map((product) => (
 						<Product handleOpen={handleOpen} handleProductModal={handleProductModal} product={product} />
 					))}
 				</div>
