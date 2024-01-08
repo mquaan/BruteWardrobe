@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/Customer/OrderStatus.css';
-import { products } from '../../helpers/product_list';
 import { toast } from 'react-hot-toast';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function OrderStatus({ token }) {
+	const navigate = useNavigate();
 	const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 	const { orderIndex } = useParams();
 	const decodeToken = decodeURIComponent(
@@ -83,15 +83,10 @@ function OrderStatus({ token }) {
 
 	const handleConfirmOrder = async () => {
 		// Add logic to update information
-		setDeliveryInfo({
-			fullName: '',
-			address: '',
-			phoneNumber: '',
-			paymentMethod: '',
-		});
 		await axios.post('http://localhost:4000/customer/confirm-order', { userId, orderIndex });
 		setConfirmationVisible(true);
-		toast.error("This didn't work.");
+		navigate('/order-list');
+		toast.error("Order confirmed");
 	};
 
 	return (

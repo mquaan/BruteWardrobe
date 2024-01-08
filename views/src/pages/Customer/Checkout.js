@@ -45,7 +45,7 @@ function Checkout({ token }) {
 	const handlePlaceOrder = async () => {
 		if (deliveryInfo.fullName && deliveryInfo.address && deliveryInfo.phoneNumber && document.querySelector('input[name="paymentMethod"]:checked')) {
 			// alert('Order placed successfully!');
-			navigate('/order-status');
+			navigate('/order-list');
 
 			if (deliveryInfo.paymentMethod === 'cash') {
 				try {
