@@ -21,7 +21,7 @@ function Product({ handleOpen, handleProductModal, product }) {
 					<i className='fas fa-star'></i>
 					<i className='fas fa-star'></i>
 				</div>
-				<h4>${product.price}</h4>
+				<h4>{Intl.NumberFormat('en-DE').format(product.price)} VND</h4>
 			</div>
 			<div>
 				<i className='fa-solid fa-pen edit'></i>
