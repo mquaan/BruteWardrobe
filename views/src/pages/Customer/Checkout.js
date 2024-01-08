@@ -140,7 +140,7 @@ function Checkout({ token }) {
 				<div className='payment-options'>
 					<label htmlFor='paymentMethod'>Cash on Delivery</label>
 					<input type='radio' name='paymentMethod' value='cash' onChange={handleInputChange} required />
-					<label htmlFor='paymentMethod'>Banking</label>
+					<label htmlFor='paymentMethod'>Momo E-Wallet</label>
 					<input type='radio' name='paymentMethod' value='banking' onChange={handleInputChange} required />
 				</div>
 			</section>

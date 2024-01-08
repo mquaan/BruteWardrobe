@@ -45,11 +45,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 
-const dateOnlyFormat = {
+const shortFormat = {
     year: 'numeric', month: 'numeric', day: 'numeric',
+    hour: 'numeric', minute: 'numeric', second: 'numeric'
 }
 
-const dateFormat = {
+const longFormat = {
     year: 'numeric', month: 'long', day: 'numeric',
     hour: 'numeric', minute: 'numeric', second: 'numeric'
 };
@@ -397,7 +398,7 @@ function MerchantOrders({ open, handleOpen, token }) {
                                                             <ListItemIcon>
                                                                 <ShoppingCartIcon />
                                                             </ListItemIcon>
-                                                            <ListItemText primary={`Order ID: ${order.orderId} | Date:  ${order.dateCreated ? order.dateCreated.toLocaleString('en-US', dateOnlyFormat) : "Undefined"} | Status: ${order.orderStatus}`} />
+                                                            <ListItemText primary={`Order ID: ${order.orderId} | Date:  ${order.dateCreated ? order.dateCreated.toLocaleString('en-US', shortFormat) : "Undefined"} | Status: ${order.orderStatus}`} />
                                                             {open2s[custIndex][orderIndex] ? <ExpandLess size="small" /> : <ExpandMore size="small" />}
                                                         </ListItemButton>
                                                     </Grid>
@@ -448,7 +449,7 @@ function MerchantOrders({ open, handleOpen, token }) {
                                                             {`Order ID: ${order.orderId} by Customer: ${customer.username}`}
                                                         </Typography>
                                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                            {`Date Created: ${order.dateCreated ? order.dateCreated.toLocaleString('en-US', dateFormat) : "Undefined"}`}
+                                                            {`Date Created: ${order.dateCreated ? order.dateCreated.toLocaleString('en-US', longFormat) : "Undefined"}`}
                                                         </Typography>
                                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                             Order Status:
@@ -471,7 +472,7 @@ function MerchantOrders({ open, handleOpen, token }) {
                                                         </Typography>
                                                         {(order.dateShipped && order.dateShipped != 'none') && (
                                                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                                {`Date shipped: ${order.dateShipped.toLocaleString('en-US', dateFormat)}`}
+                                                                {`Date shipped: ${order.dateShipped.toLocaleString('en-US', longFormat)}`}
                                                             </Typography>
                                                         )}
 

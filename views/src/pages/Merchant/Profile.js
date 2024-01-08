@@ -93,8 +93,8 @@ function MerchantProfile({ token }) {
 
     const handleUpdateInfo = async () => {
         let updatedUserInfo = {};
-        document.querySelectorAll('.personal-details input').forEach((input) => {
-            if (input.name != 'salary' && input.name != 'experience') {
+        document.querySelectorAll('.personal-details-merchant input').forEach((input) => {
+            if (input.name !== 'salary' && input.name !== 'experience') {
                 updatedUserInfo[input.name] = input.value === '' ? null : input.value;
             }
         });
@@ -151,7 +151,7 @@ function MerchantProfile({ token }) {
     };
 
     return (
-        <div className='body-editprofile'>
+        <div className='body-editprofile-m'>
             <div className='sub-profile-wrap'>
                 <div className='sub-profile'>
 
