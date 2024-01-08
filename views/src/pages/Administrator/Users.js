@@ -2,12 +2,19 @@ import { useState, useEffect } from 'react'
 import axios from 'axios';
 import '../../styles/Administrator/Users.css';
 import DataTable from 'react-data-table-component';
-import { Space, Switch } from 'antd';
+import { Switch } from 'antd';
 import Model from 'react-modal';
 // Model.setAppElement('#root');
+import { toast } from 'react-hot-toast';
 
 import {
-    IconButton
+    IconButton,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Button,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -32,6 +39,157 @@ function CheckSignUpUsername(username, errorSignUpUsername) {
 }
 
 function Users() {
+    const [open, setOpen] = useState(true);
+
+    const [data, setData] = useState([])
+    const [records, setRecords] = useState([]);
+
+    const [openModel, setOpenModel] = useState(false);
+    const [confirmed, setConfirmed] = useState(false);
+    const [selectedUser, setSelectedUser] = useState([]);
+    const [openConfirmDialog, setConfirmDialog] = useState(false);
+
+
+
+    const [username, setUsername] = useState('');
+    const [startingSalary, setStartingSalary] = useState(0);
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let responseCustomers = await axios.get('http://localhost:4000/customers');
+                let responseMerchants = await axios.get('http://localhost:4000/merchants');
+
+                if (!responseCustomers.data.success || !responseMerchants.data.success) {
+                    console.error("Fail to fetch data");
+                }
+                let customers = responseCustomers.data.customers;
+                let merchants = responseMerchants.data.merchants;
+                customers.forEach((cust) => {
+                    cust.role = 'customer'
+                    if (!cust.purchases) {
+                        cust.purchases = 0;
+                    }
+                    cust.salary = 0;
+                    if (!cust.banned) {
+                        cust.banned = false;
+                    }
+                })
+                merchants.forEach((merch) => {
+                    merch.role = 'merchant'
+                    if (!merch.salary) {
+                        merch.salary = 0;
+                    }
+                    merch.purchases = 0;
+                    if (!merch.banned) {
+                        merch.banned = false;
+                    }
+                })
+
+                setData(merchants.concat(customers));
+
+            } catch (errors) {
+                console.error('Error:', errors);
+            }
+        };
+
+        fetchData();
+    }, [open]);
+
+    useEffect(() => {
+        setRecords(data)
+    }, [data])
+
+    const handleOpen = () => {
+        setOpen(!open);
+    }
+
+    const handleRemoveRow = async (userId, role) => {
+        await axios
+            .post('http://localhost:4000/admin/removeuser', {
+                userId: userId,
+                role: role
+            })
+            .then((response) => {
+                if (response.data.success) {
+                    toast.success(response.data.message);
+                    setData((prevData) => prevData.filter((row) => row.userId !== userId || row.role !== role));
+                } else {
+                    toast.error(response.data.message);
+                }
+            })
+            .catch((error) => {
+                toast.error(error);
+            });
+    };
+
+    useEffect(() => {
+        if (!openConfirmDialog && confirmed && selectedUser) {
+            handleRemoveRow(selectedUser[0], selectedUser[1]);
+        }
+    }, [openConfirmDialog, confirmed, selectedUser]);
+    
+
+    const handleRemoveClick = async (userId, role) => {
+        setSelectedUser([userId, role]);
+        setConfirmed(false);
+        setConfirmDialog(true);
+    }
+
+    const handleFilter = (event) => {
+        const newData = data.filter(row => {
+            return row.username.toLowerCase().includes(event.target.value.toLowerCase())
+        })
+        setRecords(newData)
+    }
+
+    const handleSubmit = async (event, msg) => {
+        event.preventDefault();
+        await axios
+            .post('http://localhost:4000/admin/signupmerchant', {
+                username: username,
+                password: password,
+                salary: startingSalary
+            })
+            .then((response) => {
+                if (response.data.success) {
+                    handleOpen();
+                    toast.success(response.data.message, {
+                        position: "bottom-center"
+                    });
+                } else {
+                    msg.textContent = response.data.message;
+                    msg.style.display = 'inline';
+                    console.log(response.data.message);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    const handleSwitch = async (userId, role) => {
+        await axios
+        .post('http://localhost:4000/admin/banunbanuser', {
+            userId: userId,
+            role: role
+        })
+        .then((response) => {
+            // if (response.data.success) {
+            //     handleOpen();
+            // } 
+            if (!response.data.success) {
+                toast.error(response.data.message);
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+
     const columns = [
         {
             name: 'Username',
@@ -50,11 +208,18 @@ function Users() {
         {
             name: 'Salary',
             selector: row => row.salary,
-            sortable: true
+            sortable: true,
         },
         {
             name: 'Status',
-            selector: row => row.status,
+            cell: (row) => (
+                <Switch
+                    defaultChecked={!row.banned}
+                    checkedChildren="Active"
+                    unCheckedChildren="Banned"
+                    onChange={() => handleSwitch(row.userId, row.role)}
+                />
+            ),
             sortable: true,
             center: true
         },
@@ -79,7 +244,7 @@ function Users() {
             name: 'Remove',
             cell: (row) => (
                 <IconButton
-                    onClick={() => handleRemoveRow(row.id)}
+                    onClick={() => handleRemoveClick(row.userId, row.role)}
                 >
                     <CancelIcon color="error" />
                 </IconButton>
@@ -109,112 +274,6 @@ function Users() {
         }
     };
 
-    const [open, setOpen] = useState(true);
-
-    const [data, setData] = useState([])
-    const [records, setRecords] = useState([]);
-
-    const [openModel, setOpenModel] = useState(false);
-
-    const [username, setUsername] = useState('');
-    const [startingSalary, setStartingSalary] = useState(0);
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let responseCustomers = await axios.get('http://localhost:4000/customers');
-                let responseMerchants = await axios.get('http://localhost:4000/merchants');
-
-                if (!responseCustomers.data.success || !responseMerchants.data.success) {
-                    console.error("Fail to fetch data");
-                }
-                let customers = responseCustomers.data.customers;
-                let merchants = responseMerchants.data.merchants;
-                customers.forEach((cust) => {
-                    cust.role = 'Customer'
-                    if (!cust.purchases) {
-                        cust.purchases = 0;
-                    }
-                    cust.salary = 0;
-                    if (!cust.active) {
-                        cust.active = true;
-                    }
-                    cust.status = <Switch
-                        defaultChecked={cust.active}
-                        checkedChildren="Active"
-                        unCheckedChildren="Banned"
-                    />
-                })
-                merchants.forEach((merch) => {
-                    merch.role = 'Merchant'
-                    if (!merch.salary) {
-                        merch.salary = 0;
-                    }
-                    merch.purchases = 0;
-                    if (!merch.active) {
-                        merch.active = true;
-                    }
-                    merch.status = <Switch
-                        defaultChecked={merch.active}
-                        checkedChildren="Active"
-                        unCheckedChildren="Banned"
-                    />
-                })
-
-                setData(customers.concat(merchants));
-
-            } catch (errors) {
-                console.error('Error:', errors);
-            }
-        };
-
-        fetchData();
-    }, [open]);
-
-    useEffect(() => {
-        setRecords(data)
-    }, [data])
-
-    const handleOpen = () => {
-        setOpen(!open);
-    }
-
-    const handleRemoveRow = (userId) => {
-        setData((prevData) => prevData.filter((row) => row.userId !== userId));
-    };
-
-    const handleFilter = (event) => {
-        const newData = data.filter(row => {
-            return row.username.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        setRecords(newData)
-    }
-
-    const handleSubmit = async (event, msg) => {
-        event.preventDefault();
-        await axios
-            .post('http://localhost:4000/admin/signupmerchant', { 
-                username: username, 
-                startingSalary: startingSalary,
-                password: password
-            })
-            .then((response) => {
-                if (response.data.success) {
-
-                    handleOpen();
-                } else {
-                    msg.textContent = response.data.message;
-                    msg.style.display = 'inline';
-                    console.log(response.data.message);
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-
     return (
         <div className='ad_Users_Tab'>
             <div className='Users_Tab'>
@@ -234,6 +293,30 @@ function Users() {
                             <i className='fas fa-search'></i>
                         </div>
                         <button className='btn-add-merchant' onClick={() => setOpenModel(true)}>Create Merchant<i class="fa-solid fa-plus"></i></button>
+
+                        <Dialog
+                            open={openConfirmDialog}
+                            onClose={() => setConfirmDialog(false)}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">
+                                {`Do you really want to delete this account?`}
+                            </DialogTitle>
+                            <DialogContent>
+
+                                <DialogContentText id="alert-dialog-description">
+                                    Please confirm your action and note that this process is irreversible.
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => setConfirmDialog(false)} autoFocus>No</Button>
+                                <Button onClick={() => { setConfirmed(true); setConfirmDialog(false) }}>
+                                    Yes
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+
                         <Model
                             isOpen={openModel}
                             on
@@ -251,7 +334,7 @@ function Users() {
                             }}
                             ariaHideApp={false}
                         >
-                            <form className='form-create-merchant' onSubmit={(event) => handleSubmit(event, document.getElementById('errorSignIn'))}>
+                            <form className='form-create-merchant' onSubmit={(event) => handleSubmit(event, document.getElementById('errorSignUp'))}>
                                 <h2>Create Merchant</h2>
                                 <input name='merchant-username'
                                     type="text"

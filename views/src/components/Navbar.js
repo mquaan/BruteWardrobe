@@ -16,16 +16,20 @@ function getUserId_Role(token) {
 }
 
 function Navbar({ token, setToken, cartItems }) {
-	const [userInfo, setUserInfo] = useState({ username: 'Loading...' });
+	const [username, setUsername] = useState('Loading...');
 
 	const goToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'auto' });
 	};
 	const [isNavHidden, setIsNavHidden] = useState(false);
 	const isEmptyCart = cartItems ? cartItems.length === 0 : true;
+
 	useEffect(() => {
 		const handleScroll = () => {
 			const scrollY = window.scrollY;
+			if(scrollY > 200){
+				setMenuOpen(false);
+			}
 			setIsNavHidden(scrollY > 100);
 		};
 
@@ -51,7 +55,7 @@ function Navbar({ token, setToken, cartItems }) {
 						params: { userId: id_role.userId }
 					});
 					if (responseCustomer.data.success) {
-						setUserInfo(responseCustomer.data.customer);
+						setUsername(responseCustomer.data.customer.username);
 					}
 				}
 
@@ -63,10 +67,27 @@ function Navbar({ token, setToken, cartItems }) {
 			fetchData(token);
 	}, [token]);
 
-	function ToggleMenu(subMenu) {
-		subMenu.classList.toggle('open-menu');
-	}
+	const [menuOpen, setMenuOpen] = useState(false);
 
+	const subMenuRef = useRef(null);
+
+	const ToggleMenu = () => {
+		setMenuOpen(!menuOpen);
+	};
+
+	const handleCloseMenu = (event) => {
+		if (subMenuRef.current && !subMenuRef.current.contains(event.target) && menuOpen) {
+			setMenuOpen(false);
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener('mousedown', handleCloseMenu);
+		return () => {
+			document.removeEventListener('mousedown', handleCloseMenu);
+		};
+	}, [menuOpen]);
+	
 	const handleLogout = () => {
 		axios
 			.get('http://localhost:4000/logout', { withCredentials: true })
@@ -74,7 +95,7 @@ function Navbar({ token, setToken, cartItems }) {
 				if (response.data.success) {
 					localStorage.removeItem('token');
 					setToken(null);
-					ToggleMenu(document.getElementById('subMenu'));
+					ToggleMenu();
 					window.location.href = '/'
 				} else {
 				}
@@ -158,7 +179,7 @@ function Navbar({ token, setToken, cartItems }) {
 					</li>
 					{token ? (
 						<li>
-							<img src='../assets/features/avatar_cus.png' className='user-pic' onClick={() => ToggleMenu(document.getElementById('subMenu'))} alt=''></img>
+							<img src='../assets/features/avatar_cus.png' className='user-pic' onClick={ToggleMenu} alt=''></img>
 						</li>
 					) : (
 						<li>
@@ -173,14 +194,15 @@ function Navbar({ token, setToken, cartItems }) {
 				</ul>
 			</div>
 
-			<div className='sub-menu-wrap' id='subMenu'>
+			<div className={`sub-menu-wrap ${menuOpen ? 'open-menu' : ''}`} id='subMenu' ref={subMenuRef}>
 				<div className='sub-menu'>
 					<div className='user-info'>
 						<img src='../assets/features/avatar_cus.png' alt='' />
-						<h3>{userInfo.username}</h3>
+						<h3>{username}</h3>
 					</div>
 					<hr />
-					<Link to='/edit-profile' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>
+					<Link to='/edit-profile' style={{ textDecoration: 'none' }} 
+						onClick={ToggleMenu}>
 						<div className='sub-menu-link'>
 							<img src='../assets/features/profile.png' alt='' />
 							<p>Edit Profile</p>
@@ -188,10 +210,20 @@ function Navbar({ token, setToken, cartItems }) {
 						</div>
 					</Link>
 
-					<Link to='/order-list' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>
+					<Link to='/order-list' style={{ textDecoration: 'none' }} 
+						onClick={ToggleMenu}>
 						<div className='sub-menu-link'>
 							<img src='../assets/features/order.png' alt='' />
-							<p>Orders</p>
+							<p>Order Status</p>
+							<span>{'>'}</span>
+						</div>
+					</Link>
+
+					<Link to='/order-history' style={{ textDecoration: 'none' }} 
+						onClick={ToggleMenu}>
+						<div className='sub-menu-link'>
+							<img src='../assets/features/order.png' alt='' />
+							<p>Order History</p>
 							<span>{'>'}</span>
 						</div>
 					</Link>

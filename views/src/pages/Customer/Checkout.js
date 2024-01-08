@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/Customer/Checkout.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function Checkout({ token }) {
 	const navigate = useNavigate();
@@ -76,7 +77,7 @@ function Checkout({ token }) {
 				}
 			}
 		} else {
-			alert('Please fill in all required information.');
+			toast.error('Please fill in all required information', {position: 'top-center'});
 		}
 	};
 

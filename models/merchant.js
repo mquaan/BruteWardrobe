@@ -2,8 +2,8 @@ import User from './user.js';
 
 class Merchant extends User {
     constructor(username, password, salary = 0, email = null, facebookId = null, userId = null, 
-        address = null, phoneNumber = null, loginStatus = false, gender = 'Male', dob = null, 
-         dateCreated = new Date()) 
+        address = null, phoneNumber = null, loginStatus = false, gender = 'male', dob = null, 
+         dateCreated = new Date().toISOString()) 
     {
         super(username, password, email, facebookId, userId, address, phoneNumber, loginStatus, gender, dob);
         this.salary = salary;

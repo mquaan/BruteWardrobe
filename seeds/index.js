@@ -11,6 +11,8 @@ import { Shopping, shoppingConverter } from '../models/shopping.js';
 import { customers, shoppings, merchants, admins, products } from './data.js';
 
 const collections = ['customers', 'shoppings', 'merchants', 'admins', 'products'];
+// const collections = ['merchants'];
+
 for (let collectionName of collections) {
     const ref = collection(db, collectionName);
     const querySnapshot = await getDocs(ref);
@@ -54,10 +56,10 @@ for (let i = 0; i < shoppings.length; i++) {
 
 ref = collection(db, 'merchants').withConverter(merchantConverter);
 for (let item of merchants) {
-    const merchant = new Merchant(item.username, item.password, item.email,
-        item.userId, item.address, item.phoneNumber, item.loginStatus,
-        item.gender, item.dob,
-        item.experience, item.salary);
+    let merchant = new Merchant(item.username, item.password, item.salary, item.email,
+        item.facebookId, item.userId, item.address, item.phoneNumber,
+        item.loginStatus, item.gender, item.dob, item.dateCreated);
+    merchant.dateCreated = merchant.dateCreated.toISOString();
     const docRef = await addDoc(ref, merchant);
     await updateDoc(docRef, { userId: docRef.id });
 }

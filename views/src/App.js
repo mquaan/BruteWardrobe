@@ -16,6 +16,7 @@ import EditProfile from './pages/Customer/EditProfile';
 import Checkout from './pages/Customer/Checkout';
 import OrderStatus from './pages/Customer/OrderStatus';
 import OrderList from './pages/Customer/OrderList';
+import OrderHistory from './pages/Customer/OrderHistory';
 
 import MerchantProducts from './pages/Merchant/Products.js';
 import MerchantOrders from './pages/Merchant/Orders.js';
@@ -126,7 +127,7 @@ function App() {
 											<Route path='/logout' element={<Login />} />
 										</Routes>
 									</div>
-									<Modal open={open} handleOpen={handleOpen} product={productModal} token={token} />
+									<Modal open={open} setOpen={setOpen} handleOpen={handleOpen} product={productModal} token={token} />
 								</div>
 							</ProtectedComponent>
 						}
@@ -194,6 +195,7 @@ function App() {
 										}
 									/>
 									<Route path='/order-list' element={<OrderList token={token}/>} />
+									<Route path='/order-history' element={<OrderHistory token={token}/>} />
 								</Routes>
 								<Footer />
 							</div>

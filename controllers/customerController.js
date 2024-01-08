@@ -38,8 +38,8 @@ const controller = {};
 controller.getCustomer = async (req, res) => {
 	let { userId } = req.query;
 	let snapshot = await getDoc(doc(db, 'customers', userId));
-	let customer = snapshot.data();
-	if (!snapshot.empty && customer) {
+	if (snapshot.exists) {
+		let customer = snapshot.data();
 		res.json({ success: true, customer: customer });
 	} else {
 		res.json({ success: false });
@@ -64,7 +64,7 @@ controller.updatePassword = async (req, res) => {
 	try {
 		const { userId, currentPassword, newPassword } = req.body;
 		const userRef = doc(db, 'customers', userId);
-		let user = await getDoc(doc(db, 'customers', userId));
+		let user = await getDoc(userRef);
 
 		const passwordMatch = await bcrypt.compare(currentPassword, user.data().password);
 
@@ -86,7 +86,7 @@ controller.updatePassword = async (req, res) => {
 controller.addToCart = async (req, res) => {
 	let { userId, productId, quantity, size } = req.body;
 	let userRef = doc(db, 'customers', userId);
-	let userSnapshot = await getDoc(doc(db, 'customers', userId));
+	let userSnapshot = await getDoc(userRef);
 
 	if (!userSnapshot.exists) {
 		console.log('No user found!');
@@ -181,7 +181,7 @@ controller.removeFromCart = async (req, res) => {
 controller.updateCartQuantity = async (req, res) => {
 	let { userId, productId, quantity, size } = req.body;
 	let userRef = doc(db, 'customers', userId);
-	let userSnapshot = await getDoc(doc(db, 'customers', userId));
+	let userSnapshot = await getDoc(userRef);
 
 	if (!userSnapshot.exists) {
 		console.log('No user found!');
@@ -222,7 +222,7 @@ controller.addOrder = async (req, res) => {
 	let { userId, cart, deliveryInfo } = req.body;
 	console.log(req.body);
 	let userRef = doc(db, 'customers', userId);
-	let userSnapshot = await getDoc(doc(db, 'customers', userId));
+	let userSnapshot = await getDoc(userRef);
 
 	if (!userSnapshot.exists) {
 		console.log('No user found!');
@@ -430,7 +430,7 @@ controller.handlePayment = async (req, res) => {
 	if (req.query.resultCode == 0) {
 		let [userId, deliveryInfo, paymentMethod] = req.query.extraData.split('---');
 		let userRef = doc(db, 'customers', userId);
-		let userSnapshot = await getDoc(doc(db, 'customers', userId));
+		let userSnapshot = await getDoc(userRef);
 
 		if (!userSnapshot.exists) {
 			console.log('No user found!');

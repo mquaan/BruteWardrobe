@@ -358,7 +358,6 @@ function MerchantOrders({ open, handleOpen, token }) {
             >
                 {displayedCustomers.map((customer, custIndex) => {
                     custIndex += (currentPage - 1) * customerPerPage;
-                    console.log("custIndex", custIndex);
                     if (!canceled[custIndex] || canceled[custIndex].every((ord) => ord)) {
                         return (<></>);
                     }
