@@ -2,33 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+function getUserId(token) {
+	const decodeToken = decodeURIComponent(
+		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
+			.split('')
+			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+			.join('')
+	);
+	return JSON.parse(decodeToken).user.userId;
+}
+
 function OrderList({ token }) {
-    const decodeToken = decodeURIComponent(
-        atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
-            .split('')
-            .map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
-            .join('')
-    );
+	const [userId, setUserId] = useState('');
 
-    const userId = JSON.parse(decodeToken).user.userId;
+	const [orderList, setOrderList] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1);
+	const ordersPerPage = 2;
 
-    const [orderList, setOrderList] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 2;
-
-    useEffect(() => {
-        axios
-            .post('http://localhost:4000/customer/getorderlist', { userId })
-            .then((response) => {
-                if (response.data.success) {
-                    console.log(response.data.orderList);
-                    setOrderList(response.data.orderList);
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }, [userId]);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let uid = await getUserId(token);
+				setUserId(uid);
+				await axios.post('http://localhost:4000/customer/getorderlist', { userId: uid }).then((response) => {
+					if (response.data.success) {
+						console.log(response.data.orderList);
+						setOrderList(response.data.orderList);
+					}
+				});
+			} catch (errors) {
+				console.error('Error:', errors);
+			}
+		};
+		fetchData();
+	}, [userId]);
 
     const unconfirmedOrders = orderList.filter(order => !order.isConfirmed);
     const indexOfLastOrder = currentPage * ordersPerPage;
@@ -67,7 +74,7 @@ function OrderList({ token }) {
                                     <td>{item.quantity}</td>
                                     <td>{/* Render item price */}</td>
                                     <td>
-                                        <Link to={`/order-status/${indexOfFirstOrder + orderIndex}`}>
+                                        <Link to={`/order-status/${order.orderId}`}>
                                             View
                                         </Link>
                                     </td>

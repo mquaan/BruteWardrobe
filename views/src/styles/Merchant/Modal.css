@@ -73,3 +73,14 @@
 	background-color: #fff;
 	top: -4px;
 }
+
+.pt-0 button:hover {
+	box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.06);
+}
+
+.status-toast {
+	color: green;
+	font-size: 16px;
+	font-weight: 500;
+	font-style: italic;
+}

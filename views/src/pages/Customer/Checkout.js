@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/Customer/Checkout.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function Checkout({ token }) {
 	const navigate = useNavigate();
@@ -45,8 +46,6 @@ function Checkout({ token }) {
 	const handlePlaceOrder = async () => {
 		if (deliveryInfo.fullName && deliveryInfo.address && deliveryInfo.phoneNumber && document.querySelector('input[name="paymentMethod"]:checked')) {
 			// alert('Order placed successfully!');
-			navigate('/order-list');
-
 			if (deliveryInfo.paymentMethod === 'cash') {
 				try {
 					const response = await axios.post('http://localhost:4000/customer/addorder', {
@@ -59,7 +58,7 @@ function Checkout({ token }) {
 						deliveryInfo,
 					});
 					if (response.data.success) {
-						navigate('/order-status');
+						navigate('/order-list');
 					}
 				} catch (error) {
 					console.error('Error:', error);
@@ -78,7 +77,7 @@ function Checkout({ token }) {
 				}
 			}
 		} else {
-			alert('Please fill in all required information.');
+			toast.error('Please fill in all required information', {position: 'top-center'});
 		}
 	};
 

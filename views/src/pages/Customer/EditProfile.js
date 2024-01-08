@@ -33,7 +33,7 @@ function compareObjects(obj1, obj2) {
 function EditProfile({ token }) {
 	const initobj = {
 		username: null,
-		gender: null,
+		gender: 'male',
 		dob: null,
 		firstname: null,
 		lastname: null,
@@ -107,6 +107,11 @@ function EditProfile({ token }) {
 					udpatedCustomer[key] = userInfo[key];
 				}
 			});
+			Object.keys(updatedUserInfo).forEach((key) => {
+				if (!udpatedCustomer.hasOwnProperty(key)) {
+					udpatedCustomer[key] = initobj[key];
+				}
+			});
 			setUserInfo(udpatedCustomer);
 
 			const response = await axios.post('http://localhost:4000/customer/updateinfo', {
@@ -114,15 +119,21 @@ function EditProfile({ token }) {
 				userInfo: updatedUserInfo,
 			});
 			if (response && response.data && response.data.success) {
+				setSnackbar(false);
 				setMessage('Your information have been updated successfully.');
 				setSeverity('success');
+				setSnackbar(true);
 			} else {
+				setSnackbar(false);
 				setMessage('Failed to update your info! Please try again later.');
 				setSeverity('error');
+				setSnackbar(true);
 			}
 		} else {
+			setSnackbar(false);
 			setMessage("You haven't made any changes.");
 			setSeverity('warning');
+			setSnackbar(true);
 		}
 	};
 
@@ -144,20 +155,28 @@ function EditProfile({ token }) {
 				newPassword: updatedPasswordInfo['new-password'],
 			});
 			if (response.data.success) {
+				setSnackbar(false);
 				setMessage('Your information have been updated successfully.');
 				setSeverity('success');
+				setSnackbar(true);
 			} else {
 				if (response.data.message) {
+					setSnackbar(false);
 					setMessage(response.data.message);
 					setSeverity('error');
+					setSnackbar(true);
 				} else {
+					setSnackbar(false);
 					setMessage('Failed to update your info! Please try again later.');
 					setSeverity('error');
+					setSnackbar(true);
 				}
 			}
 		} else {
+			setSnackbar(false);
 			setMessage("You haven't made any changes.");
 			setSeverity('warning');
+			setSnackbar(true);
 		}
 	};
 

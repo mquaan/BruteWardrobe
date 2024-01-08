@@ -4,17 +4,30 @@ import { toast } from 'react-hot-toast';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function OrderStatus({ token }) {
-	const navigate = useNavigate();
-	const [isConfirmationVisible, setConfirmationVisible] = useState(false);
-	const { orderIndex } = useParams();
+const longFormat = {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+	hour: 'numeric',
+	minute: 'numeric',
+	second: 'numeric',
+};
+
+function getUserId(token) {
 	const decodeToken = decodeURIComponent(
 		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
 			.split('')
 			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
 			.join('')
 	);
-	const userId = JSON.parse(decodeToken).user.userId;
+	return JSON.parse(decodeToken).user.userId;
+}
+
+function OrderStatus({ token }) {
+	const navigate = useNavigate()
+	const [isConfirmationVisible, setConfirmationVisible] = useState(false);
+	const { orderIndex } = useParams();
+	const [userId, setUserId] = useState('');
 
 	const [order, setOrder] = useState([]);
 	const [deliveryInfo, setDeliveryInfo] = useState({});
@@ -25,17 +38,21 @@ function OrderStatus({ token }) {
 	}, [order.deliverInfo]);
 
 	useEffect(() => {
-		axios
-			.post('http://localhost:4000/customer/getorder', { userId, orderIndex })
-			.then((response) => {
-				if (response.data.success) {
-					console.log(response.data.order);
-					setOrder(response.data.order);
-				}
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
+		const fetchData = async () => {
+			try {
+				let uid = await getUserId(token);
+				setUserId(uid);
+				await axios.post('http://localhost:4000/customer/getorder', { userId: uid, orderIndex }).then((response) => {
+					if (response.data.success) {
+						console.log(response.data.order);
+						setOrder(response.data.order);
+					}
+				});
+			} catch (errors) {
+				console.error('Error:', errors);
+			}
+		};
+		fetchData();
 	}, []);
 
 	const calculateTotalPrice = () => {
@@ -83,10 +100,28 @@ function OrderStatus({ token }) {
 
 	const handleConfirmOrder = async () => {
 		// Add logic to update information
-		await axios.post('http://localhost:4000/customer/confirm-order', { userId, orderIndex });
+		setDeliveryInfo({
+			fullName: '',
+			address: '',
+			phoneNumber: '',
+			paymentMethod: '',
+		});
+		const response = await axios.post('http://localhost:4000/customer/confirm-order', { userId, orderIndex });
+		if (response.data.success) {
+			let cart = order.cart.reduce((accumulator, item) => {
+				let found = accumulator.find(a => a.productId === item.productId);
+				if (found) {
+					found.quantity += item.quantity;
+				} else {
+					accumulator.push({ productId: item.productId, quantity: item.quantity });
+				}
+				return accumulator;
+			}, []);
+			await axios.post('http://localhost:4000/admin/addsale', { userId, cart,  money: calculateTotalPrice(), time: new Date().toISOString() });
+		}
 		setConfirmationVisible(true);
 		navigate('/order-list');
-		toast.error("Order confirmed");
+		toast.success("Order confirmed");
 	};
 
 	return (
@@ -137,6 +172,9 @@ function OrderStatus({ token }) {
 				<p>
 					<strong>Payment method:</strong> {deliveryInfo.paymentMethod}
 				</p>
+				<p>
+					<strong>Shipped:</strong> {order.dateShipped ? new Date(order.dateShipped).toLocaleString('en-US', longFormat) : 'Not yet'}
+				</p>
 			</div>
 
 			<div className='delivery-progress'>
@@ -145,7 +183,7 @@ function OrderStatus({ token }) {
 					<div className='steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x'>{renderSteps()}</div>
 				</div>
 			</div>
-			{order.orderStatus && order.orderStatus === 'Completed' && !isConfirmationVisible && (
+			{order.orderStatus && order.orderStatus === 'Delivered' && !isConfirmationVisible && (
 				<div className='confirm-order-button'>
 					<button onClick={handleConfirmOrder}>Confirm Order</button>
 				</div>

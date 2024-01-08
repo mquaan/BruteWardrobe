@@ -163,11 +163,11 @@ function MerchantOrders({ open, handleOpen, token }) {
             // link to product name
             foundShopping.orderList.forEach((ord) => {
                 ord.cart.forEach((ell) => {
-                    ell.product = products.find((pr) => pr.productId == ell.productId)
+                    ell.product = products.find((pr) => pr.productId === ell.productId)
                 })
                 if (ord.dateCreated)
                     ord.dateCreated = new Date(ord.dateCreated);
-                if (ord.dateShipped && ord.dateShipped != 'none')
+                if (ord.dateShipped && ord.dateShipped !== 'none')
                     ord.dateShipped = new Date(ord.dateShipped);
             })
             return { ...value, shopping: foundShopping };
@@ -230,12 +230,12 @@ function MerchantOrders({ open, handleOpen, token }) {
 
         order.orderStatus = status;
         if (status === 'Delivered' || status === 'Completed') {
-            if (!order.dateShipped || order.dateShipped == 'none') {
+            if (!order.dateShipped || order.dateShipped === 'none') {
                 order.dateShipped = new Date();
             }
         }
         else {
-            if (order.dateShipped && order.dateShipped != 'none') {
+            if (order.dateShipped && order.dateShipped !== 'none') {
                 order.dateShipped = 'none';
             }
         }
@@ -278,13 +278,13 @@ function MerchantOrders({ open, handleOpen, token }) {
         });
         if (respone.data.success) {
             // reorder order's index
-            if (orderIndex != updatedCustomers[custIndex].shopping.orderList.length - 1) { // if not last
+            if (orderIndex !== updatedCustomers[custIndex].shopping.orderList.length - 1) { // if not last
                 let newUpdatedCustomers = [...updatedCustomers]
                 // mark instead of delete to prevent reload page (use state change)
                 newUpdatedCustomers[custIndex].shopping.orderList[orderIndex].orderId = -1;
                 let indexCount = 0;
                 newUpdatedCustomers[custIndex].shopping.orderList.forEach((oord) => {
-                    if (oord.orderId != -1) {
+                    if (oord.orderId !== -1) {
                         oord.orderId = indexCount;
                         indexCount += 1;
                     }
@@ -323,7 +323,7 @@ function MerchantOrders({ open, handleOpen, token }) {
                             <Tooltip title="Go to previous page">
                                 <IconButton
                                     onClick={() => {
-                                        if (currentPage != 1)
+                                        if (currentPage !== 1)
                                             goToPage(currentPage - 1)
                                     }}
                                 >
@@ -333,7 +333,7 @@ function MerchantOrders({ open, handleOpen, token }) {
                             <Tooltip title="Go to next page">
                                 <IconButton
                                     onClick={() => {
-                                        if (currentPage != totalPages)
+                                        if (currentPage !== totalPages)
                                             goToPage(currentPage + 1)
                                     }}
                                 >
@@ -358,7 +358,6 @@ function MerchantOrders({ open, handleOpen, token }) {
             >
                 {displayedCustomers.map((customer, custIndex) => {
                     custIndex += (currentPage - 1) * customerPerPage;
-                    console.log("custIndex", custIndex);
                     if (!canceled[custIndex] || canceled[custIndex].every((ord) => ord)) {
                         return (<></>);
                     }
@@ -470,7 +469,7 @@ function MerchantOrders({ open, handleOpen, token }) {
                                                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                             {`Delivery Info: ${order.deliverInfo}`}
                                                         </Typography>
-                                                        {(order.dateShipped && order.dateShipped != 'none') && (
+                                                        {(order.dateShipped && order.dateShipped !== 'none') && (
                                                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                                 {`Date shipped: ${order.dateShipped.toLocaleString('en-US', longFormat)}`}
                                                             </Typography>

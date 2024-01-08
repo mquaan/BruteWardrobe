@@ -2,6 +2,7 @@ import db from '../config/firebase.js';
 import { Product, productConverter } from '../models/product.js';
 import { collection, addDoc, getDoc, getDocs, query, where, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { cloudinary } from '../cloudinary/index.js';
+import bcrypt from 'bcrypt';
 
 const controller = {};
 
@@ -11,10 +12,9 @@ controller.getMerchant = async (req, res) => {
 	let merchant = snapshot.data();
 	if (!snapshot.empty && merchant) {
 		res.json({ success: true, merchant: merchant });
+	} else {
+		res.json({ success: false });
 	}
-	else {
-        res.json({ success: false })
-    }
 };
 
 controller.updateInfo = async (req, res) => {
@@ -32,94 +32,95 @@ controller.updateInfo = async (req, res) => {
 };
 
 controller.editProductList = async (req, res) => {
-    let { userId, product } = req.body;
-    product.last_updated_by = userId;
-    if (product.productId) {
-        let productRef = doc(db, 'products', product.productId);
-        await updateDoc(productRef, product);
-        res.json({ success: true });
-    } else {
-        let ref = collection(db, 'products').withConverter(productConverter);
-        const docRef = await addDoc(ref, product);
-        await updateDoc(docRef, { productId: docRef.id });
-        res.json({ success: true });
-    }
+	let { userId, product } = req.body;
+	product.last_updated_by = userId;
+	if (product.productId) {
+		let productRef = doc(db, 'products', product.productId);
+		await updateDoc(productRef, product);
+		res.json({ success: true });
+	} else {
+		let ref = collection(db, 'products').withConverter(productConverter);
+		const docRef = await addDoc(ref, product);
+		await updateDoc(docRef, { productId: docRef.id });
+		res.json({ success: true });
+	}
 };
 
 controller.editOrderStatus = async (req, res) => {
-    let { userId, shoppingId, orderId, newStatus, newdateShipped } = req.body;
-    
-    let shoppingRef = doc(db, 'shoppings', shoppingId);
+	let { userId, shoppingId, orderId, newStatus, newdateShipped } = req.body;
 
-    // Get the shopping document
-    let shoppingSnap = await getDoc(shoppingRef);
-    if (!shoppingSnap.exists()) {
-        // Handle the error
-        console.error('No such document!');
-        res.json({ success: false });
-        return;
-    } else {
-        // Get the shopping data
-        let shoppingData = shoppingSnap.data();
+	let shoppingRef = doc(db, 'shoppings', shoppingId);
 
-        // Find the index of the order with the given orderId
-        let orderIndex = shoppingData.orderList.findIndex(order => order.orderId === orderId);
+	// Get the shopping document
+	let shoppingSnap = await getDoc(shoppingRef);
+	if (!shoppingSnap.exists()) {
+		// Handle the error
+		console.error('No such document!');
+		res.json({ success: false });
+		return;
+	} else {
+		// Get the shopping data
+		let shoppingData = shoppingSnap.data();
 
-        if (orderIndex !== -1) {
-            shoppingData.orderList[orderIndex].last_updated_by = userId;
-            shoppingData.orderList[orderIndex].orderStatus = newStatus;
-            shoppingData.orderList[orderIndex].dateShipped = newdateShipped;
-            await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
-        } else {
-            // Handle the error
-            res.json({ success: false });
-            console.error('No such order!');
-        }
-        res.json({ success: true });
-    }
+		// Find the index of the order with the given orderId
+		let orderIndex = shoppingData.orderList.findIndex((order) => order.orderId === orderId);
 
-}
+		if (orderIndex !== -1) {
+			shoppingData.orderList[orderIndex].last_updated_by = userId;
+			shoppingData.orderList[orderIndex].orderStatus = newStatus;
+			shoppingData.orderList[orderIndex].dateShipped = newdateShipped;
+			await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
+		} else {
+			// Handle the error
+			res.json({ success: false });
+			console.error('No such order!');
+		}
+		res.json({ success: true });
+	}
+};
 
 controller.cancelOrder = async (req, res) => {
-    let { shoppingId, orderId } = req.body;
+	let { shoppingId, orderId } = req.body;
 
-    let shoppingRef = doc(db, 'shoppings', shoppingId);
+	let shoppingRef = doc(db, 'shoppings', shoppingId);
 
-    // Get the shopping document
-    let shoppingSnap = await getDoc(shoppingRef);
-    if (!shoppingSnap.exists()) {
-        // Handle the error
-        console.error('No such document!');
-        res.json({ success: false });
-        return;
-    } else {
-        // Get the shopping data
-        let shoppingData = shoppingSnap.data();
+	// Get the shopping document
+	let shoppingSnap = await getDoc(shoppingRef);
+	if (!shoppingSnap.exists()) {
+		// Handle the error
+		console.error('No such document!');
+		res.json({ success: false });
+		return;
+	} else {
+		// Get the shopping data
+		let shoppingData = shoppingSnap.data();
 
-        // Find the index of the order with the given orderId
-        let orderIndex = shoppingData.orderList.findIndex(order => order.orderId === orderId);
+		// Find the index of the order with the given orderId
+		let orderIndex = shoppingData.orderList.findIndex((order) => order.orderId === orderId);
 
-        if (orderIndex !== -1) {
-            // update order ID
-            shoppingData.orderList.splice(orderIndex, 1);
-            // reorder orderId
-            shoppingData.orderList.forEach((ord, ind) => {ord.orderId = ind})
-            await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
-        } else {
-            // Handle the error
-            res.json({ success: false });
-            console.error('No such order!');
-        }
-        res.json({ success: true });
-    }
-}
+		if (orderIndex !== -1) {
+			// update order ID
+			shoppingData.orderList.splice(orderIndex, 1);
+			// reorder orderId
+			shoppingData.orderList.forEach((ord, ind) => {
+				ord.orderId = ind;
+			});
+			await updateDoc(shoppingRef, { orderList: shoppingData.orderList });
+		} else {
+			// Handle the error
+			res.json({ success: false });
+			console.error('No such order!');
+		}
+		res.json({ success: true });
+	}
+};
 
 controller.removeProduct = async (req, res) => {
 	let { product } = req.body;
 	if (product.productId) {
 		for (let i = 0; i < product.imgURLs.length; i++) {
 			const publicId = 'BruteWardrobe/' + product.imgURLs[i].split('/').slice(-1)[0].split('.')[0];
-			console.log(publicId)
+			console.log(publicId);
 			cloudinary.uploader
 				.destroy(publicId, function (error, result) {
 					console.log(result, error);
@@ -130,6 +131,29 @@ controller.removeProduct = async (req, res) => {
 		let productRef = doc(db, 'products', product.productId);
 		await deleteDoc(productRef, product);
 		res.json({ success: true });
+	}
+};
+
+controller.updatePassword = async (req, res) => {
+	try {
+		const { userId, currentPassword, newPassword } = req.body;
+		const userRef = doc(db, 'merchants', userId);
+		let user = await getDoc(doc(db, 'merchants', userId));
+
+		const passwordMatch = await bcrypt.compare(currentPassword, user.data().password);
+
+		if (!passwordMatch) {
+			console.log('Incorrect password.');
+			res.json({ success: false, message: 'Incorrect password!' });
+		} else {
+			const saltRounds = 10;
+			const salt = bcrypt.genSaltSync(saltRounds);
+			await updateDoc(userRef, { password: bcrypt.hashSync(newPassword, salt) });
+			res.json({ success: true });
+		}
+	} catch (error) {
+		console.error('Error:', error);
+		res.json({ success: false });
 	}
 };
 

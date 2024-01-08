@@ -5,9 +5,16 @@ import DataTable from 'react-data-table-component';
 import { Space, Switch } from 'antd';
 import Model from 'react-modal';
 // Model.setAppElement('#root');
+import { toast } from 'react-hot-toast';
 
 import {
-    IconButton
+    IconButton,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Button,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -32,89 +39,17 @@ function CheckSignUpUsername(username, errorSignUpUsername) {
 }
 
 function Users() {
-    const columns = [
-        {
-            name: 'Username',
-            selector: row => row.username,
-            sortable: true
-        },
-        {
-            name: 'Email',
-            selector: row => row.email,
-        },
-        {
-            name: 'Purchases',
-            selector: row => row.purchases,
-            sortable: true
-        },
-        {
-            name: 'Salary',
-            selector: row => row.salary,
-            sortable: true
-        },
-        {
-            name: 'Status',
-            selector: row => row.status,
-            sortable: true,
-            center: true
-        },
-        {
-            name: 'Role',
-            selector: row => row.role,
-            sortable: true,
-            center: true
-        },
-        {
-            name: 'Manage',
-            cell: (row) => (
-                <IconButton
-                // onClick={() => handleMangeUser(row.id)}
-                >
-                    <EditIcon color="success" />
-                </IconButton>
-            ),
-            center: true
-        },
-        {
-            name: 'Remove',
-            cell: (row) => (
-                <IconButton
-                    onClick={() => handleRemoveRow(row.id)}
-                >
-                    <CancelIcon color="error" />
-                </IconButton>
-            ),
-            center: true
-        }
-    ];
-
-    const customStyles = {
-        headCells: {
-            style: {
-                fontSize: '19px', // Adjust the font size as needed
-                fontWeight: 'bold'
-            },
-        },
-        cells: {
-            style: {
-                fontSize: '16px', // Adjust the font size as needed
-            }
-        },
-        rows: {
-            style: {
-                '&:hover': {
-                    background: '#f4f4f4'
-                },
-            }
-        }
-    };
-
     const [open, setOpen] = useState(true);
 
     const [data, setData] = useState([])
     const [records, setRecords] = useState([]);
 
     const [openModel, setOpenModel] = useState(false);
+    const [confirmed, setConfirmed] = useState(false);
+    const [selectedUser, setSelectedUser] = useState([]);
+    const [openConfirmDialog, setConfirmDialog] = useState(false);
+
+
 
     const [username, setUsername] = useState('');
     const [startingSalary, setStartingSalary] = useState(0);
@@ -163,7 +98,7 @@ function Users() {
                     />
                 })
 
-                setData(customers.concat(merchants));
+                setData(merchants.concat(customers));
 
             } catch (errors) {
                 console.error('Error:', errors);
@@ -181,9 +116,37 @@ function Users() {
         setOpen(!open);
     }
 
-    const handleRemoveRow = (userId) => {
-        setData((prevData) => prevData.filter((row) => row.userId !== userId));
+    const handleRemoveRow = async (userId, role) => {
+        await axios
+            .post('http://localhost:4000/admin/removeuser', {
+                userId: userId,
+                role: role
+            })
+            .then((response) => {
+                if (response.data.success) {
+                    toast.success(response.data.message);
+                    setData((prevData) => prevData.filter((row) => row.userId !== userId || row.role !== role));
+                } else {
+                    toast.error(response.data.message);
+                }
+            })
+            .catch((error) => {
+                toast.error(error);
+            });
     };
+
+    useEffect(() => {
+        if (!openConfirmDialog && confirmed && selectedUser) {
+            handleRemoveRow(selectedUser[0], selectedUser[1]);
+        }
+    }, [openConfirmDialog, confirmed, selectedUser]);
+    
+
+    const handleRemoveClick = async (userId, role) => {
+        setConfirmed(false);
+        setConfirmDialog(true);
+        setSelectedUser([userId, role]);
+    }
 
     const handleFilter = (event) => {
         const newData = data.filter(row => {
@@ -195,11 +158,17 @@ function Users() {
     const handleSubmit = async (event, msg) => {
         event.preventDefault();
         await axios
-            .post('http://localhost:4000/admin/signupmerchant', { username, startingSalary, password })
+            .post('http://localhost:4000/admin/signupmerchant', {
+                username: username,
+                password: password,
+                salary: startingSalary
+            })
             .then((response) => {
                 if (response.data.success) {
-
                     handleOpen();
+                    toast.success(response.data.message, {
+                        position: "bottom-center"
+                    });
                 } else {
                     msg.textContent = response.data.message;
                     msg.style.display = 'inline';
@@ -209,6 +178,83 @@ function Users() {
             .catch((error) => {
                 console.error(error);
             });
+    };
+
+    const columns = [
+        {
+            name: 'Username',
+            selector: row => row.username,
+            sortable: true
+        },
+        {
+            name: 'Email',
+            selector: row => row.email,
+        },
+        {
+            name: 'Purchases',
+            selector: row => row.purchases,
+            sortable: true
+        },
+        {
+            name: 'Salary',
+            selector: row => row.salary,
+            sortable: true
+        },
+        {
+            name: 'Status',
+            selector: row => row.status,
+            sortable: true,
+            center: true
+        },
+        {
+            name: 'Role',
+            selector: row => row.role,
+            sortable: true,
+            center: true
+        },
+        {
+            name: 'Manage',
+            cell: (row) => (
+                <IconButton
+                // onClick={() => handleMangeUser(row.id)}
+                >
+                    <EditIcon color="success" />
+                </IconButton>
+            ),
+            center: true
+        },
+        {
+            name: 'Remove',
+            cell: (row) => (
+                <IconButton
+                    onClick={() => handleRemoveClick(row.userId, row.role)}
+                >
+                    <CancelIcon color="error" />
+                </IconButton>
+            ),
+            center: true
+        }
+    ];
+
+    const customStyles = {
+        headCells: {
+            style: {
+                fontSize: '19px', // Adjust the font size as needed
+                fontWeight: 'bold'
+            },
+        },
+        cells: {
+            style: {
+                fontSize: '16px', // Adjust the font size as needed
+            }
+        },
+        rows: {
+            style: {
+                '&:hover': {
+                    background: '#f4f4f4'
+                },
+            }
+        }
     };
 
     return (
@@ -230,6 +276,30 @@ function Users() {
                             <i className='fas fa-search'></i>
                         </div>
                         <button className='btn-add-merchant' onClick={() => setOpenModel(true)}>Create Merchant<i class="fa-solid fa-plus"></i></button>
+
+                        <Dialog
+                            open={openConfirmDialog}
+                            onClose={() => setConfirmDialog(false)}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">
+                                {`Do you really want to delete this account?`}
+                            </DialogTitle>
+                            <DialogContent>
+
+                                <DialogContentText id="alert-dialog-description">
+                                    Please confirm your action and note that this process is irreversible.
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => setConfirmDialog(false)} autoFocus>No</Button>
+                                <Button onClick={() => { setConfirmed(true); setConfirmDialog(false) }}>
+                                    Yes
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+
                         <Model
                             isOpen={openModel}
                             on
@@ -247,7 +317,7 @@ function Users() {
                             }}
                             ariaHideApp={false}
                         >
-                            <form className='form-create-merchant' onSubmit={(event) => handleSubmit(event, document.getElementById('errorSignIn'))}>
+                            <form className='form-create-merchant' onSubmit={(event) => handleSubmit(event, document.getElementById('errorSignUp'))}>
                                 <h2>Create Merchant</h2>
                                 <input name='merchant-username'
                                     type="text"

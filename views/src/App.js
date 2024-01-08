@@ -126,7 +126,7 @@ function App() {
 											<Route path='/logout' element={<Login />} />
 										</Routes>
 									</div>
-									<Modal open={open} handleOpen={handleOpen} product={productModal} token={token} />
+									<Modal open={open} setOpen={setOpen} handleOpen={handleOpen} product={productModal} token={token} />
 								</div>
 							</ProtectedComponent>
 						}
@@ -139,7 +139,7 @@ function App() {
 									<Admin_Sidebar setToken={setToken} />
 									<Routes>
 										<Route path='/' element={<Dashboard />} />
-										{/* <Route path='/users' element={<Users />} /> */}
+										<Route path='/users' element={<Users />} />
 										<Route path='/products' element={<Products />} />
 									</Routes>
 								</div>
