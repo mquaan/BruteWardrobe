@@ -15,6 +15,7 @@ import Cart from './pages/Customer/Cart';
 import EditProfile from './pages/Customer/EditProfile';
 import Checkout from './pages/Customer/Checkout';
 import OrderStatus from './pages/Customer/OrderStatus';
+import OrderList from './pages/Customer/OrderList';
 
 import MerchantProducts from './pages/Merchant/Products.js';
 import MerchantOrders from './pages/Merchant/Orders.js';
@@ -66,7 +67,7 @@ function ProtectedComponent({ children, token, role }) {
 }
 
 function App() {
-	const [orderStatus, setOrderStatus] = useState('Completed');
+	const [orderStatus, setOrderStatus] = useState('Delivered');
 
 	const [deliveryInfo, setDeliveryInfo] = useState({
 		fullName: '',
@@ -174,18 +175,13 @@ function App() {
 										path='/checkout'
 										element={
 											<Checkout
-												cartItems={cartItems}
-												setCartItems={setCartItems}
-												deliveryInfo={deliveryInfo}
-												setDeliveryInfo={setDeliveryInfo}
-												setOrderedProducts={setOrderedProducts}
 												token={token}
 											/>
 										}
 									/>
 									<Route path='/edit-profile' element={<EditProfile token={token} />} />
 									<Route
-										path='/order-status'
+										path='/order-status/:orderIndex'
 										element={
 											<OrderStatus
 												deliveryInfo={deliveryInfo}
@@ -197,6 +193,7 @@ function App() {
 											/>
 										}
 									/>
+									<Route path='/order-list' element={<OrderList token={token}/>} />
 								</Routes>
 								<Footer />
 							</div>

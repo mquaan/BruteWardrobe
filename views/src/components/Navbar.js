@@ -177,7 +177,7 @@ function Navbar({ token, setToken, cartItems }) {
 				<div className='sub-menu'>
 					<div className='user-info'>
 						<img src='../assets/features/avatar_cus.png' alt='' />
-						<h3>{userInfo.username}</h3>
+						{/* <h3>{userInfo.username}</h3> */}
 					</div>
 					<hr />
 					<Link to='/edit-profile' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>

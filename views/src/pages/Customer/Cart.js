@@ -90,7 +90,7 @@ function Cart({ cartItems, setCartItems, token }) {
 					</thead>
 					<tbody>
 						{cart &&
-							cart.map((item, index) => (
+							cart.map((item) => (
 								<tr>
 									<td>{item.name}</td>
 									<td>
