@@ -91,7 +91,7 @@ function MerchantProfile({ token }) {
 
 	const handleUpdateInfo = async () => {
 		let updatedUserInfo = {};
-		document.querySelectorAll('.personal-details-merchant input').forEach((input) => {
+		document.querySelectorAll('.personal-details input').forEach((input) => {
 			if (input.name !== 'salary' && input.name !== 'experience') {
 				updatedUserInfo[input.name] = input.value === '' ? null : input.value;
 			}
@@ -109,6 +109,9 @@ function MerchantProfile({ token }) {
 			}
 		});
 
+		console.log(updatedUserInfo)
+		console.log(extractedProperties)
+
 		// if there's new update
 		if (!compareObjects(updatedUserInfo, extractedProperties)) {
 			let updatedMerchant = {};
@@ -119,6 +122,11 @@ function MerchantProfile({ token }) {
 					updatedMerchant[key] = userInfo[key];
 				}
 			});
+			Object.keys(updatedUserInfo).forEach((key) => {
+				if (!updatedMerchant.hasOwnProperty(key)) {
+					updatedMerchant[key] = initobj[key];
+				}
+			});
 			setUserInfo(updatedMerchant);
 
 			const response = await axios.post('http://localhost:4000/merchant/updateinfo', {
@@ -126,15 +134,21 @@ function MerchantProfile({ token }) {
 				userInfo: updatedUserInfo,
 			});
 			if (response && response.data && response.data.success) {
+				setSnackbar(false);
 				setMessage('Your information have been updated successfully.');
 				setSeverity('success');
+				setSnackbar(true);
 			} else {
+				setSnackbar(false);
 				setMessage('Failed to update your info! Please try again later.');
 				setSeverity('error');
+				setSnackbar(true);
 			}
 		} else {
+			setSnackbar(false);
 			setMessage("You haven't made any changes.");
 			setSeverity('warning');
+			setSnackbar(true);
 		}
 	};
 
@@ -156,20 +170,28 @@ function MerchantProfile({ token }) {
 				newPassword: updatedPasswordInfo['new-password'],
 			});
 			if (response.data.success) {
+				setSnackbar(false);
 				setMessage('Your information have been updated successfully.');
 				setSeverity('success');
+				setSnackbar(true);
 			} else {
 				if (response.data.message) {
+					setSnackbar(false);
 					setMessage(response.data.message);
 					setSeverity('error');
+					setSnackbar(true);
 				} else {
+					setSnackbar(false);
 					setMessage('Failed to update your info! Please try again later.');
 					setSeverity('error');
+					setSnackbar(true);
 				}
 			}
 		} else {
+			setSnackbar(false);
 			setMessage("You haven't made any changes.");
 			setSeverity('warning');
+			setSnackbar(true);
 		}
 	};
 

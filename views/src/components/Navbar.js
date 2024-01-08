@@ -16,13 +16,14 @@ function getUserId_Role(token) {
 }
 
 function Navbar({ token, setToken, cartItems }) {
-	const [userInfo, setUserInfo] = useState({ username: 'Loading...' });
+	const [username, setUsername] = useState('Loading...');
 
 	const goToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'auto' });
 	};
 	const [isNavHidden, setIsNavHidden] = useState(false);
 	const isEmptyCart = cartItems ? cartItems.length === 0 : true;
+
 	useEffect(() => {
 		const handleScroll = () => {
 			const scrollY = window.scrollY;
@@ -51,7 +52,7 @@ function Navbar({ token, setToken, cartItems }) {
 						params: { userId: id_role.userId }
 					});
 					if (responseCustomer.data.success) {
-						setUserInfo(responseCustomer.data.customer);
+						setUsername(responseCustomer.data.customer.username);
 					}
 				}
 
@@ -177,7 +178,7 @@ function Navbar({ token, setToken, cartItems }) {
 				<div className='sub-menu'>
 					<div className='user-info'>
 						<img src='../assets/features/avatar_cus.png' alt='' />
-						<h3>{userInfo.username}</h3>
+						<h3>{username}</h3>
 					</div>
 					<hr />
 					<Link to='/edit-profile' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>
