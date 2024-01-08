@@ -3,8 +3,8 @@ import axios from 'axios';
 import '../../styles/Administrator/Users.css';
 import DataTable from 'react-data-table-component';
 import { Space, Switch } from 'antd';
-import Modal from 'react-modal';
-Modal.setAppElement('#root');
+import Model from 'react-modal';
+Model.setAppElement('#root');
 
 import {
     IconButton
@@ -195,7 +195,7 @@ function Users() {
     const handleSubmit = async (event, msg) => {
         event.preventDefault();
         await axios
-            .post('http://localhost:4000/admin/signupmerchant', { username, salary, password })
+            .post('http://localhost:4000/admin/signupmerchant', { username, startingSalary, password })
             .then((response) => {
                 if (response.data.success) {
 
@@ -230,7 +230,10 @@ function Users() {
                             <i className='fas fa-search'></i>
                         </div>
                         <button className='btn-add-merchant' onClick={() => setOpenModel(true)}>Create Merchant<i class="fa-solid fa-plus"></i></button>
-                        <Modal isOpen={openModel} on onRequestClose={() => setOpenModel(false)}
+                        <Model
+                            isOpen={openModel}
+                            on
+                            onRequestClose={() => setOpenModel(false)}
                             style={{
                                 overlay: {
                                     backgroundColor: 'rgba(0, 0, 0, 0.5)', // background overlay color
@@ -241,7 +244,8 @@ function Users() {
                                     margin: 'auto', // center the modal
                                     borderRadius: '20px'
                                 },
-                            }}>
+                            }}
+                        >
                             <form className='form-create-merchant' onSubmit={(event) => handleSubmit(event, document.getElementById('errorSignIn'))}>
                                 <h2>Create Merchant</h2>
                                 <input name='merchant-username'
@@ -282,7 +286,7 @@ function Users() {
 
                                 <button type="submit" className='btn-add-merchant-popup'>Create</button>
                             </form>
-                        </Modal>
+                        </Model>
 
                     </div>
 
