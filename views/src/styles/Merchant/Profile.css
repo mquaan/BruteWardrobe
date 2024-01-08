@@ -1,4 +1,4 @@
-.body-editprofile {
+.body-editprofile-m {
     margin: 0;
     padding: 0;
     background: #fff;
@@ -9,14 +9,14 @@
     align-items: center;
 }
 
-.sub-profile-wrap {
+.body-editprofile-m .sub-profile-wrap {
     display: flex;
     width: 100%;
     height: 90%;
     justify-content: center;
 }
 
-.sub-profile {
+.body-editprofile-m .sub-profile {
     width: 800px;
     background-color: #fff;
     position: relative;
@@ -27,7 +27,7 @@
     display: flex;
 }
 
-.option-wrap{
+.body-editprofile-m .option-wrap{
     display: flex;
     overflow: hidden;
     width: 30%;
@@ -39,7 +39,7 @@
 
 }
 
-.option-wrap .personal-pic{
+.body-editprofile-m .option-wrap .personal-pic{
     width: 100%;
     height: 30%;
     display: flex;
@@ -50,13 +50,13 @@
     margin-bottom: 10px;
 }
 
-.option-wrap .personal-pic img{
+.body-editprofile-m .option-wrap .personal-pic img{
     width: 100px;
     height: 100px;
     border-radius: 50%;
 }
 
-.option-wrap .option {
+.body-editprofile-m .option-wrap .option {
     width: 100%;
     height: 70%;
     display: flex;
@@ -65,7 +65,7 @@
 }
 
 
-.option .personal-info{
+.body-editprofile-m .option .personal-info{
     display: flex;
     width: 100%;
     flex-direction: row;
@@ -73,13 +73,13 @@
     cursor: pointer;
 }
 
-.fa-user-tie, .fa-lock{
+.body-editprofile-m .fa-user-tie, .fa-lock{
     margin-top: 18px;
     margin-left: 15px;
     margin-right: 10px;
 }
 
-.option .change-password{
+.body-editprofile-m .option .change-password{
     display: flex;
     width: 100%;
     flex-direction: row;
@@ -89,7 +89,7 @@
 
 }
 
-.option .personal-info:hover{
+.body-editprofile-m .option .personal-info:hover{
     p{
         color: white;
     }
@@ -97,7 +97,7 @@
     color: white;
 }
 
-.option .change-password:hover
+.body-editprofile-m .option .change-password:hover
 {
     p{
         color: white;
@@ -106,7 +106,7 @@
     color: white;
 } 
 
-.details{
+.body-editprofile-m .details{
     display: flex;
     flex-direction: column;
     width: 70%;
@@ -114,7 +114,7 @@
     
 }
 
-.personal-details{
+.body-editprofile-m .personal-details{
     width: 100%;
     height: 100%;
     margin: 15px 15px;
@@ -125,19 +125,25 @@
     flex-direction: column;
 }
 
-.personal-information, .password-settings{
+.body-editprofile-m .personal-information,
+.body-editprofile-m .password-settings{
     margin-left: 20px;
     font-size: 20px;
     font-weight: 600;
 }
 
-.fullname, .gender-birth, .email-phone, .experience-salary, .current-password, .new-confirm-password {
+.body-editprofile-m .fullname,
+.body-editprofile-m .gender-birth,
+.body-editprofile-m .email-phone,
+.body-editprofile-m .experience-salary,
+.body-editprofile-m .current-password,
+.body-editprofile-m .new-confirm-password {
     display: flex;
     width: 100%;
     flex-direction: row;
 }
 
-.gender-birth .birth input{
+.body-editprofile-m .gender-birth .birth input{
     background-color: #eee;
     border: none;
     padding: 5px 15px;
@@ -147,43 +153,53 @@
     outline: none;
 }
 
-.option .personal-info, .option .change-password{
+.body-editprofile-m .option .personal-info,
+.body-editprofile-m .option .change-password{
     padding-bottom: 10px;   
 }
 
-.option i{
+.body-editprofile-m .option i{
     margin-bottom:  10px;
 }
 
-.option p{
+.body-editprofile-m .option p{
     margin-top: 15px ;
 }
 
-.details input{
+.body-editprofile-m .details input{
     margin-bottom: 10px;
 }
 
-.details p{
+.body-editprofile-m .details p{
     margin-top: 10px;
 }
 
-.firstname, .gender, .email, .experience, .current-password, .new-password {
+.body-editprofile-m .firstname,
+.body-editprofile-m .gender,
+.body-editprofile-m .email,
+.body-editprofile-m .experience,
+.body-editprofile-m .current-password,
+.body-editprofile-m .new-password {
     margin-left: 20px;
 }
 
-.lastname, .birth, .phone, .salary, .confirm-password {
+.body-editprofile-m .lastname,
+.body-editprofile-m .birth,
+.body-editprofile-m .phone,
+.body-editprofile-m .salary,
+.body-editprofile-m .confirm-password {
     margin-left: 80px;
 }
 
 
-.button-confirm-personalInfo {
+.body-editprofile-m .button-confirm-personalInfo {
     display: flex;
     justify-content: right;
     margin-top: 10px;
     width: 85%;
 }
 
-.button-confirm-password{
+.body-editprofile-m .button-confirm-password{
     display: flex;
     justify-content: left;
     margin-top: 20px;
@@ -191,7 +207,8 @@
     width: 85%;
 }
 
-.update_btn, .cancel_btn {
+.body-editprofile-m .update_btn,
+.body-editprofile-m .cancel_btn {
     background-color: #04AA6D; /* Green */
     border: none;
     color: white;
@@ -205,9 +222,7 @@
     border-radius: 15px;
   }
 
-
-
-.password-details{
+.body-editprofile-m .password-details{
     width: 100%;
     height: 100%;
     margin: 15px 15px;
@@ -219,13 +234,13 @@
 
 }
 
-form p{
+.body-editprofile-m form p{
     margin-bottom: 5px;
     font-size: 12px;
 }
 
 
-.details input{ 
+.body-editprofile-m .details input{ 
     background-color: #eee;
     border: none;
     padding: 5px 15px;
@@ -235,7 +250,7 @@ form p{
     outline: none;
 }
 
-.details.active{
+.body-editprofile-m .details.active{
     .personal-details{
         opacity: 0;
         z-index: 1;
