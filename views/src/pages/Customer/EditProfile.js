@@ -31,36 +31,36 @@ function compareObjects(obj1, obj2) {
 }
 
 function EditProfile({ token }) {
-    const initobj = {
-        username: null,
-        gender: null,
-        dob: null,
-        firstname: null,
-        lastname: null,
-        address: null,
-        phoneNumber: null,
-        email: null,
-    }
+	const initobj = {
+		username: null,
+		gender: null,
+		dob: null,
+		firstname: null,
+		lastname: null,
+		address: null,
+		phoneNumber: null,
+		email: null,
+	};
 
-    const [userId, setUserId] = useState('');
-    const [userInfo, setUserInfo] = useState(initobj);
-    const [openSnackbar, setSnackbar] = useState(false);
-    const [severity, setSeverity] = useState('error');
-    const [message, setMessage] = useState('');
+	const [userId, setUserId] = useState('');
+	const [userInfo, setUserInfo] = useState(initobj);
+	const [openSnackbar, setSnackbar] = useState(false);
+	const [severity, setSeverity] = useState('error');
+	const [message, setMessage] = useState('');
 
 	const genderOptions = [
 		{ value: 'male', label: 'Male' },
 		{ value: 'female', label: 'Female' },
 	];
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let uid = await getUserId(token);
-                setUserId(uid);
-                const responseCustomer = await axios.get('http://localhost:4000/customer/getinfo', {
-                    params: { userId: uid }
-                });
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				let uid = await getUserId(token);
+				setUserId(uid);
+				const responseCustomer = await axios.get('http://localhost:4000/customer/getinfo', {
+					params: { userId: uid },
+				});
 
 				if (responseCustomer.data.success) {
 					setUserInfo(responseCustomer.data.customer);
@@ -70,8 +70,8 @@ function EditProfile({ token }) {
 			}
 		};
 
-        fetchData();
-    }, [token]);
+		fetchData();
+	}, [token]);
 
 	const [genderOption, setGenderOption] = useState(userInfo.gender === 'male' ? genderOptions[0].label : genderOptions[1].label);
 
@@ -87,16 +87,15 @@ function EditProfile({ token }) {
 
 		updatedUserInfo.gender = genderOption;
 
-        // extract properties
-        let extractedProperties = {};
-        Object.keys(updatedUserInfo).forEach((key) => {
-            if (userInfo.hasOwnProperty(key)) {
-                extractedProperties[key] = userInfo[key];
-            }
-            else {
-                extractedProperties[key] = initobj[key];
-            }
-        });
+		// extract properties
+		let extractedProperties = {};
+		Object.keys(updatedUserInfo).forEach((key) => {
+			if (userInfo.hasOwnProperty(key)) {
+				extractedProperties[key] = userInfo[key];
+			} else {
+				extractedProperties[key] = initobj[key];
+			}
+		});
 
 		// if there's new update
 		if (!compareObjects(updatedUserInfo, extractedProperties)) {
@@ -135,7 +134,10 @@ function EditProfile({ token }) {
 		console.log(updatedPasswordInfo);
 
 		// if there's new update
-		if (updatedPasswordInfo['current-password'] !== updatedPasswordInfo['new-password']) {
+		if (updatedPasswordInfo['new-password'] !== updatedPasswordInfo['confirm-password']) {
+			setMessage('Wrong password confirmation.');
+			setSeverity('warning');
+		} else if (updatedPasswordInfo['current-password'] !== updatedPasswordInfo['new-password']) {
 			const response = await axios.post('http://localhost:4000/customer/updatepassword', {
 				userId,
 				currentPassword: updatedPasswordInfo['current-password'],
