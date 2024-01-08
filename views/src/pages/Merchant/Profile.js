@@ -60,6 +60,10 @@ function MerchantProfile({ token }) {
     const [severity, setSeverity] = useState('error');
     const [message, setMessage] = useState('');
 
+    const genderOptions = [
+		{ value: 'male', label: 'Male' },
+		{ value: 'female', label: 'Female' },
+	];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,6 +85,11 @@ function MerchantProfile({ token }) {
         fetchData();
     }, [token]);
 
+    const [genderOption, setGenderOption] = useState(userInfo.gender === 'male' ? genderOptions[0].label : genderOptions[1].label);
+
+	const handleGenderChange = (event) => {
+		setGenderOption(event.target.value);
+	};
 
     const handleUpdateInfo = async () => {
         let updatedUserInfo = {};
@@ -89,6 +98,8 @@ function MerchantProfile({ token }) {
                 updatedUserInfo[input.name] = input.value === '' ? null : input.value;
             }
         });
+
+		updatedUserInfo.gender = genderOption;
 
         // extract properties
         let extractedProperties = {};
@@ -187,7 +198,13 @@ function MerchantProfile({ token }) {
                             <div className='gender-birth'>
                                 <form className='gender'>
                                     <p>Gender</p>
-                                    <input name="gender" type="text" defaultValue={userInfo.gender} />
+                                    <select name='gender' className='select-gender' onChange={handleGenderChange}>
+										{genderOptions.map((option) => (
+											<option key={option.value} value={option.value} selected={option.value === userInfo.gender ? true : false}>
+												{option.label}
+											</option>
+										))}
+									</select>
                                 </form>
                                 <form className='birth'>
                                     <p>Date of birth</p>

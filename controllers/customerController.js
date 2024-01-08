@@ -274,8 +274,7 @@ controller.addOrder = async (req, res) => {
 };
 
 controller.getOrder = async (req, res) => {
-	let { userId } = req.body;
-	let { orderIndex } = req.body;
+	let { userId, orderIndex } = req.body;
 	let userSnapshot = await getDoc(doc(db, 'customers', userId));
 
 	if (!userSnapshot.exists) {
@@ -292,13 +291,14 @@ controller.getOrder = async (req, res) => {
 			} else {
 				let shopping = shoppingSnapshot.data();
 				let products = [];
-				for (let product of shopping.cart[orderIndex]) {
+				for (let product of shopping.orderList[orderIndex].cart) {
 					let productSnapshot = await getDoc(doc(db, 'products', product.productId));
 					if (productSnapshot.exists) {
 						products.push({ ...productSnapshot.data(), quantity: product.quantity, size: product.size });
 					}
 				}
-				res.json({ success: true, cart: products });
+				shopping.orderList[orderIndex].cart = products;
+				res.json({ success: true, order: shopping.orderList[orderIndex] });
 			}
 		}
 	}
@@ -478,9 +478,35 @@ controller.handlePayment = async (req, res) => {
 				await updateDoc(userRef, { shoppingId: shoppingId });
 			}
 		}
-		res.redirect('http://localhost:3000/order-status');
-	} else { 
+		res.redirect('http://localhost:3000/order-list');
+	} else {
 		res.json({ success: false });
+	}
+};
+
+controller.confirmOrder = async (req, res) => {
+	let { userId, orderIndex } = req.body;
+	let userSnapshot = await getDoc(doc(db, 'customers', userId));
+
+	if (!userSnapshot.exists) {
+		console.log('No user found!');
+	} else {
+		let user = userSnapshot.data();
+		let shoppingId = user.shoppingId;
+		if (!shoppingId) {
+			res.json({ success: false });
+		} else {
+			let shoppingRef = doc(db, 'shoppings', shoppingId);
+			let shoppingSnapshot = await getDoc(doc(db, 'shoppings', shoppingId));
+			if (!shoppingSnapshot.exists) {
+				console.log('No shopping document found!');
+			} else {
+				let shopping = shoppingSnapshot.data();
+				shopping.orderList[orderIndex].isConfirmed = true;
+				await updateDoc(shoppingRef, shopping);
+				res.json({ success: true });
+			}
+		}
 	}
 };
 
