@@ -4,6 +4,7 @@ import { Customer, customerConverter } from '../models/customer.js';
 import { collection, addDoc, getDoc, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
 import crypto from 'crypto';
 import https from 'https';
+import bcrypt from 'bcrypt';
 
 async function totalCart(userId) {
 	let total = 0;
@@ -37,13 +38,12 @@ const controller = {};
 controller.getCustomer = async (req, res) => {
 	let { userId } = req.query;
 	let snapshot = await getDoc(doc(db, 'customers', userId));
-	if (!snapshot.empty) {
-		let customer = snapshot.data();
+	let customer = snapshot.data();
+	if (!snapshot.empty && customer) {
 		res.json({ success: true, customer: customer });
+	} else {
+		res.json({ success: false });
 	}
-	else {
-        res.json({success: false})
-    }
 };
 
 controller.updateInfo = async (req, res) => {
@@ -60,23 +60,28 @@ controller.updateInfo = async (req, res) => {
 	}
 };
 
-controller.changePassword = async (req, res) => {
+controller.updatePassword = async (req, res) => {
 	try {
-        const { userId, oldPassword, newPassword } = req.body;
-        const userRef = doc(db, 'customers', userId);
-		let userSnapshot = await getDoc(doc(db, 'customers', userId));
-		if (!userSnapshot.exists) {
-			console.log('No user found!');
-		}
-		else {
-			await updateDoc(userRef, userInfo);
+		const { userId, currentPassword, newPassword } = req.body;
+		const userRef = doc(db, 'customers', userId);
+		let user = await getDoc(doc(db, 'customers', userId));
+
+		const passwordMatch = await bcrypt.compare(currentPassword, user.data().password);
+
+		if (!passwordMatch) {
+			console.log('Incorrect password.');
+			res.json({ success: false, message: 'Incorrect password!' });
+		} else {
+			const saltRounds = 10;
+			const salt = bcrypt.genSaltSync(saltRounds);
+			await updateDoc(userRef, { password: bcrypt.hashSync(newPassword, salt) });
 			res.json({ success: true });
 		}
-    } catch (error) {
-        console.error('Error:', error);
-        res.json({ success: false });
-    }
-}
+	} catch (error) {
+		console.error('Error:', error);
+		res.json({ success: false });
+	}
+};
 
 controller.addToCart = async (req, res) => {
 	let { userId, productId, quantity, size } = req.body;
@@ -264,6 +269,7 @@ controller.addOrder = async (req, res) => {
 			}
 			await updateDoc(userRef, { shoppingId: shoppingId });
 		}
+		res.json({ success: true });
 	}
 };
 

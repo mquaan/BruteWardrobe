@@ -8,12 +8,12 @@ const controller = {};
 controller.getMerchant = async (req, res) => {
 	let { userId } = req.query;
 	let snapshot = await getDoc(doc(db, 'merchants', userId));
-	if (!snapshot.empty) {
-		let merchant = snapshot.data();
+	let merchant = snapshot.data();
+	if (!snapshot.empty && merchant) {
 		res.json({ success: true, merchant: merchant });
 	}
-    else {
-        res.json({success: false})
+	else {
+        res.json({ success: false })
     }
 };
 

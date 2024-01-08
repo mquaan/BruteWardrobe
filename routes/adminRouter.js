@@ -1,8 +1,8 @@
 import express from 'express';
+import controller from '../controllers/adminController.js';
+
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('admin/index.ejs');
-});
+router.post('/signupmerchant', controller.signupMerchant);
 
 export default router;

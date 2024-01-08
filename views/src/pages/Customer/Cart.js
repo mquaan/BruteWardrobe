@@ -4,31 +4,38 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
-function Cart({ token }) {
+function getUserId(token) {
 	const decodeToken = decodeURIComponent(
 		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
 			.split('')
 			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
 			.join('')
 	);
-	const userId = JSON.parse(decodeToken).user.userId;
+	return JSON.parse(decodeToken).user.userId;
+}
 
+function Cart({ cartItems, setCartItems, token }) {
+	const [userId, setUserId] = useState('');
 	const [cart, setCart] = useState([]);
 	const [itemChanged, setItemChanged] = useState(false);
 
 	useEffect(() => {
-		axios
-			.post('http://localhost:4000/customer/getcart', { userId })
-			.then((response) => {
-				if (response.data.success) {
-					console.log(response.data.cart);
-					setCart(response.data.cart);
-					setItemChanged(false);
-				}
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
+		const fetchData = async () => {
+			try {
+				let uid = await getUserId(token);
+				setUserId(uid);
+				axios.post('http://localhost:4000/customer/getcart', { userId: uid }).then((response) => {
+					if (response.data.success) {
+						console.log(response.data.cart);
+						setCart(response.data.cart);
+						setItemChanged(false);
+					}
+				});
+			} catch (errors) {
+				console.error('Error:', errors);
+			}
+		};
+		fetchData();
 	}, [itemChanged]);
 
 	const handleQuantityChange = async (productId, quantity, size) => {
