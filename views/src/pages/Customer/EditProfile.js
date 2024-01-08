@@ -52,6 +52,7 @@ function EditProfile({ token }) {
 		{ value: 'male', label: 'Male' },
 		{ value: 'female', label: 'Female' },
 	];
+	const [genderOption, setGenderOption] = useState('male');
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -64,6 +65,8 @@ function EditProfile({ token }) {
 
 				if (responseCustomer.data.success) {
 					setUserInfo(responseCustomer.data.customer);
+					setGenderOption(responseCustomer.data.customer.gender)
+
 				}
 			} catch (errors) {
 				console.error('Error:', errors);
@@ -72,8 +75,6 @@ function EditProfile({ token }) {
 
 		fetchData();
 	}, [token]);
-
-	const [genderOption, setGenderOption] = useState(userInfo.gender === 'male' ? genderOptions[0].label : genderOptions[1].label);
 
 	const handleGenderChange = (event) => {
 		setGenderOption(event.target.value);
@@ -240,9 +241,9 @@ function EditProfile({ token }) {
 							<div className='gender-birth'>
 								<form className='gender'>
 									<p>Gender</p>
-									<select name='gender' className='select-gender' onChange={handleGenderChange}>
+									<select name='gender' className='select-gender' onChange={(e) => handleGenderChange(e)}>
 										{genderOptions.map((option) => (
-											<option key={option.value} value={option.value} selected={option.value === userInfo.gender ? true : false}>
+											<option key={option.value} value={option.value} selected={option.value === genderOption ? true : false}>
 												{option.label}
 											</option>
 										))}
