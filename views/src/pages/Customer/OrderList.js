@@ -37,7 +37,7 @@ function OrderList({ token }) {
 		fetchData();
 	}, [userId]);
 
-    const unconfirmedOrders = orderList.filter(order => !order.isConfirmed);
+    const unconfirmedOrders = orderList.filter(order => order.orderStatus !== "Completed");
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders = unconfirmedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -53,7 +53,7 @@ function OrderList({ token }) {
         ) : (
             currentOrders.map((order, orderIndex) => (
                 <div key={orderIndex} className="order-box">
-                    <h3>Order #{indexOfFirstOrder + orderIndex + 1}</h3>
+                    <h3>Order #{order.orderId}</h3>
                     <table>
                         <thead>
                             <tr>
@@ -62,6 +62,7 @@ function OrderList({ token }) {
                                 <td>Size</td>
                                 <td>Quantity</td>
                                 <td>Price</td>
+                                <td>Status</td>
                                 <td>Action</td>
                             </tr>
                         </thead>
@@ -73,6 +74,7 @@ function OrderList({ token }) {
                                     <td>{item.size}</td>
                                     <td>{item.quantity}</td>
                                     <td>{/* Render item price */}</td>
+                                    <td>{ order.orderStatus }</td>
                                     <td>
                                         <Link to={`/order-status/${order.orderId}`}>
                                             View

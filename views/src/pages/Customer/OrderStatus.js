@@ -20,7 +20,7 @@ function getUserId(token) {
 			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
 			.join('')
 	);
-	return JSON.parse(decodeToken).user.userId;
+	return JSON.parse(decodeToken).user.userId; 	
 }
 
 function OrderStatus({ token }) {
@@ -99,13 +99,6 @@ function OrderStatus({ token }) {
 	};
 
 	const handleConfirmOrder = async () => {
-		// Add logic to update information
-		setDeliveryInfo({
-			fullName: '',
-			address: '',
-			phoneNumber: '',
-			paymentMethod: '',
-		});
 		const response = await axios.post('http://localhost:4000/customer/confirm-order', { userId, orderIndex });
 		if (response.data.success) {
 			let cart = order.cart.reduce((accumulator, item) => {
@@ -120,7 +113,7 @@ function OrderStatus({ token }) {
 			await axios.post('http://localhost:4000/admin/addsale', { userId, cart,  money: calculateTotalPrice(), time: new Date().toISOString() });
 		}
 		setConfirmationVisible(true);
-		navigate('/order-list');
+		// navigate('/order-list');
 		toast.success("Order confirmed");
 	};
 
