@@ -125,7 +125,7 @@
 }
 
 .parameter-profit .total-profit, .parameter-revenue .total-revenue{
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 800;
     margin-top: 27px;
     margin-left: 15px;
@@ -171,7 +171,7 @@
 
 .btn-users-sync
 {
-    margin-left: 345px;
+    margin-left: 292px;
 }
 
 .btn-sales-sync

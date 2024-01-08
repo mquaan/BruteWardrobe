@@ -18,6 +18,7 @@ class Customer extends User {
 		super(username, password, email, facebookId, userId, address, phoneNumber, loginStatus, gender, dob);
 		this.activeStatus = activeStatus;
 		this.shoppingId = shoppingId;
+		this.dateCreated = new Date().toISOString();
 	}
 }
 
@@ -36,6 +37,7 @@ const customerConverter = {
 			loginStatus: customer.loginStatus,
 			activeStatus: customer.activeStatus,
 			shoppingId: customer.shoppingId,
+			dateCreated: customer.dateCreated,
 		};
 	},
 	fromFirestore: (snapshot, options) => {
@@ -52,7 +54,8 @@ const customerConverter = {
 			data.gender,
 			data.dob,
 			data.activeStatus,
-			data.shoppingId
+			data.shoppingId,
+			data.dateCreated
 		);
 	},
 };
