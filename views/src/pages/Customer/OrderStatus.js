@@ -3,9 +3,9 @@ import '../../styles/Customer/OrderStatus.css';
 import { products } from '../../helpers/product_list';
 import { toast } from 'react-hot-toast';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
 
-function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryInfo, setOrderedProducts, token }) {
+function OrderStatus({ token }) {
 	const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 	const { orderIndex } = useParams();
 	const decodeToken = decodeURIComponent(
@@ -17,6 +17,12 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
 	const userId = JSON.parse(decodeToken).user.userId;
 
 	const [order, setOrder] = useState([]);
+	const [deliveryInfo, setDeliveryInfo] = useState({});
+
+	useEffect(() => {
+		const orderDeliveryInfo = order.deliverInfo ? order.deliverInfo.split(' - ') : [];
+		setDeliveryInfo({ name: orderDeliveryInfo[0], address: orderDeliveryInfo[1], phone: orderDeliveryInfo[2], paymentMethod: order.paymentInfo });
+	}, [order.deliverInfo]);
 
 	useEffect(() => {
 		axios
@@ -33,7 +39,7 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
 	}, []);
 
 	const calculateTotalPrice = () => {
-		return orderedProducts.reduce((total, item) => total + item.price * item.quantity, 0);
+		return order.cart ? order.cart.reduce((total, item) => total + item.price * item.quantity, 0) : 0;
 	};
 	const renderSteps = () => {
 		const steps = [
@@ -45,7 +51,7 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
 		];
 
 		const getStatusIndex = () => {
-			switch (orderStatus) {
+			switch (order.orderStatus) {
 				case 'Processing':
 					return 0;
 				case 'Confirmed':
@@ -75,59 +81,63 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
 		));
 	};
 
-    const handleConfirmOrder = () => {
-        // Add logic to update information
-        setDeliveryInfo({
-            fullName: '',
-            address: '',
-            phoneNumber: '',
-            paymentMethod: '',
-        });
-        setOrderedProducts([]);
-        setConfirmationVisible(true);
-        toast.error("This didn't work.")
-    };
-    
-    return (
-        <div className="track-order-container">
-            <h2>Track Your Order</h2>
-            <div className="order-details">
-                <h3>Order Details</h3>
-                <table>
-                    <thead>
-                        <tr>
-                        <th>Product</th>
-                        <th>Image</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orderedProducts.map((item) => (
-                        <tr key={`${item.productID}-${item.selectedSize}`}>
-                            <td>{products[item.productID - 1].name}</td>
-                            <td><img src={products[item.productID - 1].imgURLs[0]} alt={`Product ${item.productID}`} /></td>
-                            <td>{item.quantity}</td>
-                            <td>${item.price * item.quantity}</td>
-                        </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <div className="total-price">
-                    <strong>Total:</strong> ${calculateTotalPrice()}
-                </div>
-            </div>
+	const handleConfirmOrder = async () => {
+		// Add logic to update information
+		setDeliveryInfo({
+			fullName: '',
+			address: '',
+			phoneNumber: '',
+			paymentMethod: '',
+		});
+		await axios.post('http://localhost:4000/customer/confirm-order', { userId, orderIndex });
+		setConfirmationVisible(true);
+		toast.error("This didn't work.");
+	};
+
+	return (
+		<div className='track-order-container'>
+			<h2>Track Your Order</h2>
+			<div className='order-details'>
+				<h3>Order Details</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>Product</th>
+							<th>Image</th>
+							<th>Quantity</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						{order &&
+							order.cart &&
+							order.cart.map((item) => (
+								<tr>
+									<td>{item.name}</td>
+									<td>
+										<img src={item.imgURLs[0]} alt={`Product ${item.productId}`} />
+									</td>
+									<td>{item.quantity}</td>
+									<td>{Intl.NumberFormat('en-DE').format(item.price * item.quantity)} VND</td>
+								</tr>
+							))}
+					</tbody>
+				</table>
+				<div className='total-price'>
+					<strong>Total:</strong> {Intl.NumberFormat('en-DE').format(calculateTotalPrice())} VND
+				</div>
+			</div>
 
 			<div className='delivery-info'>
 				<h3>Delivery Information</h3>
 				<p>
-					<strong>Full name:</strong> {deliveryInfo.fullName}
+					<strong>Full name:</strong> {deliveryInfo.name}
 				</p>
 				<p>
 					<strong>Address:</strong> {deliveryInfo.address}
 				</p>
 				<p>
-					<strong>Phone number:</strong> {deliveryInfo.phoneNumber}
+					<strong>Phone number:</strong> {deliveryInfo.phone}
 				</p>
 				<p>
 					<strong>Payment method:</strong> {deliveryInfo.paymentMethod}
@@ -140,7 +150,7 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
 					<div className='steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x'>{renderSteps()}</div>
 				</div>
 			</div>
-			{orderStatus === 'Completed' && !isConfirmationVisible && (
+			{order.orderStatus && order.orderStatus === 'Completed' && !isConfirmationVisible && (
 				<div className='confirm-order-button'>
 					<button onClick={handleConfirmOrder}>Confirm Order</button>
 				</div>
