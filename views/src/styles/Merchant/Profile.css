@@ -9,12 +9,12 @@
 	align-items: center;
 }
 
-.body-editprofile body {
+.body-editprofile-m body {
 	display: block;
 	margin: 8px;
 }
 
-.body-editprofile h1 {
+.body-editprofile-m h1 {
 	display: block;
 	font-size: 2em;
 	margin-top: 0.67em;
@@ -24,7 +24,7 @@
 	font-weight: bold;
 }
 
-.body-editprofile h2 {
+.body-editprofile-m h2 {
 	display: block;
 	font-size: 1.5em;
 	margin-top: 0.83em;
@@ -34,7 +34,7 @@
 	font-weight: bold;
 }
 
-.body-editprofile p {
+.body-editprofile-m p {
 	display: block;
 	margin-top: 1em;
 	margin-bottom: 1em;
@@ -42,7 +42,7 @@
 	margin-right: 0;
 }
 
-.body-editprofile blockquote {
+.body-editprofile-m blockquote {
 	display: block;
 	margin-top: 1em;
 	margin-bottom: 1em;
@@ -50,7 +50,7 @@
 	margin-right: 40px;
 }
 
-.body-editprofile figure {
+.body-editprofile-m figure {
 	display: block;
 	margin-top: 1em;
 	margin-bottom: 1em;
