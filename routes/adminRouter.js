@@ -6,5 +6,6 @@ const router = express.Router();
 router.post('/signupmerchant', controller.signupMerchant);
 router.post('/removeuser', controller.removeUser);
 
+router.post('/addsale', controller.addSale);
 
 export default router;

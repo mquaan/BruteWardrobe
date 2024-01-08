@@ -1,6 +1,7 @@
 import db from '../config/firebase.js';
 import { collection, addDoc, getDoc, getDocs, query, deleteDoc, doc, updateDoc, where } from 'firebase/firestore';
 import { Merchant, merchantConverter } from '../models/merchant.js';
+import { Sale, saleConverter } from '../models/sale.js';
 
 const controller = {};
 
@@ -46,5 +47,18 @@ controller.removeUser = async (req, res) => {
 	}
 	return res;
 }
+
+controller.addSale = async (req, res) => {
+	let { userId, cart, money, time } = req.body;
+	console.log(req.body);
+	try {
+		const ref = collection(db, 'sales').withConverter(saleConverter);
+		const sale = new Sale(userId, cart, money, time);
+		const docRef = await addDoc(ref, sale);
+		res.json({ success: true });
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 export default controller;

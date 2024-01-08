@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Dialog, Card, CardBody, CardFooter, Typography, Input } from '@material-tailwind/react';
 import '../styles/Merchant/Modal.css';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
-export default function Modal({ open, handleOpen, product, token }) {
+export default function Modal({ open, setOpen, handleOpen, product, token }) {
 	const decodeToken = decodeURIComponent(
 		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
 			.split('')
@@ -16,6 +17,8 @@ export default function Modal({ open, handleOpen, product, token }) {
 	useEffect(() => {
 		setValues(product);
 	}, [product, open]);
+
+	const [edited, setEdited] = useState(false);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -91,10 +94,16 @@ export default function Modal({ open, handleOpen, product, token }) {
 			}
 		}
 		axios.post('http://localhost:4000/merchant/editproductlist', { userId: userId, product: values });
+		setEdited(true);
+		setTimeout(() => {
+			setEdited(false);
+		}, 3000);
 	};
 
 	const handleRemove = async () => {
 		axios.post('http://localhost:4000/merchant/removeproduct', { product: values });
+		setOpen(false);
+		toast('Product removed successfully!', {icon: '❎', style: {border: '1px solid #000'}});
 	};
 
 	return (
@@ -154,6 +163,13 @@ export default function Modal({ open, handleOpen, product, token }) {
 								))}
 							</div>
 						</CardBody>
+						<div className='flex justify-center'>
+							{edited && (
+								<div className='status-toast'>
+									Successfully edited!
+								</div>
+							)}
+						</div>
 						<CardFooter className='pt-0 flex justify-center'>
 							{values.productId ? (
 								<>
