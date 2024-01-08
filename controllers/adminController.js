@@ -1,6 +1,6 @@
 import db from '../config/firebase.js';
 import { collection, addDoc, getDoc, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
-import jwt from 'jsonwebtoken';
+import { Merchant, merchantConverter } from '../models/merchant.js';
 
 const controller = {};
 
@@ -9,19 +9,15 @@ controller.signupMerchant = async (req, res) => {
 		let { username, salary, password } = req.body;
 		let snapshot1 = await getDocs(query(collection(db, 'merchants'), where('username', '==', username)));
 		if (snapshot1.empty) {
-			let ref = collection(db, 'merchants').withConverter(customerConverter);
-			let user = new Customer(username, password, email);
+			let ref = collection(db, 'merchants').withConverter(merchantConverter);
+			let user = new Merchant(username, password, salary);
 
 			const docRef = await addDoc(ref, user);
 			await updateDoc(docRef, { userId: docRef.id });
-			user = (await getDoc(docRef)).data();
 
-			const body = { userId: user.userId, role: 'customer' };
-			const token = jwt.sign({ user: body }, process.env.TOKEN_SECRET);
-
-			return res.json({ token });
+			return res.json({ success: true, message: 'Created account successfully.' });
 		} else {
-			return res.json({ success: false, message: '(*) User already exist!' });
+			return res.json({ success: false, message: '(*) Username already exist!' });
 		}
 	} catch (error) {
 		console.log(error);
