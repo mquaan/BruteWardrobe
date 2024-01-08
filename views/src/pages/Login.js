@@ -19,6 +19,8 @@ function Login({ token, setToken }) {
 	const [pass, setPass] = useState('');
 	const [cfpass, setCfPass] = useState('');
 	const [email, setEmail] = useState('');
+	const [showForgotPassword, setShowForgotPassword] = useState(false);
+	const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
 
 	function CheckSignUpUsername(username, errorSignUpUsername) {
 		setUsername(username);
@@ -96,6 +98,19 @@ function Login({ token, setToken }) {
 			});
 	}
 
+	async function handleForgotPassword(event) {
+		event.preventDefault();
+
+		await axios
+			.post('http://localhost:4000/forgotpassword', { email: forgotPasswordEmail })
+			.then((response) => {
+				
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}
+
 	if (token) {
 		window.location.href = '/';
 	} else {
@@ -107,102 +122,186 @@ function Login({ token, setToken }) {
 
 				<section id='body_section'>
 					<div className='container' id='container'>
-						<div className='form-container sign-in'>
-							<form onSubmit={(event) => handleLogin(event, document.getElementById('errorSignIn'))}>
-								<h1>Sign In</h1>
-								<div className='social-icons'>
-									<a className='a icon' href={'http://localhost:4000/login/google'}>
-										<i className='fa-brands fa-google'></i>
-									</a>
-									<a className='a icon' href={'http://localhost:4000/login/facebook'}>
-										<i className='fa-brands fa-facebook'></i>
-									</a>
-								</div>
-								<span>or use your email password</span>
-								<input
-									name='username'
-									type='text'
-									id='si_username'
-									placeholder='Username or Email'
-									onChange={(event) => {
-										setUsername(event.target.value);
-									}}
-								/>
-								<span id='errorSignInUsername' className='signIn-error-message'></span>
-								<input
-									name='password'
-									type='password'
-									id='si_password'
-									placeholder='Password'
-									onChange={(event) => {
-										setPass(event.target.value);
-									}}
-									required
-								/>
-								<span id='errorSignIn' className='signUp-error-message'></span>
+						{showForgotPassword ? (
+							<><div className='form-container sign-in'>
+								<form onSubmit={(event) => handleForgotPassword(event)}>
+									<h1>Forgot Password</h1>
+									<span>Email address</span>
+									<input
+										name='forgotPasswordEmail'
+										type='email'
+										id='si_username'
+										placeholder='Email'
+										onChange={(event) => {
+											setForgotPasswordEmail(event.target.value);
+										} } />
 
-								<div className='a'>Forget Your Password?</div>
-								<button type='submit' id='signIn_btn'>
-									Sign In
-								</button>
-							</form>
-						</div>
-						<div className='form-container sign-up'>
-							<form onSubmit={(event) => handleSignUp(event, document.getElementById('errorSignUp'))}>
-								<h1>Create Account</h1>
-								<div className='social-icons'>
-									<a className='a icon' href={'http://localhost:4000/login/google'}>
-										<i className='fa-brands fa-google'></i>
-									</a>
-									<a className='a icon' href={'http://localhost:4000/login/facebook'}>
-										<i className='fa-brands fa-facebook'></i>
-									</a>
+									<div className='a' onClick={() => setShowForgotPassword(false)}>
+										Remember Your Password?
+									</div>
+									<button type='submit' id='forgot_btn'>
+										Submit
+									</button>
+								</form>
+							</div><div className='form-container sign-up'>
+									<form onSubmit={(event) => handleSignUp(event, document.getElementById('errorSignUp'))}>
+										<h1>Create Account</h1>
+										<div className='social-icons'>
+											<a className='a icon' href={'http://localhost:4000/login/google'}>
+												<i className='fa-brands fa-google'></i>
+											</a>
+											<a className='a icon' href={'http://localhost:4000/login/facebook'}>
+												<i className='fa-brands fa-facebook'></i>
+											</a>
+										</div>
+										<span>or use your email for registeration</span>
+										<input
+											name='email'
+											type='email'
+											id='su_email'
+											placeholder='Email'
+											onChange={(event) => {
+												setEmail(event.target.value);
+											} } />
+										<input
+											name='username'
+											type='text'
+											id='su_username'
+											placeholder='Username'
+											onChange={(event) => CheckSignUpUsername(event.target.value, document.getElementById('errorSignUpUsername'))}
+											required />
+										<span id='errorSignUpUsername' className='signUp-error-message'></span>
+										<input
+											name='password'
+											type='password'
+											id='su_password'
+											placeholder='Password'
+											onChange={(event) => CheckPassword(
+												event.target.value,
+												document.getElementById('su_confirmPassword').value,
+												document.getElementById('wrongPassword')
+											)}
+											required />
+										<input
+											type='password'
+											id='su_confirmPassword'
+											placeholder='Confirm Password'
+											onChange={(event) => CheckPassword(document.getElementById('su_password').value, event.target.value, document.getElementById('wrongPassword'))}
+											required />
+										<span id='wrongPassword' className='wrongPassword-message'></span>
+										<span id='errorSignUp' className='signUp-error-message'></span>
+										<button id='signUp_btn' disabled={!username || !pass || !cfpass}>
+											Sign Up
+										</button>
+									</form>
+								</div></>
+						) : (
+							<>
+								<div className='form-container sign-in'>
+									<form onSubmit={(event) => handleLogin(event, document.getElementById('errorSignIn'))}>
+										<h1>Sign In</h1>
+										<div className='social-icons'>
+											<a className='a icon' href={'http://localhost:4000/login/google'}>
+												<i className='fa-brands fa-google'></i>
+											</a>
+											<a className='a icon' href={'http://localhost:4000/login/facebook'}>
+												<i className='fa-brands fa-facebook'></i>
+											</a>
+										</div>
+										<span>or use your email password</span>
+										<input
+											name='username'
+											type='text'
+											id='si_username'
+											placeholder='Username or Email'
+											onChange={(event) => {
+												setUsername(event.target.value);
+											}}
+										/>
+										<span id='errorSignInUsername' className='signIn-error-message'></span>
+										<input
+											name='password'
+											type='password'
+											id='si_password'
+											placeholder='Password'
+											onChange={(event) => {
+												setPass(event.target.value);
+											}}
+											required
+										/>
+										<span id='errorSignIn' className='signUp-error-message'></span>
+
+										<div className='a' onClick={() => setShowForgotPassword(true)}>
+											Forget Your Password?
+										</div>
+										<button type='submit' id='signIn_btn'>
+											Sign In
+										</button>
+									</form>
 								</div>
-								<span>or use your email for registeration</span>
-								<input
-									name='email'
-									type='email'
-									id='su_email'
-									placeholder='Email'
-									onChange={(event) => {
-										setEmail(event.target.value);
-									}}
-								/>
-								<input
-									name='username'
-									type='text'
-									id='su_username'
-									placeholder='Username'
-									onChange={(event) => CheckSignUpUsername(event.target.value, document.getElementById('errorSignUpUsername'))}
-									required
-								/>
-								<span id='errorSignUpUsername' className='signUp-error-message'></span>
-								<input
-									name='password'
-									type='password'
-									id='su_password'
-									placeholder='Password'
-									onChange={(event) =>
-										CheckPassword(event.target.value, document.getElementById('su_confirmPassword').value, document.getElementById('wrongPassword'))
-									}
-									required
-								/>
-								<input
-									type='password'
-									id='su_confirmPassword'
-									placeholder='Confirm Password'
-									onChange={(event) =>
-										CheckPassword(document.getElementById('su_password').value, event.target.value, document.getElementById('wrongPassword'))
-									}
-									required
-								/>
-								<span id='wrongPassword' className='wrongPassword-message'></span>
-								<span id='errorSignUp' className='signUp-error-message'></span>
-								<button id='signUp_btn' disabled={!username || !pass || !cfpass}>
-									Sign Up
-								</button>
-							</form>
-						</div>
+								<div className='form-container sign-up'>
+									<form onSubmit={(event) => handleSignUp(event, document.getElementById('errorSignUp'))}>
+										<h1>Create Account</h1>
+										<div className='social-icons'>
+											<a className='a icon' href={'http://localhost:4000/login/google'}>
+												<i className='fa-brands fa-google'></i>
+											</a>
+											<a className='a icon' href={'http://localhost:4000/login/facebook'}>
+												<i className='fa-brands fa-facebook'></i>
+											</a>
+										</div>
+										<span>or use your email for registeration</span>
+										<input
+											name='email'
+											type='email'
+											id='su_email'
+											placeholder='Email'
+											onChange={(event) => {
+												setEmail(event.target.value);
+											}}
+										/>
+										<input
+											name='username'
+											type='text'
+											id='su_username'
+											placeholder='Username'
+											onChange={(event) => CheckSignUpUsername(event.target.value, document.getElementById('errorSignUpUsername'))}
+											required
+										/>
+										<span id='errorSignUpUsername' className='signUp-error-message'></span>
+										<input
+											name='password'
+											type='password'
+											id='su_password'
+											placeholder='Password'
+											onChange={(event) =>
+												CheckPassword(
+													event.target.value,
+													document.getElementById('su_confirmPassword').value,
+													document.getElementById('wrongPassword')
+												)
+											}
+											required
+										/>
+										<input
+											type='password'
+											id='su_confirmPassword'
+											placeholder='Confirm Password'
+											onChange={(event) =>
+												CheckPassword(document.getElementById('su_password').value, event.target.value, document.getElementById('wrongPassword'))
+											}
+											required
+										/>
+										<span id='wrongPassword' className='wrongPassword-message'></span>
+										<span id='errorSignUp' className='signUp-error-message'></span>
+										<button id='signUp_btn' disabled={!username || !pass || !cfpass}>
+											Sign Up
+										</button>
+									</form>
+								</div>
+							</>
+						)}
+
 						<div className='toggle-container'>
 							<div className='toggle'>
 								<div className='toggle-panel toggle-left'>
@@ -213,6 +312,7 @@ function Login({ token, setToken }) {
 										id='login'
 										onClick={() => {
 											document.getElementById('container').classList.remove('active');
+											setShowForgotPassword(false)
 										}}
 									>
 										Sign In

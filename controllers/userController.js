@@ -3,6 +3,8 @@ import { collection, query, getDoc, getDocs, where, addDoc, updateDoc, doc } fro
 import { Customer, customerConverter } from '../models/customer.js';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+import bcrypt from 'bcrypt'
 const controller = {};
 
 controller.login = (req, res, next) => {
@@ -115,9 +117,8 @@ controller.customers = async (req, res) => {
 	if (!snapshot.empty) {
 		let customers = snapshot.docs.map((doc) => doc.data());
 		res.json({ success: true, customers });
-	}
-	else {
-		res.json({ success: false })
+	} else {
+		res.json({ success: false });
 	}
 };
 
@@ -126,21 +127,18 @@ controller.merchants = async (req, res) => {
 	if (!snapshot.empty) {
 		let merchants = snapshot.docs.map((doc) => doc.data());
 		res.json({ success: true, merchants });
-	}
-	else {
-		res.json({ success: false })
+	} else {
+		res.json({ success: false });
 	}
 };
-
 
 controller.products = async (req, res) => {
 	let snapshot = await getDocs(query(collection(db, 'products')));
 	if (!snapshot.empty) {
 		let products = snapshot.docs.map((doc) => doc.data());
 		res.json({ success: true, products });
-	}
-	else {
-		res.json({ success: false })
+	} else {
+		res.json({ success: false });
 	}
 };
 
@@ -158,9 +156,8 @@ controller.shoppings = async (req, res) => {
 	if (!snapshot.empty) {
 		let shoppings = snapshot.docs.map((doc) => doc.data());
 		res.json({ success: true, shoppings });
-	}
-	else {
-		res.json({ success: false })
+	} else {
+		res.json({ success: false });
 	}
 };
 
@@ -170,6 +167,99 @@ controller.shopping = async (req, res) => {
 	if (!snapshot.empty) {
 		let shopping = snapshot.data();
 		res.json({ success: true, shopping });
+	}
+};
+
+controller.updatePassword = async (req, res) => {
+	try {
+		const { userId, newPassword } = req.query;
+		console.log(userId)
+		const userRef = doc(db, 'customers', userId);
+		let user = await getDoc(userRef);
+		if (user.empty) {
+			userRef = doc(db, 'merchants', userId);
+			user = await getDoc(userRef);
+		}
+		const saltRounds = 10;
+		const salt = bcrypt.genSaltSync(saltRounds);
+		await updateDoc(userRef, { password: bcrypt.hashSync(newPassword, salt) });
+		res.redirect('http://localhost:3000/login');
+	} catch (error) {
+		console.error('Error:', error);
+		res.json({ success: false });
+	}
+};
+
+controller.forgotPassword = async (req, res) => {
+	try {
+		const { email } = req.body;
+		let role;
+		let snapshot = await getDocs(query(collection(db, 'customers'), where('email', '==', email)));
+		if (snapshot.empty) {
+			snapshot = await getDocs(query(collection(db, 'merchants'), where('email', '==', email)));
+			if (snapshot.empty) {
+				console.log('User not found.');
+			}
+			role = 'merchant';
+		} else {
+			role = 'customer';
+		}
+
+		let user = snapshot.docs[0].data();
+		console.log(user);
+
+		let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		let newPassword = Array(6)
+			.fill('')
+			.map(() => characters[Math.floor(Math.random() * characters.length)])
+			.join('');
+
+		const transporter = nodemailer.createTransport({
+			service: 'gmail',
+			auth: {
+				user: 'phamtrantuantu27@gmail.com',
+				pass: 'qtpj mula vpkz gftg',
+			},
+		});
+
+		const mailOptions = {
+			from: 'phamtrantuantu27@gmail.com',
+			to: email,
+			subject: 'Request for Password Reset',
+			html: `
+				<html>
+				<head>
+					<title>Password Reset</title>
+				</head>
+				<body>
+					<p>Hi ${user.username},</p>
+				
+					<p>You recently requested to reset your password for your account. Here is your new password:</p>
+				
+					<p><strong>${newPassword}</strong></p>
+				
+					<p>Click the button below to confirm the password reset:</p>
+				
+					<button style="margin-top: 15px;padding: 10px;color: white;background-color: #4CAF50;border: none;border-radius: 5px;cursor: pointer;">
+						<a href="http://localhost:4000/updatepassword?userId=${user.userId}&newPassword=${newPassword}" style="text-decoration: none;color: white;">
+							Reset Password
+						</a>
+					</button>
+				
+					<p>If you did not request a password reset, please ignore this email or reply to let us know. This password reset link is only valid for the next 30 minutes.</p>
+				
+					<p>Thanks,</p>
+					<p>BruteWardrobe</p>
+				</body>
+				</html>
+				`,
+		};
+
+		transporter.sendMail(mailOptions, (error, info) => {
+			res.json({ success: true });
+		});
+	} catch (error) {
+		console.error(error);
 	}
 };
 
