@@ -4,7 +4,7 @@ import '../../styles/Administrator/Users.css';
 import DataTable from 'react-data-table-component';
 import { Space, Switch } from 'antd';
 import Model from 'react-modal';
-Model.setAppElement('#root');
+// Model.setAppElement('#root');
 
 import {
     IconButton
@@ -245,6 +245,7 @@ function Users() {
                                     borderRadius: '20px'
                                 },
                             }}
+                            ariaHideApp={false}
                         >
                             <form className='form-create-merchant' onSubmit={(event) => handleSubmit(event, document.getElementById('errorSignIn'))}>
                                 <h2>Create Merchant</h2>
