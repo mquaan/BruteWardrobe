@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/Customer/OrderStatus.css';
-import { products } from '../../helpers/product_list';
 import { toast } from 'react-hot-toast';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const longFormat = {
@@ -21,10 +20,11 @@ function getUserId(token) {
 			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
 			.join('')
 	);
-	return JSON.parse(decodeToken).user.userId;
+	return JSON.parse(decodeToken).user.userId; 	
 }
 
 function OrderStatus({ token }) {
+	const navigate = useNavigate()
 	const [isConfirmationVisible, setConfirmationVisible] = useState(false);
 	const { orderIndex } = useParams();
 	const [userId, setUserId] = useState('');
@@ -99,13 +99,6 @@ function OrderStatus({ token }) {
 	};
 
 	const handleConfirmOrder = async () => {
-		// Add logic to update information
-		setDeliveryInfo({
-			fullName: '',
-			address: '',
-			phoneNumber: '',
-			paymentMethod: '',
-		});
 		const response = await axios.post('http://localhost:4000/customer/confirm-order', { userId, orderIndex });
 		if (response.data.success) {
 			let cart = order.cart.reduce((accumulator, item) => {
@@ -120,7 +113,8 @@ function OrderStatus({ token }) {
 			await axios.post('http://localhost:4000/admin/addsale', { userId, cart,  money: calculateTotalPrice(), time: new Date().toISOString() });
 		}
 		setConfirmationVisible(true);
-		toast.error("This didn't work.");
+		// navigate('/order-list');
+		toast.success("Order confirmed");
 	};
 
 	return (

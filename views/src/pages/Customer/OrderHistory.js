@@ -1,44 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../../styles/Customer/OrderList.css';
 import axios from 'axios';
+import '../../styles/Customer/OrderList.css';
 
 function getUserId(token) {
-	const decodeToken = decodeURIComponent(
-		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
-			.split('')
-			.map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
-			.join('')
-	);
-	return JSON.parse(decodeToken).user.userId;
+    const decodeToken = decodeURIComponent(
+        atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
+            .split('')
+            .map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+            .join('')
+    );
+    return JSON.parse(decodeToken).user.userId;
 }
 
-function OrderList({ token }) {
-	const [userId, setUserId] = useState('');
+function OrderHistory({ token }) {
+    const [userId, setUserId] = useState('');
 
-	const [orderList, setOrderList] = useState([]);
-	const [currentPage, setCurrentPage] = useState(1);
-	const ordersPerPage = 2;
+    const [orderList, setOrderList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 2;
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				let uid = await getUserId(token);
-				setUserId(uid);
-				await axios.post('http://localhost:4000/customer/getorderlist', { userId: uid }).then((response) => {
-					if (response.data.success) {
-						console.log(response.data.orderList);
-						setOrderList(response.data.orderList);
-					}
-				});
-			} catch (errors) {
-				console.error('Error:', errors);
-			}
-		};
-		fetchData();
-	}, [userId]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let uid = await getUserId(token);
+                setUserId(uid);
+                await axios.post('http://localhost:4000/customer/getorderlist', { userId: uid }).then((response) => {
+                    if (response.data.success) {
+                        console.log(response.data.orderList);
+                        setOrderList(response.data.orderList);
+                    }
+                });
+            } catch (errors) {
+                console.error('Error:', errors);
+            }
+        };
+        fetchData();
+    }, [userId]);
 
-    const unconfirmedOrders = orderList.filter(order => order.orderStatus !== "Completed");
+    const unconfirmedOrders = orderList.filter(order => order.orderStatus === "Completed");
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
     const currentOrders = unconfirmedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -76,11 +76,7 @@ function OrderList({ token }) {
                                     <td>{item.quantity}</td>
                                     <td>{/* Render item price */}</td>
                                     <td>{ order.orderStatus }</td>
-                                    <td>
-                                        <Link to={`/order-status/${order.orderId}`}>
-                                            View
-                                        </Link>
-                                    </td>
+                                    <td><Link to={`/product-detail/${item.productId}`}>Buy again</Link></td>
                                 </tr>
                             ))}
                         </tbody>
@@ -89,29 +85,27 @@ function OrderList({ token }) {
             ))
         );
     };
-    
+
 
     const renderPageNumbers = () => {
         if (unconfirmedOrders.length === 0) {
-            return null; // Don't render page numbers if there are no unconfirmed orders
+            return null; 
         }
-    
+
         const totalPageNumbers = Math.ceil(unconfirmedOrders.length / ordersPerPage);
-    
+
         const maxDisplayedPages = 2;
         const startPage = Math.max(1, currentPage - Math.floor(maxDisplayedPages / 2));
         const endPage = Math.min(totalPageNumbers, startPage + maxDisplayedPages - 1);
-    
+
         return (
             <section id='pagination' className='section-p1'>
-                {/* Previous button */}
                 {currentPage > 1 && (
                     <button onClick={() => setCurrentPage(currentPage - 1)}>
                         <i className='fal fa-long-arrow-alt-left'></i>
                     </button>
                 )}
-    
-                {/* Create buttons dynamically based on the number of pages */}
+
                 {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
                     <button
                         key={startPage + index}
@@ -121,8 +115,7 @@ function OrderList({ token }) {
                         {startPage + index}
                     </button>
                 ))}
-    
-                {/* Next button */}
+
                 {currentPage < totalPageNumbers && (
                     <button onClick={() => setCurrentPage(currentPage + 1)}>
                         <i className='fal fa-long-arrow-alt-right'></i>
@@ -142,4 +135,4 @@ function OrderList({ token }) {
     );
 }
 
-export default OrderList;
+export default OrderHistory;

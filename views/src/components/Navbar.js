@@ -219,6 +219,15 @@ function Navbar({ token, setToken, cartItems }) {
 						</div>
 					</Link>
 
+					<Link to='/order-history' style={{ textDecoration: 'none' }} 
+						onClick={ToggleMenu}>
+						<div className='sub-menu-link'>
+							<img src='../assets/features/order.png' alt='' />
+							<p>Order History</p>
+							<span>{'>'}</span>
+						</div>
+					</Link>
+
 					<Link style={{ textDecoration: 'none' }}>
 						<div className='sub-menu-link' onClick={handleLogout}>
 							<img src='../assets/features/logout.png' alt='' />
