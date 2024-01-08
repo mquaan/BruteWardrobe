@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import '../styles/Customer/Product_detail.css';
-import { products } from '../helpers/product_list';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
-function Description({ token, productId, addToCart }) {
+function Description({ token, productId }) {
 	console.log(productId)
 	const [pro, setPro] = useState([]);
 	const [quantity, setQuantity] = React.useState(0);

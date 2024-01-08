@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/Customer/OrderStatus.css';
 import { products } from '../../helpers/product_list';
 import { toast } from 'react-hot-toast';
-import axios from 'axios';
+import { useParams, Link } from 'react-router-dom';
+import axios from 'axios'
 
 function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryInfo, setOrderedProducts, token }) {
 	const [isConfirmationVisible, setConfirmationVisible] = useState(false);
-
+	const { orderIndex } = useParams();
 	const decodeToken = decodeURIComponent(
 		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
 			.split('')
@@ -15,15 +16,15 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
 	);
 	const userId = JSON.parse(decodeToken).user.userId;
 
-	const [orderList, setOrderList] = useState([]);
+	const [order, setOrder] = useState([]);
 
 	useEffect(() => {
 		axios
-			.post('http://localhost:4000/customer/getorderlist', { userId })
+			.post('http://localhost:4000/customer/getorder', { userId, orderIndex })
 			.then((response) => {
 				if (response.data.success) {
-					console.log(response.data.orderList);
-					setOrderList(response.data.orderList);
+					console.log(response.data.order);
+					setOrder(response.data.order);
 				}
 			})
 			.catch((error) => {
@@ -74,50 +75,48 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
 		));
 	};
 
-	const handleConfirmOrder = () => {
-		// Add logic to update information
-		setDeliveryInfo({
-			fullName: '',
-			address: '',
-			phoneNumber: '',
-			paymentMethod: '',
-		});
-		setOrderedProducts([]);
-		setConfirmationVisible(true);
-		toast.error("This didn't work.");
-	};
-
-	return (
-		<div className='track-order-container'>
-			<h2>Track Your Order</h2>
-			<div className='order-details'>
-				<h3>Order Details</h3>
-				<table>
-					<thead>
-						<tr>
-							<th>Product</th>
-							<th>Image</th>
-							<th>Quantity</th>
-							<th>Price</th>
-						</tr>
-					</thead>
-					<tbody>
-						{orderedProducts.map((item) => (
-							<tr key={`${item.productID}-${item.selectedSize}`}>
-								<td>{products[item.productID - 1].name}</td>
-								<td>
-									<img src={products[item.productID - 1].imgURLs[0]} alt={`Product ${item.productID}`} />
-								</td>
-								<td>{item.quantity}</td>
-								<td>${item.price * item.quantity}</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
-				<div className='total-price'>
-					<strong>Total:</strong> ${calculateTotalPrice()}
-				</div>
-			</div>
+    const handleConfirmOrder = () => {
+        // Add logic to update information
+        setDeliveryInfo({
+            fullName: '',
+            address: '',
+            phoneNumber: '',
+            paymentMethod: '',
+        });
+        setOrderedProducts([]);
+        setConfirmationVisible(true);
+        toast.error("This didn't work.")
+    };
+    
+    return (
+        <div className="track-order-container">
+            <h2>Track Your Order</h2>
+            <div className="order-details">
+                <h3>Order Details</h3>
+                <table>
+                    <thead>
+                        <tr>
+                        <th>Product</th>
+                        <th>Image</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {orderedProducts.map((item) => (
+                        <tr key={`${item.productID}-${item.selectedSize}`}>
+                            <td>{products[item.productID - 1].name}</td>
+                            <td><img src={products[item.productID - 1].imgURLs[0]} alt={`Product ${item.productID}`} /></td>
+                            <td>{item.quantity}</td>
+                            <td>${item.price * item.quantity}</td>
+                        </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <div className="total-price">
+                    <strong>Total:</strong> ${calculateTotalPrice()}
+                </div>
+            </div>
 
 			<div className='delivery-info'>
 				<h3>Delivery Information</h3>

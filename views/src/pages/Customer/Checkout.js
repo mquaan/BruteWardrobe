@@ -3,8 +3,15 @@ import '../../styles/Customer/Checkout.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo, setOrderedProducts, token }) {
+function Checkout({ token }) {
 	const navigate = useNavigate();
+
+	const [deliveryInfo, setDeliveryInfo] = useState({
+		fullName: '',
+		address: '',
+		phoneNumber: '',
+		paymentMethod: '',
+	});
 
 	const decodeToken = decodeURIComponent(
 		atob(token.split('.')[1].replace('-', '+').replace('_', '/'))
@@ -38,9 +45,7 @@ function Checkout({ cartItems, setCartItems, deliveryInfo, setDeliveryInfo, setO
 	const handlePlaceOrder = async () => {
 		if (deliveryInfo.fullName && deliveryInfo.address && deliveryInfo.phoneNumber && document.querySelector('input[name="paymentMethod"]:checked')) {
 			// alert('Order placed successfully!');
-			const orderedProducts = [...cartItems];
-			setOrderedProducts(cartItems);
-			setCartItems([]);
+			navigate('/order-status');
 
 			if (deliveryInfo.paymentMethod === 'cash') {
 				try {
