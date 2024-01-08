@@ -1,34 +1,29 @@
 #cart table {
-    width: 100%;
+    margin-top: 50px;
+    margin-left: 5%;
+    width: 90%;
     border-collapse: collapse;
     table-layout: fixed;
     white-space: nowrap;
 }
 
 #cart table img {
-    width: 100px;
+    width: 110px;
 }
 
-#cart table td:nth-child(1) {
-    width: 100px;
-    text-align: center;
-}
-
-#cart table td:nth-child(2) {
-    width: 150px;
-    text-align: center;
-}
-
-#cart table td:nth-child(3) {
-    width: 150px;
-    text-align: center;
-}
-
+#cart table td:nth-child(1),
+#cart table td:nth-child(2),
+#cart table td:nth-child(3),
 #cart table td:nth-child(4),
 #cart table td:nth-child(5),
 #cart table td:nth-child(6) {
-    width: 150px;
+    /* width: 120px; */
     text-align: center;
+    font-size: 15px;
+}
+
+.remove {
+    font-size: 20px;
 }
 
 #cart table thead {
@@ -74,10 +69,12 @@
 
 #cart table tbody input {
     width: 60px; 
-    text-align: center;
+    /* text-align: center; */
+    padding-left: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     margin: 0 8px;
-    border: 1px solid #088178; 
-    padding: 8px;
+    border: 1px solid #088178;
     border-radius: 4px;
     font-size: 16px; 
     color: #000; 
@@ -91,16 +88,11 @@
     justify-content: center;
 }
 
-#total button {
-    background-color: #088178;
-    color: #fff;
-    padding: 12px 20px;
-}
-
 #total {
     width: 50%;
-    margin-bottom: 30px;
-    border: 1px solid #e2e9e1;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border: 2px solid #e2e9e1;
     padding: 30px;
 }
 
@@ -111,10 +103,26 @@
 }
 
 #total table td {
+    font-size: 16px;
     width: 50%;
-    border: 1px solid #e2e9e1;
+    border: 3px solid #e2e9e1;
     padding: 10px;
-    font-size: 13px;
+}
+
+.checkout {
+    background-color: #307a69;
+    color: #fff;
+    border: 1px solid #000000;
+    padding: 12px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    width: 30%;
+    margin-left: 35%;
+}
+
+.checkout:hover {
+    box-shadow: 10px 10px 6px rgba(127, 127, 128, 0.1);
 }
 
 .cart-header {

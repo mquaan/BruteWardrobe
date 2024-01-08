@@ -1,105 +1,104 @@
-  .checkout-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-  }
+.checkout-container {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+}
 
-  #order-summary table {
-    margin-top: 10px;
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 15px;
-  }
+#order-summary table {
+	margin-top: 10px;
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 15px;
+}
 
-  #order-summary table img {
-    width: 100px;
-  }
+#order-summary table img {
+	width: 100px;
+}
 
-  #order-summary table {
-    table-layout: fixed;
-    white-space: nowrap;
-  }
+#order-summary table {
+	table-layout: fixed;
+	white-space: nowrap;
+}
 
-  #delivery-info,
-  #order-summary,
-  #payment-method {
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
+#delivery-info,
+#order-summary,
+#payment-method {
+	margin-bottom: 20px;
+}
 
-  .checkout-container form {
-    margin-top: 10px;
-  }
-  
-  .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input,
-  textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-  }
+.form-group {
+	margin-bottom: 15px;
+}
 
-  
-  #order-summary th,
-  td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-    white-space: normal;
-    word-wrap: break-word;
-  }
-  
-  #order-summary th {
-    background-color: #f2f2f2;
-  }
-  
-  .total-price {
-    margin-top: 10px;
-  }
-  
-  .payment-options {
-    display: flex;
-    flex-direction: row;
-    margin-top: 15px;
-  }
-  
-  .payment-options label {
-    display: flex;
-    margin-bottom: 10px;
-    margin-right: 20px;
-  }
-  
-  .payment-options input {
-    margin-right: 100px;
-    width: 20px; 
-    height: 20px; 
-  }
+.checkout-container form {
+	margin-top: 10px;
+}
 
-  .place-order-btn {
-    background-color: #088178;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .place-order-btn:hover {
-    background-color: #08736c;
-    color: #fff;
-  }
-  
+.form-group label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.form-group input,
+textarea {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+}
+
+
+#order-summary th,
+td {
+	border: 1px solid #ddd;
+	padding: 10px;
+	text-align: center;
+	white-space: normal;
+	word-wrap: break-word;
+}
+
+#order-summary th {
+	background-color: #f2f2f2;
+}
+
+.total-price {
+	margin-top: 10px;
+}
+
+.payment-options {
+	display: flex;
+	flex-direction: row;
+	margin-top: 15px;
+}
+
+.payment-options label {
+	display: flex;
+	margin-bottom: 10px;
+	margin-right: 20px;
+}
+
+.payment-options input {
+	margin-right: 100px;
+	width: 20px; 
+	height: 20px; 
+}
+
+.place-order-btn {
+	background-color: #088178;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+.place-order-btn:hover {
+	background-color: #08736c;
+	color: #fff;
+}

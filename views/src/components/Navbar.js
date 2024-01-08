@@ -70,7 +70,7 @@ function Navbar({ token, setToken, cartItems }) {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	const subMenuRef = useRef(null);
-
+	
 	const ToggleMenu = () => {
 		setMenuOpen(!menuOpen);
 	};
@@ -222,7 +222,7 @@ function Navbar({ token, setToken, cartItems }) {
 					<Link to='/order-history' style={{ textDecoration: 'none' }} 
 						onClick={ToggleMenu}>
 						<div className='sub-menu-link'>
-							<img src='../assets/features/order.png' alt='' />
+							<img src='../assets/features/order-hist.png' alt='' />
 							<p>Order History</p>
 							<span>{'>'}</span>
 						</div>
