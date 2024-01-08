@@ -72,7 +72,7 @@ function Users() {
                     if (!cust.purchases) {
                         cust.purchases = 0;
                     }
-                    cust.salary = 0;
+                    cust.salary = "none";
                     if (!cust.banned) {
                         cust.banned = false;
                     }
@@ -82,7 +82,7 @@ function Users() {
                     if (!merch.salary) {
                         merch.salary = 0;
                     }
-                    merch.purchases = 0;
+                    merch.purchases = "none";
                     if (!merch.banned) {
                         merch.banned = false;
                     }

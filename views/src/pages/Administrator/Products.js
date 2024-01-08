@@ -1,216 +1,127 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios';
 import '../../styles/Administrator/Products.css';
 import DataTable from 'react-data-table-component';
-import {Space, Switch} from 'antd';
-import Model from 'react-modal';
 
 function Products() {
-    
-    const columns = [
-        {
-            name: 'Product\'s Name',
-            selector: row => row.productName,
-            sortable: true
-        },
-        {
-            name: 'Merchant\'s Name',
-            selector: row => row.merchantName,
-            sortable: true
-        },
-        {
-            name: 'Total Sales',
-            selector: row => row.totalSales,
-            sortable: true 
-        },
-        {
-            name: 'Purchased',
-            selector: row => row.purchased,
-            sortable: true 
-        },
-        {
-            name: 'Available',
-            selector: row => row.available,
-            sortable: true
-        },
-        {
-            name: 'Remove',
-            cell: (row) => (
-                <img
-                    src='../assets/features/delete.png'
-                    style={{width: '23px', height: '23px', marginLeft:'28px', cursor: 'pointer'}}
-                    // onClick={() => handleRemoveRow(row.id)}
-                ></img>
-            ),
-        }
-    ];
+    const [open, setOpen] = useState(true);
 
-    const data = [
-        {
-            id: 1,
-            productName: 'Essential T-Shirt',
-            merchantName: 'Gareth Bale',
-            totalSales: '$879',
-            purchased: 14.225,
-            available: <Switch
-                    defaultChecked={true}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 2,
-            productName: 'Addidas Paints',
-            merchantName: 'Pogba',
-            totalSales: '$810',
-            purchased: 14.222,
-            available: <Switch
-                    defaultChecked={true}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 3,
-            productName: 'Addidas Paints',
-            merchantName: 'Bruno Fernardes',
-            totalSales: '$579',
-            purchased: 15.333,
-            available: <Switch
-                    defaultChecked={false}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 4,
-            productName: 'Lacoste Jeans',
-            merchantName: 'Harry Maguire',
-            totalSales: '$789',
-            purchased: 14.765,
-            available: <Switch
-                    defaultChecked={true}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 5,
-            productName: 'Nike Hoodies',
-            merchantName: 'Lukaku',
-            totalSales: '$678',
-            purchased: 15.334,
-            available: <Switch
-                    defaultChecked={true}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 6,
-            productName: 'Levent T-Shirt',
-            merchantName: 'Onana',
-            totalSales: '$565',
-            purchased: 12.654,
-            available: <Switch
-                    defaultChecked={true}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 7,
-            productName: 'Lacoste Polo',
-            merchantName: 'Gareth Bale',
-            totalSales: '$657',
-            purchased: 14.225,
-            available: <Switch
-                    defaultChecked={true}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 8,
-            productName: 'Hawaii Shorts',
-            merchantName: 'Pogba',
-            totalSales: '$789',
-            purchased: 22.545,
-            available: <Switch
-                    defaultChecked={true}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 9,
-            productName: 'Addidas Polo',
-            merchantName: 'Bruno Fernardes',
-            totalSales: '$887',
-            purchased: 15.333,
-            available: <Switch
-                    defaultChecked={false}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 10,
-            productName: 'Lacoste Shirt',
-            merchantName: 'Messi',
-            totalSales: '$668',
-            purchased: 15.231,
-            available: <Switch
-                    defaultChecked={true}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 11,
-            productName: 'Nike Hoodies',
-            merchantName: 'Lukaku',
-            totalSales: '$678',
-            purchased: 15.334,
-            available: <Switch
-                    defaultChecked={true}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-        {
-            id: 12,
-            productName: 'Levent Shorts',
-            merchantName: 'De Gea',
-            totalSales: '$345',
-            purchased: 16.231,
-            available: <Switch
-                    defaultChecked={true}
-                    checkedChildren="In Stock"
-                    unCheckedChildren= "Out Of Stock"/>,
-        },
-    ]
- 
-    const [records, setRecords] = useState(data);
-    
+    const [data, setData] = useState([])
+    const [records, setRecords] = useState([]);
 
-    function handleFilter(event){
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let responseProducts = await axios.get('http://localhost:4000/products');
+                let responseMerchants = await axios.get('http://localhost:4000/merchants');
+
+                if (!responseProducts.data.success || !responseMerchants.data.success) {
+                    console.error("Fail to fetch data");
+                }
+                let products = responseProducts.data.products;
+                let merchants = responseMerchants.data.merchants;
+
+                products.forEach((prod) => {
+                    if (prod.last_updated_by) {
+                        prod.last_updated_by = merchants.find((mer) => prod.last_updated_by == mer.userId);
+                        if (prod.last_updated_by)
+                            prod.last_updated_by = prod.last_updated_by.username;
+                        else
+                            prod.last_updated_by = "none"
+                    }
+                    if (typeof prod.price === 'string') {
+                        if (prod.price === "")
+                            prod.price = 0
+                        else
+                            prod.price = Number(prod.price)
+                    }
+                    if (typeof prod.numSold === 'string') {
+                        if (prod.numSold === "")
+                            prod.numSold = 0
+                        else
+                            prod.numSold = Number(prod.numSold)
+                    }
+                })
+                console.log(products)
+
+                setData(products);
+                setRecords(products);
+
+            } catch (errors) {
+                console.error('Error:', errors);
+            }
+        };
+
+        fetchData();
+    }, [open]);
+
+    const handleOpen = () => {
+        setOpen(!open);
+    }
+
+    const handleFilter = (event) => {
         const newData = data.filter(row => {
-            return row.productName.toLowerCase().includes(event.target.value.toLowerCase())
+            return row.name.toLowerCase().includes(event.target.value.toLowerCase())
         })
         setRecords(newData)
     }
 
+    const columns = [
+        {
+            name: 'Name',
+            selector: row => row.name,
+            sortable: true,
+            width: '30%'
+        },
+        {
+            name: 'Last updated',
+            selector: row => row.last_updated_by,
+            sortable: true,
+            width: '20%'
+        },
+        {
+            name: 'Unit price',
+            selector: row => row.price,
+            sortable: true,
+            width: '15%'
+        },
+        {
+            name: 'Sold',
+            selector: row => row.numSold,
+            sortable: true,
+            width: '10%'
+        },
+        {
+            name: 'Total Sales',
+            selector: row => row.price * row.numSold,
+            sortable: true,
+            width: '20%'
+        },
+    ];
+
     const customStyles = {
         headCells: {
-            style:{
+            style: {
                 fontSize: '17px', // Adjust the font size as needed
                 fontWeight: 'bold'
             },
         },
         cells: {
-            style:{
+            style: {
                 fontSize: '16px', // Adjust the font size as needed
             }
         },
-        rows:{
-            style:{
+        rows: {
+            style: {
                 '&:hover': {
                     background: '#f4f4f4'
                 },
             }
         }
     };
-    
-    return(
+
+    return (
         <div className='ad_Products_Tab'>
             <div className='Products_Tab'>
                 <div className='introduction-products-tab'>
@@ -220,9 +131,9 @@ function Products() {
                     <div className='products-manage-elements'>
                         <h2 className='h2-products-list'>Search Product Here</h2>
                         <div className='box-input'>
-                            <input 
-                                className='input-products' 
-                                type='text' 
+                            <input
+                                className='input-products'
+                                type='text'
                                 placeholder='Search product name...'
                                 onChange={handleFilter}
                             ></input>

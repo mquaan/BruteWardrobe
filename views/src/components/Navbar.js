@@ -69,24 +69,26 @@ function Navbar({ token, setToken, cartItems }) {
 
 	const [menuOpen, setMenuOpen] = useState(false);
 
-	const subMenuRef = useRef(null);
-
+	
 	const ToggleMenu = () => {
 		setMenuOpen(!menuOpen);
 	};
 
-	const handleCloseMenu = (event) => {
-		if (subMenuRef.current && !subMenuRef.current.contains(event.target) && menuOpen) {
-			setMenuOpen(false);
-		}
-	};
 
-	useEffect(() => {
-		document.addEventListener('mousedown', handleCloseMenu);
-		return () => {
-			document.removeEventListener('mousedown', handleCloseMenu);
-		};
-	}, [menuOpen]);
+	// const subMenuRef = useRef(null);
+
+	// const handleCloseMenu = (event) => {
+	// 	if (subMenuRef.current && !subMenuRef.current.contains(event.target) && menuOpen) {
+	// 		setMenuOpen(false);
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	document.addEventListener('mousedown', handleCloseMenu);
+	// 	return () => {
+	// 		document.removeEventListener('mousedown', handleCloseMenu);
+	// 	};
+	// }, [menuOpen]);
 	
 	const handleLogout = () => {
 		axios
@@ -193,8 +195,8 @@ function Navbar({ token, setToken, cartItems }) {
 					)}
 				</ul>
 			</div>
-
-			<div className={`sub-menu-wrap ${menuOpen ? 'open-menu' : ''}`} id='subMenu' ref={subMenuRef}>
+			
+			<div className={`sub-menu-wrap ${menuOpen ? 'open-menu' : ''}`} id='subMenu' > 
 				<div className='sub-menu'>
 					<div className='user-info'>
 						<img src='../assets/features/avatar_cus.png' alt='' />
