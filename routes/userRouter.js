@@ -19,6 +19,8 @@ router.get('/products', controller.products);
 router.post('/product', controller.product);
 router.get('/shoppings', controller.shoppings);
 router.post('/shopping', controller.shopping);
+router.post('/forgotpassword', controller.forgotPassword);
+router.get('/updatepassword', controller.updatePassword);
 
 
 export default router;

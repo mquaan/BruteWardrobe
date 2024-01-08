@@ -23,17 +23,17 @@ function Footer() {
             <div className="col">
                 <div className='h4'>About</div>
                 <Link className='link' to="/about">About us</Link>
-                <Link className='link' to="/cart">Delivery Information</Link>
+                <Link className='link' to="/order-history">Delivery Information</Link>
                 <Link className='link' to="/about">Privacy Policy</Link>
-                <Link className='link' to="/contact">Contact us</Link>
+                <Link className='link' to="/about">Contact us</Link>
             </div>
 
             <div className="col">
                 <div className='h4'>Account</div>
-                <Link className='link' to="/">Sign in</Link>
+                <Link className='link' to="/login">Sign in</Link>
                 <Link className='link' to="/cart">View Cart</Link>
                 <Link className='link' to="/">Whishlist</Link>
-                <Link className='link' to="/">Track My Order</Link>
+                <Link className='link' to="/order-list">Track My Order</Link>
                 <Link className='link' to="/">Help</Link>
             </div>
 

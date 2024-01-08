@@ -321,6 +321,25 @@ controller.getOrderList = async (req, res) => {
 				console.log('No shopping document found!');
 			} else {
 				let shopping = shoppingSnapshot.data();
+				for (let order of shopping.orderList) {
+					let products = [];
+					for (let product of order.cart) {
+						let productSnapshot = await getDoc(doc(db, 'products', product.productId));
+						if (productSnapshot.exists) {
+							const productData = productSnapshot.data();
+							products.push({
+								name: productData.name,
+								productId: product.productId,  
+								image: productData.imgURLs[0],
+								price: productData.price,
+								quantity: product.quantity,
+								size: product.size,
+							});
+						}
+					}
+					order.cart = products;
+				}
+
 				res.json({ success: true, orderList: shopping.orderList });
 			}
 		}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import '../../styles/Customer/OrderList.css';
 
 function getUserId(token) {
     const decodeToken = decodeURIComponent(
@@ -70,12 +71,12 @@ function OrderHistory({ token }) {
                             {order.cart.map((item, itemIndex) => (
                                 <tr key={itemIndex}>
                                     <td>{item.name}</td>
-                                    <td>{/* Render item image */}</td>
+                                    <td><img src={item.image} alt="" /></td>
                                     <td>{item.size}</td>
                                     <td>{item.quantity}</td>
-                                    <td>{/* Render item price */}</td>
+                                    <td>{Intl.NumberFormat('en-DE').format(item.price * item.quantity)} VND</td>
                                     <td>{ order.orderStatus }</td>
-                                    <td><Link to={`/product-detail/${item.productId}`}>Buy again</Link></td>
+                                    <td><Link to={`/product-detail/${item.productId}` }>Buy again</Link></td> 
                                 </tr>
                             ))}
                         </tbody>
@@ -88,7 +89,7 @@ function OrderHistory({ token }) {
 
     const renderPageNumbers = () => {
         if (unconfirmedOrders.length === 0) {
-            return null; // Don't render page numbers if there are no unconfirmed orders
+            return null; 
         }
 
         const totalPageNumbers = Math.ceil(unconfirmedOrders.length / ordersPerPage);
@@ -99,14 +100,12 @@ function OrderHistory({ token }) {
 
         return (
             <section id='pagination' className='section-p1'>
-                {/* Previous button */}
                 {currentPage > 1 && (
                     <button onClick={() => setCurrentPage(currentPage - 1)}>
                         <i className='fal fa-long-arrow-alt-left'></i>
                     </button>
                 )}
 
-                {/* Create buttons dynamically based on the number of pages */}
                 {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
                     <button
                         key={startPage + index}
@@ -117,7 +116,6 @@ function OrderHistory({ token }) {
                     </button>
                 ))}
 
-                {/* Next button */}
                 {currentPage < totalPageNumbers && (
                     <button onClick={() => setCurrentPage(currentPage + 1)}>
                         <i className='fal fa-long-arrow-alt-right'></i>
