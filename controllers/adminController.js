@@ -60,7 +60,7 @@ controller.ban_unban_User = async (req, res) => {
 	let snapshot = await getDoc(userRef);
 	if (snapshot.exists) {
 		let t_user = snapshot.data();
-		if (typeof myVariable === 'undefined') {
+		if (typeof t_user === 'undefined') {
 			t_user.banned = true;
 		}
 		else {
