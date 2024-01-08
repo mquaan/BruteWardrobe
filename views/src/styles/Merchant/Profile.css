@@ -1,22 +1,20 @@
 .body-editprofile-m {
-    .body-editprofile-m {
-        margin: 0;
-        padding: 0;
-        background: #fff;
-        box-sizing: border-box;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    box-sizing: border-box;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
     .sub-profile-wrap {
         display: flex;
         width: 100%;
         height: 90%;
         justify-content: center;
     }
-
+    
     .sub-profile {
         width: 800px;
         background-color: #fff;
@@ -27,7 +25,7 @@
         margin-bottom: 200px;
         display: flex;
     }
-
+    
     .option-wrap{
         display: flex;
         overflow: hidden;
@@ -37,9 +35,9 @@
         flex-direction: column;
         border-right: 1px solid #A7B2B4;
         background-color: #eef6ff;
-
+        
     }
-
+    
     .option-wrap .personal-pic{
         width: 100%;
         height: 30%;
@@ -50,13 +48,13 @@
         margin-top: 25px;
         margin-bottom: 10px;
     }
-
+    
     .option-wrap .personal-pic img{
         width: 100px;
         height: 100px;
         border-radius: 50%;
     }
-
+    
     .option-wrap .option {
         width: 100%;
         height: 70%;
@@ -64,8 +62,8 @@
         flex-direction: column;
         align-items: center;
     }
-
-
+    
+    
     .option .personal-info{
         display: flex;
         width: 100%;
@@ -73,13 +71,13 @@
         border-top: 1px solid #A7B2B4;
         cursor: pointer;
     }
-
+    
     .fa-user-tie, .fa-lock{
         margin-top: 18px;
         margin-left: 15px;
         margin-right: 10px;
     }
-
+    
     .option .change-password{
         display: flex;
         width: 100%;
@@ -87,9 +85,9 @@
         border-top: 1px solid #A7B2B4;
         border-bottom: 1px solid #A7B2B4;
         cursor: pointer;
-
+        
     }
-
+    
     .option .personal-info:hover{
         p{
             color: white;
@@ -97,7 +95,7 @@
         background-color:#04AA6D;
         color: white;
     }
-
+    
     .option .change-password:hover
     {
         p{
@@ -106,7 +104,7 @@
         background-color:#04AA6D;
         color: white;
     } 
-
+    
     .details{
         display: flex;
         flex-direction: column;
@@ -217,7 +215,7 @@
         z-index: 1;
         display: flex;
         flex-direction: column;
-
+        
     }
 
     form p{
