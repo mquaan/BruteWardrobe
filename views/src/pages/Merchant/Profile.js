@@ -43,7 +43,7 @@ function calculateExperience(date) {
 function MerchantProfile({ token }) {
 	const initobj = {
 		username: null,
-		gender: null,
+		gender: 'male',
 		dob: null,
 		firstname: null,
 		lastname: null,
