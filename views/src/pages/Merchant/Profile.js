@@ -63,6 +63,9 @@ function MerchantProfile({ token }) {
 		{ value: 'female', label: 'Female' },
 	];
 
+	const [genderOption, setGenderOption] = useState('male');
+
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -74,6 +77,7 @@ function MerchantProfile({ token }) {
 				if (response.data.success) {
 					response.data.merchant.experience = calculateExperience(response.data.merchant.dateCreated);
 					setUserInfo(response.data.merchant);
+					setGenderOption(response.data.merchant.gender)
 				}
 			} catch (errors) {
 				console.error('Error:', errors);
@@ -83,7 +87,6 @@ function MerchantProfile({ token }) {
 		fetchData();
 	}, [token]);
 
-	const [genderOption, setGenderOption] = useState(userInfo.gender === 'male' ? genderOptions[0].label : genderOptions[1].label);
 
 	const handleGenderChange = (event) => {
 		setGenderOption(event.target.value);
@@ -255,9 +258,9 @@ function MerchantProfile({ token }) {
 							<div className='gender-birth'>
 								<form className='gender'>
 									<p>Gender</p>
-									<select name='gender' className='select-gender' onChange={handleGenderChange}>
+									<select name='gender' className='select-gender' onChange={(e) => handleGenderChange(e)}>
 										{genderOptions.map((option) => (
-											<option key={option.value} value={option.value} selected={option.value === userInfo.gender ? true : false}>
+											<option key={option.value} value={option.value} selected={option.value === genderOption ? true : false}>
 												{option.label}
 											</option>
 										))}
