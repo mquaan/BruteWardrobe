@@ -11,6 +11,7 @@ router.post('/getcart', controller.getCart);
 router.post('/removefromcart', controller.removeFromCart);
 router.post('/updatecartquantity', controller.updateCartQuantity);
 router.post('/addorder', controller.addOrder);
+router.post('/getorder', controller.getOrder);
 router.post('/getorderlist', controller.getOrderList);
 router.post('/payment', controller.payment);
 router.get('/handlepayment', controller.handlePayment)

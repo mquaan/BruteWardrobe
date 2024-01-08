@@ -16,15 +16,15 @@ function OrderStatus({ deliveryInfo, orderedProducts, orderStatus, setDeliveryIn
 	);
 	const userId = JSON.parse(decodeToken).user.userId;
 
-	const [orderList, setOrderList] = useState([]);
+	const [order, setOrder] = useState([]);
 
 	useEffect(() => {
 		axios
-			.post('http://localhost:4000/customer/getorderlist', { userId, orderIndex })
+			.post('http://localhost:4000/customer/getorder', { userId, orderIndex })
 			.then((response) => {
 				if (response.data.success) {
-					console.log(response.data.orderList);
-					setOrderList(response.data.orderList);
+					console.log(response.data.order);
+					setOrder(response.data.order);
 				}
 			})
 			.catch((error) => {
