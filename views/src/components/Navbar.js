@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import '../styles/Customer/Navbar.css';
 import axios from 'axios';
@@ -74,8 +74,8 @@ function Navbar({ token, setToken, cartItems }) {
 				if (response.data.success) {
 					localStorage.removeItem('token');
 					setToken(null);
-					// ToggleMenu(document.getElementById('subMenu'));
-					window.location.href = '/login';
+					ToggleMenu(document.getElementById('subMenu'));
+					window.location.href = '/'
 				} else {
 				}
 			})
@@ -86,6 +86,26 @@ function Navbar({ token, setToken, cartItems }) {
 
 	const [isExpanded, setIsExpanded] = useState(false);
 	const inputRef = useRef();
+
+	const [searchQuery, setSearchQuery] = useState('');
+	const handleInputChange = (event) => {
+		setSearchQuery(event.target.value);
+	};
+	const handleClear = () => {
+		setSearchQuery('');
+		inputRef.current.focus(); // Keep the focus on the input after clearing
+	};
+	const handleKeyDown = (event) => {
+		if (event.key === 'Enter') {
+			HandleSearch();
+		}
+	};
+	const navigate = useNavigate();
+	const HandleSearch = () => {
+		navigate(`/shop?search=${searchQuery}`);
+		setSearchQuery('');
+		setIsExpanded(false);
+	};
 
 	const handleBlur = (event) => {
 		if (!inputRef.current.contains(event.relatedTarget)) {
@@ -100,7 +120,18 @@ function Navbar({ token, setToken, cartItems }) {
 				</NavLink>
 				<div className='search-bar1' onClick={() => setIsExpanded(true)} onBlur={handleBlur} tabIndex={0} ref={inputRef}>
 					<i className='fa-solid fa-magnifying-glass'></i>
-					<input type='text' className={`search-click1 ${isExpanded ? 'expanded' : ''}`} placeholder='Search here...' />
+					<input type='text' 
+						className={`search-click1 ${isExpanded ? 'expanded' : ''}`} 
+						placeholder='Search here...'
+						value={searchQuery}
+						onChange={handleInputChange}
+						onKeyDown={handleKeyDown}
+					/>
+					{searchQuery && (
+						<button className={`clear-button ${isExpanded ? 'expanded' : ''}`} onClick={handleClear}>
+							<i class="fa-light fa-circle-xmark"></i>
+						</button>
+					)}
 				</div>
 			</div>
 			<div>
