@@ -1,262 +1,249 @@
 .body-editprofile-m {
-    margin: 0;
-    padding: 0;
-    background: #fff;
-    box-sizing: border-box;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    .body-editprofile-m {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        box-sizing: border-box;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.body-editprofile-m .sub-profile-wrap {
-    display: flex;
-    width: 100%;
-    height: 90%;
-    justify-content: center;
-}
+    .sub-profile-wrap {
+        display: flex;
+        width: 100%;
+        height: 90%;
+        justify-content: center;
+    }
 
-.body-editprofile-m .sub-profile {
-    width: 800px;
-    background-color: #fff;
-    position: relative;
-    overflow: hidden;
-    border-radius: 30px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.35);
-    margin-bottom: 200px;
-    display: flex;
-}
+    .sub-profile {
+        width: 800px;
+        background-color: #fff;
+        position: relative;
+        overflow: hidden;
+        border-radius: 30px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.35);
+        margin-bottom: 200px;
+        display: flex;
+    }
 
-.body-editprofile-m .option-wrap{
-    display: flex;
-    overflow: hidden;
-    width: 30%;
-    height: 100%;
-    position: relative;
-    flex-direction: column;
-    border-right: 1px solid #A7B2B4;
-    background-color: #eef6ff;
+    .option-wrap{
+        display: flex;
+        overflow: hidden;
+        width: 30%;
+        height: 100%;
+        position: relative;
+        flex-direction: column;
+        border-right: 1px solid #A7B2B4;
+        background-color: #eef6ff;
 
-}
+    }
 
-.body-editprofile-m .option-wrap .personal-pic{
-    width: 100%;
-    height: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 25px;
-    margin-bottom: 10px;
-}
+    .option-wrap .personal-pic{
+        width: 100%;
+        height: 30%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 25px;
+        margin-bottom: 10px;
+    }
 
-.body-editprofile-m .option-wrap .personal-pic img{
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
+    .option-wrap .personal-pic img{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
 
-.body-editprofile-m .option-wrap .option {
-    width: 100%;
-    height: 70%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    .option-wrap .option {
+        width: 100%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
 
-.body-editprofile-m .option .personal-info{
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    border-top: 1px solid #A7B2B4;
-    cursor: pointer;
-}
+    .option .personal-info{
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        border-top: 1px solid #A7B2B4;
+        cursor: pointer;
+    }
 
-.body-editprofile-m .fa-user-tie, .fa-lock{
-    margin-top: 18px;
-    margin-left: 15px;
-    margin-right: 10px;
-}
+    .fa-user-tie, .fa-lock{
+        margin-top: 18px;
+        margin-left: 15px;
+        margin-right: 10px;
+    }
 
-.body-editprofile-m .option .change-password{
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    border-top: 1px solid #A7B2B4;
-    border-bottom: 1px solid #A7B2B4;
-    cursor: pointer;
+    .option .change-password{
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        border-top: 1px solid #A7B2B4;
+        border-bottom: 1px solid #A7B2B4;
+        cursor: pointer;
 
-}
+    }
 
-.body-editprofile-m .option .personal-info:hover{
-    p{
+    .option .personal-info:hover{
+        p{
+            color: white;
+        }
+        background-color:#04AA6D;
         color: white;
     }
-    background-color:#04AA6D;
-    color: white;
-}
 
-.body-editprofile-m .option .change-password:hover
-{
-    p{
+    .option .change-password:hover
+    {
+        p{
+            color: white;
+        }
+        background-color:#04AA6D;
         color: white;
+    } 
+
+    .details{
+        display: flex;
+        flex-direction: column;
+        width: 70%;
+        position: relative;
+        
     }
-    background-color:#04AA6D;
-    color: white;
-} 
 
-.body-editprofile-m .details{
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    position: relative;
-    
-}
-
-.body-editprofile-m .personal-details{
-    width: 100%;
-    height: 100%;
-    margin: 15px 15px;
-    position: absolute;
-    opacity: 1;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-}
-
-.body-editprofile-m .personal-information,
-.body-editprofile-m .password-settings{
-    margin-left: 20px;
-    font-size: 20px;
-    font-weight: 600;
-}
-
-.body-editprofile-m .fullname,
-.body-editprofile-m .gender-birth,
-.body-editprofile-m .email-phone,
-.body-editprofile-m .experience-salary,
-.body-editprofile-m .current-password,
-.body-editprofile-m .new-confirm-password {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-}
-
-.body-editprofile-m .gender-birth .birth input{
-    background-color: #eee;
-    border: none;
-    padding: 5px 15px;
-    font-size: 13px;
-    border-radius: 8px;
-    width: 124%;
-    outline: none;
-}
-
-.body-editprofile-m .option .personal-info,
-.body-editprofile-m .option .change-password{
-    padding-bottom: 10px;   
-}
-
-.body-editprofile-m .option i{
-    margin-bottom:  10px;
-}
-
-.body-editprofile-m .option p{
-    margin-top: 15px ;
-}
-
-.body-editprofile-m .details input{
-    margin-bottom: 10px;
-}
-
-.body-editprofile-m .details p{
-    margin-top: 10px;
-}
-
-.body-editprofile-m .firstname,
-.body-editprofile-m .gender,
-.body-editprofile-m .email,
-.body-editprofile-m .experience,
-.body-editprofile-m .current-password,
-.body-editprofile-m .new-password {
-    margin-left: 20px;
-}
-
-.body-editprofile-m .lastname,
-.body-editprofile-m .birth,
-.body-editprofile-m .phone,
-.body-editprofile-m .salary,
-.body-editprofile-m .confirm-password {
-    margin-left: 80px;
-}
-
-
-.body-editprofile-m .button-confirm-personalInfo {
-    display: flex;
-    justify-content: right;
-    margin-top: 10px;
-    width: 85%;
-}
-
-.body-editprofile-m .button-confirm-password{
-    display: flex;
-    justify-content: left;
-    margin-top: 20px;
-    margin-left: 20px;
-    width: 85%;
-}
-
-.body-editprofile-m .update_btn,
-.body-editprofile-m .cancel_btn {
-    background-color: #04AA6D; /* Green */
-    border: none;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 15px;
-  }
-
-.body-editprofile-m .password-details{
-    width: 100%;
-    height: 100%;
-    margin: 15px 15px;
-    position: absolute;
-    opacity: 0;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-
-}
-
-.body-editprofile-m form p{
-    margin-bottom: 5px;
-    font-size: 12px;
-}
-
-
-.body-editprofile-m .details input{ 
-    background-color: #eee;
-    border: none;
-    padding: 5px 15px;
-    font-size: 13px;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
-}
-
-.body-editprofile-m .details.active{
     .personal-details{
-        opacity: 0;
-        z-index: 1;
-    }
-    .password-details{
+        width: 100%;
+        height: 100%;
+        margin: 15px 15px;
+        position: absolute;
         opacity: 1;
         z-index: 5;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .personal-information, .password-settings{
+        margin-left: 20px;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .fullname, .gender-birth, .email-phone, .experience-salary, .current-password, .new-confirm-password {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .gender-birth .birth input{
+        background-color: #eee;
+        border: none;
+        padding: 5px 15px;
+        font-size: 13px;
+        border-radius: 8px;
+        width: 124%;
+        outline: none;
+    }
+
+    .option .personal-info, .option .change-password{
+        padding-bottom: 10px;   
+    }
+
+    .option i{
+        margin-bottom:  10px;
+    }
+
+    .option p{
+        margin-top: 15px ;
+    }
+
+    .details input{
+        margin-bottom: 10px;
+    }
+
+    .details p{
+        margin-top: 10px;
+    }
+
+    .firstname, .gender, .email, .experience, .current-password, .new-password {
+        margin-left: 20px;
+    }
+
+    .lastname, .birth, .phone, .salary, .confirm-password {
+        margin-left: 80px;
+    }
+
+
+    .button-confirm-personalInfo {
+        display: flex;
+        justify-content: right;
+        margin-top: 10px;
+        width: 85%;
+    }
+
+    .button-confirm-password{
+        display: flex;
+        justify-content: left;
+        margin-top: 20px;
+        margin-left: 20px;
+        width: 85%;
+    }
+
+    .update_btn, .cancel_btn {
+        background-color: #04AA6D; /* Green */
+        border: none;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 15px;
+    }
+
+
+
+    .password-details{
+        width: 100%;
+        height: 100%;
+        margin: 15px 15px;
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    form p{
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+
+
+    .details input{ 
+        background-color: #eee;
+        border: none;
+        padding: 5px 15px;
+        font-size: 13px;
+        border-radius: 8px;
+        width: 100%;
+        outline: none;
+    }
+
+    .details.active{
+        .personal-details{
+            opacity: 0;
+            z-index: 1;
+        }
+        .password-details{
+            opacity: 1;
+            z-index: 5;
+        }
     }
 }

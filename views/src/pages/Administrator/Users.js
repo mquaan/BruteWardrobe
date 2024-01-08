@@ -195,7 +195,7 @@ function Users() {
     const handleSubmit = async (event, msg) => {
         event.preventDefault();
         await axios
-            .post('http://localhost:4000/admin/signupmerchant', { username, salary, password })
+            .post('http://localhost:4000/admin/signupmerchant', { username, startingSalary, password })
             .then((response) => {
                 if (response.data.success) {
 
