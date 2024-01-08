@@ -177,7 +177,7 @@ function Navbar({ token, setToken, cartItems }) {
 				<div className='sub-menu'>
 					<div className='user-info'>
 						<img src='../assets/features/avatar_cus.png' alt='' />
-						{/* <h3>{userInfo.username}</h3> */}
+						<h3>{userInfo.username}</h3>
 					</div>
 					<hr />
 					<Link to='/edit-profile' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>
@@ -188,10 +188,10 @@ function Navbar({ token, setToken, cartItems }) {
 						</div>
 					</Link>
 
-					<Link to='/order-status' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>
+					<Link to='/order-list' style={{ textDecoration: 'none' }} onClick={() => ToggleMenu(document.getElementById('subMenu'))}>
 						<div className='sub-menu-link'>
 							<img src='../assets/features/order.png' alt='' />
-							<p>Order Status</p>
+							<p>Orders</p>
 							<span>{'>'}</span>
 						</div>
 					</Link>
