@@ -537,8 +537,8 @@ controller.updateNumSold = async (req, res) => {
 		let productData = productSnapshot.data();
 		productData.numSold += product.quantity;
 		await updateDoc(productRef, productData);
-		res.json({ success: true });
 	}
+	return res.json({ success: true });
 };
 
 export default controller;
