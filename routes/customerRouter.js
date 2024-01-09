@@ -16,5 +16,6 @@ router.post('/getorderlist', controller.getOrderList);
 router.post('/payment', controller.payment);
 router.get('/handlepayment', controller.handlePayment);
 router.post('/confirm-order', controller.confirmOrder);
+router.post('/updatenumsold', controller.updateNumSold);
 
 export default router;

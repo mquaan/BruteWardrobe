@@ -111,6 +111,7 @@ function OrderStatus({ token }) {
 				return accumulator;
 			}, []);
 			await axios.post('http://localhost:4000/admin/addsale', { userId, cart,  money: calculateTotalPrice(), time: new Date().toISOString() });
+			await axios.post('http://localhost:4000/customer/updatenumsold', { products: cart });
 		}
 		setConfirmationVisible(true);
 		navigate('/order-list');

@@ -329,7 +329,7 @@ controller.getOrderList = async (req, res) => {
 							const productData = productSnapshot.data();
 							products.push({
 								name: productData.name,
-								productId: product.productId,  
+								productId: product.productId,
 								image: productData.imgURLs[0],
 								price: productData.price,
 								quantity: product.quantity,
@@ -526,6 +526,18 @@ controller.confirmOrder = async (req, res) => {
 				res.json({ success: true });
 			}
 		}
+	}
+};
+controller.updateNumSold = async (req, res) => {
+	let { products } = req.body;
+	console.log(products);
+	for (let product of products) {
+		let productRef = doc(db, 'products', product.productId);
+		let productSnapshot = await getDoc(productRef);
+		let productData = productSnapshot.data();
+		productData.numSold += product.quantity;
+		await updateDoc(productRef, productData);
+		res.json({ success: true });
 	}
 };
 
