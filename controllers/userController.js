@@ -4,7 +4,7 @@ import { Customer, customerConverter } from '../models/customer.js';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 const controller = {};
 
 controller.login = (req, res, next) => {
@@ -94,7 +94,7 @@ controller.signup = async (req, res) => {
 			const body = { userId: user.userId, role: 'customer' };
 			const token = jwt.sign({ user: body }, process.env.TOKEN_SECRET);
 
-			return res.json({ token });
+			return res.json({ success: true, token });
 		} else {
 			return res.json({ success: false, message: '(*) User already exist!' });
 		}
@@ -173,7 +173,7 @@ controller.shopping = async (req, res) => {
 controller.updatePassword = async (req, res) => {
 	try {
 		const { userId, newPassword } = req.query;
-		console.log(userId)
+		console.log(userId);
 		const userRef = doc(db, 'customers', userId);
 		let user = await getDoc(userRef);
 		if (user.empty) {

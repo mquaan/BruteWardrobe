@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/Login.css';
-// import { toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 function Login({ token, setToken }) {
 	axios
@@ -60,7 +60,6 @@ function Login({ token, setToken }) {
 							.join('')
 					);
 					const role = JSON.parse(decodeToken).user.role;
-					// toast.success("Login successfull!")
 					if (role === 'customer') {
 						window.location.href = '/';
 					} else if (role === 'merchant') {
@@ -105,9 +104,7 @@ function Login({ token, setToken }) {
 
 		await axios
 			.post('http://localhost:4000/forgotpassword', { email: forgotPasswordEmail })
-			.then((response) => {
-				
-			})
+			.then((response) => {})
 			.catch((error) => {
 				console.error(error);
 			});
@@ -125,27 +122,30 @@ function Login({ token, setToken }) {
 				<section id='body_section'>
 					<div className='container' id='container'>
 						{showForgotPassword ? (
-							<><div className='form-container sign-in'>
-								<form onSubmit={(event) => handleForgotPassword(event)}>
-									<h1>Forgot Password</h1>
-									<span>Email address</span>
-									<input
-										name='forgotPasswordEmail'
-										type='email'
-										id='si_username'
-										placeholder='Email'
-										onChange={(event) => {
-											setForgotPasswordEmail(event.target.value);
-										} } />
+							<>
+								<div className='form-container sign-in'>
+									<form onSubmit={(event) => handleForgotPassword(event)}>
+										<h1>Forgot Password</h1>
+										<span>Email address</span>
+										<input
+											name='forgotPasswordEmail'
+											type='email'
+											id='si_username'
+											placeholder='Email'
+											onChange={(event) => {
+												setForgotPasswordEmail(event.target.value);
+											}}
+										/>
 
-									<div className='a' onClick={() => setShowForgotPassword(false)}>
-										Remember Your Password?
-									</div>
-									<button type='submit' id='forgot_btn'>
-										Submit
-									</button>
-								</form>
-							</div><div className='form-container sign-up'>
+										<div className='a' onClick={() => setShowForgotPassword(false)}>
+											Remember Your Password?
+										</div>
+										<button type='submit' id='forgot_btn'>
+											Submit
+										</button>
+									</form>
+								</div>
+								<div className='form-container sign-up'>
 									<form onSubmit={(event) => handleSignUp(event, document.getElementById('errorSignUp'))}>
 										<h1>Create Account</h1>
 										<div className='social-icons'>
@@ -164,39 +164,48 @@ function Login({ token, setToken }) {
 											placeholder='Email'
 											onChange={(event) => {
 												setEmail(event.target.value);
-											} } />
+											}}
+										/>
 										<input
 											name='username'
 											type='text'
 											id='su_username'
 											placeholder='Username'
 											onChange={(event) => CheckSignUpUsername(event.target.value, document.getElementById('errorSignUpUsername'))}
-											required />
+											required
+										/>
 										<span id='errorSignUpUsername' className='signUp-error-message'></span>
 										<input
 											name='password'
 											type='password'
 											id='su_password'
 											placeholder='Password'
-											onChange={(event) => CheckPassword(
-												event.target.value,
-												document.getElementById('su_confirmPassword').value,
-												document.getElementById('wrongPassword')
-											)}
-											required />
+											onChange={(event) =>
+												CheckPassword(
+													event.target.value,
+													document.getElementById('su_confirmPassword').value,
+													document.getElementById('wrongPassword')
+												)
+											}
+											required
+										/>
 										<input
 											type='password'
 											id='su_confirmPassword'
 											placeholder='Confirm Password'
-											onChange={(event) => CheckPassword(document.getElementById('su_password').value, event.target.value, document.getElementById('wrongPassword'))}
-											required />
+											onChange={(event) =>
+												CheckPassword(document.getElementById('su_password').value, event.target.value, document.getElementById('wrongPassword'))
+											}
+											required
+										/>
 										<span id='wrongPassword' className='wrongPassword-message'></span>
 										<span id='errorSignUp' className='signUp-error-message'></span>
 										<button id='signUp_btn' disabled={!username || !pass || !cfpass}>
 											Sign Up
 										</button>
 									</form>
-								</div></>
+								</div>
+							</>
 						) : (
 							<>
 								<div className='form-container sign-in'>
@@ -314,7 +323,7 @@ function Login({ token, setToken }) {
 										id='login'
 										onClick={() => {
 											document.getElementById('container').classList.remove('active');
-											setShowForgotPassword(false)
+											setShowForgotPassword(false);
 										}}
 									>
 										Sign In
