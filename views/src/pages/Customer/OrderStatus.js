@@ -114,7 +114,7 @@ function OrderStatus({ token }) {
 			await axios.post('http://localhost:4000/customer/updatenumsold', { products: cart });
 		}
 		setConfirmationVisible(true);
-		navigate('/order-list');
+		navigate('/order-history');
 		toast.success("Order confirmed");
 	};
 

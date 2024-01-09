@@ -99,12 +99,21 @@ function Login({ token, setToken }) {
 			});
 	}
 
-	async function handleForgotPassword(event) {
+	async function handleForgotPassword(event, msg) {
 		event.preventDefault();
 
 		await axios
 			.post('http://localhost:4000/forgotpassword', { email: forgotPasswordEmail })
-			.then((response) => {})
+			.then((response) => {
+				if (response.data.success) {
+					// toast.success('Send');
+					msg.textContent = "We've sent you an email of confirmation.";
+					msg.style.display = 'inline';
+					setTimeout(() => {
+						msg.textContent = ""
+					}, 3000);
+				}
+			})
 			.catch((error) => {
 				console.error(error);
 			});
@@ -124,7 +133,7 @@ function Login({ token, setToken }) {
 						{showForgotPassword ? (
 							<>
 								<div className='form-container sign-in'>
-									<form onSubmit={(event) => handleForgotPassword(event)}>
+									<form onSubmit={(event) => handleForgotPassword(event, document.getElementById('mailSent'))}>
 										<h1>Forgot Password</h1>
 										<span>Email address</span>
 										<input
@@ -136,7 +145,7 @@ function Login({ token, setToken }) {
 												setForgotPasswordEmail(event.target.value);
 											}}
 										/>
-
+										<span id='mailSent' className='mailSent-message'></span>		
 										<div className='a' onClick={() => setShowForgotPassword(false)}>
 											Remember Your Password?
 										</div>

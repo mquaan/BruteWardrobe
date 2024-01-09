@@ -3,11 +3,11 @@ import User from './user.js';
 class Merchant extends User {
     constructor(username, password, salary = 0, email = null, facebookId = null, userId = null, 
         address = null, phoneNumber = null, loginStatus = false, gender = 'male', dob = null, 
-         dateCreated = new Date().toISOString()) 
+         dateCreated = null) 
     {
         super(username, password, email, facebookId, userId, address, phoneNumber, loginStatus, gender, dob);
         this.salary = salary;
-        this.dateCreated = dateCreated;
+        this.dateCreated = (new Date()).toISOString();
     }
 }
 

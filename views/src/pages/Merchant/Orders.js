@@ -75,10 +75,13 @@ function MerchantCart({ cart }) {
                         return (
                             <TableRow
                                 key={proIndex}
-                                sx={{
-                                    '& td': { border: 0 },
-                                    '&:last-child td, &:last-child th': { border: 0 }
-                                }}
+                                // sx={{
+                                //     '& td': { border: 0 },
+                                //     '& th': { border: 0 },
+
+
+                                //     // '&:last-child td, &:last-child th': { border: 0 }
+                                // }}
                             >
                                 <TableCell component="th" scope="row" align="center">
                                     {item.product.name}

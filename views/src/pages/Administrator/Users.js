@@ -61,12 +61,15 @@ function Users() {
             try {
                 let responseCustomers = await axios.get('http://localhost:4000/customers');
                 let responseMerchants = await axios.get('http://localhost:4000/merchants');
+                let responseSales = await axios.get('http://localhost:4000/admin/getsales');
 
-                if (!responseCustomers.data.success || !responseMerchants.data.success) {
+
+                if (!responseCustomers.data.success || !responseMerchants.data.success || !responseSales.data.success) {
                     console.error("Fail to fetch data");
                 }
                 let customers = responseCustomers.data.customers;
                 let merchants = responseMerchants.data.merchants;
+                let sales = responseSales.data.sales;
                 customers.forEach((cust) => {
                     cust.role = 'customer'
                     if (!cust.purchases) {
@@ -75,6 +78,13 @@ function Users() {
                     cust.salary = "none";
                     if (!cust.banned) {
                         cust.banned = false;
+                    }
+
+                    for (let sale in sales) {
+                        if (sale.userId === cust.userId) {
+                            cust.purchases += 1;
+                        }
+                        console.log(sale)
                     }
                 })
                 merchants.forEach((merch) => {

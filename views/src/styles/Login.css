@@ -167,6 +167,12 @@
     display: none;
 }
 
+.mailSent-message{
+    color: green !important;
+    font-style: italic;
+    display: none;
+}
+
 .sign-up{
     left: 0;
     width: 50%;
