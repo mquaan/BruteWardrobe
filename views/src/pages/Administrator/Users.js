@@ -80,11 +80,12 @@ function Users() {
                         cust.banned = false;
                     }
 
-                    for (let sale in sales) {
-                        if (sale.userId === cust.userId) {
-                            cust.purchases += 1;
-                        }
-                        console.log(sale)
+                    if (sales) {
+                        sales.forEach((val) => {
+                            if (val.userId === cust.userId) {
+                                cust.purchases += 1;
+                            }
+                        })
                     }
                 })
                 merchants.forEach((merch) => {
